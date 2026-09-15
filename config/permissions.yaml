@@ -1,0 +1,92 @@
+version: 1
+
+defaults:
+  filesystem:
+    read: false
+    write: false
+    delete: false
+  network: false
+  shell: false
+  secrets: false
+
+roles:
+
+  operator:
+    description: Main control-plane operator.
+    filesystem:
+      read:
+        - "~/agent-stack/**"
+        - "~/SecondBrain/**"
+        - "~/research-workspaces/**"
+      write:
+        - "~/agent-stack/state/**"
+        - "~/research-workspaces/**"
+        - "~/SecondBrain/05_Derived/**"
+        - "~/SecondBrain/08_Reviews/**"
+      delete: false
+    shell: true
+    network: true
+    secrets: scoped
+
+  knowledge_compiler:
+    description: Reads source material and produces candidate knowledge.
+    filesystem:
+      read:
+        - "~/SecondBrain/00_Inbox/**"
+        - "~/SecondBrain/01_Raw/**"
+        - "~/SecondBrain/02_Wiki/**"
+        - "~/SecondBrain/03_Projects/**"
+        - "~/SecondBrain/04_Research/**"
+        - "~/SecondBrain/06_Indexes/**"
+      write:
+        - "~/SecondBrain/05_Derived/**"
+        - "~/SecondBrain/08_Reviews/**"
+      delete: false
+    shell: false
+    network: false
+    secrets: false
+
+  research_worker:
+    description: Isolated research and experimentation worker.
+    filesystem:
+      read:
+        - "~/SecondBrain/01_Raw/**"
+        - "~/SecondBrain/02_Wiki/**"
+        - "~/SecondBrain/03_Projects/**"
+        - "~/SecondBrain/04_Research/**"
+      write:
+        - "~/research-workspaces/**"
+        - "~/SecondBrain/05_Derived/**"
+      delete: false
+    shell: true
+    network: true
+    secrets: scoped
+
+  reviewer:
+    description: Independent evaluation and review role.
+    filesystem:
+      read:
+        - "~/SecondBrain/**"
+        - "~/research-workspaces/**"
+      write:
+        - "~/SecondBrain/08_Reviews/**"
+      delete: false
+    shell: false
+    network: false
+    secrets: false
+
+protected:
+  canonical_knowledge:
+    paths:
+      - "~/SecondBrain/02_Wiki/**"
+      - "~/SecondBrain/07_Decisions/**"
+    direct_write: false
+    requires_review: true
+
+  policy:
+    paths:
+      - "~/agent-stack/config/permissions.yaml"
+      - "~/agent-stack/CLAUDE.md"
+      - "~/agent-stack/evals/**"
+    direct_write: false
+    requires_review: true

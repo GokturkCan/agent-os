@@ -1,0 +1,28 @@
+version: 1
+
+providers:
+  claude_subscription:
+    enabled: true
+    purpose: specialist
+
+  codex_subscription:
+    enabled: false
+    purpose: specialist
+
+  nvidia_nim:
+    enabled: false
+
+  groq:
+    enabled: false
+
+  openrouter:
+    enabled: false
+
+  deepseek_direct:
+    enabled: false
+
+  local_mac:
+    enabled: false
+
+  local_msi:
+    enabled: false

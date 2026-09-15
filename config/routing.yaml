@@ -1,0 +1,89 @@
+version: 1
+
+principles:
+  - "Use the cheapest capable worker."
+  - "Route by task role, not only task difficulty."
+  - "Prefer one worker by default."
+  - "Add reviewers only when they provide independent value."
+  - "Use deterministic checks whenever possible."
+  - "Do not invoke overlapping planning frameworks for the same task."
+
+modes:
+
+  task:
+    default_workers: 1
+    max_workers: 2
+    description: Normal bounded tasks.
+
+  workflow:
+    default_workers: 1
+    description: Stable repeatable processes.
+    future_engine: Archon
+
+  research:
+    default_workers: 2
+    max_workers: 4
+    description: Open-ended hypothesis and experiment work.
+
+roles:
+
+  utility:
+    tasks:
+      - classification
+      - formatting
+      - metadata
+      - extraction
+      - file_renaming
+      - simple_search
+    preferred_tier: fast
+
+  general_worker:
+    tasks:
+      - normal_reasoning
+      - implementation
+      - synthesis
+      - routine_analysis
+    preferred_tier: core
+
+  supervisor:
+    tasks:
+      - planning
+      - delegation
+      - routing
+      - recovery
+      - long_context_synthesis
+    preferred_tier: strong
+
+  coding_specialist:
+    tasks:
+      - coding
+      - debugging
+      - refactoring
+      - code_review
+    preferred_agents:
+      - claude_code
+      - codex
+
+  reviewer:
+    tasks:
+      - adversarial_review
+      - independent_validation
+    rule: "Prefer a different model or harness than the primary worker."
+
+  research_worker:
+    tasks:
+      - hypothesis_generation
+      - literature_analysis
+      - experiment_design
+      - result_interpretation
+    preferred_mode: research
+
+escalation:
+  - condition: deterministic_check_failed
+    action: retry_or_repair
+  - condition: repeated_failure
+    action: escalate_model_or_specialist
+  - condition: high_risk_change
+    action: human_review
+  - condition: research_uncertainty
+    action: parallel_independent_workers

@@ -1,0 +1,32 @@
+version: 1
+
+tiers:
+  fast:
+    purpose: Cheap utility and mechanical tasks.
+    model: null
+
+  core:
+    purpose: Default general worker.
+    model: null
+
+  strong:
+    purpose: Supervisor and difficult synthesis.
+    model: null
+
+  frontier:
+    purpose: Critical coding, review, and difficult reasoning.
+    model: null
+
+local:
+  mac_resident:
+    model: null
+    status: planned
+
+  msi_coding:
+    model: null
+    status: planned
+
+experimental:
+  colibri:
+    enabled: false
+    host: msi
