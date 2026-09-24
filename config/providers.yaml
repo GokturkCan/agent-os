@@ -32,6 +32,7 @@ providers:
 
   deepseek_direct:
     enabled: false
+    note: "Escalation target for C4 interactive difficult-reasoning per docs/current-architecture.md §6. Live config not yet verified — do not enable without confirming a real API key/endpoint."
 
   local_mac:
     enabled: false

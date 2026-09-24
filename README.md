@@ -8,6 +8,17 @@ definition layer for the system.
 The architecture is intentionally developed incrementally. Components that
 have not been validated in the real system remain candidates until benchmarked.
 
+## Current Architecture
+
+This README stays intentionally brief. For the full current architecture
+reference — the Hermes/agent-stack/SecondBrain plane breakdown, hardware,
+the cognition pipeline (FastGate/Laya, Qwen, Bonsai, frontier escalation),
+execution workers, HarnessRouter, optional subsystems (OpenMausBot,
+OpenMuse), telemetry/eval schema, the self-improvement loop, and the current
+status table — see:
+
+**[`docs/current-architecture.md`](docs/current-architecture.md)**
+
 ---
 
 ## 1. Architectural Invariants
@@ -557,14 +568,23 @@ README.md describes the high-level architecture and current direction.
 
 Detailed implementation decisions belong in:
 
+- `docs/` — architecture reference (see `docs/current-architecture.md`)
 - `config/`
 - `agents/`
+- `adapters/`
 - `workers/`
 - `workflows/`
 - `skills/`
 - `evals/`
+- `state/`
+- `scripts/`
 - `audit/`
 - future architecture decision records
+
+`agents/`, `adapters/`, `workflows/`, `skills/`, `evals/`, `state/`, and
+`scripts/` are scaffolded empty directories today (created 2026-09-15, no
+content yet) — see `docs/current-architecture.md` §4 for the intended
+responsibility of each.
 
 This README is expected to evolve as candidates are benchmarked and decisions
 become stable.

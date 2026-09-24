@@ -1,5 +1,13 @@
 version: 1
 
+# Conceptual mapping to docs/current-architecture.md Cognition Plane (C0-C4)
+# — routing tiers below are NOT identical to that pipeline, just related:
+#   fast     ~ C1 FastGate (classification only, not generation)
+#   core     ~ C2 default local reasoning
+#   strong   ~ C3 Mac local resilience / supervisor synthesis
+#   frontier ~ C4 frontier reasoning/escalation
+# All `model: null` entries below remain genuinely undecided/unbenchmarked.
+
 tiers:
   fast:
     purpose: Cheap utility and mechanical tasks.
@@ -20,11 +28,20 @@ tiers:
 local:
   mac_resident:
     model: null
+    candidates:
+      - bonsai-2-27b
+      - laya-mlx
     status: planned
+    note: "Benchmark candidates only, not validated. See docs/current-architecture.md §6."
 
   msi_coding:
     model: null
+    candidates:
+      - qwen3.6-35b-a3b
+    runtime_candidate: freetoken
+    fallback_runtime_candidate: llama.cpp
     status: planned
+    note: "Benchmark candidate only, not validated. See docs/current-architecture.md §6."
 
 specialists:
   background_coding_escalation:
