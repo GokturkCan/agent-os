@@ -23,6 +23,15 @@ No entry in this document is marked CURRENT/CORE or validated unless repo
 evidence (`config/`, `audit/`) or explicit live confirmation backs it.
 Everything else keeps its honest, weaker status.
 
+### Autonomous runtime behavior
+
+How the planes below actually behave during a long-running or autonomous
+task — loop termination, progress detection, evaluator independence, graph
+composition — is governed by
+**[`docs/loop-graph-engineering.md`](loop-graph-engineering.md)**. That
+document does not change anything below; it describes the runtime discipline
+this architecture is expected to follow.
+
 ---
 
 ## 1. Core Identity
