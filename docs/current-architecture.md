@@ -569,7 +569,10 @@ exposure.
 
 ## 15. Research Plane
 
-**Status: FUTURE subsystem.**
+**Status: FUTURE subsystem.** Canonical architecture and methodology for
+this plane (OpenResearch, AIRA-inspired strategy, AutoResearch, Claude
+Science, research telemetry, and the research knowledge model) live in
+**[`docs/research-plane.md`](research-plane.md)**.
 
 ```
 Hermes
