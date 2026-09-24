@@ -1,6 +1,11 @@
 # Agent Stack Bootstrap
 
 This repository is the control-plane and configuration source for my local Agent OS.
+It is a policy/config repository, not a durable knowledge store.
+
+Hermes = WHO runs/orchestrates the system.
+agent-stack (this repo) = HOW the system operates.
+SecondBrain = WHAT the system knows.
 
 ## Core Principles
 
@@ -12,9 +17,13 @@ This repository is the control-plane and configuration source for my local Agent
 - Prefer deterministic checks over LLM judgment whenever possible.
 - State must live outside chat context.
 - Durable knowledge belongs in `~/SecondBrain`.
-- Raw sources are not canonical knowledge.
+- Raw sources are not canonical knowledge. Canonical writes into SecondBrain's
+  `wiki/` require review — workers write drafts/evidence, never `wiki/` directly.
 - Self-improvement must go through proposal, evaluation, review, and promotion.
 - Permissions are enforced by capability boundaries, not only prompts.
+- Hermes built-in long-term memory stays disabled (`memory_enabled: false`);
+  SecondBrain is canonical memory. No Mem0/Honcho/Graphiti/MegaMem/vector-DB
+  dependency without a demonstrated capability gap.
 
 ## Main Paths
 

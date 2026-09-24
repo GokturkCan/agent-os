@@ -1,5 +1,20 @@
 version: 1
 
+# SecondBrain canonical layout (see README.md and CLAUDE.md):
+#   inbox/        - unprocessed drops, staging only
+#   .raw/         - immutable evidence, append-only, never edited in place
+#   wiki/         - canonical compiled knowledge (sources/, meta/ledgers/,
+#                   projects/, research/, concepts/, entities/, decisions/,
+#                   index.md, hot.md, log.md, overview.md)
+#   .vault-meta/  - transaction/runtime infrastructure, not agent-writable
+#   .obsidian/, .claude-obsidian.json - vault/tooling state, not agent-writable
+#
+# Workers must NOT write directly into wiki/. Workers read wiki/ for context
+# and produce drafts/evidence/proposals into inbox/ or research-workspaces/.
+# Canonical writes into wiki/ must go through the review/transaction/judge
+# path (see CLAUDE.md "Self-improvement must go through proposal,
+# evaluation, review, and promotion").
+
 defaults:
   filesystem:
     read: false
@@ -21,26 +36,21 @@ roles:
       write:
         - "~/agent-stack/state/**"
         - "~/research-workspaces/**"
-        - "~/SecondBrain/05_Derived/**"
-        - "~/SecondBrain/08_Reviews/**"
+        - "~/SecondBrain/inbox/**"
       delete: false
     shell: true
     network: true
     secrets: scoped
 
   knowledge_compiler:
-    description: Reads source material and produces candidate knowledge.
+    description: Reads source material and produces candidate knowledge drafts.
     filesystem:
       read:
-        - "~/SecondBrain/00_Inbox/**"
-        - "~/SecondBrain/01_Raw/**"
-        - "~/SecondBrain/02_Wiki/**"
-        - "~/SecondBrain/03_Projects/**"
-        - "~/SecondBrain/04_Research/**"
-        - "~/SecondBrain/06_Indexes/**"
+        - "~/SecondBrain/inbox/**"
+        - "~/SecondBrain/.raw/**"
+        - "~/SecondBrain/wiki/**"
       write:
-        - "~/SecondBrain/05_Derived/**"
-        - "~/SecondBrain/08_Reviews/**"
+        - "~/SecondBrain/inbox/**"
       delete: false
     shell: false
     network: false
@@ -50,26 +60,29 @@ roles:
     description: Isolated research and experimentation worker.
     filesystem:
       read:
-        - "~/SecondBrain/01_Raw/**"
-        - "~/SecondBrain/02_Wiki/**"
-        - "~/SecondBrain/03_Projects/**"
-        - "~/SecondBrain/04_Research/**"
+        - "~/SecondBrain/.raw/**"
+        - "~/SecondBrain/wiki/**"
       write:
         - "~/research-workspaces/**"
-        - "~/SecondBrain/05_Derived/**"
+        - "~/SecondBrain/inbox/**"
       delete: false
     shell: true
     network: true
     secrets: scoped
 
   reviewer:
-    description: Independent evaluation and review role.
+    description: >
+      Independent evaluation and review role. Write access to wiki/ exists
+      only for the reviewer, and even reviewer writes remain gated by the
+      protected/canonical_knowledge review-transaction requirement below —
+      this role does not bypass that gate, it is the role permitted to
+      operate within it.
     filesystem:
       read:
         - "~/SecondBrain/**"
         - "~/research-workspaces/**"
       write:
-        - "~/SecondBrain/08_Reviews/**"
+        - "~/SecondBrain/wiki/**"
       delete: false
     shell: false
     network: false
@@ -78,10 +91,25 @@ roles:
 protected:
   canonical_knowledge:
     paths:
-      - "~/SecondBrain/02_Wiki/**"
-      - "~/SecondBrain/07_Decisions/**"
+      - "~/SecondBrain/wiki/**"
     direct_write: false
     requires_review: true
+
+  raw_evidence:
+    paths:
+      - "~/SecondBrain/.raw/**"
+    direct_write: false
+    requires_review: true
+    note: "Immutable evidence. Append-only via the ingest path, never edited in place."
+
+  vault_infrastructure:
+    paths:
+      - "~/SecondBrain/.vault-meta/**"
+      - "~/SecondBrain/.obsidian/**"
+      - "~/SecondBrain/.claude-obsidian.json"
+    direct_write: false
+    requires_review: true
+    note: "Transaction/runtime infrastructure, not agent-writable knowledge content."
 
   policy:
     paths:

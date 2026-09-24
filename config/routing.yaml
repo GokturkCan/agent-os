@@ -63,6 +63,19 @@ roles:
     preferred_agents:
       - claude_code
       - codex
+    background_escalation_agent:
+      agent: deepseek_harness
+      model: deepseek-ai/deepseek-v4.1-flash
+      provider: nvidia_nim
+      scope:
+        - hard_repo_debugging
+        - concurrency_bugs
+        - long_horizon_coding
+        - regression_repair
+      rule: >
+        Background/escalation only. Never the default interactive worker,
+        never a second global orchestrator. See
+        audit/nvidia-nim-2026-09-24.md.
 
   reviewer:
     tasks:
@@ -83,6 +96,7 @@ escalation:
     action: retry_or_repair
   - condition: repeated_failure
     action: escalate_model_or_specialist
+    note: "For coding tasks, escalation target may be the background_escalation_agent (DeepSeek Harness on NVIDIA NIM), not a new orchestrator."
   - condition: high_risk_change
     action: human_review
   - condition: research_uncertainty

@@ -26,7 +26,35 @@ local:
     model: null
     status: planned
 
+specialists:
+  background_coding_escalation:
+    model: deepseek-ai/deepseek-v4.1-flash
+    provider: nvidia_nim
+    harness: deepseek_harness
+    status: adopted
+    profile: high_reasoning
+    validated: audit/nvidia-nim-2026-09-24.md
+    suitable_for:
+      - hard_repo_debugging
+      - concurrency_bugs
+      - long_horizon_coding
+      - refactoring
+      - regression_repair
+      - code_verification
+      - background_engineering
+    not_suitable_for:
+      - latency_sensitive_interactive
+      - primary_hermes_backend
+    note: >
+      Validated as a strong autonomous coding specialist and a
+      stateful/retry-capable harness, not as a second global orchestrator.
+      Background/escalation use only.
+
 experimental:
   colibri:
     enabled: false
     host: msi
+
+  nvidia_nim_kimi_k3:
+    enabled: false
+    reason: "0-byte responses on chat and streaming; see audit/nvidia-nim-2026-09-23.md"
