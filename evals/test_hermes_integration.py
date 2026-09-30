@@ -210,22 +210,58 @@ def test_live_hermes_direct_worker_skills_disabled():
 
 
 # ------------------------------------------ approved-change tooling itself
+WIRING_KEYS = ("external_dirs", "disabled")
+
+
+def _pre_wiring_text(text: str) -> str:
+    """Live config text with skills.external_dirs/disabled (and their list items)
+    removed — an explicit pre-wiring fixture, valid whether or not the real
+    ~/.hermes/config.yaml has already been wired."""
+    out, in_skills, skipping = [], False, False
+    for line in text.splitlines(keepends=True):
+        bare = line.rstrip("\n")
+        if bare and not bare.startswith((" ", "#")):
+            in_skills, skipping = bare == "skills:", False
+        elif in_skills and bare.startswith("  ") and not bare.startswith("   "):
+            skipping = bare.strip().split(":")[0] in WIRING_KEYS
+        elif in_skills and skipping and bare.startswith("    "):
+            pass                                             # list item of a removed key
+        else:
+            skipping = False
+        if not (in_skills and skipping):
+            out.append(line)
+    return "".join(out)
+
+
 @needs_hermes
 def test_wire_script_apply_verify_rollback_on_copy(tmp_path):
-    """Exercise scripts/hermes-wire.py against a COPY of the live config (HOME=tmp)."""
+    """Exercise scripts/hermes-wire.py against a pre-wiring COPY of the live config (HOME=tmp)."""
     import sys
+    import yaml
+    live_text = (hb.HERMES_HOME / "config.yaml").read_text()
+    fixture = _pre_wiring_text(live_text)
+    live, pre = yaml.safe_load(live_text), yaml.safe_load(fixture)
+    assert not hb.is_wired(pre) and "disabled" not in (pre.get("skills") or {})
+    for k in WIRING_KEYS:                                    # fixture == live minus exactly those keys
+        (live.get("skills") or {}).pop(k, None)
+    assert pre == live
+
     home = tmp_path / "home"
     (home / ".hermes").mkdir(parents=True)
-    original = (hb.HERMES_HOME / "config.yaml").read_bytes()
-    (home / ".hermes" / "config.yaml").write_bytes(original)
+    cfg_path = home / ".hermes" / "config.yaml"
+    cfg_path.write_text(fixture)
+    original = cfg_path.read_bytes()
     run = lambda *a: subprocess.run([sys.executable, str(REPO_ROOT / "scripts" / "hermes-wire.py"), *a],
                                     env={**os.environ, "HOME": str(home)}, capture_output=True, text=True)
-    assert run("apply").returncode == 2                          # no approval flag -> refused
-    assert (home / ".hermes" / "config.yaml").read_bytes() == original
+    assert run("apply").returncode == 2                      # no approval flag -> refused
+    assert cfg_path.read_bytes() == original
     assert run("apply", "--i-approve").returncode == 0
-    import yaml
-    new = yaml.safe_load((home / ".hermes" / "config.yaml").read_text())
+    new = yaml.safe_load(cfg_path.read_text())
     assert hb.is_wired(new) and new["skills"]["disabled"] == list(hb.DIRECT_WORKER_SKILLS)
     assert hb.probe_ok(hb.probe({"skills": new["skills"], "memory": new["memory"]}))[0]
+    wired = cfg_path.read_bytes()
+    r = run("apply", "--i-approve")                          # already wired -> refuses, no change
+    assert r.returncode != 0 and "already present" in r.stderr + r.stdout
+    assert cfg_path.read_bytes() == wired
     assert run("rollback").returncode == 0
-    assert (home / ".hermes" / "config.yaml").read_bytes() == original   # byte-identical restore
+    assert cfg_path.read_bytes() == original                 # byte-identical restore
