@@ -1,0 +1,39 @@
+=== DATE ===
+30 Eyl 2026 Çar +03 23:02:19
+
+=== MACOS ===
+ProductName:		macOS
+ProductVersion:		26.6.2
+BuildVersion:		25G83
+
+=== HARDWARE ===
+Hardware:
+
+    Hardware Overview:
+
+      Model Name: Mac mini
+      Model Identifier: Mac16,10
+      Model Number: MU9D3TU/A
+      Chip: Apple M4
+      Total Number of Cores: 10 (4 Performance and 6 Efficiency)
+      Memory: 16 GB
+      System Firmware Version: 18000.161.10
+      OS Loader Version: 18000.161.10
+      Activation Lock Status: Enabled
+
+
+=== DISK ===
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1s1   228Gi    12Gi    61Gi    17%    459k  642M    0%   /
+
+=== CLAUDE ===
+2.1.280 (Claude Code)
+
+=== CODEX ===
+codex-cli 0.154.0
+
+=== OPENCODE ===
+opencode v2.0.3
+
+=== HOMEBREW ===
+Homebrew 7.0.7
