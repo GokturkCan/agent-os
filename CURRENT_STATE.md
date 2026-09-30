@@ -26,10 +26,10 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 | Permissions / protected manifest | IMPLEMENTED, VERIFIED | live write-denial probes on both harnesses |
 | SecondBrain gate over claude-obsidian | IMPLEMENTED, VERIFIED (fixture vaults) | live vault untouched; doctor ok, lint 0 |
 | Telemetry JSONL | IMPLEMENTED, VERIFIED | TTFT/RAM/VRAM not collected yet |
-| Health check | IMPLEMENTED, VERIFIED | 0 FAIL, 4 WARN |
-| Eval suite | IMPLEMENTED, VERIFIED | 59/59 with live |
+| Health check | IMPLEMENTED, VERIFIED | 25 checks, 0 FAIL, 6 WARN (2 are the pending Hermes approval) |
+| Eval suite | IMPLEMENTED, VERIFIED | 77 passed with live, 2 skipped (post-approval Hermes tests) |
 | MSI resource profiles | IMPLEMENTED (state machine) | MSI not connected — PARTIAL |
-| Hermes ↔ agentos | PARTIAL | Hermes inspected read-only; not wired to call agentos |
+| Hermes ↔ agentos | IMPLEMENTED, VERIFIED in sandbox; **awaiting approval** | `agentos dispatch` + Hermes skills pass Hermes' own discovery/linter/guard; live config needs `skills.external_dirs` (docs/hermes-integration.md) |
 | Local inference (Laya, Qwen3.6, Bonsai 2) | DEFERRED (benchmark candidates) | nothing installed |
 | Research plane | DESIGN-ONLY | contract in `workflows/research-question.md` |
 | Self-improvement | IMPLEMENTED (gate mechanism only) | no autonomous candidate generation, by design |
@@ -55,8 +55,8 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 
 ## Next steps (in order)
 
-1. Decide Hermes default + fallback model (e.g. an approved provider) — config change in `~/.hermes`.
-2. Link `skills/agent-os-task` into Hermes so Hermes drives `agentos` (user-config change).
+1. **Approve the Hermes wiring** (`skills.external_dirs`, recommended `skills.disabled`) — exact diff, rollback and tests in `docs/hermes-integration.md`.
+2. Decide Hermes default + fallback model (kimi-k3 is disabled by policy) — needed for a live Hermes-driven turn.
 3. Re-auth GitHub MCP; rotate/delete the dormant z.ai token.
 4. Connect MSI (SSH alias `msi`), then benchmark Qwen3.6 → set status `measured`.
 5. Benchmark Laya-MLX / Bonsai 2 on the Mac within the 6 GB model budget.

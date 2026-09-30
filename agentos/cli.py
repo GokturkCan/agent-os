@@ -8,6 +8,10 @@
                                          file-backed task state (see skills/agent-os-task)
   agentos launch <worker> <worktree> <prompt> [--profile P]   (prints argv; never runs)
   agentos manifest [--write]             protected-policy manifest check/refresh
+  agentos dispatch --task-id ID --type coding --repo PATH --prompt TEXT --verify CMD [--dry-run]
+                                         Hermes' execution entry (route -> worktree -> worker -> verify)
+  agentos lesson --run-id ID --title T --text L [--evidence E ...]
+                                         write a lesson candidate to ~/SecondBrain/inbox/lessons
 """
 from __future__ import annotations
 
@@ -61,6 +65,25 @@ def main(argv=None) -> int:
     la.add_argument("worktree")
     la.add_argument("prompt")
     la.add_argument("--profile")
+    dp = sub.add_parser("dispatch")
+    dp.add_argument("--task-id", required=True)
+    dp.add_argument("--type", required=True, dest="task_type")
+    dp.add_argument("--repo", required=True)
+    dp.add_argument("--prompt", required=True)
+    dp.add_argument("--verify", required=True, help="single command; exit 0 == acceptance met")
+    dp.add_argument("--risk", default="low", choices=["low", "medium", "high"])
+    dp.add_argument("--marker", action="append", default=[])
+    dp.add_argument("--human-approval-ref")
+    dp.add_argument("--profile")
+    dp.add_argument("--provider-down", action="append", default=[])
+    dp.add_argument("--max-turns", type=int, default=20)
+    dp.add_argument("--timeout", type=int, default=1800)
+    dp.add_argument("--dry-run", action="store_true")
+    ls = sub.add_parser("lesson")
+    ls.add_argument("--run-id", required=True)
+    ls.add_argument("--title", required=True)
+    ls.add_argument("--text", required=True)
+    ls.add_argument("--evidence", action="append", default=[])
     m = sub.add_parser("manifest")
     m.add_argument("--write", action="store_true",
                    help="HUMAN-ONLY: record the reviewed hashes of protected files")
@@ -127,6 +150,24 @@ def main(argv=None) -> int:
         s = WorkerSession.start(cfg, a.worker, a.profile)
         print(json.dumps(__import__("agentos.workers", fromlist=["x"]).build_launch(
             cfg, s, a.prompt, a.worktree), indent=2))
+        return 0
+    if a.cmd == "dispatch":
+        from .dispatch import dispatch
+        res = dispatch(cfg, task_id=a.task_id, task_type=a.task_type, repo=a.repo, prompt=a.prompt,
+                       verify=a.verify, risk=a.risk, markers=tuple(a.marker),
+                       human_approval_ref=a.human_approval_ref, profile=a.profile,
+                       health={"providers": {p: False for p in a.provider_down}},
+                       dry_run=a.dry_run, max_turns=a.max_turns, timeout=a.timeout)
+        print(json.dumps(res, indent=2))
+        return 0 if res["exit_state"] in (None, "success") else 2
+    if a.cmd == "lesson":
+        from .knowledge import Vault
+        from .selfimprove import write_lesson_candidate
+        rec = next((r for r in telemetry.read_all() if r["run_id"] == a.run_id), None)
+        if rec is None:
+            print(f"unknown run_id {a.run_id} (lessons must cite a recorded run)", file=sys.stderr)
+            return 2
+        print(write_lesson_candidate(Vault(cfg).root, rec, a.title, a.text, a.evidence))
         return 0
     if a.cmd == "manifest":
         if a.write:

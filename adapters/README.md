@@ -9,14 +9,10 @@ Adapters live as small modules in `agentos/` rather than a plugin framework.
 | Codex CLI | `agentos/workers.py` (`codex exec --sandbox ...`) | IMPLEMENTED, VERIFIED live (read-only) |
 | OpenCode CLI | `agentos/workers.py` (`opencode run`) | IMPLEMENTED (argv only), not run |
 | DeepSeek Harness | `~/run_deepseek_harness_nim.py` (outside repo) | MEASURED separately; no agentos launch adapter |
-| Hermes | read-only inspection in `agentos/health.py` | PARTIAL — Hermes does not yet call `agentos` |
+| Hermes | `agentos/hermes_bridge.py` (read-only probes), `skills/agent-os-orchestrate`, `bin/agentos`, `agentos dispatch` | IMPLEMENTED, VERIFIED in sandbox HERMES_HOME; live wiring awaits approval |
 | MSI | `agentos/resources.py` (ssh probe, profile state machine) | IMPLEMENTED; node unreachable today |
 | Research subsystems | contract in `workflows/research-question.md` | DESIGN-ONLY |
 
-## Hermes integration (next step, needs your approval)
+## Hermes integration
 
-Hermes already has `terminal` + `skills` toolsets. The minimal integration is
-to expose `skills/agent-os-task/SKILL.md` to Hermes (symlink into
-`~/.hermes/skills/`) so Hermes runs `uv run agentos route|task|health` from
-`~/agent-stack`. That modifies Hermes' user config, so it was not done
-automatically.
+See `docs/hermes-integration.md` (approval boundary, exact diff, rollback, post-change tests).

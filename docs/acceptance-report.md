@@ -51,3 +51,24 @@ GitHub MCP 401; Postman needs auth. MSI reported INFO (unreachable, not boot-cri
 - OpenCode and DeepSeek Harness launches through agentos (argv only / external script).
 - Any local-model routing (no local model measured).
 - Real MSI transitions (MSI not connected).
+
+## Addendum — Hermes integration milestone (2026-10-01)
+
+`AGENTOS_LIVE=1 ./scripts/run-evals.sh` → **77 passed, 2 skipped** (the 2 skips are the
+`hermes_wired` tests that can only run after the approved `~/.hermes/config.yaml` change).
+`evals/test_hermes_integration.py`: 18 run + 2 post-approval.
+
+Executed:
+- Hermes' own `skills_list`/`skill_view`/`lint_skill`/`scan_skill` (its venv, sandbox HERMES_HOME):
+  both agent-os skills discovered, loadable, 0 lint findings, guard `safe`; absent without the key.
+- Proposed `skills.disabled` verified in Hermes code: bundled claude-code/codex load today, refused with it.
+- `scripts/hermes-wire.py` on a copy of the live config: unapproved apply refused; approved
+  apply verified; Hermes loads skills from the result; rollback restores byte-identical.
+- `agentos dispatch` with stand-in workers: success → commit on `agentos/<task>` only, lease
+  released, main untouched; failed verify → `retryable`, same task resumes with the resume brief;
+  budget → `stopped` then `closed`; nested dispatch → `unsafe`; high risk → `human_handoff` with no
+  worktree/task created; provider outage → codex with `workspace-write`; all down → `blocked`.
+- **Live:** `bin/agentos dispatch` CLI → real Claude Code worker fixed the fixture, verified, `done` (~14 s).
+- Live `~/.hermes/config.yaml` mtime unchanged; `~/SecondBrain` unchanged.
+
+Not run: a Hermes-driven model turn (blocked on the Hermes default-model decision).

@@ -7,6 +7,7 @@ nothing is granted by prompt text. Forbidden flags are rejected outright.
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 import tempfile
@@ -81,7 +82,7 @@ def run(launch: dict, task_id: str | None = None, task_type: str = "coding",
     """Execute a built launch; record measured telemetry (no invented fields)."""
     with telemetry.Timer() as t:
         r = subprocess.run(launch["argv"], cwd=launch["cwd"], capture_output=True, text=True,
-                           stdin=subprocess.DEVNULL,
+                           stdin=subprocess.DEVNULL, env={**os.environ, **launch.get("env", {})},
                            timeout=timeout)
     result = {"returncode": r.returncode, "stdout": r.stdout, "stderr": r.stderr[-4000:],
               "latency_ms": t.ms}

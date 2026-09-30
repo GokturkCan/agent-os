@@ -79,6 +79,17 @@ def run_checks(cfg: C.Config | None = None) -> list[dict]:
             f"Hermes default model {default!r} has agent-stack status {mstat!r}")
         add("hermes.fallback_model", PASS if h.get("fallback_model") else WARN,
             "configured" if h.get("fallback_model") else "no fallback_model — provider outage stops Hermes")
+        from . import hermes_bridge as hb
+        add("hermes.agentos_skills_wired", PASS if hb.is_wired(h) else WARN,
+            "skills.external_dirs loads ~/agent-stack/skills" if hb.is_wired(h)
+            else "pending approval: skills.external_dirs does not include ~/agent-stack/skills "
+                 "(see docs/hermes-integration.md)")
+        ok, detail = hb.probe_ok(hb.probe())
+        add("hermes.agentos_skills_valid", PASS if ok else FAIL, detail)
+        direct = hb.direct_worker_skills_enabled(h)
+        add("hermes.direct_worker_skills", WARN if direct else PASS,
+            (f"bundled skills {direct} let Hermes launch workers without agentos policy; "
+             "recommended: skills.disabled") if direct else "direct worker-launch skills disabled")
     else:
         add("hermes.config", FAIL, "~/.hermes/config.yaml missing")
 

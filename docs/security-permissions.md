@@ -37,9 +37,20 @@
 | `~/.claude/settings.json.glm-backup`, `~/.claude/settings.jsonN` hold a plaintext z.ai token (from 2026-09-15 audit) | credential at rest | rotate at z.ai, then delete the files |
 | GitHub MCP static Authorization header rejected (401) | broken tool; stale token on disk | re-authenticate or remove the header config |
 | Hermes default model = kimi-k3 (disabled in policy), no fallback_model | Hermes outage on NIM hiccup | set default to an approved model and add `fallback_model` |
+| Hermes bundled skills `claude-code`/`codex`/`opencode` let Hermes launch workers directly (bypassing capability profiles, worktrees, budgets) | policy bypass by prompt | `skills.disabled` — part of the proposed wiring (docs/hermes-integration.md) |
 | Hermes `approvals.mode: smart`, `trust_recent_files: true` | Hermes may auto-approve some actions | review against this policy |
 | Codex config trusts `/Users/gokturkcan` (home) as a project | broad trust scope | narrow to project dirs |
 | `omniroute`, `clawdbot` global npm packages present | unmanaged routers/bots (OmniRoute is reference-only) | uninstall if unused |
+
+## Hermes → agentos boundary
+
+- Workers launched by `agentos dispatch` run with `AGENTOS_WORKER_CONTEXT`; any nested
+  `agentos dispatch` inside a worker is refused (`exit_state: unsafe`).
+- High-risk markers stop before any side effect (`human_handoff`); an approval
+  reference passed by Hermes is written to telemetry for audit.
+- `--verify` runs as an argv (no shell).
+- `agentos/hermes_bridge.py` never writes `~/.hermes`; only the human-run
+  `scripts/hermes-wire.py apply --i-approve` does, with backup + verification + auto-restore.
 
 ## Git / remote safety
 
