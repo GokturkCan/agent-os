@@ -1,1 +1,16 @@
 .DS_Store
+
+# Python / uv
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Agent OS runtime state (operational, may contain paths/prompts; never committed)
+state/tasks/
+state/telemetry/
+state/runtime/
+state/worktrees/
+state/approvals/
+state/knowledge/
+state/selfimprove/

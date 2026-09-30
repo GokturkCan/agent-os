@@ -1,0 +1,11 @@
+{
+  "note": "Reviewed hashes of protected policy/eval files. Refresh only after human review (agentos manifest --write).",
+  "files": {
+    "config/permissions.yaml": "eedf18b4c7b46ab69fff631ec4c7efba6f93cb4e5f6c853dcd58ca2d77cf5107",
+    "config/capabilities.yaml": "050f120330b5eaeeb2c904db8471e09efc82732cefa97dcba7ffa70be7bb10fa",
+    "config/promotion.yaml": "842f6c080b9f19f3df0cd0ed355c7788e7497fe7ff502259c3c1ff041b665d57",
+    "CLAUDE.md": "2bc1baa1dbfd8c08bf1490ee0df257546fdf499a6e60d8aca26223346a1a85a2",
+    "agentos/permissions.py": "fb5e3377ccb7f93441513991ba7f41d786eafc4587ab70df1cc06f044080cda2",
+    "agentos/selfimprove.py": "d73734597862c7d3c360890d89c3883a694b662905ee7399716a39aad4e32dab"
+  }
+}

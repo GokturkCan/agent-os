@@ -1,93 +1,162 @@
-version: 1
+version: 2
 
-# This file is a canonical intended MCP/tool policy skeleton.
-# It is NOT a live installation manifest — it does not claim any tool is
-# installed or working just by being listed here. `status.installed` and
-# `status.validated` must only be set true when repo evidence (an audit/
-# file, a passing check) confirms it. See audit/claude-current-state.md
-# (2026-09-15) for the last full inventory pass.
+# Canonical MCP / tool inventory + exposure policy. Reconciled with
+# `claude mcp list` on 2026-10-01 (see CURRENT_STATE.md). Status uses the
+# vocabulary defined in config/models.yaml. `health` is the last observed
+# connection result, not a promise.
+#
+# Exposure: agent-stack workers get MCPs ONLY via a generated
+# --strict-mcp-config file (agentos/workers.py) built from `exposure`
+# below + the worker's capability profile. Ambient user-level/claude.ai
+# connectors are therefore NOT visible to Agent OS worker runs.
 
 principles:
   - "Whitelist only — no ambient/implicit tool grants."
-  - "Least privilege per role/task, not blanket access."
-  - "Lazy / progressive loading — load a tool when a task needs it, not into standing context."
-  - "Minimum relevant tools per task."
-  - "Never claim installed or validated without repo evidence."
-
-status_definitions:
-  desired: "Candidate for adoption. Not yet installed."
-  installed: "Present/configured locally, per audit evidence. May not be working."
-  validated: "Installed AND confirmed working, per audit evidence."
+  - "Least privilege per worker profile; lazy, task-specific exposure."
+  - "Prefer CLI/library when an MCP adds no real value."
+  - "Never expose broad write-capable tools to every worker by default."
+  - "Never claim installed/validated without evidence."
 
 tools:
 
-  github:
-    purpose: "Issue/PR/repo operations."
-    status:
-      desired: true
-      installed: true
-      validated: false
-    note: "Configured but returned HTTP 401 (stale/invalid auth) as of audit/claude-current-state.md (2026-09-15). Needs re-authentication before use."
-
   context7:
-    purpose: "Live library/framework documentation lookup."
-    status:
-      desired: true
-      installed: true
-      validated: true
-    note: "Connected as of audit/claude-current-state.md (2026-09-15)."
+    status: configured
+    health: ok
+    kind: mcp
+    source: "~/.claude.json user mcpServers (npx -y @upstash/context7-mcp)"
+    launch: {command: npx, args: [-y, "@upstash/context7-mcp"]}
+    write_capable: false
+    capability: mcp_context7
+    purpose: "Developer/library documentation."
 
   serena:
-    purpose: "Semantic code navigation and editing (symbol-level)."
-    status:
-      desired: true
-      installed: true
-      validated: true
-    note: "Connected as of audit/claude-current-state.md (2026-09-15)."
+    status: configured
+    health: ok
+    kind: mcp
+    source: "~/.claude.json user mcpServers (uvx serena, context ide-assistant)"
+    launch: {command: uvx, args: [--from, "git+https://github.com/oraios/serena", serena, start-mcp-server, --context, ide-assistant, --enable-web-dashboard, "false", --enable-gui-log-window, "false"]}
+    write_capable: true     # has symbol-edit tools; only granted with fs_write_worktree via coder profile
+    capability: mcp_serena
+    purpose: "Symbol-level code navigation/editing. Per-project index lives in <worktree>/.serena."
 
   playwright:
-    purpose: "Browser automation / UI verification."
-    status:
-      desired: true
-      installed: true
-      validated: true
-    note: "Connected as of audit/claude-current-state.md (2026-09-15)."
+    status: configured
+    health: ok
+    kind: mcp
+    source: "Claude plugin playwright@claude-plugins-official"
+    launch: {command: npx, args: ["@playwright/mcp@latest"]}
+    write_capable: false
+    capability: mcp_playwright
+    purpose: "Deterministic browser interaction/testing."
+
+  sequential_thinking:
+    status: configured
+    health: ok
+    kind: mcp
+    source: "~/.claude.json user mcpServers"
+    capability: null
+    exposure_note: "Not exposed to Agent OS workers — overlaps model-native reasoning; no measured value."
+
+  github_mcp:
+    status: configured
+    health: failing
+    kind: mcp
+    source: "Claude plugin github@claude-plugins-official (HTTP api.githubcopilot.com)"
+    write_capable: true
+    capability: mcp_github_read
+    restricted_toolsets: [repos, issues, pull_requests]   # read-only use in Agent OS
+    purpose: "GitHub structured data."
+    note: "HTTP 401 — static Authorization header rejected (2026-10-01). Needs human re-auth (credential change, not done by agents). Fallback: gh CLI read-only."
+
+  notion:
+    status: configured
+    health: ok
+    kind: mcp
+    source: "Claude plugin notion"
+    exposure_note: "Personal-data connector; not exposed to Agent OS workers."
+
+  postman:
+    status: configured
+    health: needs_auth
+    kind: mcp
+    exposure_note: "Not exposed to Agent OS workers."
+
+  claude_ai_connectors:
+    status: configured
+    health: ok
+    kind: mcp
+    members: [gmail, google_drive, google_calendar, slack, lovable, magnific, higgsfield, claude_docs, stitch]
+    exposure_note: >
+      Account-level connectors visible to interactive Claude Code sessions.
+      Several are write-capable with external side effects (send mail, post
+      to Slack, publish). NEVER exposed to Agent OS worker runs (strict MCP
+      config). Human-interactive use only.
 
   firecrawl:
-    purpose: "Web crawling / page-to-markdown extraction."
-    status:
-      desired: true
-      installed: false
-      validated: false
-    note: "Not installed. Candidate — Crawl4AI is an alternative under the same slot, not yet evaluated against Firecrawl."
-
+    status: candidate
+    kind: mcp_or_api
+    capability: null
+    note: "Not installed; no API key (hermes status). Fallback web_fetch."
+  crawl4ai:
+    status: candidate
+    kind: library
+    note: "Not installed. Adopt only on a real local/private crawl need."
   repomix:
-    purpose: "Repository packing/summarization for LLM context."
-    status:
-      desired: true
-      installed: false
-      validated: false
+    status: candidate
+    kind: cli
+    note: "Not installed globally; can run on demand via `npx repomix` — no standing install needed."
+  markitdown:
+    status: candidate
+    kind: library
+    note: "Not installed. Current fallback: claude-obsidian capture (text/md/pdf adapters)."
+  codebase_memory_mcp:
+    status: candidate
+    kind: mcp
+    note: "Benchmark candidate for a derived structural index; not installed."
+  browser_use:
+    status: deferred
+    note: "Open-ended browsing only when Playwright is insufficient."
+  scrapling:
+    status: deferred
+  rtk:
+    status: candidate
+    kind: cli
+    note: "Not installed."
+  ssh:
+    status: candidate
+    kind: native
+    note: "Needed for MSI; no host alias configured."
 
   terminal:
-    purpose: "Shell execution."
-    status:
-      desired: true
-      installed: true
-      validated: true
-    note: "Provided natively by the coding harness (Claude Code Bash tool, etc.), not a separate MCP server. Listed here for policy completeness only."
-
+    status: available
+    kind: native
+    note: "Provided by the harness (Claude Bash / Codex sandbox)."
   filesystem:
-    purpose: "File read/write."
-    status:
-      desired: true
-      installed: true
-      validated: true
-    note: "Provided natively by the coding harness's Read/Write/Edit tools, not a separate MCP server. Listed here for policy completeness only."
+    status: available
+    kind: native
+  web_fetch:
+    status: available
+    kind: native
+  web_search:
+    status: available
+    kind: native
+  gh_cli_readonly:
+    status: available
+    kind: cli
+    note: "gh present; authentication state not verified by agents."
+  ripgrep:
+    status: available
+    kind: cli
+  claude_obsidian_capture:
+    status: available
+    kind: cli
+    note: "claude-obsidian 2.2.0 capture adapters (offline, filesystem)."
 
-  ssh:
-    purpose: "Remote host access (e.g. MSI compute node)."
-    status:
-      desired: true
-      installed: false
-      validated: false
-    note: "Candidate for once the MSI compute node is connected (see README.md priorities)."
+# Which MCPs a worker profile may receive in its strict MCP config.
+exposure:
+  readonly: [context7, serena]
+  coder: [context7, serena]
+  reviewer: [context7, serena]
+  knowledge_compiler: []
+  untrusted: []
+  browser_task: [playwright]      # added per-task only when tool_routing selects it

@@ -1,77 +1,123 @@
-version: 1
+version: 2
 
-# Conceptual mapping to docs/current-architecture.md Cognition Plane (C0-C4)
-# — routing tiers below are NOT identical to that pipeline, just related:
-#   fast     ~ C1 FastGate (classification only, not generation)
-#   core     ~ C2 default local reasoning
-#   strong   ~ C3 Mac local resilience / supervisor synthesis
-#   frontier ~ C4 frontier reasoning/escalation
-# All `model: null` entries below remain genuinely undecided/unbenchmarked.
+# Canonical model inventory. Reconciled against the live machine 2026-10-01
+# (see CURRENT_STATE.md). Models are cognition backends — never orchestrators.
+#
+# Status vocabulary (shared by every config/*.yaml inventory, validated by
+# agentos.config):
+#   available  - present and usable on this machine/account today, not benchmarked
+#   configured - wired into a live config (Hermes/Claude/Codex/...) but not measured
+#   measured   - benchmarked with evidence in audit/
+#   candidate  - named, not installed / not benchmarked
+#   disabled   - deliberately not used (reason required)
+#   deferred   - intentionally postponed until a capability gap is shown
+#   rejected   - tested and excluded
+#
+# Conceptual mapping to docs/current-architecture.md cognition pipeline:
+#   C0 rules (no model) -> C1 fastgate -> C2/C3 local reasoning -> C4 cloud
+# Tier `model: null` means genuinely undecided/unbenchmarked. The router
+# (agentos/router.py) skips null / non-usable tiers instead of inventing one.
 
 tiers:
-  fast:
-    purpose: Cheap utility and mechanical tasks.
+  fastgate:
+    stage: C1
+    purpose: Typed fast classification only (task class, risk, needs_gpu, worker class). Never generation.
     model: null
+    candidates: [laya-mlx]
 
-  core:
-    purpose: Default general worker.
+  local_primary:
+    stage: C2
+    purpose: Default local reasoning (planning, tool sequencing, summarization).
     model: null
+    candidates: [qwen3.6-35b-a3b]
 
-  strong:
-    purpose: Supervisor and difficult synthesis.
+  local_fallback:
+    stage: C3
+    purpose: Mac-side long-context / fallback / compression worker when MSI is unavailable.
     model: null
+    candidates: [bonsai-2-27b]
 
-  frontier:
-    purpose: Critical coding, review, and difficult reasoning.
+  cloud:
+    stage: C4
+    purpose: Escalation for difficult reasoning / critical coding / review.
     model: null
+    note: "Cloud escalation is expressed as an ordered provider chain in config/routing.yaml, not a single model."
 
-local:
-  mac_resident:
-    model: null
-    candidates:
-      - bonsai-2-27b
-      - laya-mlx
-    status: planned
-    note: "Benchmark candidates only, not validated. See docs/current-architecture.md §6."
+models:
 
-  msi_coding:
-    model: null
-    candidates:
-      - qwen3.6-35b-a3b
+  laya-mlx:
+    status: candidate
+    tier: fastgate
+    host: mac
+    runtime: mlx
+    evidence: null
+    note: "~322M multilingual classifier. Not installed (no mlx runtime on PATH, 2026-10-01)."
+
+  qwen3.6-35b-a3b:
+    status: candidate
+    tier: local_primary
+    host: msi
+    resource_profile: LLM_INFERENCE
     runtime_candidate: freetoken
     fallback_runtime_candidate: llama.cpp
-    status: planned
-    note: "Benchmark candidate only, not validated. See docs/current-architecture.md §6."
+    evidence: null
+    note: "MSI not reachable from the Mac control plane yet (no SSH host configured)."
 
-specialists:
-  background_coding_escalation:
-    model: deepseek-ai/deepseek-v4.1-flash
+  bonsai-2-27b:
+    status: candidate
+    tier: local_fallback
+    host: mac
+    residency: on_demand
+    evidence: null
+    note: "No local model runtime or weights present on the Mac (2026-10-01)."
+
+  qwen3.8:
+    status: deferred
+    note: "Optional local-judge candidate; not a V1 tier."
+
+  deepseek-ai/deepseek-v4.1-flash:
+    status: measured
     provider: nvidia_nim
     harness: deepseek_harness
-    status: adopted
-    profile: high_reasoning
-    validated: audit/nvidia-nim-2026-09-24.md
-    suitable_for:
-      - hard_repo_debugging
-      - concurrency_bugs
-      - long_horizon_coding
-      - refactoring
-      - regression_repair
-      - code_verification
-      - background_engineering
-    not_suitable_for:
-      - latency_sensitive_interactive
-      - primary_hermes_backend
-    note: >
-      Validated as a strong autonomous coding specialist and a
-      stateful/retry-capable harness, not as a second global orchestrator.
-      Background/escalation use only.
+    evidence: audit/nvidia-nim-2026-09-24.md
+    suitable_for: [hard_repo_debugging, concurrency_bugs, long_horizon_coding, refactoring, regression_repair, code_verification, background_engineering]
+    not_suitable_for: [latency_sensitive_interactive, primary_hermes_backend]
+    note: "Background/escalation coding specialist only."
 
-experimental:
+  moonshotai/kimi-k3:
+    status: disabled
+    provider: nvidia_nim
+    evidence: audit/nvidia-nim-2026-09-23.md
+    reason: "0-byte responses on chat and streaming. NOTE: still the live Hermes default model (~/.hermes/config.yaml) — flagged conflict, see CURRENT_STATE.md."
+
+  claude-via-subscription:
+    status: available
+    provider: claude_subscription
+    note: "Used through the Claude Code worker, not a raw API. Model selection is the harness' concern."
+
+  gpt-via-codex-subscription:
+    status: available
+    provider: codex_subscription
+    note: "Used through the Codex worker (ChatGPT login verified 2026-10-01)."
+
+  openai/gpt-oss-120b:
+    status: configured
+    provider: groq
+    note: "Configured as a Hermes custom provider; not benchmarked for Agent OS roles."
+
+  nemotron-3.5-lightning-free:
+    status: configured
+    provider: opencode_free
+    note: "Hermes auxiliary title generation only."
+
   colibri:
-    enabled: false
+    status: disabled
     host: msi
+    resource_profile: EXPERIMENTAL_INFERENCE
+    reason: "LAB only."
 
-  nvidia_nim_kimi_k3:
-    enabled: false
-    reason: "0-byte responses on chat and streaming; see audit/nvidia-nim-2026-09-23.md"
+  warp:
+    status: disabled
+    host: msi
+    resource_profile: EXPERIMENTAL_INFERENCE
+    reason: "LAB only."

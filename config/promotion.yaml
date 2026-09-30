@@ -1,0 +1,21 @@
+version: 1
+
+# POLICY FILE — promotion criteria for self-improvement candidates
+# (agentos/selfimprove.py). Protected: no candidate may modify this file,
+# its judge, the held-out evals, permissions, or security policy.
+
+required_sequence: [proposed, isolated, heldout_eval, judged, canary, promoted]
+heldout_eval:
+  command: "uv run pytest -q evals"
+  must_pass: all
+  protected_manifest_must_match: true
+judge:
+  must_differ_from_producer: true
+canary:
+  scope: "one real task of the affected class, telemetry compared against the previous 5 runs"
+  on_failure: rolled_back
+promotion:
+  requires_human_approval: true
+  mechanism: "human merges the candidate branch; agents never merge or push"
+rollback:
+  mechanism: "git revert of the promotion merge, or reset to the pre-promotion tag"

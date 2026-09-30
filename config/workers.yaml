@@ -1,0 +1,117 @@
+version: 1
+
+# Execution workers (harnesses). Workers execute; Hermes decides.
+# One primary worker owns a task checkout at a time (enforced by
+# agentos/worktree.py lease files). Workers never share a mutable checkout.
+#
+# `launch` is a template rendered by agentos/workers.py. Capability
+# enforcement is by construction of the launch command (allowed tools,
+# sandbox mode, strict MCP set), not by prompt text. The capability profile
+# a worker may run under is defined in config/capabilities.yaml.
+
+workers:
+
+  claude_code:
+    status: available
+    binary: claude
+    version_seen: "2.1.280"
+    provider: claude_subscription
+    roles: [coding_primary, architecture, hard_debugging, review]
+    default_profile: coder
+    allowed_profiles: [readonly, coder, reviewer, knowledge_compiler]
+    headless: true
+    launch:
+      argv: [claude, -p, "{prompt}", --output-format, json, --max-turns, "{max_turns}",
+             --strict-mcp-config, --mcp-config, "{mcp_config_file}",
+             --allowedTools, "{allowed_tools}", --disallowedTools, "{disallowed_tools}",
+             --permission-mode, "{permission_mode}"]
+      cwd: "{worktree}"
+    tool_map:            # capability -> Claude Code tool patterns
+      fs_read: [Read, Glob, Grep]
+      fs_write_worktree: [Edit, Write]
+      shell: ["Bash"]
+      shell_readonly: ["Bash(git status:*)", "Bash(git diff:*)", "Bash(git log:*)", "Bash(ls:*)"]
+      web_fetch: [WebFetch]
+      web_search: [WebSearch]
+    always_disallowed: ["Bash(git push:*)", "Bash(git remote:*)", "Bash(rm -rf:*)", "Bash(sudo:*)"]
+
+  codex:
+    status: available
+    binary: codex
+    version_seen: "0.154.0"
+    provider: codex_subscription
+    roles: [coding_primary, implementation, tests, routine_debugging, review]
+    default_profile: coder
+    allowed_profiles: [readonly, coder, reviewer]
+    headless: true
+    launch:
+      argv: [codex, exec, --json, --ephemeral, -C, "{worktree}", --sandbox, "{sandbox}", "{prompt}"]
+    sandbox_map:         # capability profile -> codex sandbox mode
+      readonly: read-only
+      reviewer: read-only
+      coder: workspace-write
+    never_flags: [--dangerously-bypass-approvals-and-sandbox]
+
+  opencode:
+    status: available
+    binary: opencode
+    version_seen: "2.0.20"
+    roles: [overflow, utility]
+    default_profile: readonly
+    allowed_profiles: [readonly, coder]
+    headless: true
+    launch:
+      argv: [opencode, run, --format, json, "{prompt}"]
+      cwd: "{worktree}"
+    never_flags: [--auto]
+    note: >
+      Optional overflow worker. ~/.config/opencode carries a legacy
+      get-shit-done (GSD) pack and 91 skills — an overlapping planning
+      framework; do not invoke GSD commands from Agent OS tasks.
+
+  deepseek_harness:
+    status: measured
+    binary: "~/dsh-venv/bin/dsh"
+    provider: nvidia_nim
+    model: deepseek-ai/deepseek-v4.1-flash
+    evidence: audit/nvidia-nim-2026-09-24.md
+    roles: [background_coding_escalation]
+    default_profile: coder
+    allowed_profiles: [coder]
+    interactive: false
+    note: "Background/escalation only. Launch wrapper: ~/run_deepseek_harness_nim.py (outside repo)."
+
+  hermes_delegation:
+    status: configured
+    roles: [orchestrator_internal]
+    note: "Hermes' own delegation toolset. Hermes is the orchestrator, not a worker; listed so it is never selected as one."
+    selectable: false
+
+  local_qwen:
+    status: candidate
+    host: msi
+    provider: local_msi
+    roles: [local_reasoning]
+    note: "Placeholder. Not measured; MSI unreachable."
+
+  local_bonsai:
+    status: candidate
+    host: mac
+    provider: local_mac
+    roles: [local_fallback, compression]
+    note: "Placeholder. No runtime/weights installed."
+
+  prime:
+    status: deferred
+    note: "~/Projects/prime-agent present; not integrated. Optional."
+
+  muse:
+    status: deferred
+  antigravity:
+    status: deferred
+
+isolation:
+  mode: git_worktree
+  worktree_root: "~/agent-stack/state/worktrees"   # overridable per task
+  lease_file: ".agentos-lease.json"
+  one_primary_worker_per_checkout: true

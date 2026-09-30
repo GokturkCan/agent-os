@@ -1,0 +1,112 @@
+"""Deterministic health check for the Mac control plane.
+
+FAIL only for things that break the control plane. The MSI being absent is
+INFO by design (never a boot dependency). Conflicts with the frozen
+architecture are WARN so a human can decide.
+"""
+from __future__ import annotations
+
+import shutil
+import subprocess
+from pathlib import Path
+
+import yaml
+
+from . import config as C
+from .knowledge import GateError, Vault
+from .resources import probe_node
+from .selfimprove import verify_manifest
+
+PASS, WARN, FAIL, INFO = "PASS", "WARN", "FAIL", "INFO"
+
+
+def _git(*args) -> str:
+    r = subprocess.run(["git", "-C", str(C.REPO_ROOT), *args], capture_output=True, text=True)
+    return r.stdout.strip()
+
+
+def run_checks(cfg: C.Config | None = None) -> list[dict]:
+    out: list[dict] = []
+
+    def add(name, status, detail=""):
+        out.append({"check": name, "status": status, "detail": detail})
+
+    try:
+        cfg = cfg or C.load()
+        errs = C.validate(cfg)
+        add("config.valid", FAIL if errs else PASS, "; ".join(errs[:5]))
+    except Exception as exc:  # config unreadable -> nothing else is meaningful
+        add("config.load", FAIL, repr(exc))
+        return out
+
+    remotes = _git("remote")
+    add("repo.no_remote", WARN if remotes else PASS, remotes or "no git remote (expected)")
+    add("repo.branch", INFO, _git("branch", "--show-current"))
+
+    try:
+        drift = verify_manifest(cfg.root)
+        add("policy.protected_manifest", FAIL if drift else PASS,
+            ("drift: " + ", ".join(drift)) if drift else "protected policy/eval files match reviewed manifest")
+    except FileNotFoundError:
+        add("policy.protected_manifest", WARN, "evals/protected-manifest.json missing")
+
+    # SecondBrain
+    try:
+        v = Vault(cfg)
+        doc = v.doctor()
+        add("secondbrain.doctor", PASS if doc.get("ok") else FAIL, str(doc.get("checks")))
+        lint = v.lint().get("summary", {})
+        n = lint.get("issues_found")
+        add("secondbrain.lint", PASS if n == 0 else WARN, f"issues_found={n} pages={lint.get('pages_scanned')}")
+        for key in ("raw_manifest", "source_ledger", "claim_ledger"):
+            p = v.root / cfg.knowledge["paths"][key]
+            add(f"secondbrain.{key}", PASS if p.exists() else FAIL, str(p))
+    except GateError as exc:
+        add("secondbrain.engine", FAIL, str(exc))
+
+    # Hermes (read-only inspection; never modified by agent-stack)
+    hermes_cfg = Path.home() / ".hermes" / "config.yaml"
+    add("hermes.binary", PASS if shutil.which("hermes") else FAIL, shutil.which("hermes") or "missing")
+    if hermes_cfg.exists():
+        h = yaml.safe_load(hermes_cfg.read_text()) or {}
+        mem = h.get("memory", {})
+        add("hermes.memory_disabled",
+            PASS if mem.get("memory_enabled") is False and mem.get("user_profile_enabled") is False else FAIL,
+            f"memory_enabled={mem.get('memory_enabled')} user_profile_enabled={mem.get('user_profile_enabled')}")
+        default = (h.get("model") or {}).get("default")
+        mstat = cfg.models["models"].get(default, {}).get("status")
+        add("hermes.default_model_policy", WARN if mstat in ("disabled", "rejected") else PASS,
+            f"Hermes default model {default!r} has agent-stack status {mstat!r}")
+        add("hermes.fallback_model", PASS if h.get("fallback_model") else WARN,
+            "configured" if h.get("fallback_model") else "no fallback_model — provider outage stops Hermes")
+    else:
+        add("hermes.config", FAIL, "~/.hermes/config.yaml missing")
+
+    for name, spec in cfg.workers["workers"].items():
+        b = spec.get("binary")
+        if not b or spec.get("status") not in C.USABLE:
+            continue
+        found = shutil.which(b) or (Path(C.expand(b)).exists() and str(C.expand(b)))
+        add(f"worker.{name}", PASS if found else WARN, found or f"{b} not found")
+
+    for name, t in cfg.mcp["tools"].items():
+        if t.get("kind") == "mcp" and t.get("status") in C.USABLE and t.get("health") not in (None, "ok"):
+            add(f"mcp.{name}", WARN, f"health={t.get('health')} {t.get('note', '')[:120]}")
+
+    msi = probe_node(cfg, "msi")
+    add("node.msi", INFO, f"reachable={msi['reachable']} ({msi['reason']}); not boot-critical")
+    add("node.mac", PASS, "control plane (this host)")
+
+    du = shutil.disk_usage(str(Path.home()))
+    free_gb = du.free / 2**30
+    add("disk.free", PASS if free_gb > 20 else WARN, f"{free_gb:.1f} GiB free")
+    return out
+
+
+def summarize(results: list[dict]) -> int:
+    for r in results:
+        print(f"[{r['status']:4}] {r['check']:34} {r['detail']}")
+    fails = sum(r["status"] == FAIL for r in results)
+    warns = sum(r["status"] == WARN for r in results)
+    print(f"\n{len(results)} checks: {fails} FAIL, {warns} WARN")
+    return 1 if fails else 0

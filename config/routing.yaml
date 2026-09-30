@@ -1,4 +1,12 @@
-version: 1
+version: 2
+
+# Deterministic routing policy, executed by agentos/router.py.
+#
+#   EVENT -> C0 deterministic rules -> C1 fastgate -> C2/C3 local -> C4 cloud
+#
+# Each stage is skipped (with a recorded reason) when nothing in it is usable:
+# a stage whose model is a `candidate` or whose host is unreachable is never
+# silently "assumed". Every decision returns a trace that goes to telemetry.
 
 principles:
   - "Use the cheapest capable worker."
@@ -7,97 +15,141 @@ principles:
   - "Add reviewers only when they provide independent value."
   - "Use deterministic checks whenever possible."
   - "Do not invoke overlapping planning frameworks for the same task."
+  - "High risk requires human approval regardless of classifier confidence."
+  - "The MSI is never a boot or routing dependency of the Mac control plane."
 
-modes:
+# ---------------------------------------------------------------- C0 rules
+# Task types fully handled by deterministic code — no model is invoked.
+deterministic_rules:
+  exit_code_check:     {handler: deterministic}
+  test_result:         {handler: deterministic}
+  resource_check:      {handler: deterministic}
+  cron_event:          {handler: deterministic}
+  permission_check:    {handler: deterministic}
+  health_check:        {handler: deterministic}
+  file_rename:         {handler: deterministic}
 
-  task:
-    default_workers: 1
-    max_workers: 2
-    description: Normal bounded tasks.
+# ----------------------------------------------------------- task classes
+# For each class: which cognition stages may serve it, the cloud provider
+# chain (ordered, first healthy+enabled wins), and the execution worker chain.
+task_classes:
 
-  workflow:
-    default_workers: 1
-    description: Stable repeatable processes.
-    future_engine: Archon
+  classification:
+    stages: [fastgate, local_primary, local_fallback, cloud]
+    cloud_chain: [claude_subscription, codex_subscription]
+    workers: [claude_code, codex]
+
+  summarization:
+    stages: [local_primary, local_fallback, cloud]
+    cloud_chain: [claude_subscription, codex_subscription]
+    workers: [claude_code, codex]
+
+  coding:
+    stages: [cloud]
+    cloud_chain: [claude_subscription, codex_subscription]
+    workers: [claude_code, codex, opencode]
+    reviewer_rule: "Reviewer must differ from primary worker (see roles.reviewer)."
+
+  background_coding_escalation:
+    stages: [cloud]
+    cloud_chain: [nvidia_nim]
+    workers: [deepseek_harness]
+    interactive: false
+
+  review:
+    stages: [cloud]
+    cloud_chain: [claude_subscription, codex_subscription]
+    workers: [claude_code, codex]
 
   research:
-    default_workers: 2
-    max_workers: 4
-    description: Open-ended hypothesis and experiment work.
+    stages: [local_primary, cloud]
+    cloud_chain: [claude_subscription, codex_subscription]
+    workers: [claude_code, codex]
+    note: "Research plane is post-V1; this only routes bounded research questions."
 
+  knowledge_ingest:
+    stages: [cloud]
+    cloud_chain: [claude_subscription]
+    workers: [claude_code]
+    write_path: secondbrain_gate    # see config/knowledge.yaml
+
+  gpu_workload:
+    stages: []
+    requires_resource: msi          # routed to resource scheduler, not a model
+    workers: []
+
+# ------------------------------------------------------ tool-need routing
+# Maps an information/interaction NEED to the narrowest tool. `fallback` is
+# used when the preferred tool is not usable (see config/mcp.yaml status).
+tool_routing:
+  developer_docs:        {prefer: context7,   fallback: [web_fetch]}
+  github_structured:     {prefer: github_mcp, fallback: [gh_cli_readonly]}
+  public_web_scrape:     {prefer: firecrawl,  fallback: [web_fetch]}
+  local_private_crawl:   {prefer: crawl4ai,   fallback: [web_fetch]}
+  deterministic_browser: {prefer: playwright, fallback: []}
+  open_ended_browser:    {prefer: browser_use, fallback: [playwright]}
+  adaptive_scrape:       {prefer: scrapling,  fallback: [firecrawl, web_fetch]}
+  file_to_markdown:      {prefer: markitdown, fallback: [claude_obsidian_capture]}
+  code_navigation:       {prefer: serena,     fallback: [ripgrep]}
+  repo_packing:          {prefer: repomix,    fallback: [ripgrep]}
+  web_search:            {prefer: web_search, fallback: []}
+
+# ---------------------------------------------------------------- budgets
+# Numeric loop bounds (closes the gap recorded in
+# docs/loop-graph-engineering.md appendix). Exceeding them forces an exit
+# state; there is no infinite retry.
+budgets:
+  default:
+    max_attempts: 3
+    max_iterations: 20
+    no_progress_after: 3         # consecutive iterations with an unchanged progress signal
+    wall_clock_minutes: 60
+  coding:
+    max_attempts: 3
+    max_iterations: 30
+    no_progress_after: 3
+    wall_clock_minutes: 120
+  background_coding_escalation:
+    max_attempts: 2
+    max_iterations: 40
+    no_progress_after: 4
+    wall_clock_minutes: 240
+  knowledge_ingest:
+    max_attempts: 2
+    max_iterations: 5
+    no_progress_after: 2
+    wall_clock_minutes: 30
+
+exit_states: [success, blocked, no_progress, unsafe, timeout, budget_exhausted, human_handoff]
+
+# ------------------------------------------------------------------ roles
 roles:
-
-  utility:
-    tasks:
-      - classification
-      - formatting
-      - metadata
-      - extraction
-      - file_renaming
-      - simple_search
-    preferred_tier: fast
-
-  general_worker:
-    tasks:
-      - normal_reasoning
-      - implementation
-      - synthesis
-      - routine_analysis
-    preferred_tier: core
-
-  supervisor:
-    tasks:
-      - planning
-      - delegation
-      - routing
-      - recovery
-      - long_context_synthesis
-    preferred_tier: strong
-
-  coding_specialist:
-    tasks:
-      - coding
-      - debugging
-      - refactoring
-      - code_review
-    preferred_agents:
-      - claude_code
-      - codex
-    background_escalation_agent:
-      agent: deepseek_harness
-      model: deepseek-ai/deepseek-v4.1-flash
-      provider: nvidia_nim
-      scope:
-        - hard_repo_debugging
-        - concurrency_bugs
-        - long_horizon_coding
-        - regression_repair
-      rule: >
-        Background/escalation only. Never the default interactive worker,
-        never a second global orchestrator. See
-        audit/nvidia-nim-2026-09-24.md.
-
   reviewer:
-    tasks:
-      - adversarial_review
-      - independent_validation
     rule: "Prefer a different model or harness than the primary worker."
-
-  research_worker:
-    tasks:
-      - hypothesis_generation
-      - literature_analysis
-      - experiment_design
-      - result_interpretation
-    preferred_mode: research
+  coding_specialist:
+    preferred_agents: [claude_code, codex]
+    background_escalation_agent: deepseek_harness
 
 escalation:
   - condition: deterministic_check_failed
     action: retry_or_repair
-  - condition: repeated_failure
+    bounded_by: budgets
+  - condition: no_progress
     action: escalate_model_or_specialist
-    note: "For coding tasks, escalation target may be the background_escalation_agent (DeepSeek Harness on NVIDIA NIM), not a new orchestrator."
+    note: "Coding escalation target may be background_coding_escalation (DeepSeek Harness on NVIDIA NIM) — not a new orchestrator."
   - condition: high_risk_change
     action: human_review
+  - condition: all_providers_unavailable
+    action: blocked
   - condition: research_uncertainty
     action: parallel_independent_workers
+    max_workers: 4
+
+risk:
+  high_requires_human_approval: true
+  high_risk_task_markers: [credential_change, permission_change, external_publish, destructive_delete, payment, production_deploy, policy_change]
+
+modes:
+  task:     {default_workers: 1, max_workers: 2}
+  workflow: {default_workers: 1, note: "Stable repeatable processes; deterministic automation engine (e.g. n8n) only if a real gap appears."}
+  research: {default_workers: 2, max_workers: 4}

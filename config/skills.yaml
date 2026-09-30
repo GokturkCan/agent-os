@@ -1,0 +1,74 @@
+version: 1
+
+# Skill inventory (reconciled 2026-10-01). Skills load progressively per
+# task; none are injected into standing context by agent-stack. `agent_os`
+# marks which skill sources Agent OS tasks are expected to use.
+
+sources:
+
+  superpowers:
+    status: configured
+    location: "Claude plugin superpowers@claude-plugins-official 6.4.1"
+    role: "Software-engineering process SOP (how to engineer correctly)."
+    agent_os: core
+
+  ponytail:
+    status: candidate
+    location: null
+    role: "Simplicity / anti-overengineering policy."
+    agent_os: core_policy
+    note: "Not found on disk. Its intent is captured as policy text in docs/v1-implementation.md until installed."
+
+  claude_obsidian:
+    status: configured
+    location: "Claude plugin claude-obsidian@agricidaniel-claude-obsidian 2.2.0"
+    role: "SecondBrain knowledge engine (capture, transaction, lint, ingest)."
+    agent_os: core
+
+  kepano_obsidian_skills:
+    status: configured
+    location: "Claude plugin obsidian@obsidian-skills 1.0.1"
+    role: "Obsidian markdown/bases/canvas conventions."
+    agent_os: on_demand
+
+  skill_creator:
+    status: configured
+    location: "Claude plugin skill-creator"
+    role: "SKILL.md packaging."
+    agent_os: on_demand
+
+  orchestra_research:
+    status: configured
+    location: "~/.claude/skills (92 symlinks -> ~/.orchestra/skills)"
+    role: "ML/research procedural skills."
+    agent_os: research_on_demand
+    note: "Unnamespaced; collision risk noted in audit/claude-current-state.md."
+
+  superclaude:
+    status: disabled
+    location: "~/.claude/commands/sc (+ pipx superclaude 4.1.9)"
+    reason: "Overlapping planning/process framework with Superpowers. Not used by Agent OS tasks; left installed (no destructive cleanup)."
+
+  opencode_gsd:
+    status: disabled
+    location: "~/.config/opencode/get-shit-done + 91 skills"
+    reason: "Overlapping planning framework. Not used by Agent OS tasks."
+
+  hermes_bundled_skills:
+    status: configured
+    location: "~/.hermes/skills (12 categories incl. autonomous-ai-agents/{claude-code,codex,opencode})"
+    role: "Hermes-native procedures incl. worker delegation guides."
+    agent_os: hermes_internal
+
+  scientific_agent_skills:
+    status: candidate
+    role: "Research procedural registry (post-V1)."
+  last30days:
+    status: candidate
+    role: "Fresh/community intelligence."
+
+  agent_stack_local:
+    status: available
+    location: "~/agent-stack/skills"
+    role: "Agent-OS-specific skills (SKILL.md packaging)."
+    agent_os: core
