@@ -581,10 +581,11 @@ Detailed implementation decisions belong in:
 - `audit/`
 - future architecture decision records
 
-`agents/`, `adapters/`, `workflows/`, `skills/`, `evals/`, `state/`, and
-`scripts/` are scaffolded empty directories today (created 2026-09-15, no
-content yet) — see `docs/current-architecture.md` §4 for the intended
-responsibility of each.
+As of the V1 implementation (2026-10-01) these directories hold real content:
+the `agentos/` control-plane package, `evals/` (executable acceptance suite),
+`scripts/` (health check, eval runner), `workflows/`, `skills/`, and
+`state/README.md`. Current implemented state: **[`CURRENT_STATE.md`](CURRENT_STATE.md)**;
+live implementation map: **[`docs/v1-implementation.md`](docs/v1-implementation.md)**.
 
 This README is expected to evolve as candidates are benchmarked and decisions
 become stable.

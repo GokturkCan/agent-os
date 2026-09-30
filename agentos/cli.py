@@ -4,7 +4,8 @@
   agentos validate                       validate config/*.yaml
   agentos route <type> [--risk R] [--provider-down P ...] [--msi up|down]
   agentos tool <need>                    which tool serves an info need
-  agentos task new|show|resume|close ... file-backed task state
+  agentos task new|resume|claim|iterate|test|files|fail|checkpoint|handoff|close|list <id> ...
+                                         file-backed task state (see skills/agent-os-task)
   agentos launch <worker> <worktree> <prompt> [--profile P]   (prints argv; never runs)
   agentos manifest [--write]             protected-policy manifest check/refresh
 """
@@ -35,13 +36,26 @@ def main(argv=None) -> int:
     t = sub.add_parser("tool")
     t.add_argument("need")
     tk = sub.add_parser("task")
-    tk.add_argument("action", choices=["new", "show", "resume", "close", "list"])
+    tk.add_argument("action", choices=["new", "show", "resume", "close", "list", "claim", "iterate",
+                                       "test", "files", "fail", "checkpoint", "handoff"])
     tk.add_argument("task_id", nargs="?")
     tk.add_argument("--goal")
     tk.add_argument("--acceptance", action="append", default=[])
     tk.add_argument("--task-class", default=None)
     tk.add_argument("--verification", default=None)
     tk.add_argument("--exit-state", default=None)
+    tk.add_argument("--worker")
+    tk.add_argument("--checkout")
+    tk.add_argument("--signal", help="objective progress signal, e.g. '3 failing'")
+    tk.add_argument("--note", default="")
+    tk.add_argument("--command")
+    tk.add_argument("--passed", action="store_true")
+    tk.add_argument("--summary", default="")
+    tk.add_argument("--file", action="append", default=[])
+    tk.add_argument("--hypothesis")
+    tk.add_argument("--evidence", default="")
+    tk.add_argument("--label")
+    tk.add_argument("--to")
     la = sub.add_parser("launch")
     la.add_argument("worker")
     la.add_argument("worktree")
@@ -87,7 +101,27 @@ def main(argv=None) -> int:
         elif a.action in ("show", "resume"):
             print(store.get(a.task_id).resume_brief())
         elif a.action == "close":
-            store.get(a.task_id).close(a.exit_state)
+            store.get(a.task_id).close(a.exit_state, a.note)
+        else:
+            t = store.get(a.task_id)
+            if a.action == "claim":
+                t.claim(a.worker, a.checkout)
+            elif a.action == "iterate":
+                forced = t.iterate(a.signal, a.note)
+                if forced:
+                    print(f"FORCED EXIT: {forced}")
+                    return 3
+            elif a.action == "test":
+                t.record_test(a.command, a.passed, a.summary)
+            elif a.action == "files":
+                t.record_files(a.file)
+            elif a.action == "fail":
+                t.fail_hypothesis(a.hypothesis, a.evidence)
+            elif a.action == "checkpoint":
+                print(t.checkpoint(a.label))
+            elif a.action == "handoff":
+                t.handoff(a.to, a.note)
+                print(t.path / "handoff.md")
         return 0
     if a.cmd == "launch":
         s = WorkerSession.start(cfg, a.worker, a.profile)

@@ -81,6 +81,7 @@ def run(launch: dict, task_id: str | None = None, task_type: str = "coding",
     """Execute a built launch; record measured telemetry (no invented fields)."""
     with telemetry.Timer() as t:
         r = subprocess.run(launch["argv"], cwd=launch["cwd"], capture_output=True, text=True,
+                           stdin=subprocess.DEVNULL,
                            timeout=timeout)
     result = {"returncode": r.returncode, "stdout": r.stdout, "stderr": r.stderr[-4000:],
               "latency_ms": t.ms}
