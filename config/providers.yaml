@@ -42,12 +42,14 @@ providers:
     note: "Only deepseek-v4.1-flash is approved on this provider; kimi-k3 is disabled."
 
   groq:
-    status: configured
+    status: measured
     enabled: false
     locality: cloud
     access: api
     credential: "env HERMES_CUSTOM_API_GROQ_COM_API_KEY (~/.hermes/.env)"
-    note: "Configured in Hermes custom_providers; not evaluated for any Agent OS role."
+    evidence: audit/hermes-groq-milestone-2026-10-01.md
+    purpose: [hermes_primary]
+    note: "Authenticated and measured through Hermes native chat; enabled for Hermes cognition. Agent OS worker routing remains unchanged (enabled: false here)."
 
   opencode_free:
     status: configured

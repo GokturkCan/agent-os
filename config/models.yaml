@@ -88,7 +88,7 @@ models:
     status: disabled
     provider: nvidia_nim
     evidence: audit/nvidia-nim-2026-09-23.md
-    reason: "0-byte responses on chat and streaming. NOTE: still the live Hermes default model (~/.hermes/config.yaml) — flagged conflict, see CURRENT_STATE.md."
+    reason: "0-byte responses on chat and streaming. Removed from Hermes primary on 2026-10-01; not a fallback."
 
   claude-via-subscription:
     status: available
@@ -101,9 +101,10 @@ models:
     note: "Used through the Codex worker (ChatGPT login verified 2026-10-01)."
 
   openai/gpt-oss-120b:
-    status: configured
+    status: measured
     provider: groq
-    note: "Configured as a Hermes custom provider; not benchmarked for Agent OS roles."
+    evidence: audit/hermes-groq-milestone-2026-10-01.md
+    note: "Hermes primary; authenticated native clean-room completion returned OK (1.273s). This measures connectivity, not general task quality. Fallback intentionally unset."
 
   nemotron-3.5-lightning-free:
     status: configured

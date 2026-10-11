@@ -39,7 +39,7 @@
 | Hermes default model = kimi-k3 (disabled in policy), no fallback_model | Hermes outage on NIM hiccup | set default to an approved model and add `fallback_model` |
 | Hermes bundled skills `claude-code`/`codex`/`opencode` let Hermes launch workers directly (bypassing capability profiles, worktrees, budgets) | policy bypass by prompt | `skills.disabled` — part of the proposed wiring (docs/hermes-integration.md) |
 | Hermes `approvals.mode: smart`, `trust_recent_files: true` | Hermes may auto-approve some actions | review against this policy |
-| Codex config trusts `/Users/gokturkcan` (home) as a project | broad trust scope | narrow to project dirs |
+| Codex config trusts `$HOME` (home dir) as a project | broad trust scope | narrow to project dirs |
 | `omniroute`, `clawdbot` global npm packages present | unmanaged routers/bots (OmniRoute is reference-only) | uninstall if unused |
 
 ## Hermes → agentos boundary

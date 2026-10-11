@@ -1,6 +1,6 @@
-# CURRENT_STATE — Agent OS V1 candidate
+# CURRENT_STATE — Agent OS V1
 
-**As of:** 2026-10-01 · **Branch:** `agent-os-v1` (local only, no remote) ·
+**As of:** 2026-10-12 · **Branch:** `agent-os-v1` (local only, no remote yet; first release will be private `GokturkCan/agent-os`) ·
 **Safety tag:** `pre-agent-os-v1-mac-2026-09-30` (`b2262ec`)
 
 Quick checks: `./scripts/health-check.sh` · `./scripts/run-evals.sh`
@@ -19,25 +19,33 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 |---|---|---|
 | Config as source of truth (`config/*.yaml`) | IMPLEMENTED, VERIFIED | 11 files, validated; status vocab available/configured/measured/candidate/disabled/deferred/rejected |
 | Deterministic routing + fallback | IMPLEMENTED, VERIFIED | C0 → (C1/C2/C3 skipped: candidates) → C4 chains |
-| Loop budgets / exit states | IMPLEMENTED, VERIFIED | wall-clock recorded, not watchdog-enforced |
+| Loop budgets / exit states | IMPLEMENTED, VERIFIED | attempts/iterations/no-progress enforced; worker+verifier timeouts enforced (SIGTERM→SIGKILL, process group) |
 | File-backed task state / resume / handoff | IMPLEMENTED, VERIFIED | `state/tasks/`, CLI + skill |
 | Worktree isolation + lease | IMPLEMENTED, VERIFIED | |
 | Worker launch under capability profiles | IMPLEMENTED, VERIFIED live (Claude Code, Codex) | OpenCode argv only |
 | Permissions / protected manifest | IMPLEMENTED, VERIFIED | live write-denial probes on both harnesses |
 | SecondBrain gate over claude-obsidian | IMPLEMENTED, VERIFIED (fixture vaults) | live vault untouched; doctor ok, lint 0 |
-| Telemetry JSONL | IMPLEMENTED, VERIFIED | TTFT/RAM/VRAM not collected yet |
-| Health check | IMPLEMENTED, VERIFIED | 25 checks, 0 FAIL, 4 WARN |
-| Eval suite | IMPLEMENTED, VERIFIED | 77 passed, 2 skipped (live-only; `AGENTOS_LIVE=1` runs them) |
+| Telemetry JSONL + lifecycle events (`agentos/events.py`) | IMPLEMENTED, VERIFIED | secret-redacted; TTFT/RAM/VRAM not collected |
+| Health check | IMPLEMENTED, VERIFIED | 25 checks, 0 FAIL, 3 WARN |
+| Eval suite | IMPLEMENTED, VERIFIED | latest known full run: **188 passed / 2 skipped** (live-only), taken before the subsequent documentation changes |
+| Deterministic intent routing (`agentos/intent.py`) | IMPLEMENTED, VERIFIED | read-only → normal Hermes; mutation → forced |
+| Canonical entrypoint structural mutation branch (`bin/hermes-agentos` → `agentos mutate` → dispatch) | **VERIFIED** | tests + real run |
+| Real mutation acceptance | **VERIFIED** | hermes-agentos → force=true → mutate → dispatch → claude_code → verifier → success |
+| Real failure → retry → resume acceptance | **VERIFIED** | run 1: status=retryable, retries=1; run 2: same task/worktree, verify passed, exit_state=success |
+| Real timeout → resume acceptance | **PENDING** | timeout enforcement verified by tests only; no real timeout run executed |
+| Run 2 (capability plane), Run 3 (local intelligence), Run 4 (research/web) | FUTURE | see `docs/roadmap.md`; CapabilityRegistry / SystemOne / ContextGate are design-only |
 | MSI resource profiles | IMPLEMENTED (state machine) | MSI not connected — PARTIAL |
-| Hermes ↔ agentos | IMPLEMENTED, VERIFIED, **wired** (user-approved, 2026-10-01) | `skills.external_dirs` + `skills.disabled` applied via `scripts/hermes-wire.py`; health wiring checks PASS. Hermes-driven model turn still pending the default-model decision |
+| Hermes ↔ agentos | IMPLEMENTED, VERIFIED, **wired** (user-approved, 2026-10-01) | `skills.external_dirs` + `skills.disabled` via `scripts/hermes-wire.py`; canonical front door `bin/hermes-agentos`; Groq native completion measured (OK, 1.273s) |
 | Local inference (Laya, Qwen3.6, Bonsai 2) | DEFERRED (benchmark candidates) | nothing installed |
 | Research plane | DESIGN-ONLY | contract in `workflows/research-question.md` |
 | Self-improvement | IMPLEMENTED (gate mechanism only) | no autonomous candidate generation, by design |
 
 ## Conflicts found — need your decision (not changed by agents)
 
-1. **Hermes default model is `moonshotai/kimi-k3` on NVIDIA NIM**, which agent-stack
-   marks disabled (0-byte responses). Hermes also has **no `fallback_model`**.
+1. **Hermes primary is now Groq `openai/gpt-oss-120b`** (native clean-room completion
+   verified 2026-10-01). Fallback is intentionally unset. The current Groq account
+   has an 8,000 TPM ceiling: default Hermes context exceeds it. Preloaded
+   orchestration reached Claude but its quota blocked completion; see `audit/hermes-groq-milestone-2026-10-01.md`.
 2. **GitHub MCP 401** (stale static Authorization header). Postman/Stitch need auth.
 3. **Plaintext z.ai token** in `~/.claude/settings.json.glm-backup` and `settings.jsonN` (from the 2026-09-15 audit).
 4. **Account connectors** (Gmail/Slack/Drive/Lovable/Higgsfield/…) are exposed to *interactive*
@@ -49,13 +57,26 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 
 - Live architecture: `docs/v1-implementation.md` (frozen design: `docs/current-architecture.md`)
 - Inventories: `config/{models,providers,workers,capabilities,mcp,skills,resources,routing,knowledge,promotion,permissions}.yaml`
-- Security: `docs/security-permissions.md` · Recovery: `docs/rollback-recovery.md`
+- Security: `SECURITY.md`, `docs/security-permissions.md` · Recovery: `docs/rollback-recovery.md`
 - Adoption decisions: `docs/candidate-adoption.md` · Tests: `docs/acceptance-report.md`
 - Task protocol: `skills/agent-os-task/SKILL.md`, `state/README.md`, `workflows/`
 
 ## Next steps (in order)
 
-1. Decide Hermes default + fallback model (kimi-k3 is disabled by policy) — needed for a live Hermes-driven turn.
-3. Re-auth GitHub MCP; rotate/delete the dormant z.ai token.
+1. Run a real worker-timeout → resume acceptance (not yet executed).
+2. First private GitHub release (`GokturkCan/agent-os`): review the proposed commit groups, then push.
+3. Re-auth GitHub MCP; rotate/delete the dormant z.ai token outside this repo.
 4. Connect MSI (SSH alias `msi`), then benchmark Qwen3.6 → set status `measured`.
 5. Benchmark Laya-MLX / Bonsai 2 on the Mac within the 6 GB model budget.
+6. Run 2–4 per `docs/roadmap.md`.
+
+## Hermes milestone (2026-10-01, historical)
+
+Groq native minimal call returned `OK` in 1.273s; live Hermes primary is
+`groq-gpt-oss-120b`. The earlier "context overflow" message was Groq HTTP 413
+(8,451 tokens requested vs an 8,000 TPM account limit), not a model-window defect.
+Automatic skill choice is unreliable; deterministic preload plus the structural
+mutation branch replaced it. The 2026-10-01 dispatch was blocked by Claude quota
+(task `hermes-inclusive-20261001` is preserved and must not be consumed or run);
+the later real acceptance runs above supersede it for mutation and retry/resume.
+Evidence summary: `audit/hermes-groq-milestone-2026-10-01.md` (raw evidence is local, git-ignored).

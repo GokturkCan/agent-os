@@ -13,10 +13,10 @@
 | Version | `2.1.236` |
 | Binary | `/opt/homebrew/bin/claude` → symlink → `/opt/homebrew/Caskroom/claude-code/2.1.236/claude` (Homebrew Cask install) |
 | Install method | Homebrew Cask (`claude-code`) |
-| User config (`~/.claude.json`) | `/Users/gokturkcan/.claude.json` (61 KB, contains `mcpServers`, `projects`, telemetry — no secret values inspected) |
-| Global settings | `/Users/gokturkcan/.claude/settings.json` |
-| Local overrides | `/Users/gokturkcan/.claude/settings.local.json` (permissions only: `WebSearch` allowed) |
-| Data root | `/Users/gokturkcan/.claude/` (366 MB total, see §6) |
+| User config (`~/.claude.json`) | `~/.claude.json` (61 KB, contains `mcpServers`, `projects`, telemetry — no secret values inspected) |
+| Global settings | `~/.claude/settings.json` |
+| Local overrides | `~/.claude/settings.local.json` (permissions only: `WebSearch` allowed) |
+| Data root | `~/.claude/` (366 MB total, see §6) |
 | Current session model | `sonnet` (per `settings.json`) |
 
 ### Authentication mode
@@ -28,7 +28,7 @@
 ### CLAUDE.md files found
 | Path | Scope | Note |
 |---|---|---|
-| `/Users/gokturkcan/Desktop/ML_March_Mania2026_NCAA/CLAUDE.md` | Project-local (105 lines) | Only affects that project directory |
+| `~/Desktop/<unrelated-project>/CLAUDE.md` | Project-local (105 lines) | Only affects that project directory |
 | `/opt/homebrew/CLAUDE.md` | Homebrew repo-local | Single line: `@AGENTS.md` (imports `/opt/homebrew/AGENTS.md`, Homebrew's own contributor instructions — scoped to that repo, not the user) |
 | `~/.claude/CLAUDE.md` (true global) | **Not present** | No user-wide global CLAUDE.md exists |
 
@@ -36,7 +36,7 @@ No global (`~/.claude/CLAUDE.md`) instruction file exists today — any "global 
 
 ### Hooks
 - `~/.claude/hooks/` — **empty directory**.
-- A `SessionStart` hook is nonetheless firing (seen live this session: the "REMEMBER" buffer-status hook and a `[19:06 +03 — gokturkcan]` UserPromptSubmit hook). These are supplied by the **`remember`** plugin, not by `~/.claude/hooks/`. No hook definitions were found under user-level `~/.claude/settings.json` (`hooks` key absent from the file as read).
+- A `SessionStart` hook is nonetheless firing (seen live this session: the "REMEMBER" buffer-status hook and a `[19:06 +03 — <user>]` UserPromptSubmit hook). These are supplied by the **`remember`** plugin, not by `~/.claude/hooks/`. No hook definitions were found under user-level `~/.claude/settings.json` (`hooks` key absent from the file as read).
 
 ### Plugins (`enabledPlugins` in `settings.json`, marketplace `claude-plugins-official` unless noted)
 ```
@@ -50,7 +50,7 @@ Plugin data root: `~/.claude/plugins/` (16 MB) — `installed_plugins.json`, `kn
 ### Skills
 Two distinct skill sources are active simultaneously:
 1. **Plugin-provided skills** — namespaced, e.g. `superpowers:*` (brainstorming, systematic-debugging, TDD, writing-plans, etc.), `remember:*`, `obsidian:*`, `skill-creator:*`.
-2. **`~/.claude/skills/` (93 entries)** — every entry is a **symlink into `~/.orchestra/skills/...`**, e.g. `academic-plotting -> /Users/gokturkcan/.orchestra/skills/20-ml-paper-writing/academic-plotting`. This is the **orchestra-research skill pack** (ML/RL/research-infra skills: vllm, deepspeed, peft, unsloth, langchain, dspy, etc., plus `0-autoresearch-skill`).
+2. **`~/.claude/skills/` (93 entries)** — every entry is a **symlink into `~/.orchestra/skills/...`**, e.g. `academic-plotting -> ~/.orchestra/skills/20-ml-paper-writing/academic-plotting`. This is the **orchestra-research skill pack** (ML/RL/research-infra skills: vllm, deepspeed, peft, unsloth, langchain, dspy, etc., plus `0-autoresearch-skill`).
    - Source root: `~/.orchestra/` (contains `.lock.json` + `skills/` — not a git checkout; no `.git` dir, no remote found).
 3. **SuperClaude command set** — `~/.claude/commands/sc/*.md` (33 files: `sc:analyze`, `sc:brainstorm`, `sc:implement`, `sc:load`, `sc:pm`, etc.). This is slash-command style, not the `skills/` mechanism.
 
@@ -139,8 +139,8 @@ No attempt was made to resolve any of the above; this section is inventory only.
 | node | `/opt/homebrew/bin/node` | v25.4.0 |
 | npm | `/opt/homebrew/bin/npm` | 11.7.0 |
 | npx | `/opt/homebrew/bin/npx` | 11.7.0 |
-| docker | `/usr/local/bin/docker` | 28.1.1 (build 4eba377) — **daemon not running** (`Cannot connect to the Docker daemon at unix:///Users/gokturkcan/.docker/run/docker.sock`) |
-| rg (ripgrep) | shell function wrapping `/Users/gokturkcan/.local/bin/claude`, falls back to real `rg` | ripgrep 14.1.1 |
+| docker | `/usr/local/bin/docker` | 28.1.1 (build 4eba377) — **daemon not running** (`Cannot connect to the Docker daemon at unix://~/.docker/run/docker.sock`) |
+| rg (ripgrep) | shell function wrapping `~/.local/bin/claude`, falls back to real `rg` | ripgrep 14.1.1 |
 | jq | `/usr/bin/jq` | jq-1.7.1-apple |
 | brew | `/opt/homebrew/bin/brew` | Homebrew 7.0.1 |
 | ssh | `/usr/bin/ssh` | OpenSSH_10.3p1, LibreSSL 3.3.6 |
@@ -177,7 +177,7 @@ All prerequisites present. Only actionable item: **Docker Desktop/daemon is inst
 ~/Library/Keychains/login.keychain-db         # holds "Claude Code-credentials" entry (OAuth)
 /opt/homebrew/CLAUDE.md                       # Homebrew repo's own agent file (not global)
 /opt/homebrew/AGENTS.md
-/Users/gokturkcan/Desktop/ML_March_Mania2026_NCAA/CLAUDE.md   # unrelated project's own CLAUDE.md
+~/Desktop/<unrelated-project>/CLAUDE.md   # unrelated project's own CLAUDE.md
 ~/Documents/ObsidianVault/                    # real Obsidian vault
 ~/Downloads/obsidian-vault/                   # real Obsidian vault
 ~/Downloads/nemotron_obsidian_vault/          # real Obsidian vault
