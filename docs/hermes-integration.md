@@ -1,8 +1,17 @@
 # Hermes → Agent OS integration
 
-**Status (2026-10-01):** everything inside `~/agent-stack` is implemented and
-tested. The final step is a two-key change in `~/.hermes/config.yaml`, which
-needs human approval. Nothing under `~/.hermes` has been modified.
+**Status (2026-10-01):** skills wiring and direct-worker skill disabling are
+applied and verified. Groq native minimal completion succeeded; the live primary
+is now `groq-gpt-oss-120b` / `openai/gpt-oss-120b`, with fallback intentionally
+unset. First real Hermes → Agent OS → Claude launch was measured; successful
+completion is blocked by Claude subscription quota. Automatic skill selection
+also remains unreliable. See `audit/hermes-groq-milestone-2026-10-01.md`.
+
+The approval/apply instructions below are historical wiring documentation; do
+not reapply them as a pending change. For bounded acceptance, Hermes' native
+`--skills agent-os-orchestrate` preload was used in a disposable home. The live
+default toolset exceeds the current Groq 8,000 TPM quota even on a fresh turn;
+this integration is not yet approved for normal unattended operation.
 
 ## Shape
 
@@ -123,7 +132,29 @@ hermes config get skills                      # shows the two keys; memory stays
 
 ### Not part of this approval (separate decision)
 
-A live Hermes-driven turn (`hermes -z "..."` using the skill) needs a working
+A live Hermes-driven turn (`bin/hermes-agentos "..."` using the skill) needs a working
 Hermes model. Hermes' default today is `moonshotai/kimi-k3`, which agent-stack
 marks disabled (0-byte responses), and it has no `fallback_model`. That is a
 model/provider decision, kept separate from this change on purpose.
+
+## Canonical entrypoint
+
+`~/agent-stack/bin/hermes-agentos "request" [extra args]` is the canonical
+Agent OS → Hermes entrypoint. It runs the deterministic intent gate
+(`config/routing.yaml` `intent_rules`, inspect with `agentos intent --text "..."`)
+and routes clear repository-mutation requests **structurally**: the wrapper `exec`s
+`agentos mutate` → `agentos dispatch` → worker → verifier and never starts Hermes,
+so Hermes `patch`/`write_file`/terminal are unreachable on that path. The repo is
+`$AGENTOS_REPO` (default `$PWD`); the verifier is `$AGENTOS_VERIFY` or detected
+(pytest/npm/unittest), and no verifier means `not_dispatched`, never a Hermes fallback.
+The task id is stable per repo+request (`$AGENTOS_TASK_ID` overrides), so a rerun resumes.
+All other requests reach Hermes unchanged. The `agent-os-orchestrate` skill remains
+as guidance for Hermes sessions started outside the wrapper.
+
+A bare `hermes chat` is non-canonical: it still works, but it skips the gate, so
+preload depends on model-driven skill selection and is not guaranteed.
+`agentos health` reports `hermes.canonical_entrypoint`, `hermes.bare_invocations`
+(any bare invocation left in Agent OS scripts/docs) and a standing INFO note;
+`evals/test_canonical_entrypoint.py` fails if Agent OS files regress to bare calls.
+Making the wrapper unavoidable would require changing Hermes or user-level
+`~/.hermes/config.yaml`; that is deliberately not done here.

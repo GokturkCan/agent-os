@@ -153,3 +153,26 @@ modes:
   task:     {default_workers: 1, max_workers: 2}
   workflow: {default_workers: 1, note: "Stable repeatable processes; deterministic automation engine (e.g. n8n) only if a real gap appears."}
   research: {default_workers: 2, max_workers: 4}
+
+# ------------------------------------------------- intent -> skill preload
+# Deterministic pre-model rule (agentos/intent.py). Force-preload `skill` only
+# when ALL hold, within ONE clause of the request:
+#   1. a mutation verb is in imperative position (clause start, after a polite
+#      prefix); 2. the same clause names a code/repo target; and no clause
+#      opens with a read-only/question lead. Anything else is NOT forced and
+#      falls back to normal Hermes behaviour. Corpus: evals/intent-corpus.yaml.
+# Preload only: workers stay reachable solely via agent-os-orchestrate -> agentos dispatch.
+intent_rules:
+  version: 1
+  skill: agent-os-orchestrate
+  polite_prefixes: [please, "can you", "could you", "would you", "will you", "i need you to",
+                    "i want you to", "i'd like you to", "let's", "lets", "go ahead and", "now", "also"]
+  mutation_verbs: [fix, implement, modify, refactor, update, repair, change, add, edit, rewrite,
+                   rename, patch, migrate, remove, build, create]
+  read_only_leads: [explain, review, research, summarize, summarise, compare, describe, what, why,
+                    how, which, who, where, when, whether, find, investigate, analyze, analyse,
+                    show, list, tell, is, are, does, do, did, should, audit, read, look]
+  code_targets: [repo, repository, codebase, code, bug, bugs, test, tests, file, files, module,
+                 modules, function, functions, class, classes, method, endpoint, endpoints,
+                 feature, implementation, script, api, component, handler, parser, build, lint,
+                 regression, failure, failures]

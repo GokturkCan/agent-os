@@ -1,6 +1,6 @@
 ---
 name: agent-os-orchestrate
-description: "Dispatch coding work via Agent OS worktrees + verification."
+description: "REQUIRED for all repo code changes. Mutate only via agentos dispatch; never patch/write_file the repo yourself."
 version: 1.0.0
 author: Gokturk Can
 license: MIT
@@ -15,95 +15,69 @@ prerequisites:
 
 # Agent OS — Hermes execution layer
 
-Hermes decides what should happen and who should do it. `agentos` (in
-`~/agent-stack`) is the policy and execution layer that carries it out:
-routing, capability-restricted workers, isolated git worktrees, deterministic
-verification, file-backed task state and telemetry.
+Load this skill before any repository coding, fix, refactor or review.
+Hermes decides the task; Agent OS handles routing, capability-restricted workers,
+isolated worktrees, verification, task state, budgets and telemetry.
 
-Entry point for every command: `~/agent-stack/bin/agentos` (works from any directory).
+## MUTATION CONTRACT (hard rule)
 
-## When to Use
+For any repository/code mutation (fix, implement, refactor, change), the ONLY legal path is:
 
-- Any code change, bug fix, refactor, test, or code review in a git repository.
-- Before choosing a model or worker for a task (ask the router instead of guessing).
-- Resuming or checking a long-running task.
-- Recording a reusable lesson from a finished run.
-- Checking whether the local control plane is healthy.
+Hermes -> agent-os-orchestrate -> `agentos dispatch` -> worker -> verifier
 
-## Rules
+Hermes MAY (read-only): inspect repo state, run `git status`/`git log`/`git diff`,
+read files to understand scope, pick the task type and verification command,
+and prepare the dispatch request.
 
-1. Dispatch coding work with `agentos dispatch`. Do not start `claude`, `codex`,
-   or `opencode` directly from the terminal: direct launches bypass the worker
-   capability profiles, worktree isolation and verification.
-2. One task id per unit of work. Re-dispatching the same id resumes the same task
-   (same worktree, same budgets); it never starts a parallel attempt.
-3. Never merge, push, add remotes, or change credentials/permissions. Report the
-   branch and commit to the user; merging is a human decision.
-4. `human_handoff` or `unsafe` in a result means stop and ask the user.
-5. Budgets are final: when a result says `stopped` (budget_exhausted / no_progress),
-   do not loop. Escalate or ask the user.
-6. SecondBrain canonical knowledge (`~/SecondBrain/wiki/`) is written only through
-   a human-approved review; you may create lesson candidates, never approve them.
+Hermes MUST NOT, even when the fix looks trivial:
+- use the `patch` tool on the repository;
+- use the `write_file` tool on the repository;
+- edit repository files in any other way (sed -i, tee, redirects, editors);
+- implement the change via terminal commands;
+- run the verification command as a substitute for dispatch.
 
-## Commands
+Hermes MUST run `agentos dispatch` with the repo path, task prompt/type and `--verify`.
+The worker implements; the verifier decides. The Agent OS result is authoritative
+for the execution outcome. If dispatch is unavailable, stop and report; never fall
+back to editing the repository yourself.
 
-Health (read-only):
+## Required path
 
-```
-~/agent-stack/bin/agentos health
-```
+Use `~/agent-stack/bin/agentos dispatch`; never edit the target repository yourself (no `patch`,
+`write_file` or shell edits) and never launch `claude`, `codex`, or `opencode` directly. Agent OS selects the worker.
+Do not merge, push, add remotes, or change credentials or permissions.
+Workers cannot dispatch nested tasks. Preserve the original checkout.
 
-Which worker/provider would handle a task type (no side effects):
+Preview first:
 
-```
-~/agent-stack/bin/agentos route coding
-~/agent-stack/bin/agentos tool developer_docs
+```sh
+~/agent-stack/bin/agentos dispatch --task-id TASK --type coding --repo /absolute/repo --prompt "Goal and acceptance; keep tests unchanged" --verify "python3 -m unittest -v" --dry-run
 ```
 
-Dispatch a coding task (preview first with `--dry-run`):
+Then run the same command without `--dry-run`. Use terminal `background=true,
+notify=true`: worker runs can exceed the 180-second foreground limit. Wait for
+notification, or inspect once with `agentos task resume TASK`; do not poll in a loop.
+`--verify` is one argv command, not shell syntax; use an existing script for
+compound checks. Use the user's actual acceptance command.
 
-```
-~/agent-stack/bin/agentos dispatch --task-id fix-login-timeout --type coding \
-  --repo ~/Projects/myapp --prompt "Fix the login timeout described in issue notes; keep the API unchanged." \
-  --verify "python -m pytest -q" --dry-run
-~/agent-stack/bin/agentos dispatch --task-id fix-login-timeout --type coding \
-  --repo ~/Projects/myapp --prompt "..." --verify "python -m pytest -q"
-```
-
-A real (non `--dry-run`) dispatch can run for many minutes, longer than the
-terminal's default foreground timeout. Run it with the terminal tool's
-`background=true` and `notify=true`, then read the JSON result when notified
-(or check progress with `agentos task resume <task-id>`). Do not poll in a loop.
-
-`--verify` is a single command whose exit code 0 means the acceptance criterion
-is met (use a script for compound checks). The JSON result has `status`
-(`done` | `retryable` | `stopped` | `not_dispatched` | `refused` | `dry_run`),
-`exit_state`, `worker`, `branch`, `commit`, `verify`, and `next_step`. Follow `next_step`.
-
-High-risk work (credentials, permissions, publishing, deletion, deploys, payments):
-pass `--risk high` or `--marker <kind>`; the router returns `human_handoff` until the
-user gives an approval reference (`--human-approval-ref`).
-
-Inspect or resume a task:
-
-```
-~/agent-stack/bin/agentos task list
-~/agent-stack/bin/agentos task resume fix-login-timeout
-```
-
-Record a lesson candidate from a run (goes to the SecondBrain inbox for review):
-
-```
-~/agent-stack/bin/agentos lesson --run-id <run_id from result> --title "Short title" \
-  --text "The reusable rule." --evidence "what showed it"
-```
+One task id per unit of work. Re-dispatching the SAME id resumes its worktree
+and budgets. Never create a fresh id to evade failed verification or budgets.
 
 ## Result handling
 
-| status | Meaning | Do |
-|---|---|---|
-| done | verification passed, commit on `agentos/<task-id>` | report branch + commit; offer review |
-| retryable | verification failed, attempts remain | re-dispatch same task id with a sharper prompt, or ask |
-| stopped | budget forced an exit state | stop; summarize `task resume` output to the user |
-| not_dispatched | routing blocked or needs human approval | report `trace` / ask for approval |
-| refused | nested dispatch from inside a worker | report; do not retry |
+- `done`: verification passed; report task/run ids, worker, branch and commit.
+  Work stays on `agentos/TASK` for human review. Never merge automatically.
+- `retryable`: verification failed, attempts remain; retry the SAME task id with
+  a corrected instruction, or ask the user. Do not claim success.
+- `stopped`: budget exhausted/no progress; stop and report.
+- `not_dispatched`, `refused`, `unsafe`, `human_handoff`: stop and report; human
+  approval is required for high-risk work. Do not weaken policy to continue.
+
+For credentials, permissions, publishing, deletion, payments or deployment,
+pass `--risk high` or the appropriate `--marker`; only explicit human approval
+permits `--human-approval-ref`. Never self-approve.
+
+Other commands: `agentos route coding`, `agentos health`, `agentos task list`,
+`agentos task resume TASK`. All use `~/agent-stack/bin/agentos` from any cwd.
+SecondBrain canonical writes always require human review; only propose lessons
+with `agentos lesson --run-id ID --title "..." --text "..." --evidence "..."`.

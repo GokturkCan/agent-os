@@ -77,8 +77,17 @@ def main(argv=None) -> int:
     dp.add_argument("--profile")
     dp.add_argument("--provider-down", action="append", default=[])
     dp.add_argument("--max-turns", type=int, default=20)
-    dp.add_argument("--timeout", type=int, default=1800)
+    dp.add_argument("--timeout", type=int, default=1800, help="per-attempt worker deadline (seconds)")
+    dp.add_argument("--verify-timeout", type=int, default=600, help="verification deadline (seconds)")
     dp.add_argument("--dry-run", action="store_true")
+    mu = sub.add_parser("mutate", help="canonical mutation branch: request -> agentos dispatch (no Hermes loop)")
+    mu.add_argument("--text", required=True)
+    mu.add_argument("--repo", required=True)
+    mu.add_argument("--verify", help="single verification command (default: detected from repo)")
+    mu.add_argument("--task-id")
+    mu.add_argument("--dry-run", action="store_true")
+    it = sub.add_parser("intent", help="deterministic preload decision for a user request")
+    it.add_argument("--text", required=True)
     ls = sub.add_parser("lesson")
     ls.add_argument("--run-id", required=True)
     ls.add_argument("--title", required=True)
@@ -157,9 +166,24 @@ def main(argv=None) -> int:
                        verify=a.verify, risk=a.risk, markers=tuple(a.marker),
                        human_approval_ref=a.human_approval_ref, profile=a.profile,
                        health={"providers": {p: False for p in a.provider_down}},
-                       dry_run=a.dry_run, max_turns=a.max_turns, timeout=a.timeout)
+                       dry_run=a.dry_run, max_turns=a.max_turns, timeout=a.timeout,
+                       verify_timeout=a.verify_timeout)
         print(json.dumps(res, indent=2))
         return 0 if res["exit_state"] in (None, "success") else 2
+    if a.cmd == "mutate":
+        from .intent import decide
+        from .mutate import run as run_mutation
+        if not decide(cfg, a.text).force:
+            print("not a canonical mutation request; use normal Hermes", file=sys.stderr)
+            return 2
+        res = run_mutation(cfg, a.text, a.repo, verify=a.verify, task_id=a.task_id, dry_run=a.dry_run)
+        print(json.dumps(res, indent=2))
+        return 0 if res["exit_state"] in (None, "success") else 2
+    if a.cmd == "intent":
+        from .intent import decide
+        d = decide(cfg, a.text)
+        print(json.dumps({**d.to_dict(), "hermes_args": ["--skills", d.skill] if d.force else []}))
+        return 0
     if a.cmd == "lesson":
         from .knowledge import Vault
         from .selfimprove import write_lesson_candidate

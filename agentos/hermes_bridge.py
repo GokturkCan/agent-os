@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 import subprocess
 import tempfile
@@ -22,6 +23,48 @@ HERMES_PY = HERMES_HOME / "hermes-agent" / "venv" / "bin" / "python"
 AGENT_OS_SKILLS = ("agent-os-orchestrate", "agent-os-task")
 DIRECT_WORKER_SKILLS = ("claude-code", "codex", "opencode")   # Hermes bundled skills that launch workers directly
 SKILLS_DIR = REPO_ROOT / "skills"
+
+# Canonical Agent OS -> Hermes entrypoint. It runs the deterministic intent gate
+# (config/routing.yaml intent_rules) before Hermes starts. Bare `hermes chat`
+# stays technically possible but is NON-CANONICAL: preload is not guaranteed.
+CANONICAL_ENTRYPOINT = REPO_ROOT / "bin" / "hermes-agentos"
+_BARE_HERMES = re.compile(r"\bhermes\s+(?:chat|-z|-q|--skills)\b")
+_NONCANONICAL_MARK = "non-canonical"
+_SCAN_ROOTS = ("scripts", "bin", "skills", "workflows", "README.md", "docs/hermes-integration.md")
+
+
+def find_bare_invocations(root: Path = REPO_ROOT) -> list[str]:
+    """Bare `hermes chat|-z|-q|--skills` in Agent OS operational files, as 'path:line'.
+    The wrapper itself is the one allowed caller; a line that says 'non-canonical'
+    is documentation of the bypass, not an instruction to use it."""
+    wrapper = CANONICAL_ENTRYPOINT.relative_to(REPO_ROOT).as_posix()
+    hits = []
+    for entry in _SCAN_ROOTS:
+        base = root / entry
+        files = [base] if base.is_file() else sorted(base.rglob("*")) if base.exists() else []
+        for f in files:
+            rel = f.relative_to(root).as_posix()
+            if not f.is_file() or rel == wrapper or "__pycache__" in rel or f.suffix == ".pyc":
+                continue
+            for n, line in enumerate(f.read_text(errors="ignore").splitlines(), 1):
+                if _BARE_HERMES.search(line) and _NONCANONICAL_MARK not in line.lower():
+                    hits.append(f"{rel}:{n}")
+    return hits
+
+
+def entrypoint_status() -> tuple[bool, str]:
+    """Wrapper exists, is executable, and its intent gate behaves on one sample each way."""
+    if not (CANONICAL_ENTRYPOINT.is_file() and os.access(CANONICAL_ENTRYPOINT, os.X_OK)):
+        return False, f"{CANONICAL_ENTRYPOINT} missing or not executable"
+    agentos = REPO_ROOT / "bin" / "agentos"
+    out = {}
+    for label, text in (("mutation", "fix the failing test in the repo"), ("read_only", "explain this code")):
+        r = subprocess.run([str(agentos), "intent", "--text", text], capture_output=True, text=True)
+        if r.returncode != 0:
+            return False, f"agentos intent failed: {r.stderr.strip()[-200:]}"
+        out[label] = json.loads(r.stdout)["force"]
+    ok = out == {"mutation": True, "read_only": False}
+    return ok, ("intent gate behaves (mutation forced, read-only not)" if ok else f"unexpected gate result {out}")
 
 
 def available() -> bool:
