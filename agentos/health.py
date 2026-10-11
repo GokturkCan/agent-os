@@ -86,6 +86,15 @@ def run_checks(cfg: C.Config | None = None) -> list[dict]:
                  "(see docs/hermes-integration.md)")
         ok, detail = hb.probe_ok(hb.probe())
         add("hermes.agentos_skills_valid", PASS if ok else FAIL, detail)
+        ok, detail = hb.entrypoint_status()
+        add("hermes.canonical_entrypoint", PASS if ok else FAIL, f"{hb.CANONICAL_ENTRYPOINT}: {detail}")
+        bare = hb.find_bare_invocations()
+        add("hermes.bare_invocations", WARN if bare else PASS,
+            f"bare hermes invocations in Agent OS files: {bare}" if bare
+            else "no bare `hermes chat` in Agent OS scripts/docs")
+        add("hermes.bare_chat_noncanonical", INFO,
+            "a bare `hermes chat` stays possible but bypasses the deterministic preload; "
+            "use bin/hermes-agentos for Agent OS work")
         direct = hb.direct_worker_skills_enabled(h)
         add("hermes.direct_worker_skills", WARN if direct else PASS,
             (f"bundled skills {direct} let Hermes launch workers without agentos policy; "
