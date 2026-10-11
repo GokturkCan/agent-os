@@ -1,0 +1,46 @@
+# Labelled requests for the deterministic preload rule (config/routing.yaml intent_rules).
+# Extend with observed misses; measure FP/FN by running tests/`agentos intent`.
+force:
+  - fix this bug in the repository
+  - implement this feature in the codebase
+  - modify these files
+  - Modify src/app.py to return 404
+  - refactor this module
+  - update the code and run tests
+  - repair the failing tests
+  - change the implementation of the parser
+  - add this endpoint to the api
+  - add a function to utils.py
+  - Please fix the failing test in the repo
+  - Can you fix this bug in the repository?
+  - add a class for retries to the code
+  - Fix the bug in this repository so the existing test passes. Make the smallest correct code change, run the tests to verify it, and do not modify the test.
+  - Fix the bug in this repository and do not modify the test.
+  - Update app.py, but do not change test_app.py.
+  - Repair the failing implementation; leave the tests untouched.
+  - Refactor this module and do not edit the config.
+no_force:
+  - explain this code
+  - review this architecture
+  - research this library
+  - summarize this repository
+  - what does this function do?
+  - compare these approaches
+  - find the likely cause
+  - find the likely cause of the bug in the repo
+  - how do I fix this bug in the repo
+  - explain the code and fix the bug
+  - don't change the code
+  - do not modify any files
+  - Do not modify the repository.
+  - Do not change the code; explain the bug.
+  - How do I fix this bug?
+  - Review this repository but do not modify anything.
+  - fix it
+  - fix the typo
+  - add 2 and 3
+  - update me on the status
+  - change the tone of this email
+  - rewrite this paragraph
+  - hello
+  - ""
