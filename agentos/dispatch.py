@@ -13,15 +13,21 @@ Invariants:
   inside that context, so a worker can never become an orchestrator.
 - A failed verification consumes one attempt; the task stays open (lease
   released) until the routing budget forces an exit state.
+- Time limits are enforced, not advisory: the worker and the verifier each run
+  in their own process group under a hard deadline (killed on expiry), and the
+  routing budget's wall_clock_minutes caps cumulative execution time per task.
+  A timeout consumes one attempt, is persisted in task state (`timeouts`), and
+  exhausting the budget on a timeout closes the task as exit_state=timeout.
 """
 from __future__ import annotations
 
 import os
+import math
 import shlex
-import subprocess
+import time
 from pathlib import Path
 
-from . import router, telemetry, worktree, workers
+from . import events, router, telemetry, worktree, workers
 from .config import REPO_ROOT, Config
 from .permissions import WorkerSession
 from .taskstate import TaskError, TaskStore
@@ -34,15 +40,15 @@ def _verify(cmd: str, cwd: Path, timeout: int) -> dict:
     env.pop(WORKER_CONTEXT_ENV, None)
     try:
         # argv, no shell: verification is one command; compound checks belong in a script.
-        r = subprocess.run(shlex.split(cmd), cwd=cwd, capture_output=True, text=True,
-                           timeout=timeout, env=env, stdin=subprocess.DEVNULL)
-        tail = (r.stdout.strip().splitlines() or r.stderr.strip().splitlines() or [""])[-1]
-        return {"command": cmd, "passed": r.returncode == 0, "returncode": r.returncode,
-                "summary": tail[:300]}
-    except subprocess.TimeoutExpired:
-        return {"command": cmd, "passed": False, "returncode": None, "summary": "verification timeout"}
+        r = workers.run_bounded(shlex.split(cmd), cwd=cwd, env=env, timeout=timeout)
     except (OSError, ValueError) as exc:
         return {"command": cmd, "passed": False, "returncode": None, "summary": f"cannot run: {exc}"}
+    if r["timed_out"]:
+        return {"command": cmd, "passed": False, "returncode": None, "timed_out": True,
+                "summary": f"verification timeout after {timeout}s"}
+    tail = (r["stdout"].strip().splitlines() or r["stderr"].strip().splitlines() or [""])[-1]
+    return {"command": cmd, "passed": r["returncode"] == 0, "returncode": r["returncode"],
+            "summary": tail[:300]}
 
 
 def _result(**kw) -> dict:
@@ -59,8 +65,14 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
              dry_run: bool = False, runner=None, max_turns: int = 20, timeout: int = 1800,
              verify_timeout: int = 600) -> dict:
     runner = runner or workers.run
+    t_start = time.monotonic()
+    events.clear_errors()
+    if not dry_run:
+        events.emit("task_received", task_id=task_id, status="received", detail=task_type)
     if os.environ.get(WORKER_CONTEXT_ENV):
-        rec = telemetry.record(task_id=task_id, task_type=task_type, exit_state="unsafe",
+        events.emit("task_failed", task_id=task_id, exit_state="unsafe", status="refused",
+                    detail="nested dispatch refused")
+        rec = events.safe_record(task_id=task_id, task_type=task_type, exit_state="unsafe",
                                notes="nested dispatch from inside a worker refused")
         return _result(task_id=task_id, status="refused", exit_state="unsafe",
                        trace=["nested dispatch refused: workers cannot orchestrate"],
@@ -71,7 +83,9 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
     d = router.route(cfg, event, health)
     if d.exit_state or not d.worker:
         exit_state = d.exit_state or "blocked"
-        rec = telemetry.record(task_id=task_id, task_type=task_type, route=d.stage, exit_state=exit_state,
+        events.emit("task_failed", task_id=task_id, exit_state=exit_state, status="not_dispatched",
+                    detail="routing stopped before execution")
+        rec = events.safe_record(task_id=task_id, task_type=task_type, route=d.stage, exit_state=exit_state,
                                fallbacks=d.fallbacks, failures=d.failures,
                                notes="routing stopped before execution")
         return _result(task_id=task_id, status="not_dispatched", exit_state=exit_state,
@@ -81,6 +95,8 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
 
     repo = Path(repo).resolve()
     if worktree.git(repo, "rev-parse", "--is-inside-work-tree", check=False) != "true":
+        events.emit("task_failed", task_id=task_id, exit_state="blocked", status="not_dispatched",
+                    detail="not a git repository")
         return _result(task_id=task_id, status="not_dispatched", exit_state="blocked",
                        trace=[f"{repo} is not a git repository"])
     session = WorkerSession.start(cfg, d.worker, profile)
@@ -101,6 +117,8 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
         task = store.get(task_id)
         st = task.state
         if st["exit_state"]:
+            events.emit("task_failed", task_id=task_id, exit_state=st["exit_state"], status="closed",
+                        detail="task already closed")
             return _result(task_id=task_id, status="closed", exit_state=st["exit_state"],
                            trace=[f"task already closed: {st['exit_state']}"])
         wt = Path(st["checkout"])
@@ -113,47 +131,120 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
         wt = worktree.create(repo, task_id, wt_root)
 
     worktree.acquire(wt, d.worker, task_id)
+    run: dict = {}
+    v = None
+    commit = None
+    timed_out = False
+    worker_ms = verify_ms = None
+    ev = {"task_id": task_id, "worker": d.worker}
     try:
         task.claim(d.worker, checkout=str(wt))
-        launch = workers.build_launch(cfg, session, prompt, wt, max_turns=max_turns)
-        launch["env"] = {WORKER_CONTEXT_ENV: task_id}
-        run = runner(launch, task_id=task_id, task_type=task_type, timeout=timeout)
-        changed = [line[3:] for line in worktree.git(wt, "status", "--porcelain").splitlines()]
-        if changed:
-            task.record_files(changed)
-        v = _verify(verify, wt, verify_timeout)
-        task.record_test(verify, v["passed"], v["summary"])
-        ok = v["passed"] and run.get("returncode") == 0
-        # Only unsuccessful iterations count toward no-progress / iteration budgets.
-        forced = None if ok else task.iterate(f"fail:{v['summary']}",
-                                              note=f"worker rc={run.get('returncode')}")
-        commit = None
-        if ok:
-            if changed:
-                worktree.git(wt, "add", "-A")
-                worktree.git(wt, "-c", "user.name=agentos", "-c", "user.email=agentos@localhost",
-                             "commit", "-qm", f"agentos: {task_id} ({d.worker})")
-            commit = worktree.git(wt, "rev-parse", "HEAD")
-            task.close("success", f"verified by `{verify}`")
-            status, exit_state, nxt = "done", "success", "review branch, then human-approved merge"
+        st0 = task.state
+        ev.update(attempt=st0["attempts"] + 1, iteration=st0["iteration"] + 1)
+        remaining = task.remaining_seconds()
+        if remaining <= 0:
+            events.emit("timeout", **ev, timeout_kind="wall_clock", detail="budget exhausted before attempt")
+            # Cumulative wall-clock budget already spent: do not start another attempt.
+            wall = task.state["budgets"]["wall_clock_minutes"] * 60
+            task.record_timeout("worker", wall, "wall_clock")
+            task.close("timeout", "wall_clock budget exhausted before attempt")
+            exit_state, timed_out = "timeout", True
+            status, nxt = "stopped", "escalate or hand to human (wall-clock budget exhausted)"
         else:
-            exit_state = forced or task.attempt_failed(
-                f"worker rc={run.get('returncode')}, verify={v['summary']}")
-            if exit_state:
-                status, nxt = "stopped", "escalate or hand to human (budget exhausted)"
+            worker_limit, limit_kind = ((timeout, "per_call") if timeout <= remaining
+                                        else (remaining, "wall_clock"))
+            launch = workers.build_launch(cfg, session, prompt, wt, max_turns=max_turns)
+            launch["env"] = {WORKER_CONTEXT_ENV: task_id}
+            events.emit("worker_started", **ev, status="running")
+            started = time.monotonic()
+            run = runner(launch, task_id=task_id, task_type=task_type, timeout=math.ceil(worker_limit))
+            worker_ms = round((time.monotonic() - started) * 1000, 1)
+            events.emit("worker_finished", **ev, duration_ms=worker_ms,
+                        status="timeout" if run.get("timed_out")
+                        else "ok" if run.get("returncode") == 0 else "failed",
+                        detail=f"returncode={run.get('returncode')}")
+            changed = [line[3:] for line in worktree.git(wt, "status", "--porcelain").splitlines()]
+            if changed:
+                task.record_files(changed)
+            if run.get("timed_out"):
+                # Worker was killed; its partial edits stay in the worktree for the retry.
+                timed_out = True
+                task.record_timeout("worker", worker_limit, limit_kind)
+                events.emit("timeout", **ev, timeout_kind=limit_kind, duration_ms=worker_ms, detail="worker")
+                v = {"command": verify, "passed": False, "returncode": None, "timed_out": True,
+                     "summary": f"worker timeout after {math.ceil(worker_limit)}s (verification skipped)"}
             else:
-                task.handoff(None, "verification failed; retry via dispatch with same task_id")
-                status, nxt = "retryable", f"agentos dispatch --task-id {task_id} ... (same task resumes)"
+                events.emit("verification_started", **ev, status="running")
+                v_start = time.monotonic()
+                v = _verify(verify, wt, verify_timeout)
+                verify_ms = round((time.monotonic() - v_start) * 1000, 1)
+                events.emit("verification_finished", **ev, duration_ms=verify_ms,
+                            verifier_status="timeout" if v.get("timed_out")
+                            else "passed" if v["passed"] else "failed")
+                if v.get("timed_out"):
+                    timed_out = True
+                    task.record_timeout("verify", verify_timeout)
+                    events.emit("timeout", **ev, timeout_kind="verify", duration_ms=verify_ms, detail="verification")
+            task.record_test(verify, v["passed"], v["summary"])
+            task.add_elapsed(time.monotonic() - started)
+            ok = v["passed"] and run.get("returncode") == 0
+            # Only unsuccessful iterations count toward no-progress / iteration budgets.
+            forced = None if ok else task.iterate(
+                f"timeout:{'worker' if run.get('timed_out') else 'verify'}" if timed_out
+                else f"fail:{v['summary']}", note=f"worker rc={run.get('returncode')}")
+            if ok:
+                if changed:
+                    worktree.git(wt, "add", "-A")
+                    worktree.git(wt, "-c", "user.name=agentos", "-c", "user.email=agentos@localhost",
+                                 "commit", "-qm", f"agentos: {task_id} ({d.worker})")
+                commit = worktree.git(wt, "rev-parse", "HEAD")
+                task.close("success", f"verified by `{verify}`")
+                status, exit_state, nxt = "done", "success", "review branch, then human-approved merge"
+            else:
+                exit_state = forced or task.attempt_failed(
+                    f"{'timeout: ' if timed_out else ''}worker rc={run.get('returncode')}, "
+                    f"verify={v['summary']}", exhausted_state="timeout" if timed_out else "budget_exhausted")
+                if not exit_state and task.remaining_seconds() <= 0:
+                    task.close("timeout", "wall_clock budget exhausted")
+                    exit_state = "timeout"
+                if exit_state:
+                    status, nxt = "stopped", "escalate or hand to human (budget exhausted)"
+                else:
+                    task.handoff(None, ("worker/verifier timed out" if timed_out else "verification failed")
+                                 + "; retry via dispatch with same task_id")
+                    status, nxt = "retryable", f"agentos dispatch --task-id {task_id} ... (same task resumes)"
+    except Exception as exc:
+        events.emit("task_failed", **ev, status="error", detail=type(exc).__name__)
+        raise
     finally:
         worktree.release(wt, d.worker)
 
-    rec = telemetry.record(task_id=task_id, task_type=task_type, route=d.stage, worker=d.worker,
+    wall_ms = round((time.monotonic() - t_start) * 1000, 1)
+    attempts = task.state["attempts"]
+    if status == "retryable":
+        events.emit("retry", **{**ev, "attempt": attempts}, status=status, duration_ms=wall_ms,
+                    verifier_status=None if v is None else "skipped" if run.get("timed_out")
+                    else "timeout" if v.get("timed_out") else "passed" if v["passed"] else "failed",
+                    detail="timeout" if timed_out else "verification failed")
+    elif exit_state == "success":
+        events.emit("task_completed", **ev, status=status, exit_state=exit_state, duration_ms=wall_ms)
+    else:
+        events.emit("task_failed", **ev, status=status, exit_state=exit_state, duration_ms=wall_ms)
+
+    rec = events.safe_record(task_id=task_id, task_type=task_type, route=d.stage, worker=d.worker,
                            provider=d.provider, exit_state=exit_state, success=exit_state == "success",
                            fallbacks=d.fallbacks, failures=d.failures,
                            latency_ms=run.get("latency_ms"), artifacts=[commit] if commit else [],
                            retries=task.state["attempts"],
-                           notes=f"human_approval_ref={human_approval_ref}" if human_approval_ref else None)
+                           notes="; ".join(n for n in (
+                               "timeout" if timed_out else None,
+                               f"human_approval_ref={human_approval_ref}" if human_approval_ref else None) if n) or None)
     return _result(task_id=task_id, status=status, exit_state=exit_state, worker=d.worker,
                    provider=d.provider, worktree=str(wt), branch=f"agentos/{task_id}", commit=commit,
                    verify=v, trace=d.trace, next_step=nxt, run_id=rec["run_id"],
-                   worker_returncode=run.get("returncode"))
+                   worker_returncode=run.get("returncode"), timed_out=timed_out,
+                   timeouts=task.state.get("timeouts", []),
+                   metrics={"task_wall_ms": wall_ms, "worker_ms": worker_ms, "verify_ms": verify_ms,
+                            "exit_state": exit_state, "retries": attempts,
+                            "unsupported": list(events.UNSUPPORTED)},
+                   telemetry_errors=events.errors())

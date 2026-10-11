@@ -125,14 +125,34 @@ class Task:
         self._save(st)
         self._finding(f"rejected hypothesis: {hypothesis} ({evidence})")
 
-    def attempt_failed(self, reason: str) -> str | None:
+    def attempt_failed(self, reason: str, exhausted_state: str = "budget_exhausted") -> str | None:
         st = self.state
         st["attempts"] += 1
         self._save(st)
         if st["attempts"] >= st["budgets"]["max_attempts"]:
-            self.close("budget_exhausted", reason=f"max_attempts reached: {reason}")
-            return "budget_exhausted"
+            self.close(exhausted_state, reason=f"max_attempts reached: {reason}")
+            return exhausted_state
         return None
+
+    # ------------------------------------------------- time limits
+    def add_elapsed(self, seconds: float):
+        """Accumulate execution time (worker + verification) against wall_clock_minutes."""
+        st = self.state
+        st["elapsed_seconds"] = round(st.get("elapsed_seconds", 0.0) + max(seconds, 0.0), 3)
+        self._save(st)
+
+    def remaining_seconds(self) -> float:
+        st = self.state
+        return st["budgets"]["wall_clock_minutes"] * 60 - st.get("elapsed_seconds", 0.0)
+
+    def record_timeout(self, stage: str, limit_seconds: float, limit: str = "per_call"):
+        """Persist why an attempt was cut short: stage = worker|verify, limit = per_call|wall_clock."""
+        st = self.state
+        st.setdefault("timeouts", []).append(
+            {"stage": stage, "limit": limit, "limit_seconds": round(limit_seconds, 3),
+             "iteration": st["iteration"], "at": _now()})
+        self._save(st)
+        self._finding(f"timeout: {stage} exceeded {limit} limit of {round(limit_seconds)}s")
 
     def checkpoint(self, label: str) -> Path:
         st = self.state

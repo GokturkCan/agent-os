@@ -9,11 +9,12 @@ from __future__ import annotations
 import json
 import os
 import shutil
+import signal
 import subprocess
 import tempfile
 from pathlib import Path
 
-from . import telemetry
+from . import events, telemetry
 from .config import Config, expand
 from .permissions import PermissionDenied, WorkerSession
 
@@ -77,20 +78,66 @@ def build_launch(cfg: Config, session: WorkerSession, prompt: str, worktree: Pat
     return out
 
 
+def _kill_group(proc: subprocess.Popen, grace: float = 5.0):
+    """Terminate the whole process group (worker + its children), then SIGKILL."""
+    try:
+        os.killpg(proc.pid, signal.SIGTERM)
+    except (ProcessLookupError, PermissionError):
+        return
+    try:
+        proc.wait(timeout=grace)
+    except subprocess.TimeoutExpired:
+        pass
+    try:
+        os.killpg(proc.pid, signal.SIGKILL)
+    except (ProcessLookupError, PermissionError):
+        pass
+
+
+def run_bounded(argv: list[str], *, cwd, env: dict, timeout: float, grace: float = 5.0) -> dict:
+    """Run argv in its own session with a hard wall-clock limit.
+
+    On expiry the entire process group is killed (subprocess.run would only kill
+    the direct child and can hang on pipes held by grandchildren). Children left
+    behind by a normal exit are reaped too, so no attempt leaks processes.
+    Returns {returncode, stdout, stderr, timed_out}; returncode is None on timeout.
+    """
+    proc = subprocess.Popen(argv, cwd=cwd, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE, text=True, start_new_session=True)
+    timed_out = False
+    try:
+        out, err = proc.communicate(timeout=max(timeout, 0))
+    except subprocess.TimeoutExpired:
+        timed_out = True
+        _kill_group(proc, grace)
+        try:
+            out, err = proc.communicate(timeout=grace)
+        except subprocess.TimeoutExpired:
+            out, err = "", ""
+    finally:
+        _kill_group(proc, 0.1)       # no-op once the group is gone; also covers Ctrl-C
+    return {"returncode": None if timed_out else proc.returncode, "stdout": out or "",
+            "stderr": err or "", "timed_out": timed_out}
+
+
 def run(launch: dict, task_id: str | None = None, task_type: str = "coding",
         timeout: int = 600) -> dict:
-    """Execute a built launch; record measured telemetry (no invented fields)."""
-    with telemetry.Timer() as t:
-        r = subprocess.run(launch["argv"], cwd=launch["cwd"], capture_output=True, text=True,
-                           stdin=subprocess.DEVNULL, env={**os.environ, **launch.get("env", {})},
-                           timeout=timeout)
-    result = {"returncode": r.returncode, "stdout": r.stdout, "stderr": r.stderr[-4000:],
-              "latency_ms": t.ms}
+    """Execute a built launch under a hard deadline; record measured telemetry
+    (no invented fields). A timeout returns timed_out=True, returncode=None."""
+    try:
+        with telemetry.Timer() as t:
+            r = run_bounded(launch["argv"], cwd=launch["cwd"], timeout=timeout,
+                            env={**os.environ, **launch.get("env", {})})
+    finally:
+        for f in launch.get("files", {}).values():
+            Path(f).unlink(missing_ok=True)
+    result = {"returncode": r["returncode"], "stdout": r["stdout"], "stderr": r["stderr"][-4000:],
+              "latency_ms": t.ms, "timed_out": r["timed_out"], "timeout_seconds": timeout}
     fields = dict(task_id=task_id, task_type=task_type, worker=launch["worker"],
-                  latency_ms=t.ms, exit_state=None)
-    if launch["worker"] == "claude_code":
+                  latency_ms=t.ms, exit_state="timeout" if r["timed_out"] else None)
+    if launch["worker"] == "claude_code" and not r["timed_out"]:
         try:
-            j = json.loads(r.stdout)
+            j = json.loads(r["stdout"])
             usage = j.get("usage") or {}
             fields.update(tokens_in=usage.get("input_tokens"), tokens_out=usage.get("output_tokens"),
                           cache_read_tokens=usage.get("cache_read_input_tokens"),
@@ -99,7 +146,7 @@ def run(launch: dict, task_id: str | None = None, task_type: str = "coding",
             result["json"] = j
         except (json.JSONDecodeError, TypeError):
             pass
-    result["telemetry"] = telemetry.record(**fields)
-    for f in launch.get("files", {}).values():
-        Path(f).unlink(missing_ok=True)
+    if r["timed_out"]:
+        fields["notes"] = f"worker killed after {timeout}s"
+    result["telemetry"] = events.safe_record(**fields)
     return result
