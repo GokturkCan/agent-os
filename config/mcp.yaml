@@ -159,4 +159,4 @@ exposure:
   reviewer: [context7, serena]
   knowledge_compiler: []
   untrusted: []
-  browser_task: [playwright]      # added per-task only when tool_routing selects it
+  browser_task: [playwright]      # added per-task only when the capability plan selects it (dispatch extra_mcp)

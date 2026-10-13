@@ -15,8 +15,34 @@ import tempfile
 from pathlib import Path
 
 from . import events, telemetry
-from .config import Config, expand
+from .config import REPO_ROOT, Config, expand
 from .permissions import PermissionDenied, WorkerSession
+
+
+# Workers whose launch adapter below structurally enforces the capability profile (tool
+# allow/deny lists or a sandbox, plus a strict MCP set). Any other worker is refused at launch
+# and skipped by the router: fail closed instead of running with ambient, unrestricted tools.
+ENFORCED_WORKERS = ("claude_code", "codex")
+
+# `pre-push` here always fails. Workers get it through git's env-config (core.hooksPath), so
+# every spelling of `git push` they run is stopped regardless of command-pattern matching.
+# Trade-off: repo-local hooks do not run for git commands the worker itself issues; dispatch's
+# own commit runs without this env. A deliberate `git push --no-verify` / `-c core.hooksPath=`
+# is still stopped only by the worker's deny list (Claude) or sandbox (Codex).
+GIT_GUARD_HOOKS = REPO_ROOT / "agentos" / "githooks"
+
+
+def git_push_guard_env(environ=None) -> dict:
+    hook = GIT_GUARD_HOOKS / "pre-push"
+    if not (hook.is_file() and os.access(hook, os.X_OK)):
+        raise PermissionDenied(f"git push guard hook missing or not executable: {hook}")
+    environ = os.environ if environ is None else environ
+    try:
+        n = int(environ.get("GIT_CONFIG_COUNT", "0"))
+    except ValueError:
+        n = 0
+    return {"GIT_CONFIG_COUNT": str(n + 1), f"GIT_CONFIG_KEY_{n}": "core.hooksPath",
+            f"GIT_CONFIG_VALUE_{n}": str(GIT_GUARD_HOOKS)}
 
 
 def mcp_servers_for(cfg: Config, session: WorkerSession, extra: tuple[str, ...] = ()) -> dict:
@@ -39,8 +65,12 @@ def build_launch(cfg: Config, session: WorkerSession, prompt: str, worktree: Pat
     spec = cfg.workers["workers"][session.worker]
     if spec.get("status") not in ("available", "configured", "measured"):
         raise PermissionDenied(f"worker {session.worker} status={spec.get('status')}")
+    if session.worker not in ENFORCED_WORKERS:
+        raise PermissionDenied(f"{session.worker}: no launch adapter enforces the capability profile; "
+                               "refusing to launch (fail closed)")
     worktree = str(Path(worktree).resolve())
-    out = {"worker": session.worker, "profile": session.profile, "cwd": worktree, "files": {}}
+    out = {"worker": session.worker, "profile": session.profile, "cwd": worktree, "files": {},
+           "env": git_push_guard_env()}
 
     if session.worker == "claude_code":
         tmap = spec["tool_map"]
@@ -66,8 +96,6 @@ def build_launch(cfg: Config, session: WorkerSession, prompt: str, worktree: Pat
             raise PermissionDenied(f"no codex sandbox for profile {session.profile}")
         vals = {"prompt": prompt, "worktree": worktree, "sandbox": sandbox}
         out["argv"] = [a.format(**vals) for a in spec["launch"]["argv"]]
-    elif session.worker == "opencode":
-        out["argv"] = [a.format(prompt=prompt) for a in spec["launch"]["argv"]]
     else:
         raise PermissionDenied(f"no launch adapter for {session.worker}")
 

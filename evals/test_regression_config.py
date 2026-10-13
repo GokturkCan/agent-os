@@ -36,3 +36,18 @@ def test_hermes_memory_stays_disabled():
 def test_worker_exposure_never_includes_account_connectors(cfg):
     for prof, names in cfg.mcp["exposure"].items():
         assert "claude_ai_connectors" not in names and "notion" not in names, prof
+
+
+def test_remote_presence_is_not_a_health_warning():
+    from agentos import health
+    assert health.remote_state("origin")[0] == "PASS"
+    assert health.remote_state("origin\nbackup")[0] == "PASS"
+    assert health.remote_state("")[0] == "INFO"                 # absence is informational, not a failure
+    detail = health.remote_state("origin")[1]
+    assert "never push" in detail and "git@" not in detail and "http" not in detail   # names only
+
+
+def test_health_reports_remote_without_warning(cfg):
+    from agentos import health
+    rows = {r["check"]: r for r in health.run_checks(cfg)}
+    assert "repo.no_remote" not in rows and rows["repo.remote"]["status"] in ("PASS", "INFO")

@@ -24,6 +24,15 @@ PROTECTED_POLICY_PATHS = (
     "evals/**",
     "agentos/permissions.py",
     "agentos/selfimprove.py",
+    # Worker execution / tool-exposure policy and the code that enforces it at launch.
+    # config/routing.yaml and agentos/router.py stay unprotected on purpose: they are the
+    # tunable surface self-improvement candidates may change (the human-approval risk gate in
+    # routing.yaml is held by config.validate + a pinned eval instead).
+    "config/workers.yaml",
+    "config/mcp.yaml",
+    "config/capability_registry.yaml",
+    "agentos/workers.py",
+    "agentos/githooks/**",
 )
 
 

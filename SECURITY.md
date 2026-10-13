@@ -23,8 +23,10 @@ and `<tmp>` instead of machine-specific absolute paths).
 ## Execution boundaries
 
 Workers run in per-task git worktrees under capability profiles (strict MCP, tool
-allow/deny lists, sandbox). `git push`, `git remote`, `rm -rf` and `sudo` are denied;
-permission-bypass flags are rejected. Protected files (`evals/protected-manifest.json`) need
+allow/deny lists, sandbox). Pushing and remote rewriting are denied (wildcard deny patterns plus a
+`pre-push` guard hook in every enforced launch; `rm -rf` and `sudo` are prefix-pattern denials only);
+only workers whose launch enforces the profile (`claude_code`, `codex`) can run; permission-bypass
+flags are rejected. Protected files (`evals/protected-manifest.json`) need
 review to change. Canonical SecondBrain writes go through a reviewed gate.
 
 ## Reporting

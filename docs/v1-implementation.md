@@ -78,9 +78,10 @@ files under `~/SecondBrain` newer than the implementation start, excluding the
 - One task → one worktree (`agentos/<task_id>` branch) → one lease holder.
 - Claude Code: `--strict-mcp-config` with only profile-exposed MCPs
   (coder/readonly: context7, serena), explicit `--allowedTools` /
-  `--disallowedTools` (git push/remote, rm -rf, sudo always denied).
+  `--disallowedTools` (wildcard `*git*push*` / `*git*remote*`, plus rm -rf and sudo prefixes, always denied).
+- Every enforced launch also carries a `pre-push` guard hook via `GIT_CONFIG_*` env (`agentos/githooks`).
 - Codex: `--sandbox read-only|workspace-write` by profile; the bypass flag is rejected.
-- OpenCode: argv only; `--auto` is rejected; GSD pack is disabled by policy.
+- OpenCode: **disabled (fail closed)** — its launch cannot enforce a profile, so `build_launch` and the router refuse it; the GSD pack is disabled by policy.
 - DeepSeek Harness: measured separately; background escalation route only.
 
 ## 6. Simplicity policy (Ponytail intent, until Ponytail itself is installed)

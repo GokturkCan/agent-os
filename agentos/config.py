@@ -15,6 +15,10 @@ import yaml
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CONFIG_FILES = ("models", "providers", "routing", "workers", "capabilities",
                 "resources", "mcp", "skills", "knowledge", "permissions")
+# Security-relevant routing policy that is not file-protected (routing.yaml is the tunable
+# surface for self-improvement candidates) and is therefore enforced by validate() instead.
+REQUIRED_RISK_MARKERS = {"credential_change", "permission_change", "external_publish",
+                         "destructive_delete", "payment", "production_deploy", "policy_change"}
 STATUSES = {"available", "configured", "measured", "candidate", "disabled",
             "deferred", "rejected"}
 EXIT_STATES = {"success", "blocked", "no_progress", "unsafe", "timeout",
@@ -110,6 +114,12 @@ def validate(cfg: Config) -> list[str]:
                 errors.append(f"routing.{cname}: unknown worker {wk}")
     if set(routing.get("exit_states", [])) != EXIT_STATES:
         errors.append("routing.exit_states must equal the canonical exit-state set")
+    risk = routing.get("risk") or {}
+    if risk.get("high_requires_human_approval") is not True:
+        errors.append("routing.risk.high_requires_human_approval must be true")
+    lost = REQUIRED_RISK_MARKERS - set(risk.get("high_risk_task_markers") or [])
+    if lost:
+        errors.append(f"routing.risk.high_risk_task_markers missing required markers: {sorted(lost)}")
     tools = cfg.mcp.get("tools", {})
     for need, rule in routing.get("tool_routing", {}).items():
         for t in [rule["prefer"], *rule.get("fallback", [])]:
@@ -130,4 +140,7 @@ def validate(cfg: Config) -> list[str]:
 
     for name, s in cfg.skills.get("sources", {}).items():
         check_status("skills", name, s)
+
+    from . import capability_registry   # imports this module; deferred to avoid a cycle
+    errors.extend(capability_registry.validate(cfg))
     return errors

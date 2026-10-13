@@ -47,7 +47,10 @@ profiles:
     grants: [fs_read, shell_readonly, mcp_context7, mcp_serena]
   coder:
     fs_role: operator
-    grants: [fs_read, fs_write_worktree, shell, shell_readonly, git_commit_local, mcp_context7, mcp_serena, web_fetch]
+    # mcp_playwright (human-approved 2026-10-13): coder MAY receive Playwright, but
+    # only per task — config/mcp.yaml exposure.coder stays [context7, serena];
+    # dispatch adds it via extra_mcp solely when the capability plan selects it.
+    grants: [fs_read, fs_write_worktree, shell, shell_readonly, git_commit_local, mcp_context7, mcp_serena, web_fetch, mcp_playwright]
   reviewer:
     fs_role: reviewer
     grants: [fs_read, shell_readonly, mcp_context7, mcp_serena]

@@ -48,8 +48,8 @@ providers:
     access: api
     credential: "env HERMES_CUSTOM_API_GROQ_COM_API_KEY (~/.hermes/.env)"
     evidence: audit/hermes-groq-milestone-2026-10-01.md
-    purpose: [hermes_primary]
-    note: "Authenticated and measured through Hermes native chat; enabled for Hermes cognition. Agent OS worker routing remains unchanged (enabled: false here)."
+    purpose: []     # was [hermes_primary] on 2026-10-01; the live Hermes default has since changed
+    note: "Authenticated and measured through Hermes native chat on 2026-10-01 (historical measurement, not the live Hermes default). Agent OS worker routing is unchanged (enabled: false here)."
 
   opencode_free:
     status: configured

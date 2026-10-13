@@ -12,6 +12,8 @@
                                          Hermes' execution entry (route -> worktree -> worker -> verify)
   agentos lesson --run-id ID --title T --text L [--evidence E ...]
                                          write a lesson candidate to ~/SecondBrain/inbox/lessons
+  agentos capabilities list|show|match|matrix|check ...
+                                         capability registry inspection (read-only; see capability_cli)
 """
 from __future__ import annotations
 
@@ -19,6 +21,7 @@ import argparse
 import json
 import sys
 
+from . import capability_cli
 from . import config as C
 from . import health, router, telemetry
 from .permissions import WorkerSession
@@ -80,6 +83,8 @@ def main(argv=None) -> int:
     dp.add_argument("--timeout", type=int, default=1800, help="per-attempt worker deadline (seconds)")
     dp.add_argument("--verify-timeout", type=int, default=600, help="verification deadline (seconds)")
     dp.add_argument("--dry-run", action="store_true")
+    dp.add_argument("--require-capability", action="append", default=[], dest="capabilities",
+                    help="opt-in capability plane: declared required capability (repeatable)")
     mu = sub.add_parser("mutate", help="canonical mutation branch: request -> agentos dispatch (no Hermes loop)")
     mu.add_argument("--text", required=True)
     mu.add_argument("--repo", required=True)
@@ -93,6 +98,7 @@ def main(argv=None) -> int:
     ls.add_argument("--title", required=True)
     ls.add_argument("--text", required=True)
     ls.add_argument("--evidence", action="append", default=[])
+    capability_cli.add_parser(sub)
     m = sub.add_parser("manifest")
     m.add_argument("--write", action="store_true",
                    help="HUMAN-ONLY: record the reviewed hashes of protected files")
@@ -167,7 +173,7 @@ def main(argv=None) -> int:
                        human_approval_ref=a.human_approval_ref, profile=a.profile,
                        health={"providers": {p: False for p in a.provider_down}},
                        dry_run=a.dry_run, max_turns=a.max_turns, timeout=a.timeout,
-                       verify_timeout=a.verify_timeout)
+                       verify_timeout=a.verify_timeout, required_capabilities=tuple(a.capabilities))
         print(json.dumps(res, indent=2))
         return 0 if res["exit_state"] in (None, "success") else 2
     if a.cmd == "mutate":
@@ -179,6 +185,8 @@ def main(argv=None) -> int:
         res = run_mutation(cfg, a.text, a.repo, verify=a.verify, task_id=a.task_id, dry_run=a.dry_run)
         print(json.dumps(res, indent=2))
         return 0 if res["exit_state"] in (None, "success") else 2
+    if a.cmd == "capabilities":
+        return capability_cli.run(cfg, a)
     if a.cmd == "intent":
         from .intent import decide
         d = decide(cfg, a.text)

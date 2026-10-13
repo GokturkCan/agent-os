@@ -21,6 +21,7 @@ FIELDS = {
     "exit_state", "success", "quality", "ram_mb", "vram_mb",
     "human_corrections", "fallbacks", "failures", "artifacts",
     "lesson_candidate", "notes",
+    "capabilities",   # Run 2 capability decision summary (ids + reason codes); null when not used
 }
 
 

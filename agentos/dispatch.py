@@ -18,16 +18,26 @@ Invariants:
   routing budget's wall_clock_minutes caps cumulative execution time per task.
   A timeout consumes one attempt, is persisted in task state (`timeouts`), and
   exhausting the budget on a timeout closes the task as exit_state=timeout.
+- Capability plane (Run 2): required capabilities = declared (argument or task
+  contract) + the registry's deterministic task_type mapping
+  (capability_policy.resolve_required). An unmapped task type with nothing
+  declared keeps Run 1 behaviour exactly. A blocked plan stops before execution
+  (no guessing); otherwise the eligible worker set narrows the router's chain
+  and only MCP servers the plan selected for the routed worker are passed as
+  extra_mcp (the profile grant is still enforced at launch). The
+  `capability_decision` event is emitted for declared requirements; auto-resolved
+  plans are recorded on the result and TraceRecord.
 """
 from __future__ import annotations
 
 import os
 import math
 import shlex
+import sys
 import time
 from pathlib import Path
 
-from . import events, router, telemetry, worktree, workers
+from . import capability_policy, capability_registry, events, router, telemetry, worktree, workers
 from .config import REPO_ROOT, Config
 from .permissions import WorkerSession
 from .taskstate import TaskError, TaskStore
@@ -59,11 +69,19 @@ def _result(**kw) -> dict:
     return base
 
 
+def _contract_capabilities(cfg: Config, task_id: str) -> tuple:
+    try:
+        return tuple(TaskStore(cfg).get(task_id).contract.get("required_capabilities") or ())
+    except TaskError:
+        return ()
+
+
 def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, prompt: str,
              verify: str, risk: str = "low", markers: tuple = (), human_approval_ref: str | None = None,
              profile: str | None = None, health: dict | None = None, worktree_root: Path | None = None,
              dry_run: bool = False, runner=None, max_turns: int = 20, timeout: int = 1800,
-             verify_timeout: int = 600) -> dict:
+             verify_timeout: int = 600, required_capabilities: tuple = (),
+             capability_overrides: dict | None = None) -> dict:
     runner = runner or workers.run
     t_start = time.monotonic()
     events.clear_errors()
@@ -80,18 +98,59 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
 
     event = {"type": task_type, "risk": risk, "markers": list(markers),
              "human_approval_ref": human_approval_ref}
+    declared = tuple(required_capabilities) or _contract_capabilities(cfg, task_id)
+    try:
+        registry = capability_registry.load(cfg)
+        caps = capability_policy.resolve_required(registry, declared, task_type)
+    except Exception as exc:  # declared caps fail closed below; otherwise Run 1 behaviour
+        registry, caps = None, declared
+        if not declared:
+            print(f"agentos: capability registry unavailable ({type(exc).__name__}); "
+                  "task_type mapping skipped", file=sys.stderr)
+    cap = {}                     # extra result/record fields; empty == Run 1 shape
+    plan = None
+    if caps:
+        try:
+            if registry is None:
+                raise capability_registry.RegistryError(["capability registry could not be loaded"])
+            plan = capability_policy.plan_for(cfg, caps, task_id=task_id, task_type=task_type,
+                                              overrides=capability_overrides, registry=registry)
+        except Exception as exc:  # cannot evaluate declared requirements -> fail closed, never guess
+            events.emit("task_failed", task_id=task_id, exit_state="blocked", status="not_dispatched",
+                        detail=f"capability plane error: {type(exc).__name__}")
+            rec = events.safe_record(task_id=task_id, task_type=task_type, exit_state="blocked",
+                                     notes=f"capability plane error: {type(exc).__name__}")
+            return _result(task_id=task_id, status="not_dispatched", exit_state="blocked",
+                           trace=[f"capability plane error: {exc}"[:300]], next_step="report to Hermes",
+                           run_id=rec["run_id"])
+        cap = {"capabilities": capability_policy.telemetry_payload(plan)}
+        if declared and not dry_run:
+            capability_policy.emit_decision(plan, task_id)
+        if plan.status == "blocked":
+            if not dry_run:
+                events.emit("task_failed", task_id=task_id, exit_state="blocked", status="not_dispatched",
+                            detail="no capability-eligible executor")
+            rec = events.safe_record(task_id=task_id, task_type=task_type, exit_state="blocked", **cap,
+                                     notes="capability plane: no eligible executor")
+            return _result(task_id=task_id, status="not_dispatched", exit_state="blocked",
+                           trace=plan.explain(), next_step=plan.next_step, run_id=rec["run_id"], **cap)
+        event["eligible_workers"] = plan.eligible_workers
     d = router.route(cfg, event, health)
+    extra_mcp = capability_policy.selected_mcp(cfg, registry, plan, d.worker) if plan else ()
+    if cap:
+        cap["capabilities"]["routed_worker"] = d.worker
+        cap["capabilities"]["extra_mcp"] = list(extra_mcp)
     if d.exit_state or not d.worker:
         exit_state = d.exit_state or "blocked"
         events.emit("task_failed", task_id=task_id, exit_state=exit_state, status="not_dispatched",
                     detail="routing stopped before execution")
         rec = events.safe_record(task_id=task_id, task_type=task_type, route=d.stage, exit_state=exit_state,
-                               fallbacks=d.fallbacks, failures=d.failures,
+                               fallbacks=d.fallbacks, failures=d.failures, **cap,
                                notes="routing stopped before execution")
         return _result(task_id=task_id, status="not_dispatched", exit_state=exit_state,
                        trace=d.trace + ([] if d.worker else ["no execution worker for route"]),
                        next_step="human approval required" if exit_state == "human_handoff" else "report to Hermes",
-                       run_id=rec["run_id"])
+                       run_id=rec["run_id"], **cap)
 
     repo = Path(repo).resolve()
     if worktree.git(repo, "rev-parse", "--is-inside-work-tree", check=False) != "true":
@@ -104,13 +163,14 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
 
     if dry_run:
         planned = wt_root / f"{repo.name}-{task_id}"
-        launch = workers.build_launch(cfg, session, prompt, repo, max_turns=max_turns)
+        launch = workers.build_launch(cfg, session, prompt, repo, max_turns=max_turns, extra_mcp=extra_mcp)
         for f in launch.get("files", {}).values():
             Path(f).unlink(missing_ok=True)
         launch["cwd"] = str(planned)
         return _result(task_id=task_id, status="dry_run", worker=d.worker, provider=d.provider,
                        worktree=str(planned), branch=f"agentos/{task_id}", trace=d.trace,
-                       launch_argv=launch["argv"], profile=session.profile)
+                       launch_argv=launch["argv"], profile=session.profile,
+                       mcp_servers=launch.get("mcp_servers"), **cap)
 
     store = TaskStore(cfg)
     try:
@@ -124,9 +184,11 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
         wt = Path(st["checkout"])
         prompt = f"{task.resume_brief()}\n\n## Instruction\n{prompt}"
     except TaskError:
-        task = store.create(task_id, {"goal": prompt, "acceptance": [f"`{verify}` exits 0"],
-                                      "task_class": d.task_class, "verification": verify,
-                                      "profile": session.profile})
+        contract = {"goal": prompt, "acceptance": [f"`{verify}` exits 0"], "task_class": d.task_class,
+                    "verification": verify, "profile": session.profile}
+        if declared:
+            contract["required_capabilities"] = list(declared)
+        task = store.create(task_id, contract)
         task.accept_plan(prompt, accepted_by="hermes")
         wt = worktree.create(repo, task_id, wt_root)
 
@@ -153,8 +215,8 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
         else:
             worker_limit, limit_kind = ((timeout, "per_call") if timeout <= remaining
                                         else (remaining, "wall_clock"))
-            launch = workers.build_launch(cfg, session, prompt, wt, max_turns=max_turns)
-            launch["env"] = {WORKER_CONTEXT_ENV: task_id}
+            launch = workers.build_launch(cfg, session, prompt, wt, max_turns=max_turns, extra_mcp=extra_mcp)
+            launch.setdefault("env", {})[WORKER_CONTEXT_ENV] = task_id    # keep the push-guard env
             events.emit("worker_started", **ev, status="running")
             started = time.monotonic()
             run = runner(launch, task_id=task_id, task_type=task_type, timeout=math.ceil(worker_limit))
@@ -235,7 +297,7 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
                            provider=d.provider, exit_state=exit_state, success=exit_state == "success",
                            fallbacks=d.fallbacks, failures=d.failures,
                            latency_ms=run.get("latency_ms"), artifacts=[commit] if commit else [],
-                           retries=task.state["attempts"],
+                           retries=task.state["attempts"], **cap,
                            notes="; ".join(n for n in (
                                "timeout" if timed_out else None,
                                f"human_approval_ref={human_approval_ref}" if human_approval_ref else None) if n) or None)
@@ -247,4 +309,4 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
                    metrics={"task_wall_ms": wall_ms, "worker_ms": worker_ms, "verify_ms": verify_ms,
                             "exit_state": exit_state, "retries": attempts,
                             "unsupported": list(events.UNSUPPORTED)},
-                   telemetry_errors=events.errors())
+                   telemetry_errors=events.errors(), **cap)
