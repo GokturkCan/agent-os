@@ -25,15 +25,22 @@ Only claims backed by `CURRENT_STATE.md` are marked VERIFIED.
 
 | Item | State |
 |---|---|
-| CapabilityRegistry (discover/select tools+skills by capability) | DESIGN-ONLY |
+| CapabilityRegistry schema, validation, Wave A inventory (R2.1/R2.2/R2.6) | IMPLEMENTED, VERIFIED |
+| Availability / health / auth probes (R2.3) | IMPLEMENTED, VERIFIED (local probes); network probes DEFERRED |
+| Required capabilities, eligibility, deterministic selection + fallback (R2.4/R2.5) | IMPLEMENTED, VERIFIED |
+| Capability telemetry / explanation (R2.7), parity matrix (R2.8), `agentos capabilities` CLI | IMPLEMENTED, VERIFIED |
+| Dispatch integration (opt-in `--require-capability`) | IMPLEMENTED, VERIFIED by tests; no real worker run yet |
+| SystemOne/FastGate typed contract (R2.10) | IMPLEMENTED (contract only); backends DEFERRED to Run 3 |
+| Plan-selected tool exposure into worker launch | DEFERRED (permission/profile change; needs review) |
 | ContextGate (per-task context loading policy) | DESIGN-ONLY |
-| Today's static equivalents (`config/capabilities.yaml`, `skills.yaml`, `mcp.yaml`) | IMPLEMENTED |
+
+Detail: [capability-plane.md](capability-plane.md).
 
 ## Run 3 — Local intelligence plane
 
 | Item | State |
 |---|---|
-| SystemOne fast local tier (FastGate/Laya) | DESIGN-ONLY (router skips tier) |
+| SystemOne fast local tier (FastGate/Laya) | Contract IMPLEMENTED in Run 2 (`agentos/systemone.py`); backends + calibration DESIGN-ONLY (router skips tier) |
 | Local models (Qwen3.6, Bonsai 2) | DESIGN-ONLY (benchmark candidates, nothing installed) |
 | Secondary compute node (resource state machine) | PARTIAL (state machine verified; node not connected) |
 

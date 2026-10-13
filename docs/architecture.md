@@ -56,7 +56,8 @@ Two append-only JSONL streams under `state/telemetry/` (git-ignored):
 
 - **TraceRecords** (`telemetry.py`) — one measured record per run.
 - **Lifecycle events** (`events.py`) — `task_received, worker_started, worker_finished,
-  verification_started, verification_finished, timeout, retry, task_completed, task_failed`.
+  verification_started, verification_finished, timeout, retry, task_completed, task_failed`,
+  plus `capability_decision` (Run 2; only when a task declares required capabilities).
   Whitelisted fields only; strings truncated; secret-looking values redacted; prompts and
   stdout/stderr are never written; `emit()` never raises.
 
@@ -82,15 +83,22 @@ pins hashes of judge/permission/promotion files.
 manifest. Proposal → evaluation → review → promotion is enforced as a mechanism; **no
 component generates candidates autonomously**.
 
-## 8. FUTURE — not implemented
+## 8. Capability plane (Run 2) — IMPLEMENTED
+
+`capability_registry.py` + `config/capability_registry.yaml` (what providers CAN do),
+`capability_probes.py` (availability/health/auth, offline), `capability_policy.py`
+(deterministic eligibility, ranking, fallbacks, explanation, telemetry payload),
+`agentos capabilities` CLI, and an opt-in `dispatch --require-capability` that narrows
+the router's worker chain. `systemone.py` is the backend-neutral SystemOne/FastGate
+contract only. See [capability-plane.md](capability-plane.md).
+
+## 9. FUTURE — not implemented
 
 These appear in design docs only. Do not assume any exists in code.
 
-- **CapabilityRegistry** — runtime discovery/selection of tools and skills by declared
-  capability (Run 2).
-- **SystemOne** — a fast local first-pass cognition tier (FastGate/local models) that
-  answers or routes cheaply before cloud escalation (Run 3). The router currently skips
-  these tiers with a recorded reason.
+- **SystemOne backends** — a fast local first-pass cognition tier (FastGate/local models:
+  Laya-MLX, Decider-2B, ...) behind the Run 2 contract, with calibrated confidence (Run 3).
+  The router currently skips these tiers with a recorded reason.
 - **ContextGate** — policy that decides what context is loaded into a worker/model per
   task (Runs 2–3).
 - Research/web plane, MSI compute node integration, autonomous improvement loop (Runs 3–4).

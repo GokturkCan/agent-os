@@ -48,6 +48,7 @@ Details: [docs/architecture.md](docs/architecture.md).
 | Health and config validation | IMPLEMENTED, VERIFIED |
 | SecondBrain gate (capture → propose → approve → apply → lint) | IMPLEMENTED, VERIFIED on fixture vaults |
 | Self-improvement foundations (protected manifest, proposal gate) | IMPLEMENTED (mechanism only; nothing generates candidates) |
+| Run 2 capability plane: registry, probes, deterministic selection, `agentos capabilities` | IMPLEMENTED, VERIFIED by tests; dispatch integration opt-in; see [docs/capability-plane.md](docs/capability-plane.md) |
 
 ## Read-only vs mutation paths
 
@@ -77,6 +78,11 @@ uv run agentos validate           # config cross-reference validation
 # Inspect a routing / intent decision without running anything:
 uv run agentos intent --text "fix the failing test in this repo"
 uv run agentos route --help
+
+# Capability plane (read-only): which executor/tool can satisfy a capability, and why
+uv run agentos capabilities match code.references
+uv run agentos capabilities matrix
+uv run agentos capabilities check
 ```
 
 A real mutation run (spends worker quota; works on a worktree, never on your
@@ -92,7 +98,9 @@ Optional live tests that launch real worker CLIs: `AGENTOS_LIVE=1 ./scripts/run-
 ## Configuration
 
 All policy is in `config/*.yaml` (models, providers, workers, capabilities,
-routing, permissions, MCP, skills, resources, knowledge, promotion). Credentials
+routing, permissions, MCP, skills, resources, knowledge, promotion, and the
+capability_registry — what providers CAN do, distinct from the protected
+permission profiles in capabilities.yaml). Credentials
 are **never** stored there: files name where a credential lives (an environment
 variable, a CLI login, a keychain item). See [.env.example](.env.example) for the
 variable names the code reads, and [SECURITY.md](SECURITY.md).
@@ -126,16 +134,16 @@ Expected sibling paths (override with env vars, see `.env.example`):
 
 ## Project status
 
-V1 core: **implemented and acceptance-tested**; latest known full suite
-`188 passed, 2 skipped` (2 live-only). See [CURRENT_STATE.md](CURRENT_STATE.md).
-Run 2–4 below are future work.
+V1 core: **implemented and acceptance-tested**; latest full suite (Run 2 branch)
+`321 passed, 2 skipped` (2 live-only). See [CURRENT_STATE.md](CURRENT_STATE.md).
+Run 2 (capability plane) is implemented and test-verified; Run 3–4 are future work.
 
 ## Roadmap
 
 | Run | Theme | State |
 |---|---|---|
 | 1 | Core Agent OS | Done (V1); timeout/resume real acceptance pending |
-| 2 | Capability plane | Not started |
+| 2 | Capability plane | Implemented (registry, probes, selection, telemetry, SystemOne contract); backends deferred |
 | 3 | Local intelligence plane | Not started (candidates only) |
 | 4 | Research / web plane | Design only |
 
@@ -144,7 +152,7 @@ Full detail: [docs/roadmap.md](docs/roadmap.md).
 ## Repository layout
 
 ```
-agentos/      control-plane library + CLI (config, router, intent, mutate, dispatch, workers, taskstate, worktree, events, telemetry, knowledge, selfimprove, health)
+agentos/      control-plane library + CLI (config, router, intent, mutate, dispatch, workers, taskstate, worktree, events, telemetry, knowledge, selfimprove, health, capability_registry/probes/policy/cli, systemone)
 bin/          agentos (CLI wrapper), hermes-agentos (canonical front door)
 config/       canonical YAML policy
 docs/         architecture, roadmap, integration, security, design principles
