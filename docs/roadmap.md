@@ -19,9 +19,9 @@ Only claims backed by `CURRENT_STATE.md` are marked VERIFIED.
 | Health / config validation | IMPLEMENTED, VERIFIED |
 | SecondBrain gated memory | IMPLEMENTED, VERIFIED (fixture vaults) |
 | OpenCode worker | PARTIAL (argv only, not live-verified) |
-| Remaining to close Run 1 | real timeout→resume run; private-repo first release |
+| Remaining to close Run 1 | real timeout→resume run (private `origin` now exists; pushing is a human step) |
 
-## Run 2 — Capability plane
+## Run 2 — Capability plane — **CLOSED, VERIFIED** (2026-10-13; branch local, not pushed)
 
 | Item | State |
 |---|---|
@@ -29,12 +29,12 @@ Only claims backed by `CURRENT_STATE.md` are marked VERIFIED.
 | Availability / health / auth probes (R2.3) | IMPLEMENTED, VERIFIED (local probes); network probes DEFERRED |
 | Required capabilities, eligibility, deterministic selection + fallback (R2.4/R2.5) | IMPLEMENTED, VERIFIED |
 | Capability telemetry / explanation (R2.7), parity matrix (R2.8), `agentos capabilities` CLI | IMPLEMENTED, VERIFIED |
-| Dispatch integration (declared caps + task_type mapping) | IMPLEMENTED, VERIFIED by tests + dry-runs; no real worker run yet |
+| Dispatch integration (declared caps + deterministic task_type mapping) | IMPLEMENTED, VERIFIED (tests, dry-runs, real Claude Code worker acceptance) |
 | SystemOne/FastGate typed contract (R2.10) | IMPLEMENTED (contract only); backends DEFERRED to Run 3 |
-| Plan-selected MCP exposure into worker launch (Playwright task-specific) | IMPLEMENTED, VERIFIED |
+| Plan-selected MCP exposure into worker launch (Playwright task-specific) | IMPLEMENTED, VERIFIED (real browser acceptance: `GET / 200`, verifier passed) |
 | ContextGate (per-task context loading policy) | DESIGN-ONLY |
 
-Detail: [capability-plane.md](capability-plane.md).
+Evidence: 333 passed / 2 skipped (live-only); see [capability-plane.md](capability-plane.md). Not in Run 2: natural-language capability inference, SystemOne backends, calibration, ContextGate (Run 3+).
 
 ## Run 3 — Local intelligence plane
 

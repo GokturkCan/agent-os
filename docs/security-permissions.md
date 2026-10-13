@@ -54,7 +54,8 @@
 
 ## Git / remote safety
 
-No remote configured; agents never push/merge. `Bash(git push:*)` and
+A private `origin` (`GokturkCan/agent-os`) exists; agents never push, change remotes or merge. `Bash(git push:*)` and
 `Bash(git remote:*)` are always disallowed for Claude Code workers.
-Commits are local checkpoints only; staged diffs are scanned for secret
+Commits are local checkpoints until a human pushes; coder additionally holds `mcp_playwright`
+(human-approved 2026-10-13) but receives Playwright only when a capability plan selects it; staged diffs are scanned for secret
 patterns before each commit.

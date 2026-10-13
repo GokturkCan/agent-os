@@ -83,7 +83,7 @@ pins hashes of judge/permission/promotion files.
 manifest. Proposal → evaluation → review → promotion is enforced as a mechanism; **no
 component generates candidates autonomously**.
 
-## 8. Capability plane (Run 2) — IMPLEMENTED
+## 8. Capability plane (Run 2) — CLOSED, VERIFIED
 
 `capability_registry.py` + `config/capability_registry.yaml` (what providers CAN do),
 `capability_probes.py` (availability/health/auth, offline), `capability_policy.py`

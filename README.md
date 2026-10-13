@@ -48,7 +48,7 @@ Details: [docs/architecture.md](docs/architecture.md).
 | Health and config validation | IMPLEMENTED, VERIFIED |
 | SecondBrain gate (capture → propose → approve → apply → lint) | IMPLEMENTED, VERIFIED on fixture vaults |
 | Self-improvement foundations (protected manifest, proposal gate) | IMPLEMENTED (mechanism only; nothing generates candidates) |
-| Run 2 capability plane: registry, probes, deterministic selection, `agentos capabilities` | IMPLEMENTED, VERIFIED by tests; dispatch applies task_type mappings and task-specific MCPs; see [docs/capability-plane.md](docs/capability-plane.md) |
+| Run 2 capability plane: registry, probes, deterministic selection, `agentos capabilities` | CLOSED, VERIFIED (tests + real worker and real Playwright acceptance); dispatch applies deterministic task_type mappings and task-specific MCPs; see [docs/capability-plane.md](docs/capability-plane.md) |
 
 ## Read-only vs mutation paths
 
@@ -136,14 +136,14 @@ Expected sibling paths (override with env vars, see `.env.example`):
 
 V1 core: **implemented and acceptance-tested**; latest full suite (Run 2 branch)
 `333 passed, 2 skipped` (2 live-only). See [CURRENT_STATE.md](CURRENT_STATE.md).
-Run 2 (capability plane) is implemented and test-verified; Run 3–4 are future work.
+Run 2 (capability plane) is closed and verified (including real worker and browser acceptance); its branch is local and not yet pushed to the private `origin`. Run 3–4 are future work.
 
 ## Roadmap
 
 | Run | Theme | State |
 |---|---|---|
 | 1 | Core Agent OS | Done (V1); timeout/resume real acceptance pending |
-| 2 | Capability plane | Implemented (registry, probes, selection, telemetry, SystemOne contract); backends deferred |
+| 2 | Capability plane | Closed, verified (registry, probes, selection, telemetry, SystemOne contract); backends deferred to Run 3 |
 | 3 | Local intelligence plane | Not started (candidates only) |
 | 4 | Research / web plane | Design only |
 

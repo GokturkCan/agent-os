@@ -28,9 +28,29 @@ TASK -> required capabilities -> CapabilityRegistry -> probes (availability/heal
 | Worker/tool parity matrix (R2.8) | `capability_policy.parity_matrix`, `agentos capabilities matrix` | IMPLEMENTED, VERIFIED |
 | Tests / acceptance (R2.9) | `evals/test_capability_*.py`, `evals/test_systemone.py` | VERIFIED |
 | SystemOne/FastGate contract (R2.10) | `agentos/systemone.py` | IMPLEMENTED (contract only); backends DEFERRED to Run 3 |
-| Dispatch integration | `dispatch(...)`: declared caps + `task_types` mapping | IMPLEMENTED, VERIFIED by tests and real-CLI dry-runs; no real worker run yet |
-| Plan-selected MCP tools in worker launch | `capability_policy.selected_mcp` → `build_launch(extra_mcp=...)` | IMPLEMENTED, VERIFIED (task-specific; profile grant still enforced) |
+| Dispatch integration | `dispatch(...)`: declared caps + `task_types` mapping | IMPLEMENTED, VERIFIED (tests, dry-runs, real worker acceptance) |
+| Plan-selected MCP tools in worker launch | `capability_policy.selected_mcp` → `build_launch(extra_mcp=...)` | IMPLEMENTED, VERIFIED (task-specific; profile grant still enforced; real browser acceptance) |
 | ContextGate | — | DESIGN-ONLY |
+
+## Closure and live acceptance (2026-10-13)
+
+Run 2 is **CLOSED, VERIFIED**. Full suite: **333 passed, 2 skipped** (live-only); health 0 FAIL.
+Requirements come only from explicit/contract declarations and the deterministic `task_types`
+mapping; there is no natural-language capability inference.
+
+| Acceptance | Result |
+|---|---|
+| Real capability-aware coding (`run2-real-capability-acceptance-01`) | real Claude Code worker; `code.edit` + `code.test` selected; verifier passed; retry/resume compatible |
+| Real browser (`run2-real-playwright-acceptance-01`) | status=done, exit_state=success, worker=claude_code, provider=claude_subscription, retries=0; `web.browser_test` → playwright; `extra_mcp=["playwright"]`; browser opened `http://127.0.0.1:8765/`; local server logged `GET / HTTP/1.1 200`; verifier passed |
+
+Playwright is task-specific: a normal coder launch is context7 + serena; a browser-capability
+task is context7 + serena + playwright. The acceptance runs left artifact commits on local
+`agentos/run2-real-*` task branches. They are evidence only and are **not** to be merged.
+Repository state: private `origin` (`GokturkCan/agent-os`) exists; `feature/run2-capability-plane`
+is local and not pushed (pushing/merging stays a human step).
+
+Run 3 boundary: only the SystemOne **contract** exists. Laya, Ollaya, Jev, Decider, Kev backends,
+confidence calibration and ContextGate remain future Run 3 work.
 
 ## What the CapabilityRegistry is — and is not
 
@@ -270,4 +290,3 @@ RTK and Headroom will be benchmarked separately. Neither is bundled.
 - Confidence calibration (accuracy, ECE, Platt, isotonic, per-workload thresholds).
 - Network/service probes (`service` probe type is a placeholder) and authenticated health
   checks for MCP services.
-- Real worker run with declared capabilities (so far verified by tests with stand-in workers).
