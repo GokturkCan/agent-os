@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -66,13 +67,40 @@ def lesson_writes(vault, raw_sha: str, raw_rel: str, title: str, lesson: str, ru
 
 
 # ------------------------------------------------- protected manifest
+# Names that are never policy content (caches, OS metadata); skipped when walking a tree.
+_SKIP_DIRS = {"__pycache__", ".pytest_cache"}
+_SKIP_FILES = {".DS_Store", "protected-manifest.json"}
+
+
+def _discover(root: Path, pattern: str):
+    """Yield the regular files a protected pattern names, independent of pathlib version.
+
+    `<dir>/**` walks the tree explicitly with os.walk. `Path.glob("**")` is not used because
+    it yields only directories on Python 3.11 and files too on 3.13+, which made the manifest
+    hash nothing on one and report false drift on the other. Other patterns are a literal path
+    or a single-level `*`/`?` glob (stable across versions); "**" anywhere else is rejected.
+    """
+    if pattern.endswith("/**"):
+        for dirpath, dirnames, filenames in os.walk(root / pattern[:-3]):
+            dirnames[:] = sorted(d for d in dirnames if d not in _SKIP_DIRS)
+            for name in sorted(filenames):
+                p = Path(dirpath) / name
+                if name not in _SKIP_FILES and p.suffix != ".pyc" and p.is_file():
+                    yield p
+    elif "**" in pattern:
+        raise ValueError(f"unsupported protected pattern {pattern!r}: '**' only as a trailing '/**'")
+    elif any(c in pattern for c in "*?["):
+        yield from (p for p in sorted(root.glob(pattern)) if p.is_file() and p.name not in _SKIP_FILES)
+    elif (root / pattern).is_file():
+        yield root / pattern
+
+
 def compute_manifest(root: Path = REPO_ROOT) -> dict:
     files = {}
     for pat in PROTECTED_POLICY_PATHS:
-        for p in sorted(root.glob(pat)):
-            if p.is_file() and p.name != "protected-manifest.json" and "__pycache__" not in p.parts:
-                files[str(p.relative_to(root))] = hashlib.sha256(p.read_bytes()).hexdigest()
-    return files
+        for p in _discover(root, pat):
+            files[p.relative_to(root).as_posix()] = hashlib.sha256(p.read_bytes()).hexdigest()
+    return dict(sorted(files.items()))
 
 
 def verify_manifest(root: Path = REPO_ROOT) -> list[str]:
