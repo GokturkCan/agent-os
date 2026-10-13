@@ -63,6 +63,8 @@ def test_candidate_workers_cannot_launch(cfg, tmp_path):
 
 def test_policy_files_are_protected():
     for p in ["config/permissions.yaml", "config/capabilities.yaml", "config/promotion.yaml",
-              "evals/test_a7_permissions.py", "CLAUDE.md", "agentos/permissions.py"]:
+              "evals/test_a7_permissions.py", "CLAUDE.md", "agentos/permissions.py",
+              "config/workers.yaml", "config/mcp.yaml", "config/capability_registry.yaml",
+              "agentos/workers.py", "agentos/githooks/pre-push"]:
         assert is_protected(p), p
     assert not is_protected("config/routing.yaml") and not is_protected("agentos/router.py")

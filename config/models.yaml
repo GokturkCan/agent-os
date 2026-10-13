@@ -104,7 +104,7 @@ models:
     status: measured
     provider: groq
     evidence: audit/hermes-groq-milestone-2026-10-01.md
-    note: "Hermes primary; authenticated native clean-room completion returned OK (1.273s). This measures connectivity, not general task quality. Fallback intentionally unset."
+    note: "Was the Hermes primary on 2026-10-01 (not the live default any more; see CURRENT_STATE.md). Authenticated native clean-room completion returned OK (1.273s). This measures connectivity, not general task quality."
 
   nemotron-3.5-lightning-free:
     status: configured

@@ -21,7 +21,7 @@ Only claims backed by `CURRENT_STATE.md` are marked VERIFIED.
 | OpenCode worker | DISABLED, fail closed (launch cannot enforce a capability profile; registered for future use) |
 | Remaining to close Run 1 | real timeout→resume run (private `origin` now exists; pushing is a human step) |
 
-## Run 2 — Capability plane — **CLOSED, VERIFIED** (2026-10-13; branch local, not pushed)
+## Run 2 — Capability plane — **CLOSED, VERIFIED** (2026-10-13; branch pushed, PR #2 open)
 
 | Item | State |
 |---|---|
@@ -34,7 +34,7 @@ Only claims backed by `CURRENT_STATE.md` are marked VERIFIED.
 | Plan-selected MCP exposure into worker launch (Playwright task-specific) | IMPLEMENTED, VERIFIED (real browser acceptance: `GET / 200`, verifier passed) |
 | ContextGate (per-task context loading policy) | DESIGN-ONLY |
 
-Evidence: 335 passed / 2 skipped (live-only); see [capability-plane.md](capability-plane.md). Not in Run 2: natural-language capability inference, SystemOne backends, calibration, ContextGate (Run 3+).
+Evidence: 403 passed / 2 skipped (333 at Run 2 closure, before pre-release hardening) (live-only); see [capability-plane.md](capability-plane.md). Not in Run 2: natural-language capability inference, SystemOne backends, calibration, ContextGate (Run 3+).
 
 ## Run 3 — Local intelligence plane
 

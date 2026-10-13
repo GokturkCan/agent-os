@@ -114,8 +114,10 @@ Expected sibling paths (override with env vars, see `.env.example`):
   config, sandbox mode), not only prompts. Bypass flags are rejected.
 - Workers never write SecondBrain `wiki/`; writes go through a reviewed
   transaction gate with compare-and-swap.
-- Judges, permissions, promotion rules and `CLAUDE.md` are covered by a protected
-  manifest (`evals/protected-manifest.json`); changes need review.
+- Judges (every file under `evals/`), permissions, capability profiles, promotion rules,
+  `CLAUDE.md`, the worker/MCP/capability-registry policy and the launch-enforcement code are covered by
+  a protected manifest (`evals/protected-manifest.json`); changes need review. `config/routing.yaml`
+  is deliberately the tunable surface; its human-approval risk gate is held by `agentos validate`.
 - Workers cannot push or rewrite remotes: Claude Code launches carry wildcard deny patterns
   (`*git*push*`, `*git*remote*`, live-probed against a throwaway remote) and every enforced launch
   carries a `pre-push` guard hook. `rm -rf` / `sudo` are prefix-pattern denials only (best-effort).
@@ -139,8 +141,8 @@ Expected sibling paths (override with env vars, see `.env.example`):
 ## Project status
 
 V1 core: **implemented and acceptance-tested**; latest full suite (Run 2 branch)
-`335 passed, 2 skipped` (2 live-only). See [CURRENT_STATE.md](CURRENT_STATE.md).
-Run 2 (capability plane) is closed and verified (including real worker and browser acceptance); its branch is local and not yet pushed to the private `origin`. Run 3–4 are future work.
+`403 passed, 2 skipped` (2 live-only). See [CURRENT_STATE.md](CURRENT_STATE.md).
+Run 2 (capability plane) is closed and verified (including real worker and browser acceptance); its branch is pushed to the private `origin` (PR #2 open, not merged). Run 3–4 are future work.
 
 ## Roadmap
 

@@ -34,7 +34,7 @@ TASK -> required capabilities -> CapabilityRegistry -> probes (availability/heal
 
 ## Closure and live acceptance (2026-10-13)
 
-Run 2 is **CLOSED, VERIFIED**. Full suite: **335 passed, 2 skipped** (live-only; 333 at closure + 2 health-check tests); health 0 FAIL.
+Run 2 is **CLOSED, VERIFIED**. Full suite: **333 passed, 2 skipped** at closure; **403 passed, 2 skipped** after the pre-release hardening commits (live-only skips); health 0 FAIL.
 Requirements come only from explicit/contract declarations and the deterministic `task_types`
 mapping; there is no natural-language capability inference.
 
@@ -47,7 +47,7 @@ Playwright is task-specific: a normal coder launch is context7 + serena; a brows
 task is context7 + serena + playwright. The acceptance runs left artifact commits on local
 `agentos/run2-real-*` task branches. They are evidence only and are **not** to be merged.
 Repository state: private `origin` (`GokturkCan/agent-os`) exists; `feature/run2-capability-plane`
-is local and not pushed (pushing/merging stays a human step).
+is pushed to it (PR #2 open, not merged; pushing/merging stays a human step).
 
 Run 3 boundary: only the SystemOne **contract** exists. Laya, Ollaya, Jev, Decider, Kev backends,
 confidence calibration and ContextGate remain future Run 3 work.

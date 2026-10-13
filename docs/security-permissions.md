@@ -14,9 +14,17 @@
    into harness flags; nothing relies on prompt text.
 5. **Knowledge gate** — canonical SecondBrain writes need proposal + engine hash +
    independent reviewer + human approval ref; engine CAS prevents silent overwrite.
-6. **Protected manifest** — `evals/protected-manifest.json` pins SHA-256 of
-   judges/held-out evals/policy (`agentos.permissions.PROTECTED_POLICY_PATHS`).
-   Health check FAILs on drift; self-improvement candidates touching them are rejected.
+6. **Protected manifest** — `evals/protected-manifest.json` pins SHA-256 of 39 files
+   (`agentos.permissions.PROTECTED_POLICY_PATHS`): every file under `evals/` (judges, held-out
+   evals), `config/{permissions,capabilities,promotion}.yaml`, `CLAUDE.md`,
+   `agentos/{permissions,selfimprove}.py`, and the worker execution policy
+   `config/{workers,mcp,capability_registry}.yaml` + `agentos/workers.py` + `agentos/githooks/**`.
+   Health check FAILs on drift; self-improvement candidates touching them are rejected. Refresh only
+   after human review: `agentos manifest --write`.
+   `config/routing.yaml` and `agentos/router.py` are **not** protected: they are the tunable surface
+   self-improvement candidates may change (the final promotion still needs a human). Its one
+   security-critical block, `risk.high_requires_human_approval` plus the required high-risk markers,
+   is enforced by `agentos validate` (and therefore health) and pinned by an eval.
 
 ## Verified (executed)
 
@@ -36,7 +44,7 @@
 | Interactive Claude Code sessions (not Agent OS worker runs) see all claude.ai connectors incl. Gmail send, Slack post, Drive share, Lovable/Higgsfield publish | high-impact external side effects available ambiently | disable unused connectors at claude.ai, or keep interactive-only |
 | `~/.claude/settings.json.glm-backup`, `~/.claude/settings.jsonN` hold a plaintext z.ai token (from 2026-09-15 audit) | credential at rest | rotate at z.ai, then delete the files |
 | GitHub MCP static Authorization header rejected (401) | broken tool; stale token on disk | re-authenticate or remove the header config |
-| Hermes default model = kimi-k3 (disabled in policy), no fallback_model | Hermes outage on NIM hiccup | set default to an approved model and add `fallback_model` |
+| Live Hermes default `nvidia/nemotron-3.5-lightning-30b-a3b` (read 2026-10-14) is not catalogued in `config/models.yaml`; no `fallback_model` | uncatalogued model; Hermes outage on a provider hiccup | catalog or replace the default with an approved model, and add `fallback_model` |
 | Hermes bundled skills `claude-code`/`codex`/`opencode` let Hermes launch workers directly (bypassing capability profiles, worktrees, budgets) | policy bypass by prompt | `skills.disabled` — part of the proposed wiring (docs/hermes-integration.md) |
 | Hermes `approvals.mode: smart`, `trust_recent_files: true` | Hermes may auto-approve some actions | review against this policy |
 | Codex config trusts `$HOME` (home dir) as a project | broad trust scope | narrow to project dirs |

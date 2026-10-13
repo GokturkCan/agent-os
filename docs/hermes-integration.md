@@ -1,9 +1,10 @@
 # Hermes → Agent OS integration
 
-**Status (2026-10-01):** skills wiring and direct-worker skill disabling are
-applied and verified. Groq native minimal completion succeeded; the live primary
-is now `groq-gpt-oss-120b` / `openai/gpt-oss-120b`, with fallback intentionally
-unset. First real Hermes → Agent OS → Claude launch was measured; successful
+**Status (2026-10-01, historical; live config differs):** skills wiring and direct-worker skill
+disabling are applied and verified. Groq native minimal completion succeeded and the primary
+then was `groq-gpt-oss-120b` / `openai/gpt-oss-120b`. As of 2026-10-14 the live Hermes default
+(`~/.hermes/config.yaml`, outside this repo) is `nvidia/nemotron-3.5-lightning-30b-a3b` with no
+`fallback_model`; that id is not in `config/models.yaml`. First real Hermes → Agent OS → Claude launch was measured; successful
 completion is blocked by Claude subscription quota. Automatic skill selection
 also remains unreliable. See `audit/hermes-groq-milestone-2026-10-01.md`.
 
