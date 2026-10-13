@@ -135,7 +135,7 @@ Expected sibling paths (override with env vars, see `.env.example`):
 ## Project status
 
 V1 core: **implemented and acceptance-tested**; latest full suite (Run 2 branch)
-`333 passed, 2 skipped` (2 live-only). See [CURRENT_STATE.md](CURRENT_STATE.md).
+`335 passed, 2 skipped` (2 live-only). See [CURRENT_STATE.md](CURRENT_STATE.md).
 Run 2 (capability plane) is closed and verified (including real worker and browser acceptance); its branch is local and not yet pushed to the private `origin`. Run 3–4 are future work.
 
 ## Roadmap

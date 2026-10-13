@@ -25,6 +25,17 @@ def _git(*args) -> str:
     return r.stdout.strip()
 
 
+def remote_state(remotes: str) -> tuple[str, str]:
+    """Remote presence is informational, never a warning. Names only (URLs can embed
+    credentials); no connectivity or push check. The rule that agents never push,
+    change remotes or merge is enforced by permissions, not by this check."""
+    names = remotes.split()
+    if names:
+        return PASS, (f"remote configured: {', '.join(names)} (presence only; "
+                      "agents never push, change remotes or merge)")
+    return INFO, "no git remote configured"
+
+
 def run_checks(cfg: C.Config | None = None) -> list[dict]:
     out: list[dict] = []
 
@@ -48,7 +59,7 @@ def run_checks(cfg: C.Config | None = None) -> list[dict]:
         add("capabilities.registry", FAIL, str(exc)[:300])
 
     remotes = _git("remote")
-    add("repo.no_remote", WARN if remotes else PASS, remotes or "no git remote (expected)")
+    add("repo.remote", *remote_state(remotes))
     add("repo.branch", INFO, _git("branch", "--show-current"))
 
     try:

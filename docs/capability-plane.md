@@ -34,7 +34,7 @@ TASK -> required capabilities -> CapabilityRegistry -> probes (availability/heal
 
 ## Closure and live acceptance (2026-10-13)
 
-Run 2 is **CLOSED, VERIFIED**. Full suite: **333 passed, 2 skipped** (live-only); health 0 FAIL.
+Run 2 is **CLOSED, VERIFIED**. Full suite: **335 passed, 2 skipped** (live-only; 333 at closure + 2 health-check tests); health 0 FAIL.
 Requirements come only from explicit/contract declarations and the deterministic `task_types`
 mapping; there is no natural-language capability inference.
 

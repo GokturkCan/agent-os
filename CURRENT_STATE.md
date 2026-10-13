@@ -26,8 +26,8 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 | Permissions / protected manifest | IMPLEMENTED, VERIFIED | live write-denial probes on both harnesses |
 | SecondBrain gate over claude-obsidian | IMPLEMENTED, VERIFIED (fixture vaults) | live vault untouched; doctor ok, lint 0 |
 | Telemetry JSONL + lifecycle events (`agentos/events.py`) | IMPLEMENTED, VERIFIED | secret-redacted; TTFT/RAM/VRAM not collected |
-| Health check | IMPLEMENTED, VERIFIED | 29 checks, 0 FAIL, 4 WARN (2026-10-13; includes `capabilities.registry`) |
-| Eval suite | IMPLEMENTED, VERIFIED | latest full run (2026-10-13, Run 2 branch): **333 passed / 2 skipped** (live-only) |
+| Health check | IMPLEMENTED, VERIFIED | 29 checks, 0 FAIL, 3 WARN (2026-10-13; `repo.remote` is an informational PASS, no longer a warning) |
+| Eval suite | IMPLEMENTED, VERIFIED | latest full run (2026-10-13, Run 2 branch): **335 passed / 2 skipped** (live-only) |
 | Deterministic intent routing (`agentos/intent.py`) | IMPLEMENTED, VERIFIED | read-only → normal Hermes; mutation → forced |
 | Canonical entrypoint structural mutation branch (`bin/hermes-agentos` → `agentos mutate` → dispatch) | **VERIFIED** | tests + real run |
 | Real mutation acceptance | **VERIFIED** | hermes-agentos → force=true → mutate → dispatch → claude_code → verifier → success |

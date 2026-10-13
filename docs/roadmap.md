@@ -34,7 +34,7 @@ Only claims backed by `CURRENT_STATE.md` are marked VERIFIED.
 | Plan-selected MCP exposure into worker launch (Playwright task-specific) | IMPLEMENTED, VERIFIED (real browser acceptance: `GET / 200`, verifier passed) |
 | ContextGate (per-task context loading policy) | DESIGN-ONLY |
 
-Evidence: 333 passed / 2 skipped (live-only); see [capability-plane.md](capability-plane.md). Not in Run 2: natural-language capability inference, SystemOne backends, calibration, ContextGate (Run 3+).
+Evidence: 335 passed / 2 skipped (live-only); see [capability-plane.md](capability-plane.md). Not in Run 2: natural-language capability inference, SystemOne backends, calibration, ContextGate (Run 3+).
 
 ## Run 3 — Local intelligence plane
 
