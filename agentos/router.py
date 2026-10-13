@@ -3,6 +3,8 @@
 Pure function of (config, event, health). Every skipped stage records a
 reason; every unavailable provider is recorded as a failure so it is visible
 in telemetry. No stage is used on the strength of a `candidate` status.
+An optional event["eligible_workers"] (from the capability plane) narrows the
+worker chain; absent, routing is exactly the Run 1 behaviour.
 """
 from __future__ import annotations
 
@@ -54,11 +56,15 @@ def _tier_model(cfg: Config, stage: str) -> str | None:
     return model
 
 
-def _pick_worker(cfg: Config, tc: dict, provider: str, health: dict, d: Decision) -> str | None:
+def _pick_worker(cfg: Config, tc: dict, provider: str, health: dict, d: Decision,
+                 eligible: list | None = None) -> str | None:
     workers = cfg.workers["workers"]
     for w in tc.get("workers", []):
         spec = workers[w]
         if spec.get("status") not in USABLE or spec.get("selectable") is False:
+            continue
+        if eligible is not None and w not in eligible:
+            d.trace.append(f"C4: skip worker {w}: not capability-eligible")
             continue
         if health.get("workers", {}).get(w) is False:
             d.failures.append({"worker": w, "reason": "unhealthy at runtime"})
@@ -119,7 +125,7 @@ def route(cfg: Config, event: dict, health: dict | None = None) -> Decision:
                         d.failures.append({"provider": prov, "reason": why})
                     d.fallbacks.append(prov)
                     continue
-                worker = _pick_worker(cfg, tc, prov, health, d)
+                worker = _pick_worker(cfg, tc, prov, health, d, event.get("eligible_workers"))
                 if tc.get("workers") and worker is None:
                     d.trace.append(f"C4: {prov} ok but no usable worker for it")
                     d.fallbacks.append(prov)

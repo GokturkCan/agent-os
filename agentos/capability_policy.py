@@ -350,6 +350,76 @@ def _handoff_items(out: CapabilityPlan) -> list[str]:
     return items
 
 
+# ------------------------------------------------------------ parity (R2.8)
+def parity_matrix(registry: Registry, probes: dict | None = None) -> dict:
+    """Executor x (capability | provider) matrix. Not a parity claim: it states
+    what each executor can reach, and leaves undeclared things `unknown`.
+
+    Capability column: native | via (adopted providers it integrates with) | unknown.
+    Provider column:   supported | unsupported | unknown, with the source
+    (explicit declaration, derived from `requires`, or default unknown) and,
+    when probes are given, that provider's availability."""
+    cols = list(registry.policy.parity_columns)
+    rows = {}
+    for e in sorted(registry.executors(), key=lambda p: p.id):
+        row = {}
+        for col in cols:
+            if col in registry.capabilities:
+                if col in e.capabilities:
+                    row[col] = {"state": "native", "via": []}
+                    continue
+                via = [p.id for p in registry.providers_for(col) if not p.is_executor
+                       and p.adoption in registry.policy.runtime_adoption
+                       and integration_state(e, p) == "supported"]
+                row[col] = {"state": "via" if via else "unknown", "via": via}
+            else:
+                t = registry.get(col)
+                state = integration_state(e, t)
+                source = ("explicit" if e.integration(col) else
+                          "derived" if state == "supported" else "default")
+                cell = {"state": state, "source": source}
+                if probes is not None:
+                    cell["available"] = probes[col].available
+                    cell["health"] = probes[col].health
+                row[col] = cell
+        if probes is not None:
+            row["_executor"] = {"available": probes[e.id].available, "health": probes[e.id].health,
+                                "auth": probes[e.id].auth}
+        rows[e.id] = row
+    return {"columns": cols, "rows": rows}
+
+
+# ------------------------------------------------------------ telemetry
+def telemetry_payload(plan: CapabilityPlan) -> dict:
+    """Compact, secret-free decision summary: registry ids, enum values and
+    reason codes only (no probe details, paths or free text)."""
+    meta = plan.metadata.get(plan.executor or "", {})
+    return {
+        "required": list(plan.required), "status": plan.status, "exit_state": plan.exit_state,
+        "executor": plan.executor, "worker": plan.worker, "reasons": list(plan.reasons),
+        "tools": dict(plan.tools), "tool_fallbacks": {k: list(v) for k, v in plan.tool_fallbacks.items()},
+        "eligible": list(plan.eligible_executors), "fallbacks": plan.fallbacks,
+        "rejected": {pid: list(r.reasons) for pid, r in plan.rejected_executors.items()},
+        "rejected_tools": {cap: {pid: list(r.reasons) for pid, r in res.rejected.items()}
+                           for cap, res in plan.by_capability.items() if res.rejected},
+        "unknown_capabilities": list(plan.unknown_capabilities),
+        "cost": meta.get("cost"), "locality": meta.get("locality"),
+    }
+
+
+def emit_decision(plan: CapabilityPlan, task_id: str | None = None) -> dict | None:
+    """Record a `capability_decision` event. Never raises: telemetry failure
+    must not change or break the selection."""
+    from . import events
+    try:
+        payload = telemetry_payload(plan)
+    except Exception as exc:
+        payload = {"error": type(exc).__name__}
+    return events.emit("capability_decision", task_id=task_id or plan.task_id, worker=plan.worker,
+                       status=plan.status, exit_state=plan.exit_state, detail=",".join(plan.reasons),
+                       capabilities=payload)
+
+
 # ------------------------------------------------------------ convenience
 def plan_for(cfg, required=(), *, task_id: str | None = None, task_type: str | None = None,
              contract: dict | None = None, overrides: dict | None = None, probes: dict | None = None,

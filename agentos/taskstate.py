@@ -28,7 +28,7 @@ CONTRACT_REQUIRED = ("goal", "acceptance")
 CONTRACT_OPTIONAL = ("task_class", "inputs", "tools", "profile", "context_budget",
                      "budgets", "progress_signal", "verification", "evaluator",
                      "retry_policy", "checkpoint_policy", "escalation", "outputs",
-                     "telemetry", "memory_admission", "side_effects")
+                     "telemetry", "memory_admission", "side_effects", "required_capabilities")
 
 
 def _now() -> str:
