@@ -134,7 +134,8 @@ providers:
 
   - id: opencode
     kind: worker
-    adoption: adopted
+    adoption: disabled
+    reason: "Launch cannot enforce a capability profile (no sandbox/tool allowlist/strict MCP); fail closed until an enforcing adapter exists. See config/workers.yaml."
     config_ref: workers.opencode
     capabilities: [code.edit, code.refactor, code.test, code.debug, devops.shell, devops.git, skills.load]
     locality: cloud

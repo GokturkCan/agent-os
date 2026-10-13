@@ -41,7 +41,7 @@ Details: [docs/architecture.md](docs/architecture.md).
 | Deterministic intent routing; structural mutation branch (Hermes loop bypassed) | IMPLEMENTED, VERIFIED |
 | Persistent file-backed task state, checkpoints, handoff, resume | IMPLEMENTED, VERIFIED |
 | Per-task git worktree isolation + single-owner lease | IMPLEMENTED, VERIFIED |
-| Worker launch under capability profiles (strict MCP, allow/deny tools, sandbox) | IMPLEMENTED; VERIFIED live for Claude Code and Codex, argv-only for OpenCode |
+| Worker launch under capability profiles (strict MCP, allow/deny tools, sandbox) | IMPLEMENTED; VERIFIED live for Claude Code and Codex. OpenCode is registered but **disabled (fail closed)**: its launch cannot enforce a profile |
 | Worker and verifier timeout enforcement (SIGTERM → SIGKILL on process group) | IMPLEMENTED, VERIFIED by tests; real-run timeout/resume acceptance PENDING |
 | Verification loop with bounded retry / resume | IMPLEMENTED, VERIFIED (real failure → retry → resume run) |
 | Structured telemetry (TraceRecord JSONL) and lifecycle events JSONL, secret-redacted | IMPLEMENTED, VERIFIED |
@@ -116,7 +116,11 @@ Expected sibling paths (override with env vars, see `.env.example`):
   transaction gate with compare-and-swap.
 - Judges, permissions, promotion rules and `CLAUDE.md` are covered by a protected
   manifest (`evals/protected-manifest.json`); changes need review.
-- `git push`, `git remote`, `rm -rf`, `sudo` are denied to workers.
+- Workers cannot push or rewrite remotes: Claude Code launches carry wildcard deny patterns
+  (`*git*push*`, `*git*remote*`, live-probed against a throwaway remote) and every enforced launch
+  carries a `pre-push` guard hook. `rm -rf` / `sudo` are prefix-pattern denials only (best-effort).
+- Only `claude_code` and `codex` can be launched (`ENFORCED_WORKERS`); any worker whose launch cannot
+  enforce a capability profile is refused and skipped by the router.
 - Runtime state and raw provider/session evidence are git-ignored.
 - Hermes built-in long-term memory stays disabled; SecondBrain is canonical.
 
@@ -130,7 +134,7 @@ Expected sibling paths (override with env vars, see `.env.example`):
 - Real-run timeout/resume acceptance has not been executed (tested with fakes only).
 - Telemetry has no TTFT / RAM / VRAM; the worker is one opaque subprocess.
 - Research plane is a written contract only. Self-improvement has no autonomous loop.
-- OpenCode is argv-only (not live-verified).
+- OpenCode is disabled until a launch adapter can enforce capability profiles (see `config/workers.yaml`).
 
 ## Project status
 

@@ -19,11 +19,11 @@
     "evals/test_a7_permissions.py": "2df32c2f4c2689c352840ee02144e163d44329ba11e1c0513d62d702ffd3dae8",
     "evals/test_a8_durable_lesson.py": "aa88f782ea707c110db53b0075a1726f6148d7716bae9361339a2f3b595e21ac",
     "evals/test_canonical_entrypoint.py": "5ba6ba4b9418dd3b412bf36e7432104fed41f72020351455ea3cdb57df925ee2",
-    "evals/test_capability_acceptance.py": "a17e1f2377bfda958e210cec69d61967c74a5afd81c5ae13a61f54d18b9e6b5d",
+    "evals/test_capability_acceptance.py": "982729eb266779f424337283e4cd423d89926dec4ea0785ecd92a45e1ac839cc",
     "evals/test_capability_cli.py": "4ff42e1f1788fcea4e19915515122cb42ee1b477b4769377515b3367a60df2f8",
     "evals/test_capability_policy.py": "4e290db23f4a777a5a19b63c5214147be0d92cafb309441bd65571fb0e435b36",
     "evals/test_capability_probes.py": "ba1b54843551d5c7fa893b43c91dd5a7914d4edad2db81bfbbb4a16f4ebac7ec",
-    "evals/test_capability_registry.py": "cef94b6becf1f2171cd08729597e1c803e2a6e01da61b90d624459bca9ff6031",
+    "evals/test_capability_registry.py": "a7bc648dc559d0750b3e90ffbbfd8111206a9796ba229cc48559d84fdc270f9a",
     "evals/test_capability_wiring.py": "e744cc8ab6cb99212278fabe19aaa686539a51857432a0281b8aad7fc7a43152",
     "evals/test_events.py": "9168c268e926fd397129982fffd5755326366322ea021cd221c2732eaba51db4",
     "evals/test_hermes_integration.py": "8df503be8fb98c299602bb641fdb44877d500fec52dc56ba1acd87671559427b",
@@ -32,6 +32,7 @@
     "evals/test_regression_config.py": "850101c47af903e0858c3959c8b35b57eb3922c0172296d22210b6f363490474",
     "evals/test_skill_enforcement.py": "90c7d8a4dba0022e64b59699abbbb4892c71c3cef4b915efcd6d2c7569db5f2a",
     "evals/test_systemone.py": "5eac03259a770946a43c4dd4dadbd7eaa6d91ea01bc5632abb49d9c0b75cce01",
-    "evals/test_timeouts.py": "b305be34e98173d1f4675b8bbbd8128f7d333015611d5d27f7e34190cb8de0d2"
+    "evals/test_timeouts.py": "b305be34e98173d1f4675b8bbbd8128f7d333015611d5d27f7e34190cb8de0d2",
+    "evals/test_worker_boundaries.py": "4a3142833958081fc85bd26bd4bd7a44abc5968c16b49e371793f3aa0aa7f52e"
   }
 }

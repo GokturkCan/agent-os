@@ -24,7 +24,7 @@ user ─► Hermes (sole orchestrator: decides what/who, owns the conversation)
           route → risk gate → task state → worktree+lease → worker (capability profile)
           → verify → local commit on agentos/<task> → telemetry → JSON back to Hermes
           │
-          └─ worker processes run with AGENTOS_WORKER_CONTEXT set → nested dispatch refused
+          └─ worker processes run with AGENTOS_WORKER_CONTEXT set → nested dispatch refused (cooperative env guard, see security-permissions.md)
 ```
 
 - **Smallest integration point:** Hermes' `skills.external_dirs`, one list entry.

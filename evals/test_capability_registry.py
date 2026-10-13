@@ -42,7 +42,9 @@ WAVE_A = {"claude-code", "codex", "opencode", "serena", "repomix", "context7", "
 
 def test_wave_a_inventory_registered_and_adopted(reg):
     assert WAVE_A <= set(reg.providers)
-    assert all(reg.get(p).adoption == "adopted" for p in WAVE_A)
+    assert all(reg.get(p).adoption == "adopted" for p in WAVE_A - {"opencode"})
+    # OpenCode stays registered but disabled: its launch cannot enforce a capability profile.
+    assert reg.get("opencode").adoption == "disabled" and "fail closed" in reg.get("opencode").reason
     # Beyond Wave A only: Run 1's existing github fallback and one future browser fallback.
     assert set(reg.providers) - WAVE_A == {"gh-cli", "browser-use"}
     assert reg.get("browser-use").adoption == "future"

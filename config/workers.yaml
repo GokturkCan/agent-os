@@ -33,7 +33,13 @@ workers:
       shell_readonly: ["Bash(git status:*)", "Bash(git diff:*)", "Bash(git log:*)", "Bash(ls:*)"]
       web_fetch: [WebFetch]
       web_search: [WebSearch]
-    always_disallowed: ["Bash(git push:*)", "Bash(git remote:*)", "Bash(rm -rf:*)", "Bash(sudo:*)"]
+    # The legacy prefix patterns only match the exact leading words ("git push"). A live probe
+    # (2026-10-14, throwaway local remote) showed `git -C . push`, `/path/git push`, `git -c k=v push`,
+    # `sh -c 'git push'` and `git --no-pager push` bypassed them; the wildcard forms below stopped
+    # all 12 push/remote-rewrite spellings tried. Over-blocking (e.g. a path containing "github"
+    # next to "push") is intentional: fail closed. `*git*remote*` also covers `git config remote.*`.
+    always_disallowed: ["Bash(git push:*)", "Bash(git remote:*)", "Bash(*git*push*)", "Bash(*git*remote*)",
+                        "Bash(rm -rf:*)", "Bash(sudo:*)"]
 
   codex:
     status: available
@@ -53,7 +59,12 @@ workers:
     never_flags: [--dangerously-bypass-approvals-and-sandbox]
 
   opencode:
-    status: available
+    status: disabled
+    reason: >
+      Fail closed: the launch below runs with ambient, unrestricted tools and no sandbox or
+      strict MCP set, so Agent OS cannot enforce a capability profile for it. Registered for
+      future use; re-enable only after agentos/workers.py gains an enforcing adapter
+      (ENFORCED_WORKERS). The router and build_launch refuse it regardless of this flag.
     binary: opencode
     version_seen: "2.0.20"
     roles: [overflow, utility]

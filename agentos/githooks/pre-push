@@ -1,0 +1,6 @@
+#!/bin/sh
+# Agent OS push guard: injected into every enforced worker launch via GIT_CONFIG_* env
+# (core.hooksPath), so it applies to any spelling of `git push` the worker's git sees
+# (git -C . push, /usr/bin/git push, sh -c 'git push', ...). Pushing and merging are human-only.
+echo "agentos: git push is human-only; workers may not push (never_grantable: git_push)" >&2
+exit 1

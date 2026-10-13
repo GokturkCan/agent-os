@@ -18,7 +18,7 @@ Only claims backed by `CURRENT_STATE.md` are marked VERIFIED.
 | Telemetry + lifecycle events | IMPLEMENTED, VERIFIED (no TTFT/RAM/VRAM) |
 | Health / config validation | IMPLEMENTED, VERIFIED |
 | SecondBrain gated memory | IMPLEMENTED, VERIFIED (fixture vaults) |
-| OpenCode worker | PARTIAL (argv only, not live-verified) |
+| OpenCode worker | DISABLED, fail closed (launch cannot enforce a capability profile; registered for future use) |
 | Remaining to close Run 1 | real timeout→resume run (private `origin` now exists; pushing is a human step) |
 
 ## Run 2 — Capability plane — **CLOSED, VERIFIED** (2026-10-13; branch local, not pushed)

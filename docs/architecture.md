@@ -12,7 +12,7 @@ module-level map: [v1-implementation.md](v1-implementation.md).
 | Hermes | **WHO** orchestrates; the only global orchestrator | `~/.hermes` (outside this repo) |
 | Agent OS (this repo) | **HOW** it operates: policy, routing, state, gates | `agentos/`, `config/` |
 | SecondBrain | **WHAT** is known: durable Markdown knowledge | `~/SecondBrain` (separate) |
-| Workers | Execution only: Claude Code, Codex, OpenCode | external CLIs |
+| Workers | Execution only: Claude Code, Codex (OpenCode registered but disabled) | external CLIs |
 
 Workers are downstream executors, never competing orchestrators.
 

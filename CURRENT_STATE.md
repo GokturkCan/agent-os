@@ -22,7 +22,7 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 | Loop budgets / exit states | IMPLEMENTED, VERIFIED | attempts/iterations/no-progress enforced; worker+verifier timeouts enforced (SIGTERM→SIGKILL, process group) |
 | File-backed task state / resume / handoff | IMPLEMENTED, VERIFIED | `state/tasks/`, CLI + skill |
 | Worktree isolation + lease | IMPLEMENTED, VERIFIED | |
-| Worker launch under capability profiles | IMPLEMENTED, VERIFIED live (Claude Code, Codex) | OpenCode argv only |
+| Worker launch under capability profiles | IMPLEMENTED, VERIFIED live (Claude Code, Codex) | OpenCode disabled, fail closed (no enforcing adapter); push guarded by deny patterns (live-probed) + pre-push hook |
 | Permissions / protected manifest | IMPLEMENTED, VERIFIED | live write-denial probes on both harnesses |
 | SecondBrain gate over claude-obsidian | IMPLEMENTED, VERIFIED (fixture vaults) | live vault untouched; doctor ok, lint 0 |
 | Telemetry JSONL + lifecycle events (`agentos/events.py`) | IMPLEMENTED, VERIFIED | secret-redacted; TTFT/RAM/VRAM not collected |

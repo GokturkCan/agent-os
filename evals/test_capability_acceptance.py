@@ -118,7 +118,9 @@ def test_s9_no_valid_executor_blocks_instead_of_guessing(reg):
     pl = _plan(reg, ["code.edit"], states={e: {"available": "absent"} for e in ("claude-code", "codex", "opencode")})
     assert (pl.status, pl.executor, pl.worker, pl.eligible_workers) == ("blocked", None, None, [])
     assert pl.next_step.startswith("human handoff")
-    assert all(r.reasons == ["provider-unavailable"] for r in pl.rejected_executors.values())
+    assert pl.rejected_executors["claude-code"].reasons == ["provider-unavailable"]
+    assert pl.rejected_executors["codex"].reasons == ["provider-unavailable"]
+    assert pl.rejected_executors["opencode"].reasons == ["policy-blocked", "provider-unavailable"]   # disabled + absent
 
 
 def test_s10_local_free_beats_cloud_metered(cfg):

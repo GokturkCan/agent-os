@@ -216,7 +216,7 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
             worker_limit, limit_kind = ((timeout, "per_call") if timeout <= remaining
                                         else (remaining, "wall_clock"))
             launch = workers.build_launch(cfg, session, prompt, wt, max_turns=max_turns, extra_mcp=extra_mcp)
-            launch["env"] = {WORKER_CONTEXT_ENV: task_id}
+            launch.setdefault("env", {})[WORKER_CONTEXT_ENV] = task_id    # keep the push-guard env
             events.emit("worker_started", **ev, status="running")
             started = time.monotonic()
             run = runner(launch, task_id=task_id, task_type=task_type, timeout=math.ceil(worker_limit))

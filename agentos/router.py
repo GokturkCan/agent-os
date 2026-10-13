@@ -11,6 +11,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 
 from .config import USABLE, Config
+from .workers import ENFORCED_WORKERS
 
 LOCAL_STAGE_PROVIDER = {"local_primary": "local_msi", "local_fallback": "local_mac"}
 
@@ -62,6 +63,9 @@ def _pick_worker(cfg: Config, tc: dict, provider: str, health: dict, d: Decision
     for w in tc.get("workers", []):
         spec = workers[w]
         if spec.get("status") not in USABLE or spec.get("selectable") is False:
+            continue
+        if spec.get("launch") and w not in ENFORCED_WORKERS:
+            d.trace.append(f"C4: skip worker {w}: launch adapter cannot enforce the capability profile")
             continue
         if eligible is not None and w not in eligible:
             d.trace.append(f"C4: skip worker {w}: not capability-eligible")

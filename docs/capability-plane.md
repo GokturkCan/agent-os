@@ -209,7 +209,7 @@ tools get installed.
 |---|---|---|---|
 | claude-code | worker | code.edit/refactor/test/debug, devops.shell/git, web.browse, skills.load | yes (binary) |
 | codex | worker | code.edit/refactor/test/debug, devops.shell/git | yes (binary) |
-| opencode | worker | code.edit/refactor/test/debug, devops.shell/git, skills.load | yes (binary) |
+| opencode | worker | code.edit/refactor/test/debug, devops.shell/git, skills.load — **adoption: disabled** (launch cannot enforce a profile; never eligible) | binary present, never selected |
 | serena | mcp | code.semantic_navigation/symbol_lookup/references/refactor/diagnostics | yes (uvx; last health ok) |
 | repomix | cli | code.snapshot | yes (on demand via npx) |
 | context7 | mcp | web.docs_lookup (auth optional) | yes (npx; last health ok; no key set) |
@@ -239,9 +239,8 @@ use them.
 ### Parity (R2.8): "which executor can actually satisfy this task?"
 
 `agentos capabilities matrix` today: Claude Code reaches Serena, Context7, Playwright and
-GitHub MCP (the integration is supported; the tool's own health still applies). Codex and
-OpenCode have **no** Serena/Context7/Playwright/GitHub-MCP path: Agent OS launch wires no
-MCP for them, and their own configs have none. That's why `code.references` today resolves
+GitHub MCP (the integration is supported; the tool's own health still applies). Codex has **no** Serena/Context7/Playwright/GitHub-MCP path: Agent OS launch wires no
+MCP for it, and its own config has none. OpenCode is disabled (see above) and shown for completeness only. That's why `code.references` today resolves
 to Claude Code only. REA integration is `unknown` for every executor, so an RE task stays
 blocked until one is declared. Codex skill loading is `unknown`. Not a parity claim:
 anything undeclared stays unknown.
