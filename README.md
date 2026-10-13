@@ -4,10 +4,11 @@ A local-first control plane that turns one orchestrator (Hermes) and several
 coding CLIs (Claude Code, Codex, OpenCode) into a persistent, verifiable,
 resumable agent system.
 
-> **Status: V1, private, solo-maintained.** The core control plane is
-> implemented and acceptance-tested on one machine. Local-inference, capability
-> and research planes are **not** built. See [Status](#project-status) and
-> [docs/roadmap.md](docs/roadmap.md).
+> **Status: Agent OS v1.0.0 release candidate, private, solo-maintained.** Run 1 (core control
+> plane) and Run 2 (capability plane) are both included in V1, implemented and
+> acceptance-tested on one machine. The `v1.0.0` tag and release do **not** exist yet and `main` has
+> not been updated yet. Run 3 (local intelligence) and Run 4 (research / web) are future work.
+> See [Status](#project-status), [CHANGELOG.md](CHANGELOG.md) and [docs/roadmap.md](docs/roadmap.md).
 
 Hermes decides **who** orchestrates, this repo defines **how** the system
 operates, and `SecondBrain` (a separate Markdown vault, not in this repo) holds
@@ -140,9 +141,13 @@ Expected sibling paths (override with env vars, see `.env.example`):
 
 ## Project status
 
-V1 core: **implemented and acceptance-tested**; latest full suite (Run 2 branch)
-`403 passed, 2 skipped` (2 live-only). See [CURRENT_STATE.md](CURRENT_STATE.md).
-Run 2 (capability plane) is closed and verified (including real worker and browser acceptance); its branch is pushed to the private `origin` (PR #2 open, not merged). Run 3–4 are future work.
+**Agent OS v1.0.0 release candidate** (`pyproject.toml` / `agentos.__version__` = `1.0.0`):
+V1 core: **implemented and acceptance-tested**; latest full suite `403 passed, 2 skipped`
+(2 live-only). See [CURRENT_STATE.md](CURRENT_STATE.md) and [CHANGELOG.md](CHANGELOG.md).
+Run 1 and Run 2 are both included in V1: Run 2 (capability plane) is closed and verified, including
+real worker and browser acceptance, and was merged into `agent-os-v1` via PR #2. PR #1
+(`agent-os-v1` → `main`) is still open: `main` has not been updated and no `v1.0.0` tag or GitHub
+release exists yet. Run 3–4 are future work.
 
 ## Roadmap
 

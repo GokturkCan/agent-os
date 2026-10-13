@@ -1,6 +1,6 @@
 # CURRENT_STATE — Agent OS V1
 
-**As of:** 2026-10-14 · **Branch:** `feature/run2-capability-plane`, pushed to private `origin` (`GokturkCan/agent-os`) and tracking `origin/feature/run2-capability-plane`; PR #2 (→ `agent-os-v1`) and PR #1 (`agent-os-v1` → `main`) are open, nothing merged. Commits made after the pre-release review may be ahead of origin until pushed (`git status` is authoritative). Agents never push, change remotes or merge; that stays a human act. ·
+**As of:** 2026-10-14 · **Release:** Agent OS **v1.0.0 release candidate** on `agent-os-v1` (product version `1.0.0` in `pyproject.toml` and `agentos.__version__`; the `version:` fields in `config/*.yaml` are file-format versions, unrelated). Run 1 and Run 2 are both included in V1; Run 3 is future work. PR #2 (Run 2 + hardening) was merged into `agent-os-v1` on 2026-10-13; PR #1 (`agent-os-v1` → `main`) is open. **`main` has not been updated and the `v1.0.0` tag / GitHub release do not exist yet.** Private remote `origin` → `GokturkCan/agent-os`. Agents never push, change remotes, merge or tag; that stays a human act. ·
 **Safety tag:** `pre-agent-os-v1-mac-2026-09-30` (`b2262ec`)
 
 Quick checks: `./scripts/health-check.sh` · `./scripts/run-evals.sh`
@@ -33,7 +33,7 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 | Real mutation acceptance | **VERIFIED** | hermes-agentos → force=true → mutate → dispatch → claude_code → verifier → success |
 | Real failure → retry → resume acceptance | **VERIFIED** | run 1: status=retryable, retries=1; run 2: same task/worktree, verify passed, exit_state=success |
 | Real timeout → resume acceptance | **PENDING** | timeout enforcement verified by tests only; no real timeout run executed |
-| Run 2 capability plane (`docs/capability-plane.md`) | **CLOSED, VERIFIED** (2026-10-13, branch `feature/run2-capability-plane`, pushed, PR #2 open) | registry + Wave A inventory, offline probes, deterministic selection/fallback, `capability_decision` telemetry, parity matrix, `agentos capabilities` CLI; dispatch plans declared caps + deterministic task_type mapping (coding → code.edit/test) and passes only plan-selected MCPs. No natural-language capability inference |
+| Run 2 capability plane (`docs/capability-plane.md`) | **CLOSED, VERIFIED** (2026-10-13; merged into `agent-os-v1` via PR #2; included in V1) | registry + Wave A inventory, offline probes, deterministic selection/fallback, `capability_decision` telemetry, parity matrix, `agentos capabilities` CLI; dispatch plans declared caps + deterministic task_type mapping (coding → code.edit/test) and passes only plan-selected MCPs. No natural-language capability inference |
 | Run 2 real worker acceptance | **VERIFIED** | real Claude Code worker, capabilities selected correctly (code.edit + code.test), verifier passed, retry/resume compatible (task `run2-real-capability-acceptance-01`) |
 | Run 2 real Playwright acceptance | **VERIFIED** | task `run2-real-playwright-acceptance-01`: status=done, exit_state=success, worker=claude_code, provider=claude_subscription, retries=0; required code.edit + code.test + web.browser_test; `web.browser_test` → playwright; `extra_mcp=["playwright"]`; the browser opened `http://127.0.0.1:8765/` and the local server logged `GET / HTTP/1.1 200`; verifier passed. Playwright stays task-specific: normal coder launch = context7 + serena; browser-capability task = context7 + serena + playwright |
 | SystemOne/FastGate | Contract IMPLEMENTED (`agentos/systemone.py`); backends + calibration DEFERRED (Run 3) | raw confidence never treated as calibrated; Laya/Ollaya/Jev/Decider/Kev backends, calibration and ContextGate are future Run 3 work |
@@ -71,7 +71,7 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 ## Next steps (in order)
 
 1. Run a real worker-timeout → resume acceptance (not yet executed).
-2. Human merge sequence: PR #2 into `agent-os-v1`, then PR #1 into `main` (merge commits). Do not merge the local `agentos/run2-real-*` acceptance-artifact branches.
+2. Human release sequence: review/merge PR #1 (`agent-os-v1` → `main`, merge commit), then tag `v1.0.0` and publish the release. Do not merge the local `agentos/run2-real-*` acceptance-artifact branches.
 3. Re-auth GitHub MCP; rotate/delete the dormant z.ai token outside this repo.
 4. Connect MSI (SSH alias `msi`), then benchmark Qwen3.6 → set status `measured`.
 5. Benchmark Laya-MLX / Bonsai 2 on the Mac within the 6 GB model budget.

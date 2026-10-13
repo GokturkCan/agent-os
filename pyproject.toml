@@ -1,6 +1,6 @@
 [project]
 name = "agentos"
-version = "0.1.0"
+version = "1.0.0"
 description = "Agent OS V1 control-plane utilities (config, routing, task state, telemetry, knowledge gate)"
 requires-python = ">=3.11"
 dependencies = ["pyyaml>=6"]
