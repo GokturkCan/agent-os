@@ -177,12 +177,11 @@ empty directories today — see the note after the list):
 | `scripts/` | validation/maintenance utilities |
 | `docs/` | architecture/decision reference (this file) |
 
-**Current repo evidence (2026-09-24):** `config/`, `audit/`, and `docs/`
-contain real content. `agents/`, `adapters/`, `skills/`, `workflows/`,
-`evals/`, `state/`, and `scripts/` exist on disk as empty scaffolded
-directories (created 2026-09-15) with no content yet and nothing tracked in
-git. That is the honest current state — not a gap to hide, not something to
-fill speculatively in this pass.
+**Current repo evidence:** as of 2026-10-01 the V1 implementation fills
+these directories (`agentos/` package, `evals/`, `scripts/`, `workflows/`,
+`skills/`, `state/README.md`). What is implemented vs. partial vs.
+design-only is tracked in `CURRENT_STATE.md` and `docs/v1-implementation.md`;
+this document remains the frozen design reference.
 
 `agent-stack` is **not** a knowledge dump and **not** a replacement for
 SecondBrain. Anything durable that agent-stack work produces (a lesson, a
@@ -611,8 +610,12 @@ routing accuracy, false escalation, missed escalation, multi-step task
 success, RAM, VRAM, power, 24h stability, MSI profile-switch recovery, Qwen
 reload time, Bonsai fallback latency.
 
-None of this is implemented yet — it is the target schema for `evals/` and
-`state/` once they hold real content.
+V1 status (2026-10-01): TraceRecord JSONL telemetry (`agentos/telemetry.py`)
+and executable evals for routing, tool selection, retrieval/knowledge,
+coding, worker dispatch, resource scheduling, fallback, permissions and
+regression exist (`evals/`, `docs/acceptance-report.md`). Local-model
+metrics (TTFT, prefill, VRAM, 24h stability) remain unimplemented until a
+local model is deployed.
 
 ---
 

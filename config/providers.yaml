@@ -1,41 +1,94 @@
-version: 1
+version: 2
+
+# Provider endpoint inventory. Provider routing (which endpoint serves a model)
+# is distinct from semantic task routing (config/routing.yaml) and harness
+# execution (config/workers.yaml).
+#
+# `credential` names WHERE a credential lives, never its value. Presence was
+# checked by name only (2026-10-01).
+#
+# `enabled` = the router may select this provider. A provider that is enabled
+# but reports unhealthy at runtime is skipped and the failure is recorded in
+# telemetry (agentos/router.py).
 
 providers:
+
   claude_subscription:
+    status: available
     enabled: true
-    purpose: specialist
+    locality: cloud
+    access: harness            # only reachable through the Claude Code worker
+    credential: "macOS Keychain: Claude Code-credentials (OAuth)"
+    purpose: [coding_primary, review, architecture]
 
   codex_subscription:
-    enabled: false
-    purpose: specialist
+    status: available
+    enabled: true
+    locality: cloud
+    access: harness
+    credential: "~/.codex/auth.json (ChatGPT login; `codex login status` OK 2026-10-01)"
+    purpose: [coding_primary, implementation, review]
+    note: "Previously `enabled: false`; reconciled with live login state."
 
   nvidia_nim:
+    status: measured
     enabled: true
-    purpose: background_escalation_specialist
-    status: adopted
-    note: >
-      Validated 2026-09-24 (audit/nvidia-nim-2026-09-24.md) running
-      deepseek-ai/deepseek-v4.1-flash via DeepSeek Harness: 20-step
-      autonomous repo-debugging run, 8/8 final suite, 5/5 repeated
-      stability, zero state loss. Free/strong compute provider, NOT a
-      latency-sensitive interactive primary backend. Use only for
-      background/escalation coding work (see config/routing.yaml). Do not
-      treat as the default Hermes brain. moonshotai/kimi-k3 on this same
-      provider remains unreliable (audit/nvidia-nim-2026-09-23.md) and is
-      not covered by this enablement.
+    locality: cloud
+    access: api
+    credential: "env NVIDIA_API_KEY (Hermes credential pool)"
+    evidence: [audit/nvidia-nim-2026-09-24.md, audit/nvidia-nim-2026-09-23.md]
+    purpose: [background_escalation]
+    latency_class: slow_variable
+    note: "Only deepseek-v4.1-flash is approved on this provider; kimi-k3 is disabled."
 
   groq:
+    status: measured
     enabled: false
+    locality: cloud
+    access: api
+    credential: "env HERMES_CUSTOM_API_GROQ_COM_API_KEY (~/.hermes/.env)"
+    evidence: audit/hermes-groq-milestone-2026-10-01.md
+    purpose: []     # was [hermes_primary] on 2026-10-01; the live Hermes default has since changed
+    note: "Authenticated and measured through Hermes native chat on 2026-10-01 (historical measurement, not the live Hermes default). Agent OS worker routing is unchanged (enabled: false here)."
 
-  openrouter:
+  opencode_free:
+    status: configured
     enabled: false
+    locality: cloud
+    access: api
+    note: "Hermes auxiliary title generation only."
 
   deepseek_direct:
+    status: candidate
     enabled: false
-    note: "Escalation target for C4 interactive difficult-reasoning per docs/current-architecture.md §6. Live config not yet verified — do not enable without confirming a real API key/endpoint."
+    locality: cloud
+    access: api
+    credential: null
+    note: "Preferred interactive C4 escalation concept. `hermes status` shows no DeepSeek key (2026-10-01)."
+
+  glm_zai:
+    status: candidate
+    enabled: false
+    locality: cloud
+    access: api
+    credential: null
+    note: "Challenger. A dormant z.ai proxy token exists in ~/.claude/settings.json.glm-backup (plaintext, flagged in audit/claude-current-state.md) — not used."
+
+  openrouter:
+    status: disabled
+    enabled: false
+    reason: "No capability gap; no key."
 
   local_mac:
+    status: candidate
     enabled: false
+    locality: local
+    host: mac
+    note: "No local inference runtime installed (no ollama/llama-server/mlx_lm)."
 
   local_msi:
+    status: candidate
     enabled: false
+    locality: local
+    host: msi
+    note: "MSI not reachable from Mac (no SSH host configured). Never a boot dependency."

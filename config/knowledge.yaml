@@ -1,0 +1,37 @@
+version: 1
+
+# SecondBrain integration. agent-stack does NOT reimplement the vault engine;
+# it drives claude-obsidian's transaction engine (expected-hash CAS +
+# approval hash + journal/backups) through agentos/knowledge.py.
+
+vault:
+  root: "~/SecondBrain"
+  engine: claude-obsidian
+  engine_min_version: "2.2.0"
+  engine_cli_glob: "~/.claude/plugins/cache/agricidaniel-claude-obsidian/claude-obsidian/*/scripts/claude-obsidian.py"
+  git_tracked: false      # vault is not a git repo; recovery = transaction journal backups
+
+paths:
+  inbox: inbox                     # candidate inputs, staging
+  raw: .raw                        # immutable, content-addressed evidence (.raw/captured/<sha256>.<ext>)
+  raw_manifest: .raw/.manifest.json
+  wiki: wiki                       # canonical compiled knowledge
+  source_ledger: wiki/meta/ledgers/source-ledger.json
+  claim_ledger: wiki/meta/ledgers/claim-ledger.json
+  vault_meta: .vault-meta          # transactions/journals — engine-only
+  lessons: inbox/lessons           # lesson candidates (durable-lesson pipeline)
+
+# Canonical write path (all steps enforced in agentos/knowledge.py):
+#   worker result -> Hermes -> durable? -> capture raw evidence
+#   -> proposal bundle (agent-stack state/knowledge/proposals) -> engine inspect (approval hash)
+#   -> reviewer approval record -> engine apply (expected-hash CAS) -> lint
+write_path:
+  workers_write: [inbox]
+  canonical_requires: [proposal, inspect_valid, reviewer_approval, expected_hash_match]
+  approval_record_dir: "~/agent-stack/state/approvals"
+  proposal_dir: "~/agent-stack/state/knowledge/proposals"   # outside the vault so capture never ingests bundles
+  post_apply_checks: [lint]
+
+memory_admission:
+  durable_if_any: [decision, validated_finding, reusable_lesson, source_evidence, negative_result]
+  not_durable: [transient_progress, raw_chat, tool_logs, secrets]

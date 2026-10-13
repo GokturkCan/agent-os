@@ -1,0 +1,72 @@
+version: 1
+
+# POLICY FILE — treated as protected by agentos (same class as
+# config/permissions.yaml). Changes require human review; no worker or
+# self-improvement candidate may modify it (enforced by
+# agentos.permissions.PROTECTED_POLICY_PATHS + evals/protected-manifest.json).
+#
+# Capability profiles for workers. config/permissions.yaml defines
+# filesystem ROLES (operator, knowledge_compiler, research_worker, reviewer);
+# this file defines what an execution WORKER may do inside a task, and maps
+# each profile to one of those roles for filesystem scope.
+
+capabilities:
+  fs_read:            "Read files inside the task scope"
+  fs_write_worktree:  "Write files inside the task's own worktree only"
+  fs_write_inbox:     "Write drafts/evidence to ~/SecondBrain/inbox"
+  shell:              "Run shell commands inside the task worktree"
+  shell_readonly:     "Read-only shell (git status/diff/log, ls)"
+  git_commit_local:   "Create local commits in the task worktree"
+  web_fetch:          "Fetch a public URL"
+  web_search:         "Public web search"
+  mcp_context7:       "Context7 developer-docs MCP"
+  mcp_serena:         "Serena code-navigation MCP"
+  mcp_playwright:     "Playwright browser MCP"
+  mcp_github_read:    "GitHub MCP, read-only toolsets"
+  knowledge_propose:  "Submit a SecondBrain transaction proposal (no apply)"
+  knowledge_approve:  "Approve/apply a reviewed SecondBrain transaction"
+
+# Never grantable to any worker profile. Only the human (or Hermes acting on an
+# explicit human approval) may perform these, outside worker sessions.
+never_grantable:
+  - git_push
+  - git_remote_change
+  - credential_change
+  - permission_change
+  - policy_change
+  - external_publish
+  - secrets_read
+  - destructive_delete
+  - modify_judge
+  - modify_heldout_evals
+  - modify_promotion_criteria
+
+profiles:
+  readonly:
+    fs_role: research_worker
+    grants: [fs_read, shell_readonly, mcp_context7, mcp_serena]
+  coder:
+    fs_role: operator
+    # mcp_playwright (human-approved 2026-10-13): coder MAY receive Playwright, but
+    # only per task — config/mcp.yaml exposure.coder stays [context7, serena];
+    # dispatch adds it via extra_mcp solely when the capability plan selects it.
+    grants: [fs_read, fs_write_worktree, shell, shell_readonly, git_commit_local, mcp_context7, mcp_serena, web_fetch, mcp_playwright]
+  reviewer:
+    fs_role: reviewer
+    grants: [fs_read, shell_readonly, mcp_context7, mcp_serena]
+  knowledge_compiler:
+    fs_role: knowledge_compiler
+    grants: [fs_read, fs_write_inbox, knowledge_propose]
+  knowledge_reviewer:
+    fs_role: reviewer
+    grants: [fs_read, knowledge_approve]
+    human_only: true     # approval of canonical writes is a human/operator act in V1
+  untrusted:
+    fs_role: research_worker
+    grants: [fs_read]
+
+# Profile escalation (e.g. readonly -> coder) is never self-service: it
+# requires a grant record created by the operator with a human approval
+# reference. agentos.permissions.request_escalation() refuses otherwise.
+escalation:
+  requires_human_approval: true

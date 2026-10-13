@@ -1,590 +1,178 @@
-# Personal Agent OS
-
-Local-first, persistent, knowledge-grounded personal AI system.
-
-This repository is the policy, configuration, workflow, and operational
-definition layer for the system.
-
-The architecture is intentionally developed incrementally. Components that
-have not been validated in the real system remain candidates until benchmarked.
-
-## Current Architecture
-
-This README stays intentionally brief. For the full current architecture
-reference — the Hermes/agent-stack/SecondBrain plane breakdown, hardware,
-the cognition pipeline (FastGate/Laya, Qwen, Bonsai, frontier escalation),
-execution workers, HarnessRouter, optional subsystems (OpenMausBot,
-OpenMuse), telemetry/eval schema, the self-improvement loop, and the current
-status table — see:
-
-**[`docs/current-architecture.md`](docs/current-architecture.md)**
-
----
-
-## 1. Architectural Invariants
-
-These are the current system-level rules.
-
-### One Global Control Plane
-
-**Hermes is the single global orchestrator.**
-
-Models, coding agents, research agents, harnesses, routers, tools, and
-automation systems operate under Hermes. They do not become competing global
-orchestrators.
-
-### Separation of Responsibilities
-
-**Hermes = WHO runs/orchestrates the system.**
-**agent-stack = HOW the system operates.**
-**SecondBrain = WHAT the system knows.**
-
-This repository (`agent-stack`) is the policy/config/control-plane
-repository for that middle layer. It is not a durable knowledge store, and
-it does not itself run the system.
-
-- **Hermes** — runtime control plane
-- **agent-stack** — policy, configuration, workflows, evaluation definitions
-- **SecondBrain** — durable knowledge
-- **models** — cognition
-- **workers / harnesses** — execution
-- **hardware nodes** — compute resources
-- **UI clients** — interaction surfaces
-
-No component should silently duplicate another layer's responsibility.
-
-### Durable Knowledge
-
-Canonical durable knowledge belongs in:
-
-`~/SecondBrain`
-
-Hermes session state or worker-specific memory must not silently become a
-second canonical knowledge store.
-
-### State Outside Chat
-
-Important operational state must persist outside model context.
-
-Long-running tasks should be resumable, inspectable, and auditable.
-
-### Deterministic Before Probabilistic
-
-Use ordinary code and deterministic checks whenever they can reliably solve a
-decision.
-
-Use model reasoning where actual cognition is required.
-
-### Human-Controlled Critical Actions
-
-Models may propose actions.
-
-Hermes controls execution.
-
-High-risk actions such as destructive filesystem operations, credential
-changes, permission expansion, external publishing, production deployment,
-money spending, and critical policy changes require explicit policy and,
-where appropriate, human approval.
-
-### Controlled Self-Improvement
-
-Self-improvement is not unrestricted self-editing.
-
-Target process:
-
-observe (Hermes task telemetry/results/failures)
-→ lesson candidate
-→ SecondBrain evidence
-→ improvement proposal
-→ sandbox
-→ evaluate
-→ independently judge/review
-→ canary
-→ promote or rollback
-→ agent-stack policy/config
-
-This pipeline is not yet implemented as an autonomous self-modifying system.
-It is documented here as the intended target; no worker may implement or
-bypass it unilaterally.
-
-Permissions, judges, critical routing policy, canonical knowledge, and
-self-improvement evaluation rules must not be rewritten directly by any
-worker — they require the review gate above.
-
-### Architecture Freeze Principle
-
-A new framework, model, or service is admitted only when it:
-
-1. fills a real missing capability,
-2. materially improves the system,
-3. does not introduce unnecessary duplicate orchestration,
-4. provides more value than operational complexity.
-
-Otherwise it remains on the watchlist.
-
----
-
-## 2. Main Paths
-
-### Agent OS Policy
-
-`~/agent-stack`
-
-Contains:
-
-- configuration
-- policies
-- routing definitions
-- permissions
-- agent and worker definitions
-- skills
-- workflows
-- evaluation definitions
-- operational schemas
-- audit material
-
-### Durable Knowledge
-
-`~/SecondBrain`
-
-Human-facing interface:
-
-- Obsidian
-
-### Research Runtime
-
-`~/research-workspaces`
-
-Used for experiments, temporary research state, generated artifacts, and
-compute jobs.
-
----
-
-## 3. Current Verified Environment
-
-### Mac mini
-
-Role:
-
-**primary control node**
-
-Verified characteristics:
-
-- Apple Silicon
-- 16 GB unified memory
-- Hermes installed
-- agent-stack present
-- Claude Code installed
-- Codex installed
-- OpenCode installed
-- Prime Agent repository present
-- Docker installed
-- SecondBrain / Obsidian environment present
-
-The Mac should prioritize lightweight persistent control-plane services rather
-than heavy model inference.
-
-### Hermes
-
-Verified:
-
-- installed and runnable
-- built-in delegation previously smoke-tested
-- file / terminal / skills / vision / delegation toolsets available
-- native long-term memory intentionally disabled as canonical memory
-  (`memory_enabled: false`, `user_profile_enabled: false`) — because
-  `~/SecondBrain` is the canonical durable memory, not Hermes' own store.
-  Do not introduce Mem0, Honcho, Graphiti, MegaMem, or a new
-  memory/vector-DB dependency to fill this gap; SecondBrain is local-first
-  plain Markdown today, and that is sufficient until a real capability gap
-  is demonstrated.
-- checkpoints and approval controls configured
-
-Hermes is currently installed independently from the system Python.
-
-### Claude / Coding Tooling
-
-Verified components include:
-
-- Claude Code
-- Codex
-- OpenCode
-- Prime Agent
-- Serena
-- Context7
-- Playwright
-- research-oriented skill packs
-
-Some tooling overlap remains to be normalized later.
-
-### NVIDIA NIM
-
-NVIDIA API connectivity and authentication are working.
-
-Verified:
-
-- DNS works
-- HTTPS/TLS works
-- `/v1/models` returns HTTP 200
-- `moonshotai/kimi-k3` is present in the model catalog
-
-However, Kimi K3 chat inference timed out with no response during testing
-(`audit/nvidia-nim-2026-09-23.md`). `moonshotai/kimi-k3` is currently
-**experimental** and must not be treated as reliable.
-
-Separately, `deepseek-ai/deepseek-v4.1-flash` on the same provider, run
-through DeepSeek Harness, passed a 20-step autonomous repo-debugging
-benchmark (8/8 final suite, 5/5 repeated stability, zero state loss —
-`audit/nvidia-nim-2026-09-24.md`). This is **ADOPTED** as a
-background/escalation coding specialist (see §6), not as a latency-sensitive
-interactive primary backend and not as a second global orchestrator. The
-benchmark ran vanilla — no Hermes orchestration, MCP, subagents, skills,
-repo RAG, or external verifier — so it validates the model+harness+provider
-combination in isolation, not its behavior inside the full Agent OS stack.
-
----
-
-## 4. Hardware Model
-
-### Mac mini
-
-Intended responsibilities:
-
-- Hermes
-- agent-stack
-- knowledge services
-- lightweight databases
-- scheduling
-- gateways
-- telemetry
-- lightweight routing / classification
-- optional lightweight local inference
-
-### MSI Ubuntu Laptop
-
-Intended role:
-
-**dynamic compute node**
-
-Candidate workloads:
-
-- local LLM inference
-- CUDA / ML
-- ROS 2
-- Gazebo
-- Nav2 / SLAM
-- MuJoCo / RL
-- computer vision
-- VLA experiments
-- containerized development workloads
-
-The exact local inference stack is not yet frozen.
-
-### Future RTX 3080 Node
-
-Hardware exists/planned for a future dedicated compute node.
-
-Its final role will be decided after the current Mac + MSI architecture is
-validated.
-
----
-
-## 5. Cognition Architecture
-
-The system is expected to use multiple cognition tiers rather than one model
-for every task.
-
-Current conceptual hierarchy:
-
-1. deterministic rules / code
-2. fast typed decision layer
-3. normal local reasoning
-4. stronger local or cloud reasoning
-5. frontier specialist models
-
-Exact model assignments remain benchmark-dependent.
-
-### Current Candidates
-
-Under evaluation:
-
-- Laya-MLX for fast typed decisions
-- Qwen3.6-35B-A3B for primary local reasoning
-- FreeToken as an initial Qwen runtime candidate
-- llama.cpp as a fallback runtime candidate
-- Bonsai 2 as a possible Mac-side fallback
-- Qwen3.8 as a stronger local judge / reasoning candidate
-- GLM as an alternative deep-reasoning candidate
-
-These are **candidates**, not architectural requirements.
-
-### Adopted Specialist
-
-- **DeepSeek V4.1 Flash (via NVIDIA NIM + DeepSeek Harness)** — ADOPTED as a
-  background/escalation coding specialist for hard repo debugging,
-  concurrency bugs, long-horizon coding, refactoring, regression repair,
-  code verification, and background engineering. Not a primary interactive
-  worker; not a second global orchestrator. See `audit/nvidia-nim-2026-09-24.md`.
-
----
-
-## 6. Execution Workers
-
-Current or planned worker roles include:
-
-- **Claude Code** — architecture, hard debugging/refactor, review/design judgment
-- **Codex** — autonomous implementation, multi-file coding, tests/debugging
-- **Muse Code** — parallel coding throughput / worktrees / batch work
-- **Antigravity** — browser/editor/multimodal/Google-heavy work
-- **Prime** — persistent long-running/general workhorse
-- **OpenCode** — overflow/utility worker
-- **DeepSeek Harness + DeepSeek V4.1 Flash** — strong background/escalation
-  coding specialist (NVIDIA NIM). Not a second global orchestrator; not a
-  default interactive worker. See `audit/nvidia-nim-2026-09-24.md`.
-
-None of Prime, DeepSeek Harness, AutoResearch, OpenResearch, Qwen, or n8n
-become a second global orchestrator — Hermes remains the single control
-plane (§1).
-
-Concurrent coding workers should operate in isolated Git worktrees.
-
-The canonical worker execution abstraction is still under evaluation.
-
-Candidates include:
-
-- AI SDK Harnesses
-- HarnessRouter / UHP
-
-Recent tools such as OMP, Pi, fx, Amp, Zed, and OpenHarness remain available
-for later evaluation but are not current core dependencies.
-
----
-
-## 7. Knowledge Architecture
-
-Canonical knowledge:
-
-`SecondBrain`
-
-Current canonical layout:
+# Agent OS
+
+A local-first control plane that turns one orchestrator (Hermes) and several
+coding CLIs (Claude Code, Codex, OpenCode) into a persistent, verifiable,
+resumable agent system.
+
+> **Status: Agent OS v1.0.0 release candidate, private, solo-maintained.** Run 1 (core control
+> plane) and Run 2 (capability plane) are both included in V1, implemented and
+> acceptance-tested on one machine. The `v1.0.0` tag and release do **not** exist yet and `main` has
+> not been updated yet. Run 3 (local intelligence) and Run 4 (research / web) are future work.
+> See [Status](#project-status), [CHANGELOG.md](CHANGELOG.md) and [docs/roadmap.md](docs/roadmap.md).
+
+Hermes decides **who** orchestrates, this repo defines **how** the system
+operates, and `SecondBrain` (a separate Markdown vault, not in this repo) holds
+**what** it knows. This repository is policy + configuration + a small
+deterministic Python control plane. It is not a knowledge store.
+
+## Architecture at a glance
 
 ```
-~/SecondBrain/
-├── inbox/                  # unprocessed drops, staging only
-├── .raw/                   # immutable evidence (append-only)
-├── wiki/                   # canonical compiled knowledge
-│   ├── sources/
-│   ├── meta/ledgers/
-│   ├── projects/
-│   ├── research/
-│   ├── concepts/
-│   ├── entities/
-│   ├── decisions/
-│   ├── index.md
-│   ├── hot.md
-│   ├── log.md
-│   └── overview.md
-├── .vault-meta/            # transaction/runtime infrastructure
-├── .obsidian/
-└── .claude-obsidian.json
+user request
+    │
+    ▼
+bin/hermes-agentos            canonical front door
+    │  agentos intent         deterministic classifier (config/routing.yaml intent_rules)
+    ├── read-only ───────────► normal Hermes chat (skill preloaded)
+    └── mutation  ───────────► agentos mutate ─► agentos dispatch
+                                   │  route → task state → worktree + lease
+                                   │  worker (claude_code | codex | opencode) under a capability profile
+                                   │  verifier command → retry / resume / close with exit_state
+                                   ▼
+                          state/ (tasks, telemetry, events)  — git-ignored runtime state
 ```
 
-Rules:
+Details: [docs/architecture.md](docs/architecture.md).
 
-- `.raw/` is immutable evidence. It is not canonical knowledge by itself.
-- `wiki/` is canonical compiled knowledge.
-- `.vault-meta/` is transaction/runtime infrastructure, not agent-writable
-  content.
-- Workers must NOT directly overwrite canonical `wiki/`. Workers produce
-  drafts, evidence, and proposals (into `inbox/` or their own workspace).
-- Canonical writes into `wiki/` must go through the review/transaction/judge
-  path (see `config/permissions.yaml`).
-- `~/Projects/...` remains real code/data/build storage. SecondBrain project
-  folders (`wiki/projects/`) contain only project knowledge/state, not the
-  project's actual code or build artifacts.
+## V1 capabilities
 
-Target properties:
+| Capability | Status |
+|---|---|
+| Config as source of truth (`config/*.yaml`, validated) | IMPLEMENTED, VERIFIED |
+| Deterministic intent routing; structural mutation branch (Hermes loop bypassed) | IMPLEMENTED, VERIFIED |
+| Persistent file-backed task state, checkpoints, handoff, resume | IMPLEMENTED, VERIFIED |
+| Per-task git worktree isolation + single-owner lease | IMPLEMENTED, VERIFIED |
+| Worker launch under capability profiles (strict MCP, allow/deny tools, sandbox) | IMPLEMENTED; VERIFIED live for Claude Code and Codex. OpenCode is registered but **disabled (fail closed)**: its launch cannot enforce a profile |
+| Worker and verifier timeout enforcement (SIGTERM → SIGKILL on process group) | IMPLEMENTED, VERIFIED by tests; real-run timeout/resume acceptance PENDING |
+| Verification loop with bounded retry / resume | IMPLEMENTED, VERIFIED (real failure → retry → resume run) |
+| Structured telemetry (TraceRecord JSONL) and lifecycle events JSONL, secret-redacted | IMPLEMENTED, VERIFIED |
+| Health and config validation | IMPLEMENTED, VERIFIED |
+| SecondBrain gate (capture → propose → approve → apply → lint) | IMPLEMENTED, VERIFIED on fixture vaults |
+| Self-improvement foundations (protected manifest, proposal gate) | IMPLEMENTED (mechanism only; nothing generates candidates) |
+| Run 2 capability plane: registry, probes, deterministic selection, `agentos capabilities` | CLOSED, VERIFIED (tests + real worker and real Playwright acceptance); dispatch applies deterministic task_type mappings and task-specific MCPs; see [docs/capability-plane.md](docs/capability-plane.md) |
 
-- human-readable
-- local-first
-- searchable
-- linked
-- provenance-aware
-- selectively writable by agents (draft/evidence only — see rules above)
+## Read-only vs mutation paths
 
-Current direction:
+`bin/hermes-agentos "<request>"` asks `agentos intent` to classify the request
+deterministically (no model call):
 
-- Local-first plain Markdown, using Obsidian + `claude-obsidian` + Kepano
-  Obsidian skills as the human-facing/tooling layer.
-- Controlled agent writeback, gated by review before canonical mutation.
-- BM25 / semantic reranking / temporal graph retrieval are future
-  **capability-gap-driven** extensions only — not current dependencies, and
-  not required for SecondBrain to function today.
+- **Read-only** (explain, review, research, find, …) → normal Hermes (one-shot chat) with
+  the `agent-os-orchestrate` skill preloaded.
+- **Clear repo mutation** (fix, implement, refactor, …) → `agentos mutate` →
+  `agentos dispatch`. Hermes' own write/patch/terminal tools are never reachable
+  on this path. Env: `AGENTOS_REPO` (default `$PWD`), `AGENTOS_VERIFY`,
+  `AGENTOS_TASK_ID`.
 
-No vector database, graph database, or external search service is required
-for the current SecondBrain implementation.
+## Quick start
 
----
+Requirements: macOS or Linux, Python ≥ 3.11, [`uv`](https://docs.astral.sh/uv/),
+git. Workers and Hermes are optional for validation but required for real runs
+(`claude`, `codex`, `opencode`, `hermes` on `PATH`, each logged in via its own
+mechanism).
 
-## 8. Research Architecture
+```bash
+uv sync --extra test              # create .venv from uv.lock
+./scripts/health-check.sh         # read-only health + config validation
+uv run agentos validate           # config cross-reference validation
+./scripts/run-evals.sh            # protected-manifest check + full pytest suite
 
-Research functionality will remain under Hermes.
+# Inspect a routing / intent decision without running anything:
+uv run agentos intent --text "fix the failing test in this repo"
+uv run agentos route --help
 
-Target capabilities include:
+# Capability plane (read-only): which executor/tool can satisfy a capability, and why
+uv run agentos capabilities match code.references
+uv run agentos capabilities matrix
+uv run agentos capabilities check
+```
 
-- literature retrieval
-- hypothesis generation
-- experiment planning
-- automated experiment execution
-- metric collection
-- independent evaluation
-- artifact provenance
-- durable result writeback
+A real mutation run (spends worker quota; works on a worktree, never on your
+checkout directly):
 
-Candidate systems such as OpenResearch, Scientific Agent Skills,
-AIRA-style search, and AutoResearch will be integrated only after the core
-Agent OS is operational.
+```bash
+cd /path/to/your/repo
+AGENTOS_VERIFY="python3 -m pytest -q" /path/to/agent-os/bin/hermes-agentos "fix the failing test"
+```
 
----
+Optional live tests that launch real worker CLIs: `AGENTOS_LIVE=1 ./scripts/run-evals.sh`.
 
-## 9. Data and Operations
+## Configuration
 
-The system will need durable task state, telemetry, artifacts, and event
-handling — this is Hermes/agent-stack **operational** state, distinct from
-SecondBrain knowledge content, which stays plain Markdown (§7).
+All policy is in `config/*.yaml` (models, providers, workers, capabilities,
+routing, permissions, MCP, skills, resources, knowledge, promotion, and the
+capability_registry — what providers CAN do, distinct from the protected
+permission profiles in capabilities.yaml). Credentials
+are **never** stored there: files name where a credential lives (an environment
+variable, a CLI login, a keychain item). See [.env.example](.env.example) for the
+variable names the code reads, and [SECURITY.md](SECURITY.md).
 
-### Optional / Future — capability-gap-driven only
+Expected sibling paths (override with env vars, see `.env.example`):
+`~/SecondBrain` (durable knowledge), `~/research-workspaces` (research runtime).
 
-Not installed, not required today, and not to be adopted speculatively:
+## Safety model
 
-- PostgreSQL
-- pgvector
-- Redis (Streams or otherwise)
-- Qdrant / Chroma / any generic vector DB
+- Permissions are enforced by capability boundaries (worker flags, strict MCP
+  config, sandbox mode), not only prompts. Bypass flags are rejected.
+- Workers never write SecondBrain `wiki/`; writes go through a reviewed
+  transaction gate with compare-and-swap.
+- Judges (every file under `evals/`), permissions, capability profiles, promotion rules,
+  `CLAUDE.md`, the worker/MCP/capability-registry policy and the launch-enforcement code are covered by
+  a protected manifest (`evals/protected-manifest.json`); changes need review. `config/routing.yaml`
+  is deliberately the tunable surface; its human-approval risk gate is held by `agentos validate`.
+- Workers cannot push or rewrite remotes: Claude Code launches carry wildcard deny patterns
+  (`*git*push*`, `*git*remote*`, live-probed against a throwaway remote) and every enforced launch
+  carries a `pre-push` guard hook. `rm -rf` / `sudo` are prefix-pattern denials only (best-effort).
+- Only `claude_code` and `codex` can be launched (`ENFORCED_WORKERS`); any worker whose launch cannot
+  enforce a capability profile is refused and skipped by the router.
+- Runtime state and raw provider/session evidence are git-ignored.
+- Hermes built-in long-term memory stays disabled; SecondBrain is canonical.
 
-These remain candidates for Hermes' own task-state/telemetry needs only, and
-only once a real workload demonstrates the need (capability-gap-before-new-
-framework). None of them are a substitute for, or a dependency of,
-SecondBrain.
+## Current limitations
 
-Kafka and Kubernetes are not required Agent OS core dependencies.
+- Single machine (Mac mini). The secondary compute node is not connected.
+- No local inference (Laya / Qwen / Bonsai are benchmark candidates only).
+- Hermes' primary provider has a low account rate limit (8,000 TPM measured),
+  so default-toolset Hermes requests can fail before reaching Agent OS;
+  see `audit/hermes-groq-milestone-2026-10-01.md`.
+- Real-run timeout/resume acceptance has not been executed (tested with fakes only).
+- Telemetry has no TTFT / RAM / VRAM; the worker is one opaque subprocess.
+- Research plane is a written contract only. Self-improvement has no autonomous loop.
+- OpenCode is disabled until a launch adapter can enforce capability profiles (see `config/workers.yaml`).
 
----
+## Project status
 
-## 10. Skill Policy
+**Agent OS v1.0.0 release candidate** (`pyproject.toml` / `agentos.__version__` = `1.0.0`):
+V1 core: **implemented and acceptance-tested**; latest full suite `403 passed, 2 skipped`
+(2 live-only). See [CURRENT_STATE.md](CURRENT_STATE.md) and [CHANGELOG.md](CHANGELOG.md).
+Run 1 and Run 2 are both included in V1: Run 2 (capability plane) is closed and verified, including
+real worker and browser acceptance, and was merged into `agent-os-v1` via PR #2. PR #1
+(`agent-os-v1` → `main`) is still open: `main` has not been updated and no `v1.0.0` tag or GitHub
+release exists yet. Run 3–4 are future work.
 
-Do not install anything speculatively. Skills load progressively, per task —
-not stacked hundreds-deep into standing context.
+## Roadmap
 
-Current decisions:
+| Run | Theme | State |
+|---|---|---|
+| 1 | Core Agent OS | Done (V1); timeout/resume real acceptance pending |
+| 2 | Capability plane | Closed, verified (registry, probes, selection, telemetry, SystemOne contract); backends deferred to Run 3 |
+| 3 | Local intelligence plane | Not started (candidates only) |
+| 4 | Research / web plane | Design only |
 
-- **Scientific Agent Skills** — approved future/current research skill
-  registry.
-- **Last30Days** — approved fresh/community intelligence capability.
-- **Superpowers** — coding-process SOP: *how to perform software
-  engineering correctly*. Preferably native inside coding harnesses such as
-  Claude Code / Codex.
-- **Ponytail** — simplicity/anti-overengineering policy: *how simple the
-  resulting implementation should remain*. A separate concern from
-  Superpowers, not globally forced onto research or creative work.
+Full detail: [docs/roadmap.md](docs/roadmap.md).
 
-Superpowers and Ponytail answer different questions (process vs. output
-simplicity) and are not interchangeable or stacked as if they were the same
-kind of policy.
+## Repository layout
 
-## 11. MCP Tool Policy
+```
+agentos/      control-plane library + CLI (config, router, intent, mutate, dispatch, workers, taskstate, worktree, events, telemetry, knowledge, selfimprove, health, capability_registry/probes/policy/cli, systemone)
+bin/          agentos (CLI wrapper), hermes-agentos (canonical front door)
+config/       canonical YAML policy
+docs/         architecture, roadmap, integration, security, design principles
+evals/        executable acceptance/regression suite + protected manifest
+skills/       Hermes-facing skills (agent-os-orchestrate, agent-os-task)
+workflows/    workflow contracts (coding, knowledge ingest, research)
+scripts/      health-check, run-evals, hermes-wire
+audit/        sanitized milestone / reproducibility notes
+state/        runtime state (git-ignored; README only)
+```
 
-See `config/mcp.yaml` for the canonical, versioned policy skeleton.
-
-Principles:
-
-- Whitelist only.
-- Least privilege per role/task.
-- Lazy / progressive loading — load a tool when a task needs it.
-- Minimum relevant tools per task.
-
-`config/mcp.yaml` distinguishes three states per tool: **desired**
-(candidate, not installed), **installed** (present/configured, may not
-work), and **validated** (installed and confirmed working). An MCP is never
-described as installed or working here without repo evidence (an audit
-file, a passing check) confirming it — see `audit/claude-current-state.md`
-for the last full inventory pass.
-
-## 12. Current Implementation Priorities
-
-Near-term work:
-
-1. reconcile live configuration with agent-stack
-2. establish a reliable Hermes cognition/provider path
-3. connect the MSI compute node
-4. benchmark local inference
-5. benchmark the fast decision layer
-6. define the universal task contract
-7. define worker lifecycle and execution abstraction
-8. connect Hermes directly to SecondBrain
-9. implement durable task/state storage
-10. add telemetry and evaluation
-11. implement resource scheduling
-12. add background automation and messaging
-13. integrate the research workflow
-14. add richer user interfaces
-15. enable controlled self-improvement
-
-The order may change when testing reveals new dependencies.
-
----
-
-## 13. Decision States
-
-Architecture decisions should be classified as:
-
-### VERIFIED
-
-Confirmed in the live system.
-
-### ADOPTED
-
-Tested and selected for production use.
-
-### CANDIDATE
-
-Promising but not yet validated.
-
-### EXPERIMENTAL
-
-Useful for testing but not relied upon.
-
-### REJECTED
-
-Tested and deliberately excluded.
-
-This distinction should be preserved across documentation and configuration.
-
----
-
-## 14. Documentation Principle
-
-README.md describes the high-level architecture and current direction.
-
-Detailed implementation decisions belong in:
-
-- `docs/` — architecture reference (see `docs/current-architecture.md`)
-- `config/`
-- `agents/`
-- `adapters/`
-- `workers/`
-- `workflows/`
-- `skills/`
-- `evals/`
-- `state/`
-- `scripts/`
-- `audit/`
-- future architecture decision records
-
-`agents/`, `adapters/`, `workflows/`, `skills/`, `evals/`, `state/`, and
-`scripts/` are scaffolded empty directories today (created 2026-09-15, no
-content yet) — see `docs/current-architecture.md` §4 for the intended
-responsibility of each.
-
-This README is expected to evolve as candidates are benchmarked and decisions
-become stable.
+Long-form principles and hardware notes: [docs/design-principles.md](docs/design-principles.md).

@@ -1,0 +1,55 @@
+version: 1
+
+# Compute nodes and resource profiles. Implemented by agentos/resources.py.
+# The Mac control plane must boot and stay healthy with the MSI absent.
+
+nodes:
+  mac:
+    role: control_plane
+    hardware: "Mac mini M4, 16 GB unified memory"
+    always_on: true
+    boot_critical: true
+    services: [hermes, agent-stack, secondbrain, claude-obsidian]
+    local_inference: none_installed
+    ram_budget_gb_for_models: 6    # leave headroom for control plane + workers
+
+  msi:
+    role: switchable_execution_node
+    hardware: "RTX 4070 Laptop 8 GB VRAM, 32 GB RAM, Ubuntu"
+    always_on: false
+    boot_critical: false           # invariant: never a Mac boot dependency
+    reachability:
+      method: ssh
+      ssh_host_alias: msi          # expected ~/.ssh/config alias; not configured as of 2026-10-01
+      probe_timeout_seconds: 3
+    status: unreachable_unconfigured
+    exclusive_gpu_profiles: true
+
+  rtx3080:
+    role: future
+    status: not_a_dependency
+
+profiles:
+  LLM_INFERENCE:          {gpu: exclusive, workloads: [qwen3.6-35b-a3b], restore_after: false}
+  ROBOTICS:               {gpu: exclusive, workloads: [ros2, gazebo]}
+  RL_SIM:                 {gpu: exclusive, workloads: [mujoco]}
+  ML_TRAIN:               {gpu: exclusive, workloads: [pytorch, cuda]}
+  EXPERIMENTAL_INFERENCE: {gpu: exclusive, workloads: [warp, colibri], note: "one at a time, LAB"}
+  DEV_TEST:               {gpu: shared, workloads: [generic]}
+
+default_profile: LLM_INFERENCE
+
+# Explicit, ordered transition steps. The scheduler refuses a transition that
+# skips a step and records every step in telemetry.
+transition:
+  steps:
+    - drain_inflight_llm_requests
+    - unload_llm_runtime
+    - route_reasoning_to_fallback     # Bonsai (Mac) if measured, else cloud chain
+    - switch_profile
+    - run_workload
+    - restore_default_profile
+    - health_check
+  refuse_if:
+    - target_node_unreachable
+    - another_exclusive_profile_active

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# One-shot Hermes entry with deterministic skill preload:
+#   hermes-agentos "fix the failing test in this repo" [extra hermes chat args]
+# agentos decides (config/routing.yaml intent_rules). A clear repo-mutation request
+# is routed structurally to `agentos mutate` -> dispatch -> worker -> verifier and
+# never enters Hermes. Everything else runs normal Hermes unchanged.
+# Env (mutation only): AGENTOS_REPO (default $PWD), AGENTOS_VERIFY, AGENTOS_TASK_ID.
+set -euo pipefail
+[ $# -ge 1 ] || { echo "usage: hermes-agentos \"request\" [hermes chat args]" >&2; exit 2; }
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REQ="$1"; shift
+AGENTOS="${AGENTOS_BIN:-$ROOT/bin/agentos}"   # AGENTOS_BIN/HERMES_BIN: test seams only
+DECISION="$("$AGENTOS" intent --text "$REQ")"
+echo "hermes-agentos: $DECISION" >&2
+if [ "$(printf '%s' "$DECISION" | python3 -c 'import json,sys; print(json.load(sys.stdin)["force"])')" = "True" ]; then
+  # Mutation: structural route into Agent OS dispatch. Normal Hermes is never started,
+  # so its patch/write_file/terminal tools are unreachable. Extra Hermes args are not used.
+  exec "$AGENTOS" mutate --text "$REQ" --repo "${AGENTOS_REPO:-$PWD}" \
+    ${AGENTOS_VERIFY:+--verify "$AGENTOS_VERIFY"} ${AGENTOS_TASK_ID:+--task-id "$AGENTOS_TASK_ID"}
+fi
+exec "${HERMES_BIN:-hermes}" chat -q "$REQ" "$@"

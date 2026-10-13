@@ -1,1 +1,88 @@
 .DS_Store
+
+# Python / uv
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local secrets / auth
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*
+secrets*
+.tokens/
+.auth/
+
+# Editors
+.vscode/
+.idea/
+
+# Agent OS runtime state
+state/tasks/
+state/telemetry/
+state/runtime/
+state/worktrees/
+state/approvals/
+state/knowledge/
+state/selfimprove/
+state/locks/
+state/tmp/
+state/cache/
+
+# Logs / generated
+logs/
+*.log
+tmp/
+.temp/
+.cache/
+dist/
+build/
+
+# Large local model artifacts
+models/
+*.gguf
+*.safetensors
+*.onnx
+*.pt
+*.pth
+
+# Raw local acceptance/provider evidence
+audit/hermes-groq-*/
+
+# --- Release hygiene additions ---
+# Agent/IDE tool scratch (session buffers, local tool state)
+.remember/
+.claude/
+.serena/
+.hermes/
+*.swp
+*~
+Thumbs.db
+
+# Anything else under state/ is runtime state; only the README is documentation
+state/*
+!state/README.md
+
+# Local DBs / caches / editor-adjacent artifacts
+*.sqlite
+*.sqlite3
+*.db
+*.bak
+*.backup*
+.coverage.*
+*.egg-info/
+.ruff_cache/
+
+# Raw provider/session dumps (keep sanitized summaries as audit/*.md instead)
+audit/**/raw/
+audit/**/*.session*
+audit/**/*.transcript*
