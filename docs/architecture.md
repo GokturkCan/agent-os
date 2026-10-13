@@ -88,8 +88,9 @@ component generates candidates autonomously**.
 `capability_registry.py` + `config/capability_registry.yaml` (what providers CAN do),
 `capability_probes.py` (availability/health/auth, offline), `capability_policy.py`
 (deterministic eligibility, ranking, fallbacks, explanation, telemetry payload),
-`agentos capabilities` CLI, and an opt-in `dispatch --require-capability` that narrows
-the router's worker chain. `systemone.py` is the backend-neutral SystemOne/FastGate
+`agentos capabilities` CLI, and dispatch integration (declared capabilities + the
+registry's task_type mapping) that narrows the router's worker chain and passes only
+plan-selected MCP servers to the launch. `systemone.py` is the backend-neutral SystemOne/FastGate
 contract only. See [capability-plane.md](capability-plane.md).
 
 ## 9. FUTURE — not implemented

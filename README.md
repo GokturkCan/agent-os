@@ -48,7 +48,7 @@ Details: [docs/architecture.md](docs/architecture.md).
 | Health and config validation | IMPLEMENTED, VERIFIED |
 | SecondBrain gate (capture → propose → approve → apply → lint) | IMPLEMENTED, VERIFIED on fixture vaults |
 | Self-improvement foundations (protected manifest, proposal gate) | IMPLEMENTED (mechanism only; nothing generates candidates) |
-| Run 2 capability plane: registry, probes, deterministic selection, `agentos capabilities` | IMPLEMENTED, VERIFIED by tests; dispatch integration opt-in; see [docs/capability-plane.md](docs/capability-plane.md) |
+| Run 2 capability plane: registry, probes, deterministic selection, `agentos capabilities` | IMPLEMENTED, VERIFIED by tests; dispatch applies task_type mappings and task-specific MCPs; see [docs/capability-plane.md](docs/capability-plane.md) |
 
 ## Read-only vs mutation paths
 
@@ -135,7 +135,7 @@ Expected sibling paths (override with env vars, see `.env.example`):
 ## Project status
 
 V1 core: **implemented and acceptance-tested**; latest full suite (Run 2 branch)
-`321 passed, 2 skipped` (2 live-only). See [CURRENT_STATE.md](CURRENT_STATE.md).
+`333 passed, 2 skipped` (2 live-only). See [CURRENT_STATE.md](CURRENT_STATE.md).
 Run 2 (capability plane) is implemented and test-verified; Run 3–4 are future work.
 
 ## Roadmap

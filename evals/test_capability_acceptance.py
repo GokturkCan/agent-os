@@ -193,8 +193,10 @@ def _never(launch, **kw):
     raise AssertionError("worker must not run")
 
 
-def test_run1_dispatch_without_capabilities_is_unchanged(cfg, fixture_repo, tmp_path):
-    res = _go(cfg, fixture_repo, tmp_path, _fixing_runner)
+def test_run1_dispatch_unmapped_task_type_is_unchanged(cfg, fixture_repo, tmp_path):
+    # `review` has no task_types mapping and nothing is declared -> exact Run 1 path.
+    res = dispatch(cfg, task_id="cap-task", task_type="review", repo=fixture_repo, prompt="fix add()",
+                   verify=PYTEST, runner=_fixing_runner, worktree_root=tmp_path / "wts")
     assert (res["status"], res["exit_state"], res["worker"]) == ("done", "success", "claude_code")
     assert "capabilities" not in res
     assert "capability_decision" not in [e["event"] for e in events.read_all("cap-task")]
@@ -277,5 +279,6 @@ def test_invalid_registry_fails_closed_only_when_capabilities_declared(cfg, fixt
     res = _go(cfg, fixture_repo, tmp_path, _never, required_capabilities=("code.edit",))
     assert (res["status"], res["exit_state"]) == ("not_dispatched", "blocked")
     assert "capability plane error" in res["trace"][0]
-    ok = _go(cfg, fixture_repo, tmp_path, _fixing_runner, task_id="cap-norun2")   # Run 1 path never loads it
-    assert ok["exit_state"] == "success"
+    # Nothing declared: an unreadable registry only skips the task_type mapping (Run 1 path).
+    ok = _go(cfg, fixture_repo, tmp_path, _fixing_runner, task_id="cap-norun2")
+    assert ok["exit_state"] == "success" and "capabilities" not in ok

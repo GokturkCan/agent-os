@@ -28,8 +28,8 @@ TASK -> required capabilities -> CapabilityRegistry -> probes (availability/heal
 | Worker/tool parity matrix (R2.8) | `capability_policy.parity_matrix`, `agentos capabilities matrix` | IMPLEMENTED, VERIFIED |
 | Tests / acceptance (R2.9) | `evals/test_capability_*.py`, `evals/test_systemone.py` | VERIFIED |
 | SystemOne/FastGate contract (R2.10) | `agentos/systemone.py` | IMPLEMENTED (contract only); backends DEFERRED to Run 3 |
-| Dispatch integration | `dispatch(required_capabilities=...)`, `--require-capability` | IMPLEMENTED, VERIFIED by tests (opt-in); no real worker run yet |
-| Tool exposure into worker launch from a plan | — | DEFERRED (launch exposure stays with capability profiles) |
+| Dispatch integration | `dispatch(...)`: declared caps + `task_types` mapping | IMPLEMENTED, VERIFIED by tests and real-CLI dry-runs; no real worker run yet |
+| Plan-selected MCP tools in worker launch | `capability_policy.selected_mcp` → `build_launch(extra_mcp=...)` | IMPLEMENTED, VERIFIED (task-specific; profile grant still enforced) |
 | ContextGate | — | DESIGN-ONLY |
 
 ## What the CapabilityRegistry is — and is not
@@ -44,8 +44,8 @@ authority. There is no database, vector DB or registry service.
 
 - **Not a permission system.** It answers *CAN*. `config/capabilities.yaml` (protected)
   still answers *MAY*. Worker launch keeps building allowed tools, sandbox mode and the
-  strict MCP set from capability profiles. A plan that selects Playwright does not grant
-  `mcp_playwright`.
+  strict MCP set from capability profiles. A plan can only *add* an MCP server the
+  worker's profile is already granted (e.g. coder holds `mcp_playwright`, readonly does not).
 - **Not an orchestrator.** Hermes stays the sole global orchestrator, and
   `agentos/router.py` stays the routing authority. The plane only narrows (an
   `eligible_workers` constraint) and explains.
@@ -125,15 +125,30 @@ Required capabilities = explicit ∪ task contract `required_capabilities` ∪ t
 
 Ordering is independent of declaration order (verified by test).
 
-### Dispatch integration (opt-in, backwards compatible)
+### Dispatch integration (backwards compatible)
 
-`agentos dispatch ... --require-capability code.references` (or a contract with
-`required_capabilities`, which resume reuses) plans before routing. A blocked plan
+Required capabilities = `--require-capability` / contract `required_capabilities` (resume
+reuses them) ∪ the registry's `task_types` mapping, via `resolve_required`. So a plain
+`--type coding` dispatch plans `code.edit + code.test`. An unmapped type (e.g. `review`)
+with nothing declared keeps the exact Run 1 path. Dispatch plans before routing. A blocked plan
 returns `not_dispatched/blocked` before any task, worktree or worker exists. Otherwise the
 plan's eligible workers narrow the router's chain (trace:
 `C4: skip worker codex: not capability-eligible`). If the registry is invalid while
-capabilities are declared, dispatch fails closed. **Without declared capabilities nothing
-changes:** the registry isn't even loaded, and the result and records keep their Run 1 shape.
+capabilities are declared, dispatch fails closed. If nothing is declared, an unreadable
+registry only skips the mapping, with a warning on stderr. The `capability_decision` event
+is emitted for declared requirements. Auto-resolved plans are recorded on the result and
+TraceRecord (`capabilities`), and the contract stores only declared capabilities. That
+keeps the Run 1 lifecycle event stream and task.yaml shape unchanged.
+
+**MCP wiring.** Only MCP servers the plan selected for the *routed* worker are passed as
+`extra_mcp`: providers of kind `mcp` whose `config_ref` points at a `config/mcp.yaml` entry
+with a `launch` definition. Native capabilities, CLI/skill providers (e.g. repomix,
+gh-cli) and launch-less MCPs (github-mcp, an HTTP plugin) never become servers.
+`workers.mcp_servers_for` still checks the profile grant. **Playwright is task-specific:**
+coder holds `mcp_playwright` (human-approved 2026-10-13), but `mcp.yaml exposure.coder`
+stays `[context7, serena]`, so Playwright appears only when the plan selects it (e.g.
+`--require-capability web.browser_test`). The result's `capabilities.extra_mcp` and
+dry-run `mcp_servers` show this.
 
 ## Telemetry / explainability
 
@@ -255,6 +270,4 @@ RTK and Headroom will be benchmarked separately. Neither is bundled.
 - Confidence calibration (accuracy, ECE, Platt, isotonic, per-workload thresholds).
 - Network/service probes (`service` probe type is a placeholder) and authenticated health
   checks for MCP services.
-- Exposing plan-selected tools (e.g. Playwright) to a worker launch. That's a
-  permission/profile change and needs review.
 - Real worker run with declared capabilities (so far verified by tests with stand-in workers).

@@ -29,9 +29,9 @@ Only claims backed by `CURRENT_STATE.md` are marked VERIFIED.
 | Availability / health / auth probes (R2.3) | IMPLEMENTED, VERIFIED (local probes); network probes DEFERRED |
 | Required capabilities, eligibility, deterministic selection + fallback (R2.4/R2.5) | IMPLEMENTED, VERIFIED |
 | Capability telemetry / explanation (R2.7), parity matrix (R2.8), `agentos capabilities` CLI | IMPLEMENTED, VERIFIED |
-| Dispatch integration (opt-in `--require-capability`) | IMPLEMENTED, VERIFIED by tests; no real worker run yet |
+| Dispatch integration (declared caps + task_type mapping) | IMPLEMENTED, VERIFIED by tests + dry-runs; no real worker run yet |
 | SystemOne/FastGate typed contract (R2.10) | IMPLEMENTED (contract only); backends DEFERRED to Run 3 |
-| Plan-selected tool exposure into worker launch | DEFERRED (permission/profile change; needs review) |
+| Plan-selected MCP exposure into worker launch (Playwright task-specific) | IMPLEMENTED, VERIFIED |
 | ContextGate (per-task context loading policy) | DESIGN-ONLY |
 
 Detail: [capability-plane.md](capability-plane.md).

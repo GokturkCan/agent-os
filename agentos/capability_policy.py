@@ -87,6 +87,7 @@ class CapabilityPlan:
     reasons: list[str] = field(default_factory=list)
     tools: dict[str, str] = field(default_factory=dict)     # capability -> provider (executor id == native)
     tool_fallbacks: dict[str, list[str]] = field(default_factory=dict)
+    tools_by_executor: dict[str, dict[str, str]] = field(default_factory=dict)  # per eligible executor
     eligible_executors: list[str] = field(default_factory=list)   # ranked; [0] == executor
     eligible_workers: list[str] = field(default_factory=list)
     rejected_executors: dict[str, Rejection] = field(default_factory=dict)
@@ -312,6 +313,7 @@ def plan(registry: Registry, request: CapabilityRequest, probes: dict) -> Capabi
 
     exec_keys.sort()
     out.eligible_executors = [k[-1] for k in exec_keys]
+    out.tools_by_executor = {e: {cap: opts[0] for cap, opts in m.items()} for e, m in means_by_exec.items()}
     out.eligible_workers = [registry.get(e).worker_name for e in out.eligible_executors]
     if not out.eligible_executors:
         out.exit_state = "blocked"
@@ -421,12 +423,33 @@ def emit_decision(plan: CapabilityPlan, task_id: str | None = None) -> dict | No
 
 
 # ------------------------------------------------------------ convenience
+def selected_mcp(cfg, registry: Registry, plan: CapabilityPlan, worker: str | None) -> tuple[str, ...]:
+    """config/mcp.yaml names of the MCP servers the plan selected for `worker`.
+
+    Only providers of kind `mcp` whose config_ref points at an mcp.yaml entry
+    with a launch definition qualify; native executor capabilities and
+    CLI/skill/service providers never become MCP servers. Whether the worker's
+    profile may actually receive a server is still decided at launch
+    (workers.mcp_servers_for checks the profile grant)."""
+    executor = next((e for e, w in zip(plan.eligible_executors, plan.eligible_workers) if w == worker), None)
+    names = []
+    for pid in sorted(set(plan.tools_by_executor.get(executor, {}).values())):
+        p = registry.providers.get(pid)
+        if p is None or p.kind != "mcp" or not (p.config_ref or "").startswith("mcp."):
+            continue
+        name = p.config_ref.split(".", 1)[1]
+        spec = cfg.mcp["tools"].get(name) or {}
+        if spec.get("kind") == "mcp" and "launch" in spec:
+            names.append(name)
+    return tuple(names)
+
+
 def plan_for(cfg, required=(), *, task_id: str | None = None, task_type: str | None = None,
              contract: dict | None = None, overrides: dict | None = None, probes: dict | None = None,
-             deep: bool = False, **constraints) -> CapabilityPlan:
-    """Load the registry, run local probes (no network) and plan."""
+             deep: bool = False, registry: Registry | None = None, **constraints) -> CapabilityPlan:
+    """Load the registry (unless given), run local probes (no network) and plan."""
     from . import capability_probes, capability_registry
-    reg = capability_registry.load(cfg)
+    reg = registry or capability_registry.load(cfg)
     caps = resolve_required(reg, required, task_type, contract)
     if probes is None:
         probes = capability_probes.probe_all(reg, capability_probes.ProbeContext(cfg=cfg, deep=deep), overrides)

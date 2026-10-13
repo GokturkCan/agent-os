@@ -27,13 +27,13 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 | SecondBrain gate over claude-obsidian | IMPLEMENTED, VERIFIED (fixture vaults) | live vault untouched; doctor ok, lint 0 |
 | Telemetry JSONL + lifecycle events (`agentos/events.py`) | IMPLEMENTED, VERIFIED | secret-redacted; TTFT/RAM/VRAM not collected |
 | Health check | IMPLEMENTED, VERIFIED | 29 checks, 0 FAIL, 4 WARN (2026-10-13; includes `capabilities.registry`) |
-| Eval suite | IMPLEMENTED, VERIFIED | latest full run (2026-10-13, Run 2 branch): **321 passed / 2 skipped** (live-only) |
+| Eval suite | IMPLEMENTED, VERIFIED | latest full run (2026-10-13, Run 2 branch): **333 passed / 2 skipped** (live-only) |
 | Deterministic intent routing (`agentos/intent.py`) | IMPLEMENTED, VERIFIED | read-only → normal Hermes; mutation → forced |
 | Canonical entrypoint structural mutation branch (`bin/hermes-agentos` → `agentos mutate` → dispatch) | **VERIFIED** | tests + real run |
 | Real mutation acceptance | **VERIFIED** | hermes-agentos → force=true → mutate → dispatch → claude_code → verifier → success |
 | Real failure → retry → resume acceptance | **VERIFIED** | run 1: status=retryable, retries=1; run 2: same task/worktree, verify passed, exit_state=success |
 | Real timeout → resume acceptance | **PENDING** | timeout enforcement verified by tests only; no real timeout run executed |
-| Run 2 capability plane (`docs/capability-plane.md`) | IMPLEMENTED, VERIFIED by tests (2026-10-13, branch `feature/run2-capability-plane`) | registry + Wave A inventory, offline probes, deterministic selection/fallback, `capability_decision` telemetry, parity matrix, `agentos capabilities` CLI; dispatch integration opt-in (`--require-capability`), no real worker run yet |
+| Run 2 capability plane (`docs/capability-plane.md`) | IMPLEMENTED, VERIFIED by tests (2026-10-13, branch `feature/run2-capability-plane`) | registry + Wave A inventory, offline probes, deterministic selection/fallback, `capability_decision` telemetry, parity matrix, `agentos capabilities` CLI; dispatch plans declared caps + task_type mapping (coding → code.edit/test) and passes only plan-selected MCPs (Playwright task-specific); no real worker run yet |
 | SystemOne/FastGate | Contract IMPLEMENTED (`agentos/systemone.py`); backends + calibration DEFERRED (Run 3) | raw confidence never treated as calibrated |
 | ContextGate, Run 3 (local intelligence), Run 4 (research/web) | FUTURE / DESIGN-ONLY | see `docs/roadmap.md` |
 | MSI resource profiles | IMPLEMENTED (state machine) | MSI not connected — PARTIAL |
@@ -70,7 +70,7 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 3. Re-auth GitHub MCP; rotate/delete the dormant z.ai token outside this repo.
 4. Connect MSI (SSH alias `msi`), then benchmark Qwen3.6 → set status `measured`.
 5. Benchmark Laya-MLX / Bonsai 2 on the Mac within the 6 GB model budget.
-6. Run 2 follow-ups: real dispatch with `--require-capability`; review exposing plan-selected tools to worker launch. Run 3–4 per `docs/roadmap.md`.
+6. Run 2 follow-up: one real dispatch with a browser capability (Playwright via extra_mcp). Run 3–4 per `docs/roadmap.md`.
 
 ## Hermes milestone (2026-10-01, historical)
 
