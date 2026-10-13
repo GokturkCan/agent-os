@@ -39,6 +39,14 @@ def run_checks(cfg: C.Config | None = None) -> list[dict]:
         add("config.load", FAIL, repr(exc))
         return out
 
+    try:
+        from . import capability_registry
+        reg = capability_registry.load(cfg)
+        add("capabilities.registry", PASS, f"{len(reg.providers)} providers, {len(reg.capabilities)} "
+            "capabilities registered (registration only; `agentos capabilities check` probes)")
+    except Exception as exc:  # reported, never fatal to the rest of the health run
+        add("capabilities.registry", FAIL, str(exc)[:300])
+
     remotes = _git("remote")
     add("repo.no_remote", WARN if remotes else PASS, remotes or "no git remote (expected)")
     add("repo.branch", INFO, _git("branch", "--show-current"))

@@ -130,4 +130,7 @@ def validate(cfg: Config) -> list[str]:
 
     for name, s in cfg.skills.get("sources", {}).items():
         check_status("skills", name, s)
+
+    from . import capability_registry   # imports this module; deferred to avoid a cycle
+    errors.extend(capability_registry.validate(cfg))
     return errors

@@ -1,0 +1,511 @@
+version: 1
+
+# CapabilityRegistry — what workers/tools/skills CAN do (Run 2, R2.1/R2.2/R2.6).
+# Parsed + validated by agentos/capability_registry.py; probed by
+# agentos/capability_probes.py; selected by agentos/capability_policy.py.
+#
+#   registered (listed here) != installed != available != healthy != eligible
+#
+# `adoption` is a decision (adopted/benchmark/future/catalog/disabled), NOT an
+# install state: an adopted entry whose probe finds nothing is simply
+# unavailable. Runtime state is never written into this file.
+#
+# This file answers CAN. config/capabilities.yaml (protected) still answers
+# MAY: worker launch permissions are unchanged by anything here. Provider
+# records link to the existing inventories via `config_ref` instead of
+# duplicating them (workers.yaml / mcp.yaml / skills.yaml stay authoritative
+# for launch, exposure and install notes).
+#
+# Ordered vocabularies (earlier == preferred when ranking; `unknown` is never
+# upgraded):
+#   locality: local, self_hosted, hybrid, cloud, unknown
+#   cost:     free, existing_subscription, metered, expensive, unknown
+#   latency:  local_fast, local_slow, network, high_latency, unknown
+#   risk:     low, medium, high, unknown
+#   hosts:    mac, msi, cloud, any       auth: none, optional, required
+# Executor integrations: supported | unsupported | unknown. Anything not listed
+# stays unknown — never inferred.
+
+# ------------------------------------------------------------ catalog
+# Stable hierarchical ids. A provider may only declare ids listed here.
+capabilities:
+  code.edit:                   "Edit source files"
+  code.refactor:               "Structured multi-file refactoring"
+  code.test:                   "Run and author tests"
+  code.debug:                  "Diagnose and fix failures"
+  code.semantic_navigation:    "Language-aware navigation of a codebase"
+  code.symbol_lookup:          "Find symbol definitions"
+  code.references:             "Find references to a symbol"
+  code.diagnostics:            "Language-server diagnostics"
+  code.snapshot:               "Pack a repository into a single context snapshot"
+  web.browse:                  "Fetch/read public web pages"
+  web.interact:                "Drive a browser (click, type, navigate)"
+  web.browser_test:            "Deterministic browser/E2E testing"
+  web.crawl:                   "Multi-page crawling"
+  web.extract:                 "Structured extraction from web pages"
+  web.docs_lookup:             "Current library/framework documentation"
+  devops.shell:                "Run shell commands in the task worktree"
+  devops.git:                  "Local git operations"
+  devops.github:               "GitHub structured data (repos, issues, PRs)"
+  research.literature_search:  "Search scientific literature"
+  research.paper_analysis:     "Analyse research papers"
+  research.hypothesis_generation: "Generate research hypotheses"
+  research.experiment_design:  "Design experiments"
+  research.evaluation:         "Evaluate research results"
+  research.recent_signals:     "Recent community/trend intelligence"
+  knowledge.retrieve:          "Retrieve from durable knowledge"
+  knowledge.ingest:            "Ingest a source into knowledge drafts"
+  knowledge.write:             "Gated canonical knowledge writes"
+  knowledge.provenance:        "Source/claim provenance tracking"
+  knowledge.multimodal_search: "Search knowledge across text/images/documents"
+  knowledge.obsidian_format:   "Obsidian markdown/bases/canvas conventions"
+  files.semantic_search:       "Semantic search over local files"
+  reverse_engineering.binary_analysis:   "Analyse compiled binaries"
+  reverse_engineering.decompile:         "Decompile binaries"
+  reverse_engineering.static_analysis:   "Static analysis of binaries/apps"
+  reverse_engineering.electron_analysis: "Analyse Electron applications"
+  reverse_engineering.dotnet_analysis:   "Analyse .NET assemblies"
+  reverse_engineering.runtime_analysis:  "Observe a program at runtime"
+  reverse_engineering.evidence_trace:    "Evidence trail for RE findings"
+  ui.design_system:            "Design-system specification (DESIGN.md)"
+  ui.component_registry:       "UI component registry lookup"
+  ui.quality_filter:           "Filter generic/low-quality UI output"
+  ui.style_reference:          "Visual style references"
+  engineering.workflow:        "Engineering process SOPs (TDD, debugging, planning)"
+  engineering.spec:            "Spec-driven development"
+  engineering.guidelines:      "LLM coding behaviour guidelines"
+  engineering.simplicity:      "Simplicity / anti-overengineering policy"
+  visualization.architecture_diagram: "Architecture diagrams"
+  skills.load:                 "Executor can load SKILL.md-style skills"
+
+# ------------------------------------------------------------ Wave A inventory
+providers:
+
+  # ---- execution workers (executors) ------------------------------------
+  - id: claude-code
+    kind: worker
+    adoption: adopted
+    config_ref: workers.claude_code
+    capabilities: [code.edit, code.refactor, code.test, code.debug, devops.shell, devops.git,
+                   web.browse, skills.load]
+    locality: cloud
+    cost: existing_subscription
+    latency: network
+    risk: medium
+    hosts: [mac]
+    auth: required            # OAuth in macOS Keychain; not probed (value never read)
+    preference: 10
+    integrations:
+      serena: supported
+      context7: supported
+      playwright: supported   # harness supports it; per-task exposure still needs the mcp_playwright grant
+      github-mcp: supported   # plugin wired; tool health tracked on github-mcp itself
+      superpowers: supported
+      kepano-obsidian-skills: supported
+      rea: unknown
+      omni-macos: unknown
+    probe:
+      - {type: executable, target: claude, health_args: [--version]}
+    source: "config/workers.yaml; agentos/workers.py launch adapter"
+
+  - id: codex
+    kind: worker
+    adoption: adopted
+    config_ref: workers.codex
+    capabilities: [code.edit, code.refactor, code.test, code.debug, devops.shell, devops.git]
+    locality: cloud
+    cost: existing_subscription
+    latency: network
+    risk: medium
+    hosts: [mac]
+    auth: required            # ChatGPT login (~/.codex/auth.json); not probed
+    preference: 20
+    integrations:
+      serena: unsupported     # not in ~/.codex/config.toml MCP set; agentos launch wires no MCP (2026-10-13)
+      context7: unsupported
+      playwright: unsupported
+      github-mcp: unsupported
+      rea: unknown
+      omni-macos: unknown
+    probe:
+      - {type: executable, target: codex, health_args: [--version]}
+    notes: "Skill loading under Agent OS launch not verified — left unknown."
+    source: "config/workers.yaml; ~/.codex/config.toml section names only"
+
+  - id: opencode
+    kind: worker
+    adoption: adopted
+    config_ref: workers.opencode
+    capabilities: [code.edit, code.refactor, code.test, code.debug, devops.shell, devops.git, skills.load]
+    locality: cloud
+    cost: unknown             # depends on the model opencode is configured with
+    latency: network
+    risk: medium
+    hosts: [mac]
+    auth: required
+    preference: 30
+    integrations:
+      serena: unsupported     # no mcp section in ~/.config/opencode/opencode.json (2026-10-13)
+      context7: unsupported
+      playwright: unsupported
+      github-mcp: unsupported
+      rea: unknown
+      omni-macos: unknown
+    probe:
+      - {type: executable, target: opencode, health_args: [--version]}
+    notes: "Overflow worker; Agent OS launch is argv-only (not live-verified)."
+    source: "config/workers.yaml"
+
+  # ---- code ---------------------------------------------------------------
+  - id: serena
+    kind: mcp
+    adoption: adopted
+    config_ref: mcp.serena
+    capabilities: [code.semantic_navigation, code.symbol_lookup, code.references, code.refactor,
+                   code.diagnostics]
+    locality: local
+    cost: free
+    latency: local_fast
+    risk: medium              # has symbol-edit tools
+    hosts: [mac]
+    auth: none
+    probe:
+      - {type: executable, target: uvx}
+      - {type: config_health, ref: mcp.serena}
+    source: "config/mcp.yaml"
+
+  - id: repomix
+    kind: cli
+    adoption: adopted
+    config_ref: mcp.repomix
+    capabilities: [code.snapshot]
+    requires: [devops.shell]
+    locality: local
+    cost: free
+    latency: local_slow
+    risk: low
+    hosts: [any]
+    auth: none
+    probe:
+      - {type: executable, target: npx}
+    notes: "Run on demand via `npx repomix`; first use downloads the package."
+    source: "config/mcp.yaml (candidate: no standing install)"
+
+  # ---- docs / dev -------------------------------------------------------------
+  - id: context7
+    kind: mcp
+    adoption: adopted
+    config_ref: mcp.context7
+    capabilities: [web.docs_lookup]
+    locality: hybrid          # local npx shim, cloud documentation service
+    cost: free
+    latency: network
+    risk: low
+    hosts: [any]
+    auth: optional            # works unauthenticated (rate-limited); key raises limits
+    probe:
+      - {type: executable, target: npx}
+      - {type: config_health, ref: mcp.context7}
+      - {type: env_auth, env: [CONTEXT7_API_KEY]}
+    source: "config/mcp.yaml"
+
+  - id: github-mcp
+    kind: mcp
+    adoption: adopted
+    config_ref: mcp.github_mcp
+    capabilities: [devops.github]
+    locality: cloud
+    cost: existing_subscription
+    latency: network
+    risk: medium              # write-capable; Agent OS restricts to read toolsets
+    hosts: [cloud]
+    auth: required
+    probe:
+      - {type: config_health, ref: mcp.github_mcp}
+    source: "config/mcp.yaml"
+
+  - id: gh-cli
+    kind: cli
+    adoption: adopted
+    config_ref: mcp.gh_cli_readonly
+    capabilities: [devops.github]
+    requires: [devops.shell]
+    locality: hybrid
+    cost: free
+    latency: network
+    risk: medium
+    hosts: [any]
+    auth: required            # `gh` login state not verified by agents
+    preference: 50
+    probe:
+      - {type: executable, target: gh}
+    notes: "Run 1 read-only fallback for github_structured (config/routing.yaml tool_routing)."
+    source: "config/mcp.yaml; config/routing.yaml"
+
+  # ---- browser ---------------------------------------------------------------
+  - id: playwright
+    kind: mcp
+    adoption: adopted
+    config_ref: mcp.playwright
+    capabilities: [web.interact, web.browser_test, web.browse]
+    locality: local
+    cost: free
+    latency: local_slow
+    risk: medium
+    hosts: [any]
+    auth: none
+    probe:
+      - {type: executable, target: npx}
+      - {type: config_health, ref: mcp.playwright}
+    source: "config/mcp.yaml"
+
+  - id: browser-use
+    kind: service
+    adoption: future
+    config_ref: mcp.browser_use
+    capabilities: [web.interact, web.browse]
+    locality: unknown
+    cost: unknown
+    latency: high_latency
+    risk: high
+    hosts: [any]
+    auth: none
+    probe:
+      - {type: declared}
+    notes: "Open-ended browsing only when Playwright is insufficient. Registered as a future fallback; never selected while adoption=future."
+    source: "config/mcp.yaml (deferred)"
+
+  # ---- reverse engineering -------------------------------------------------------
+  - id: rea
+    kind: mcp
+    adoption: adopted
+    capabilities: [reverse_engineering.binary_analysis, reverse_engineering.decompile,
+                   reverse_engineering.static_analysis, reverse_engineering.electron_analysis,
+                   reverse_engineering.dotnet_analysis, reverse_engineering.runtime_analysis,
+                   reverse_engineering.evidence_trace]
+    locality: local
+    cost: free
+    latency: local_slow
+    risk: high                # runtime analysis executes untrusted binaries
+    hosts: [any]
+    auth: none
+    probe:
+      - {type: declared}
+    notes: "Not installed; install location unknown — add an executable/path probe on install."
+
+  # ---- knowledge / file retrieval ------------------------------------------------
+  - id: omni-macos
+    kind: service
+    adoption: adopted
+    capabilities: [files.semantic_search, knowledge.multimodal_search]
+    locality: local
+    cost: free
+    latency: local_fast
+    risk: low
+    hosts: [mac]
+    auth: none
+    probe:
+      - {type: declared}
+    notes: "Not installed; add a probe on install. Read-only retrieval, never a knowledge authority (SecondBrain is)."
+
+  # ---- engineering skills (metadata; not executables) ------------------------------
+  - id: superpowers
+    kind: skill
+    adoption: adopted
+    config_ref: skills.superpowers
+    capabilities: [engineering.workflow]
+    locality: local
+    cost: free
+    latency: local_fast
+    risk: low
+    hosts: [any]
+    probe:
+      - {type: claude_plugin, target: superpowers}
+
+  - id: spec-kit
+    kind: skill
+    adoption: adopted
+    capabilities: [engineering.spec]
+    locality: local
+    cost: free
+    latency: local_fast
+    risk: low
+    hosts: [any]
+    probe:
+      - {type: executable, target: specify}
+
+  - id: karpathy-skills
+    kind: skill
+    adoption: adopted
+    capabilities: [engineering.guidelines]
+    locality: local
+    cost: free
+    latency: local_fast
+    risk: low
+    hosts: [any]
+    probe:
+      - {type: path, paths: ["~/.claude/skills/*karpathy*", "~/.claude/plugins/cache/*/*karpathy*"]}
+
+  - id: ponytail
+    kind: skill
+    adoption: adopted
+    config_ref: skills.ponytail
+    capabilities: [engineering.simplicity]
+    locality: local
+    cost: free
+    latency: local_fast
+    risk: low
+    hosts: [any]
+    probe:
+      - {type: path, paths: ["~/.claude/skills/*ponytail*", "~/.claude/plugins/cache/*/*ponytail*"]}
+
+  - id: anti-slop
+    kind: skill
+    adoption: adopted
+    capabilities: [ui.quality_filter]
+    locality: local
+    cost: free
+    latency: local_fast
+    risk: low
+    hosts: [any]
+    probe:
+      - {type: path, paths: ["~/.claude/skills/*anti-slop*", "~/.claude/plugins/cache/*/*anti-slop*"]}
+    notes: "A filter skill, never an orchestrator."
+
+  # ---- research --------------------------------------------------------------------
+  - id: last30days
+    kind: skill
+    adoption: adopted
+    config_ref: skills.last30days
+    capabilities: [research.recent_signals]
+    locality: hybrid
+    cost: unknown
+    latency: network
+    risk: low
+    hosts: [any]
+    probe:
+      - {type: path, paths: ["~/.claude/skills/*last30days*", "~/.claude/plugins/cache/*/*last30days*"]}
+
+  - id: scientific-agent-skills
+    kind: skill
+    adoption: adopted
+    config_ref: skills.scientific_agent_skills
+    capabilities: [research.literature_search, research.paper_analysis, research.hypothesis_generation,
+                   research.experiment_design, research.evaluation]
+    locality: hybrid
+    cost: unknown
+    latency: network
+    risk: low
+    hosts: [any]
+    probe:
+      - {type: path, paths: ["~/.claude/skills/*scientific*", "~/.claude/plugins/cache/*/*scientific*"]}
+
+  # ---- knowledge skills ---------------------------------------------------------------
+  - id: kepano-obsidian-skills
+    kind: skill
+    adoption: adopted
+    config_ref: skills.kepano_obsidian_skills
+    capabilities: [knowledge.obsidian_format]
+    locality: local
+    cost: free
+    latency: local_fast
+    risk: low
+    hosts: [any]
+    probe:
+      - {type: claude_plugin, target: obsidian}
+
+  # ---- visualization --------------------------------------------------------------------
+  - id: archify
+    kind: skill
+    adoption: adopted
+    capabilities: [visualization.architecture_diagram]
+    locality: local
+    cost: free
+    latency: local_fast
+    risk: low
+    hosts: [any]
+    probe:
+      - {type: declared}
+    notes: "Not installed; add a probe on install."
+
+  # ---- UI ---------------------------------------------------------------------------------
+  - id: design-md
+    kind: skill
+    adoption: adopted
+    capabilities: [ui.design_system]
+    locality: local
+    cost: free
+    latency: local_fast
+    risk: low
+    hosts: [any]
+    probe:
+      - {type: path, paths: ["~/.claude/skills/*design-md*", "~/.claude/plugins/cache/*/*design-md*"]}
+
+  - id: 21st-dev
+    kind: mcp
+    adoption: adopted
+    capabilities: [ui.component_registry]
+    locality: cloud
+    cost: unknown
+    latency: network
+    risk: low
+    hosts: [cloud]
+    auth: required
+    probe:
+      - {type: declared}
+    notes: "Not installed; auth credential location not yet defined."
+
+  - id: refero-styles
+    kind: skill
+    adoption: adopted
+    capabilities: [ui.style_reference]
+    locality: unknown
+    cost: unknown
+    latency: unknown
+    risk: low
+    hosts: [any]
+    probe:
+      - {type: path, paths: ["~/.claude/skills/*refero*", "~/.claude/plugins/cache/*/*refero*"]}
+
+# ------------------------------------------------------------ selection policy
+# Deterministic; executed by agentos/capability_policy.py. Ranking key, in
+# order: capability preference -> verified state (probed-healthy before
+# unknown) -> cost -> locality -> latency -> provider preference -> id.
+# Hard constraints (adoption, availability, health, auth, host, request caps on
+# cost/locality/risk, deny list) filter BEFORE ranking, so they always override
+# cost preference.
+policy:
+  runtime_adoption: [adopted]          # benchmark/future/catalog/disabled are never selected
+  allow_unknown_availability: false    # unprobed/undeclared install state is not "available"
+  allow_unknown_health: true           # unknown != unhealthy: allowed, ranked after verified
+  allow_unknown_auth: true             # same; a request with strict=true rejects unknowns
+  capability_preferences:
+    code.references: [serena]
+    code.semantic_navigation: [serena]
+    code.symbol_lookup: [serena]
+    web.interact: [playwright, browser-use]
+    web.browser_test: [playwright]
+    web.docs_lookup: [context7]
+    devops.github: [github-mcp, gh-cli]
+  capability_reasons:
+    code.references: semantic-navigation-required
+    code.semantic_navigation: semantic-navigation-required
+    code.symbol_lookup: semantic-navigation-required
+    web.interact: browser-deterministic
+    web.browser_test: browser-deterministic
+    reverse_engineering.binary_analysis: reverse-engineering-required
+    reverse_engineering.decompile: reverse-engineering-required
+    reverse_engineering.static_analysis: reverse-engineering-required
+    reverse_engineering.electron_analysis: reverse-engineering-required
+    reverse_engineering.dotnet_analysis: reverse-engineering-required
+    reverse_engineering.runtime_analysis: reverse-engineering-required
+    reverse_engineering.evidence_trace: reverse-engineering-required
+  # Deterministic task-type -> capability mapping (no LLM inference).
+  task_types:
+    coding: [code.edit, code.test]
+    github: [devops.github]
+    docs_lookup: [web.docs_lookup]
+    browser_test: [web.browser_test]
+    reverse_engineering: [reverse_engineering.static_analysis]
+  # Columns of `agentos capabilities matrix` (capability ids or provider ids).
+  parity_columns: [devops.shell, devops.git, serena, context7, github-mcp, playwright, rea, skills.load]
