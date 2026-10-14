@@ -74,7 +74,7 @@ def test_backend_resolution():
 def test_config_validation_rejects_unregistered_backend(cfg):
     assert C.validate(cfg) == []
     assert C.validate(_cfg(cfg, "policy-order")) == []
-    assert any("not a registered backend" in e for e in C.validate(_cfg(cfg, "some-model")))
+    assert any("not a registered or configured backend" in e for e in C.validate(_cfg(cfg, "some-model")))
 
 
 # ------------------------------------------------------------ A / G: NullBackend preserves behaviour

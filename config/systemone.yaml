@@ -1,0 +1,32 @@
+version: 1
+
+# SystemOne backend DEFINITIONS (R3.2). PROTECTED POLICY FILE (agentos.permissions): an entry
+# names an executable the control plane will run, so a candidate must not be able to edit it.
+# config/routing.yaml `systemone.backend` only SELECTS one of these (or a built-in: "null",
+# "policy-order"); the default stays "null". Backends here are benchmark/test candidates:
+# nothing in this file makes any of them a production default.
+#
+# adapter `subprocess_json`: argv is run as a long-lived worker speaking one JSON object per line
+# (agentos/systemone_adapter.py). Placeholders: {repo} = repository root, {runtime} = runtime_dir.
+# The worker gets a scrubbed environment (no inherited secrets) and runs offline.
+backends:
+
+  laya-mlx:
+    adapter: subprocess_json
+    # Isolated, git-ignored runtime: a dedicated venv + pinned weights. Not an agentos dependency.
+    runtime_dir: state/runtime/laya-mlx
+    argv:
+      - "{runtime}/venv/bin/python"
+      - "{repo}/agentos/systemone_workers/laya_worker.py"
+      - "--model"
+      - "{runtime}/models/laya-multilingual-mlx"
+    timeout_seconds: 2.0            # per decision; the worker process is killed on expiry
+    startup_timeout_seconds: 60.0   # model load + warm-up
+    cooldown_seconds: 30.0          # after any failure, escalate immediately for this long
+    # Informational provenance (what was installed/benchmarked; see audit/laya-mlx-r3.2-*.md).
+    model:
+      id: aac6fef/laya-multilingual-mlx
+      revision: f2b4faf51023039425946074e2cf1361d2db11d5
+      sha256: 7fc5834af4d8fdfb268d272a9d1a66e5819a0daac98241651c4c888cc43adff1
+      upstream: convaiinnovations/laya-multilingual
+    package: {name: laya-mlx, version: "0.4.0", wheel_sha256: f8f92dd6959ce22d7dc6c334ce68740b47aee607d1fa8271c010ce3d4f5857da}

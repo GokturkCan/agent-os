@@ -14,7 +14,7 @@ import yaml
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CONFIG_FILES = ("models", "providers", "routing", "workers", "capabilities",
-                "resources", "mcp", "skills", "knowledge", "permissions")
+                "resources", "mcp", "skills", "knowledge", "permissions", "systemone")
 # Security-relevant routing policy that is not file-protected (routing.yaml is the tunable
 # surface for self-improvement candidates) and is therefore enforced by validate() instead.
 REQUIRED_RISK_MARKERS = {"credential_change", "permission_change", "external_publish",
@@ -115,10 +115,16 @@ def validate(cfg: Config) -> list[str]:
     if set(routing.get("exit_states", [])) != EXIT_STATES:
         errors.append("routing.exit_states must equal the canonical exit-state set")
     from . import systemone   # deferred: keeps config import light
+    from . import systemone_adapter
+    defined = systemone_adapter.definitions(cfg)
+    for bname, conf in defined.items():
+        errors.extend(systemone_adapter.validate_definition(bname, conf))
+        if bname in systemone.BACKENDS:
+            errors.append(f"systemone.backends.{bname}: name collides with a built-in backend")
     backend = (routing.get("systemone") or {}).get("backend", "null")
-    if backend not in systemone.BACKENDS:
-        errors.append(f"routing.systemone.backend {backend!r} is not a registered backend "
-                      f"({sorted(systemone.BACKENDS)})")
+    if backend not in systemone.BACKENDS and backend not in defined:
+        errors.append(f"routing.systemone.backend {backend!r} is not a registered or configured backend "
+                      f"({sorted(systemone.BACKENDS)} + {sorted(defined)})")
     risk = routing.get("risk") or {}
     if risk.get("high_requires_human_approval") is not True:
         errors.append("routing.risk.high_requires_human_approval must be true")

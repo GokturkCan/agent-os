@@ -37,7 +37,8 @@ CONFIDENCE_KINDS = ("none", "raw", "calibrated")
 QUESTION_KINDS = ("choose", "yes_no")
 REASON_CODES = ("backend-choice", "policy-order", "no-backend", "no-eligible-options", "ineligible-choice",
                 "backend-error", "low-confidence", "uncalibrated-confidence", "unanswered-question",
-                "unroutable-choice")
+                "unroutable-choice", "backend-timeout", "backend-unavailable", "malformed-output",
+                "unsupported-question", "state-too-large")
 
 
 @dataclass(frozen=True)
@@ -139,16 +140,24 @@ class PolicyOrderBackend:
 BACKENDS = {"null": NullBackend, "policy-order": PolicyOrderBackend}
 
 
-def resolve_backend(spec=None) -> SystemOneBackend:
+def resolve_backend(spec=None, cfg=None) -> SystemOneBackend:
     """None or "null" -> NullBackend (the default: always escalates); a registered name -> a new
-    instance; an object implementing SystemOneBackend -> itself (tests / explicit wiring).
+    instance; a name defined in config/systemone.yaml (needs `cfg`) -> its adapter backend, cached
+    per process; an object implementing SystemOneBackend -> itself (tests / explicit wiring).
     An unknown name raises ValueError so callers can fall back to the null backend."""
     if spec is None:
         return NullBackend()
     if isinstance(spec, str):
-        if spec not in BACKENDS:
-            raise ValueError(f"unknown SystemOne backend {spec!r} (registered: {sorted(BACKENDS)})")
-        return BACKENDS[spec]()
+        if spec in BACKENDS:
+            return BACKENDS[spec]()
+        configured: list[str] = []
+        if cfg is not None:
+            from . import systemone_adapter          # deferred: the adapter imports this module
+            configured = sorted(systemone_adapter.definitions(cfg))
+            if spec in configured:
+                return systemone_adapter.backend_for(spec, cfg)
+        raise ValueError(f"unknown SystemOne backend {spec!r} (registered: {sorted(BACKENDS)}, "
+                         f"configured: {configured})")
     if isinstance(spec, SystemOneBackend):
         return spec
     raise ValueError(f"not a SystemOne backend: {type(spec).__name__}")

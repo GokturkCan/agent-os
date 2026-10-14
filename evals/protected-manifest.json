@@ -3,7 +3,7 @@
   "files": {
     "CLAUDE.md": "2bc1baa1dbfd8c08bf1490ee0df257546fdf499a6e60d8aca26223346a1a85a2",
     "agentos/githooks/pre-push": "dc73b4e24f45ed93b3cbf9c42edf54c8ca7e7bea8ac06835fb316813f47e19da",
-    "agentos/permissions.py": "92b214644de0774723904390c8f48541727e688f3ccd444cf06e7229fd9b507c",
+    "agentos/permissions.py": "adecea0f24b0a8bf1e9c1045966d0e36b1036fbaf064000474ceb4dfa7bfd75b",
     "agentos/selfimprove.py": "8835593d3992c5d43edd7dd35eef2fbe5f4512bdc9c0aae5daa0f9632f7c93f6",
     "agentos/workers.py": "8dcac3c16fb8af254212ba311465056b073b41ff55bdaa7ac37a094af1484517",
     "config/capabilities.yaml": "c6a07840857d2a0ef6752db9f79991c23974942a69c3a9e94a8483879f79f4ae",
@@ -11,6 +11,7 @@
     "config/mcp.yaml": "59a1b3522ca1e68158e9e9f6143b892dd97bc30f60f010028ef358405b81535d",
     "config/permissions.yaml": "eedf18b4c7b46ab69fff631ec4c7efba6f93cb4e5f6c853dcd58ca2d77cf5107",
     "config/promotion.yaml": "842f6c080b9f19f3df0cd0ed355c7788e7497fe7ff502259c3c1ff041b665d57",
+    "config/systemone.yaml": "9bbf8bee8fc8d3e0c9f0c8ecfdccfd8417636ad071209377514f8d4ff78e3dce",
     "config/workers.yaml": "a758dd43e5c7eaeeb37319031d1aee30df2a1801e51cceb4d8667f480996b05b",
     "evals/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "evals/conftest.py": "b08fa0b9af233b9f41c6b36fceed4085aaa131827624323c6a8f4d27dc8ea308",
@@ -38,7 +39,8 @@
     "evals/test_regression_config.py": "850101c47af903e0858c3959c8b35b57eb3922c0172296d22210b6f363490474",
     "evals/test_skill_enforcement.py": "90c7d8a4dba0022e64b59699abbbb4892c71c3cef4b915efcd6d2c7569db5f2a",
     "evals/test_systemone.py": "5eac03259a770946a43c4dd4dadbd7eaa6d91ea01bc5632abb49d9c0b75cce01",
-    "evals/test_systemone_routing.py": "8cc22a5b4c1c744a4e50e757341d180db738e8be62486bd326da15d61e4c4bd9",
+    "evals/test_systemone_adapter.py": "f5af28a9f2eb6de7fef42693b0bc8c529c501b0d5a37e696c4cb140dd68c8239",
+    "evals/test_systemone_routing.py": "ebda04ced8a24a9ad0486c5e71e1656631a8cd5bf97579efaf640c6f60dbf85b",
     "evals/test_timeouts.py": "b305be34e98173d1f4675b8bbbd8128f7d333015611d5d27f7e34190cb8de0d2",
     "evals/test_worker_boundaries.py": "4a3142833958081fc85bd26bd4bd7a44abc5968c16b49e371793f3aa0aa7f52e"
   }

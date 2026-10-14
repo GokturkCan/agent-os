@@ -133,7 +133,7 @@ def _systemone_step(cfg: Config, event: dict, health: dict, d: Decision, tc: dic
     try:
         try:
             be = systemone.resolve_backend(backend if backend is not None
-                                           else (cfg.routing.get("systemone") or {}).get("backend"))
+                                           else (cfg.routing.get("systemone") or {}).get("backend"), cfg)
         except ValueError as exc:
             d.trace.append(f"fastgate: systemone backend unusable ({exc}); using null backend")
             be = systemone.NullBackend()
