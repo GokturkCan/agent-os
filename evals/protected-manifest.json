@@ -11,7 +11,7 @@
     "config/mcp.yaml": "59a1b3522ca1e68158e9e9f6143b892dd97bc30f60f010028ef358405b81535d",
     "config/permissions.yaml": "eedf18b4c7b46ab69fff631ec4c7efba6f93cb4e5f6c853dcd58ca2d77cf5107",
     "config/promotion.yaml": "842f6c080b9f19f3df0cd0ed355c7788e7497fe7ff502259c3c1ff041b665d57",
-    "config/systemone.yaml": "de6cecd0ccf847c44647d6c3b48878f265144f5fdce241ab5509bedcabc33fb5",
+    "config/systemone.yaml": "9d019cc2fa0050ee789048e67dda1d227a8b0b9d2b57729f31fe98fa7bf0cc76",
     "config/workers.yaml": "a758dd43e5c7eaeeb37319031d1aee30df2a1801e51cceb4d8667f480996b05b",
     "evals/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "evals/conftest.py": "b08fa0b9af233b9f41c6b36fceed4085aaa131827624323c6a8f4d27dc8ea308",

@@ -1,0 +1,1 @@
+{"n": 200, "median_ms": {"prompt_build_and_tokenize": 0.78, "model_forward_only": 107.04, "full_method_answer_one": 104.99}, "median_input_tokens": 157.0, "note": "method overhead = full_method - model_forward (includes its own prompt build, mask, softmax, render)"}

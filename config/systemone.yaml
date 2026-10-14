@@ -76,3 +76,46 @@ backends:
       upstream: jaredpalmer/kev
       base: {id: Qwen/Qwen3.5-0.8B-Base, revision: dc7cdfe2ee4154fa7e30f5b51ca41bfa40174e68, sha256: c2b1e5a17d9c1e27685d92ed9b382911ebb99955ecd89052d1721241adfbab6c}
     package: {name: kev, version: "0.1.0", source: "jaredpalmer/kev@6b719c3c (tag kev-1.0)"}
+
+  openjev-2b:
+    adapter: subprocess_json
+    # R3.2F candidate (benchmark/test only, NOT a default). Isolated runtime; trained decision model
+    # (LoRA + scalar head) on the post-trained Qwen3.5-2B, bfloat16 on MPS, offline.
+    runtime_dir: state/runtime/openjev2b
+    argv:
+      - "{runtime}/venv/bin/python"
+      - "{repo}/agentos/systemone_workers/openjev2b_worker.py"
+      - "--model"
+      - "{runtime}/hf-home/hub/models--ZefanCai--Open-Jev-2B/snapshots/0c7aa498b1627be8da4acf34c863ff0ee0a92785/package/checkpoint"
+      - "--hf-home"
+      - "{runtime}/hf-home"
+    timeout_seconds: 2.0
+    startup_timeout_seconds: 120.0
+    cooldown_seconds: 30.0
+    model:
+      id: ZefanCai/Open-Jev-2B
+      revision: 0c7aa498b1627be8da4acf34c863ff0ee0a92785
+      sha256: 2d23935b1a7380db444abac572c04646918ba794e59002d1588236182a3ca18f   # adapter_model.safetensors (head.pt 3532cd57…)
+      upstream: Zefan-Cai/Open-Jev
+      base: {id: Qwen/Qwen3.5-2B, revision: 15852e8c16360a2fea060d615a32b45270f8a8fc, sha256: aa33250c4fc64891ddfaba3a314fd9542ea371843c387178b425fbcc5ed680b1}
+    package: {name: open-jev, version: "0.1.0.dev0", source: "Zefan-Cai/Open-Jev@bd411882"}
+
+  openjev-masked:
+    adapter: subprocess_json
+    # R3.2F candidate (benchmark/test only, NOT a default). Training-free masked-logit softmax over
+    # letter tokens (lookski/openjev) on Qwen3-0.6B; raw softmax, never calibrated.
+    runtime_dir: state/runtime/openjev-masked
+    argv:
+      - "{runtime}/venv/bin/python"
+      - "{repo}/agentos/systemone_workers/openjev_masked_worker.py"
+      - "--model"
+      - "{runtime}/hf-home/hub/models--Qwen--Qwen3-0.6B/snapshots/c1899de289a04d12100db370d81485cdf75e47ca"
+    timeout_seconds: 2.0
+    startup_timeout_seconds: 90.0
+    cooldown_seconds: 30.0
+    model:
+      id: Qwen/Qwen3-0.6B
+      revision: c1899de289a04d12100db370d81485cdf75e47ca
+      sha256: f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b
+      upstream: lookski/openjev
+    package: {name: openjev, version: "0.1.0", source: "lookski/openjev@49eb1382"}
