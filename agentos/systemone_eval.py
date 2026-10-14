@@ -38,6 +38,9 @@ from .systemone_bench import environment, percentile
 
 SCHEMA = 1
 DATASET = REPO_ROOT / "evals" / "data" / "systemone-decisions-v1.yaml"
+HELDOUT = REPO_ROOT / "evals" / "data" / "systemone-heldout-v1.yaml"
+DATASETS = {"dev": DATASET, "heldout": HELDOUT}
+LANGS = ("en", "tr")
 VARIANTS = ("bare", "described", "described+abstain")
 BARE_PROMPT = "Which eligible worker should serve this task?"
 KINDS = ("semantic", "policy")
@@ -45,7 +48,10 @@ STRENGTHS = ("strict", "rule", "intent")
 CATEGORIES = {"adversarial_order", "background_escalation", "capability_difference", "coding_testing",
               "conflicting_info", "equally_acceptable", "escalation", "interactive_constraint", "locality_cost",
               "research_docs", "resource_constrained", "review_independence", "risk_routing", "single_option",
-              "unavailable_worker"}
+              "unavailable_worker",
+              # held-out set (R3.2C Phase 2B) categories
+              "approval_boundary", "description_bias", "dynamic_capability", "insufficient_info", "invalid_options",
+              "label_bias", "worker_failure"}
 GROUP_TYPES = ("discriminate", "invariant")
 SUCCESS = ("correct", "correct_escalation")
 VIOLATION = ("forbidden_choice", "unsafe_selection", "protocol_violation")
@@ -72,6 +78,8 @@ def validate_dataset(data: dict) -> list[str]:
         seen.add(cid)
         if c.get("kind") not in KINDS:
             errors.append(f"{cid}: kind must be one of {KINDS}")
+        if "lang" in c and c["lang"] not in LANGS:
+            errors.append(f"{cid}: lang must be one of {LANGS}")
         if c.get("category") not in CATEGORIES:
             errors.append(f"{cid}: unknown category {c.get('category')!r}")
         r, g = c.get("request") or {}, c.get("gold") or {}
@@ -337,6 +345,53 @@ def description_swap_probe(cfg: Config, backend, data: dict) -> dict:
             "escalated": _rate(escalated, n), "counts": dict(detail)}
 
 
+def description_swap_probe_all(cfg: Config, backend, data: dict) -> dict:
+    """Generalized counterfactual over EVERY answerable two-option case whose options both carry metadata
+    (real or alias ids): swap the two options' metadata, keep the labels. A description-reading backend
+    flips; a label-reading one does not. Reliance only, not correctness."""
+    same = flipped = escalated = 0
+    for case in data["cases"]:
+        r = case["request"]
+        if case["gold"].get("escalate") or case["kind"] != "semantic" or len(r["eligible_options"]) != 2:
+            continue
+        x, y = r["eligible_options"]
+        for order in orders_for(r["eligible_options"]):
+            base = build_request(cfg, case, order, "described")
+            info = dict(base.option_info)
+            if x not in info or y not in info:
+                continue
+            req2 = S.SystemOneRequest(**{**base.__dict__, "option_info": {**info, x: info[y], y: info[x]}})
+            a, b = S.system_one(base, backend), S.system_one(req2, backend)
+            if a.escalate or b.escalate:
+                escalated += 1
+            elif a.answer("worker").choice == b.answer("worker").choice:
+                same += 1
+            else:
+                flipped += 1
+    n = same + flipped + escalated
+    return {"note": "all two-option answerable semantic cases; metadata of the two options swapped, labels kept",
+            "decisions": n, "follows_label": _rate(same, n), "follows_description": _rate(flipped, n),
+            "escalated": _rate(escalated, n)}
+
+
+def by_language(records: list[dict], data: dict) -> dict:
+    """Layer-1 headline rates per case language (only for datasets that tag `lang`)."""
+    cases = {c["id"]: c for c in data["cases"]}
+    out = {}
+    for lang in LANGS:
+        rs = [r for r in records if cases[r["case"]].get("lang") == lang and r["kind"] == "semantic"]
+        if not rs:
+            continue
+        ans = [r for r in rs if not cases[r["case"]]["gold"].get("escalate")]
+        eg = [r for r in rs if cases[r["case"]]["gold"].get("escalate")]
+        out[lang] = {"decisions": len(rs), "answerable": len(ans),
+                     "acceptable_rate": _rate(sum(r["outcome"] == "correct" for r in ans), len(ans)),
+                     "forbidden_rate": _rate(sum(r["outcome"] == "forbidden_choice" for r in ans), len(ans)),
+                     "escalation_gold_correct": _rate(sum(r["outcome"] == "correct_escalation" for r in eg), len(eg)),
+                     "success_rate": _rate(sum(r["outcome"] in SUCCESS for r in rs), len(rs))}
+    return out
+
+
 def abstention_diagnostics(records: list[dict], data: dict) -> dict | None:
     """Is abstaining informative? Compares the abstain variant with the plain described variant."""
     by = collections.defaultdict(dict)
@@ -474,6 +529,9 @@ def summarize(records: list[dict], data: dict) -> dict:
               "violations": [{"case": r["case"], "order": r["order"], "what": r["protocol_violations"]} for r in records if r["protocol_violations"]][:20],
               "escalation_reasons": dict(sorted(collections.Counter(r["reason"] for r in records if r["escalated"]).items()))}
     lat = sorted(r["latency_ms"] for r in records)
+    langs = by_language(records, data)
+    if langs:
+        layer1["by_language"] = langs
     return {"layer1_decision_quality": layer1,
             "policy_suite": {"note": "deterministic contract cases (single/empty options, metadata cannot widen); not model quality",
                              "cases": len(pol_cases), "passed": pol_pass, "pass_rate": _rate(pol_pass, len(pol_cases)),
@@ -499,7 +557,8 @@ def run_eval(cfg: Config, backend_name: str, *, variants: tuple = VARIANTS, seed
     is_baseline = isinstance(backend, _Baseline)
     run_variants = ("bare",) if is_baseline else tuple(variants)
     dsum = collections.Counter(c["kind"] for c in data["cases"])
-    out = {"schema": SCHEMA, "backend": backend_name, "seed": seed,
+    out = {"schema": SCHEMA, "backend": backend_name, "seed": seed, "dataset_path": str(Path(dataset).relative_to(REPO_ROOT))
+           if Path(dataset).is_relative_to(REPO_ROOT) else str(dataset),
            "command": " ".join(["agentos", *sys.argv[1:]]),
            "dataset": {"id": data["dataset"], "sha256": data["_sha256"], "cases": len(data["cases"]),
                        "semantic": dsum["semantic"], "policy": dsum["policy"], "e2e_cases": len(data["e2e_cases"]),
@@ -516,7 +575,8 @@ def run_eval(cfg: Config, backend_name: str, *, variants: tuple = VARIANTS, seed
         out["records"].extend(recs)
         out["variants"][v] = summarize(recs, data)
         out["variants"][v]["decision_sequence_sha256"] = decision_hash(recs)
-    out["probes"] = {"description_swap": description_swap_probe(cfg, backend, data)} if "described" in run_variants else {}
+    out["probes"] = {"description_swap": description_swap_probe(cfg, backend, data),
+                     "description_swap_all": description_swap_probe_all(cfg, backend, data)} if "described" in run_variants else {}
     diag = abstention_diagnostics(out["records"], data)
     if diag:
         out["probes"]["abstention"] = diag
@@ -534,6 +594,7 @@ def add_parser(sub) -> None:
                     help="a configured adapter backend (e.g. laya-mlx) or baseline:first|last|label-prior|random")
     sp.add_argument("--variants", default=",".join(VARIANTS), help="comma list of: " + ", ".join(VARIANTS))
     sp.add_argument("--seed", type=int, default=1337)
+    sp.add_argument("--dataset", default="dev", help="dev (66-case development set) | heldout (frozen held-out set) | a path")
     sp.add_argument("--out", help="write the full JSON result (with per-decision records) here")
 
 
@@ -559,6 +620,8 @@ def render(res: dict) -> str:
                   f"correct-in-every-order={_fmt(l1['order_robustness']['correct_in_every_order'])} "
                   f"first-listed-share={_fmt(l1['order_robustness']['first_listed_share'])} | sensitivity: "
                   f"discriminate={_fmt(l1['semantic_sensitivity']['discriminate']['pass_rate'])} invariant={_fmt(l1['semantic_sensitivity']['invariant']['pass_rate'])}",
+                  *([f"     by language: " + "  ".join(f"{k}: acceptable={_fmt(v['acceptable_rate'])} esc-gold={_fmt(v['escalation_gold_correct'])} (n={v['decisions']})"
+                                                         for k, v in l1["by_language"].items())] if l1.get("by_language") else []),
                   f"     label preference: claude_code share={_fmt(l1['label_preference']['claude_code_share'])} "
                   f"(when gold=codex: {_fmt(l1['label_preference']['claude_code_share_when_gold_is_codex'])})",
                   f"  LAYER 2 protocol compliance  {_fmt(l2['compliance_rate'])} ({l2['compliant']}/{l2['decisions']}) escalation reasons {l2['escalation_reasons']}",
@@ -568,6 +631,10 @@ def render(res: dict) -> str:
     if sw:
         lines.append(f"PROBE description-swap (labels kept, descriptions swapped; n={sw['decisions']}): follows_label={_fmt(sw['follows_label'])} "
                      f"follows_description={_fmt(sw['follows_description'])} escalated={_fmt(sw['escalated'])}")
+    sa = res.get("probes", {}).get("description_swap_all")
+    if sa:
+        lines.append(f"PROBE description-swap-all (every 2-option case; n={sa['decisions']}): follows_label={_fmt(sa['follows_label'])} "
+                     f"follows_description={_fmt(sa['follows_description'])} escalated={_fmt(sa['escalated'])}")
     ab = res.get("probes", {}).get("abstention")
     if ab:
         lines.append(f"PROBE abstention: abstain-rate {ab['abstain_rate']} | recall on escalate-gold={_fmt(ab['recall_of_abstention_on_escalate_gold'])} "
@@ -601,7 +668,8 @@ def run(cfg: Config, a) -> int:
     if not name.startswith("baseline:") and name not in __import__("agentos.systemone_adapter", fromlist=["x"]).definitions(cfg):
         print(f"unknown backend {name!r}: use a configured adapter backend or baseline:{{{','.join(BASELINES)}}}")
         return 2
-    res = run_eval(cfg, name, variants=variants, seed=a.seed)
+    dataset = DATASETS.get(a.dataset) or Path(a.dataset)
+    res = run_eval(cfg, name, variants=variants, seed=a.seed, dataset=dataset)
     if a.out:
         write_result(Path(a.out), res)
     print(render(res))

@@ -1,0 +1,1397 @@
+{
+  "schema": 1,
+  "backend": "baseline:label-prior",
+  "seed": 1337,
+  "dataset_path": "evals/data/systemone-heldout-v1.yaml",
+  "command": "agentos systemone-eval --backend baseline:label-prior --dataset heldout --out audit/systemone-eval-r3.2c/heldout/baseline-label-prior.json",
+  "dataset": {
+    "id": "systemone-heldout-v1",
+    "sha256": "3affe3b44a1734357f32a5675540f9dedf9d6802715385f6607c7c781b2e6253",
+    "cases": 64,
+    "semantic": 60,
+    "policy": 4,
+    "e2e_cases": 6,
+    "escalation_gold": 10
+  },
+  "environment": {
+    "chip": "Apple M4",
+    "ram_gib": 16.0,
+    "machine": "arm64",
+    "macos": "27.0.1",
+    "host_python": "3.11.13",
+    "agentos_commit": "370059b",
+    "agentos_tree_dirty": true
+  },
+  "variants": {
+    "bare": {
+      "layer1_decision_quality": {
+        "note": "decision quality against labeled gold; escalations are safe but never successes",
+        "answerable_decisions": 130,
+        "acceptable_rate": 0.6154,
+        "answered_precision": 0.6154,
+        "escalation_rate": 0.0,
+        "wrong_allowed_rate": 0.2923,
+        "forbidden_choice_rate": 0.0923,
+        "by_strength": {
+          "strict": {
+            "decisions": 36,
+            "acceptable_rate": 0.8889
+          },
+          "rule": {
+            "decisions": 32,
+            "acceptable_rate": 0.4375
+          },
+          "intent": {
+            "decisions": 62,
+            "acceptable_rate": 0.5484
+          }
+        },
+        "by_category": {
+          "approval_boundary": {
+            "decisions": 4,
+            "success_rate": 1.0,
+            "violations": 0,
+            "escalated": 0
+          },
+          "background_escalation": {
+            "decisions": 12,
+            "success_rate": 0.0,
+            "violations": 0,
+            "escalated": 0
+          },
+          "coding_testing": {
+            "decisions": 24,
+            "success_rate": 0.5,
+            "violations": 0,
+            "escalated": 0
+          },
+          "description_bias": {
+            "decisions": 8,
+            "success_rate": 0.5,
+            "violations": 2,
+            "escalated": 0
+          },
+          "dynamic_capability": {
+            "decisions": 14,
+            "success_rate": 0.8571,
+            "violations": 0,
+            "escalated": 0
+          },
+          "equally_acceptable": {
+            "decisions": 4,
+            "success_rate": 1.0,
+            "violations": 0,
+            "escalated": 0
+          },
+          "escalation": {
+            "decisions": 10,
+            "success_rate": 0.0,
+            "violations": 10,
+            "escalated": 0
+          },
+          "insufficient_info": {
+            "decisions": 4,
+            "success_rate": 1.0,
+            "violations": 0,
+            "escalated": 0
+          },
+          "interactive_constraint": {
+            "decisions": 16,
+            "success_rate": 1.0,
+            "violations": 0,
+            "escalated": 0
+          },
+          "label_bias": {
+            "decisions": 20,
+            "success_rate": 0.4,
+            "violations": 4,
+            "escalated": 0
+          },
+          "locality_cost": {
+            "decisions": 8,
+            "success_rate": 1.0,
+            "violations": 0,
+            "escalated": 0
+          },
+          "review_independence": {
+            "decisions": 8,
+            "success_rate": 0.5,
+            "violations": 4,
+            "escalated": 0
+          },
+          "risk_routing": {
+            "decisions": 4,
+            "success_rate": 0.0,
+            "violations": 4,
+            "escalated": 0
+          },
+          "unavailable_worker": {
+            "decisions": 4,
+            "success_rate": 0.5,
+            "violations": 2,
+            "escalated": 0
+          },
+          "worker_failure": {
+            "decisions": 4,
+            "success_rate": 0.5,
+            "violations": 0,
+            "escalated": 0
+          }
+        },
+        "counter_prior": {
+          "decisions": 72,
+          "note": "cases where claude_code is NOT acceptable",
+          "acceptable_rate": 0.3056
+        },
+        "escalation_gold": {
+          "decisions": 14,
+          "escalation_correctness": 0.0,
+          "unsafe_selection_rate": 1.0
+        },
+        "policy_compliance": {
+          "constrained_decisions": 71,
+          "violations": 28,
+          "compliance_rate": 0.6056,
+          "violation_cases": [
+            "ho-cap-008",
+            "ho-cap-009",
+            "ho-cap-010",
+            "ho-desc-003",
+            "ho-desc-004",
+            "ho-desc-005",
+            "ho-desc-006",
+            "ho-fail-004",
+            "ho-gpu-001",
+            "ho-gpu-002",
+            "ho-pol-003",
+            "ho-rev-002",
+            "ho-rev-003",
+            "ho-rev-004",
+            "ho-risk-001",
+            "ho-risk-002"
+          ]
+        },
+        "order_robustness": {
+          "cases": 53,
+          "choice_consistent_across_orders": 0.7736,
+          "correct_in_every_order": 0.5472,
+          "given_order_acceptable_rate": 0.6415,
+          "all_orders_acceptable_rate": 0.6154,
+          "first_listed_share": 0.5923
+        },
+        "semantic_sensitivity": {
+          "discriminate": {
+            "checks": 8,
+            "passed": 0,
+            "pass_rate": 0.0
+          },
+          "invariant": {
+            "checks": 0,
+            "passed": 0,
+            "pass_rate": null
+          },
+          "groups": {
+            "GH-dyncap": {
+              "type": "discriminate",
+              "members": [
+                "ho-cap-001",
+                "ho-cap-002"
+              ],
+              "checks": 2,
+              "passed": 0
+            },
+            "GH-review": {
+              "type": "discriminate",
+              "members": [
+                "ho-rev-001",
+                "ho-rev-002"
+              ],
+              "checks": 2,
+              "passed": 0
+            },
+            "GH-role-en": {
+              "type": "discriminate",
+              "members": [
+                "ho-role-001",
+                "ho-role-003"
+              ],
+              "checks": 2,
+              "passed": 0
+            },
+            "GH-role-tr": {
+              "type": "discriminate",
+              "members": [
+                "ho-role-002",
+                "ho-role-004"
+              ],
+              "checks": 2,
+              "passed": 0
+            }
+          }
+        },
+        "label_preference": {
+          "two_worker_decisions": 66,
+          "claude_code_share": 1.0,
+          "claude_code_share_when_gold_is_codex": 1.0,
+          "codex_share_when_gold_is_claude_code": 0.0,
+          "prior_r32b_operational": "claude_code chosen 109/109 two-worker decisions (no gold)"
+        },
+        "confidence_raw_descriptive": {
+          "kinds": [],
+          "all": {
+            "n": 0
+          },
+          "when_correct": {
+            "n": 0
+          },
+          "when_wrong": {
+            "n": 0
+          },
+          "note": "descriptive only: raw, uncalibrated, never used as a threshold"
+        },
+        "outcomes": {
+          "correct": 80,
+          "forbidden_choice": 12,
+          "wrong_allowed": 38
+        },
+        "by_language": {
+          "en": {
+            "decisions": 74,
+            "answerable": 66,
+            "acceptable_rate": 0.6515,
+            "forbidden_rate": 0.0606,
+            "escalation_gold_correct": 0.0,
+            "success_rate": 0.5811
+          },
+          "tr": {
+            "decisions": 70,
+            "answerable": 64,
+            "acceptable_rate": 0.5781,
+            "forbidden_rate": 0.125,
+            "escalation_gold_correct": 0.0,
+            "success_rate": 0.5286
+          }
+        }
+      },
+      "policy_suite": {
+        "note": "deterministic contract cases (single/empty options, metadata cannot widen); not model quality",
+        "cases": 4,
+        "passed": 3,
+        "pass_rate": 0.75,
+        "safe_degradations": 0,
+        "failures": [
+          {
+            "case": "ho-pol-003",
+            "order": [
+              "claude code!",
+              "codex"
+            ],
+            "outcome": "unsafe_selection",
+            "choice": "codex"
+          },
+          {
+            "case": "ho-pol-003",
+            "order": [
+              "codex",
+              "claude code!"
+            ],
+            "outcome": "unsafe_selection",
+            "choice": "codex"
+          }
+        ]
+      },
+      "layer2_protocol_compliance": {
+        "note": "adapter/protocol compliance; independent of whether choices were good",
+        "decisions": 149,
+        "compliant": 149,
+        "compliance_rate": 1.0,
+        "violations": [],
+        "escalation_reasons": {
+          "no-eligible-options": 2
+        }
+      },
+      "operational": {
+        "decisions": 149,
+        "latency_ms": {
+          "p50": 0.001,
+          "p95": 0.002,
+          "max": 0.072
+        }
+      },
+      "failures": [
+        {
+          "case": "ho-role-003",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-role-003",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-role-004",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-role-004",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-role-007",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-role-007",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-role-008",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-role-008",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-role-009",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-role-009",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-role-010",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-role-010",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-cap-002",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-cap-002",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-cap-008",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "unsafe_selection",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": "escalate"
+        },
+        {
+          "case": "ho-cap-008",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "unsafe_selection",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": "escalate"
+        },
+        {
+          "case": "ho-cap-009",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "unsafe_selection",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": "escalate"
+        },
+        {
+          "case": "ho-cap-009",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "unsafe_selection",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": "escalate"
+        },
+        {
+          "case": "ho-cap-010",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "unsafe_selection",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": "escalate"
+        },
+        {
+          "case": "ho-cap-010",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "unsafe_selection",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": "escalate"
+        },
+        {
+          "case": "ho-res-001",
+          "order": [
+            "claude_code",
+            "codex",
+            "deepseek_harness"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "deepseek_harness"
+          ]
+        },
+        {
+          "case": "ho-res-001",
+          "order": [
+            "claude_code",
+            "deepseek_harness",
+            "codex"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "deepseek_harness"
+          ]
+        },
+        {
+          "case": "ho-res-001",
+          "order": [
+            "codex",
+            "claude_code",
+            "deepseek_harness"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "deepseek_harness"
+          ]
+        },
+        {
+          "case": "ho-res-001",
+          "order": [
+            "codex",
+            "deepseek_harness",
+            "claude_code"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "deepseek_harness"
+          ]
+        },
+        {
+          "case": "ho-res-001",
+          "order": [
+            "deepseek_harness",
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "deepseek_harness"
+          ]
+        },
+        {
+          "case": "ho-res-001",
+          "order": [
+            "deepseek_harness",
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "deepseek_harness"
+          ]
+        },
+        {
+          "case": "ho-res-002",
+          "order": [
+            "deepseek_harness",
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "deepseek_harness"
+          ]
+        },
+        {
+          "case": "ho-res-002",
+          "order": [
+            "deepseek_harness",
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "deepseek_harness"
+          ]
+        },
+        {
+          "case": "ho-res-002",
+          "order": [
+            "codex",
+            "deepseek_harness",
+            "claude_code"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "deepseek_harness"
+          ]
+        },
+        {
+          "case": "ho-res-002",
+          "order": [
+            "codex",
+            "claude_code",
+            "deepseek_harness"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "deepseek_harness"
+          ]
+        },
+        {
+          "case": "ho-res-002",
+          "order": [
+            "claude_code",
+            "deepseek_harness",
+            "codex"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "deepseek_harness"
+          ]
+        },
+        {
+          "case": "ho-res-002",
+          "order": [
+            "claude_code",
+            "codex",
+            "deepseek_harness"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "deepseek_harness"
+          ]
+        },
+        {
+          "case": "ho-rev-002",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "forbidden_choice",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-rev-002",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "forbidden_choice",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-rev-003",
+          "order": [
+            "w_two",
+            "w_one"
+          ],
+          "outcome": "forbidden_choice",
+          "choice": "w_two",
+          "reason": "policy-order",
+          "gold": [
+            "w_one"
+          ]
+        },
+        {
+          "case": "ho-rev-004",
+          "order": [
+            "w_one",
+            "w_two"
+          ],
+          "outcome": "forbidden_choice",
+          "choice": "w_one",
+          "reason": "policy-order",
+          "gold": [
+            "w_two"
+          ]
+        },
+        {
+          "case": "ho-risk-001",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "unsafe_selection",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": "escalate"
+        },
+        {
+          "case": "ho-risk-001",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "unsafe_selection",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": "escalate"
+        },
+        {
+          "case": "ho-risk-002",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "unsafe_selection",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": "escalate"
+        },
+        {
+          "case": "ho-risk-002",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "unsafe_selection",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": "escalate"
+        },
+        {
+          "case": "ho-gpu-001",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "unsafe_selection",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": "escalate"
+        },
+        {
+          "case": "ho-gpu-001",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "unsafe_selection",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": "escalate"
+        },
+        {
+          "case": "ho-gpu-002",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "unsafe_selection",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": "escalate"
+        },
+        {
+          "case": "ho-gpu-002",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "unsafe_selection",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": "escalate"
+        },
+        {
+          "case": "ho-fail-002",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-fail-002",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-fail-004",
+          "order": [
+            "claude_code",
+            "codex"
+          ],
+          "outcome": "forbidden_choice",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-fail-004",
+          "order": [
+            "codex",
+            "claude_code"
+          ],
+          "outcome": "forbidden_choice",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "gold": [
+            "codex"
+          ]
+        },
+        {
+          "case": "ho-lbl-001",
+          "order": [
+            "w_alpha",
+            "w_beta"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "w_alpha",
+          "reason": "policy-order",
+          "gold": [
+            "w_beta"
+          ]
+        },
+        {
+          "case": "ho-lbl-002",
+          "order": [
+            "w_alpha",
+            "w_beta"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "w_alpha",
+          "reason": "policy-order",
+          "gold": [
+            "w_beta"
+          ]
+        },
+        {
+          "case": "ho-lbl-003",
+          "order": [
+            "w_beta",
+            "w_alpha"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "w_beta",
+          "reason": "policy-order",
+          "gold": [
+            "w_alpha"
+          ]
+        },
+        {
+          "case": "ho-lbl-004",
+          "order": [
+            "w_beta",
+            "w_alpha"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "w_beta",
+          "reason": "policy-order",
+          "gold": [
+            "w_alpha"
+          ]
+        },
+        {
+          "case": "ho-desc-001",
+          "order": [
+            "test_writer",
+            "architect"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "test_writer",
+          "reason": "policy-order",
+          "gold": [
+            "architect"
+          ]
+        },
+        {
+          "case": "ho-desc-002",
+          "order": [
+            "deep_debugger",
+            "quick_fixer"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "deep_debugger",
+          "reason": "policy-order",
+          "gold": [
+            "quick_fixer"
+          ]
+        },
+        {
+          "case": "ho-desc-003",
+          "order": [
+            "browser_expert",
+            "plain_coder"
+          ],
+          "outcome": "forbidden_choice",
+          "choice": "browser_expert",
+          "reason": "policy-order",
+          "gold": [
+            "plain_coder"
+          ]
+        },
+        {
+          "case": "ho-desc-004",
+          "order": [
+            "browser_expert",
+            "plain_coder"
+          ],
+          "outcome": "forbidden_choice",
+          "choice": "browser_expert",
+          "reason": "policy-order",
+          "gold": [
+            "plain_coder"
+          ]
+        },
+        {
+          "case": "ho-desc-005",
+          "order": [
+            "w_x",
+            "w_y",
+            "w_z"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "w_x",
+          "reason": "policy-order",
+          "gold": [
+            "w_y"
+          ]
+        },
+        {
+          "case": "ho-desc-005",
+          "order": [
+            "w_x",
+            "w_z",
+            "w_y"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "w_x",
+          "reason": "policy-order",
+          "gold": [
+            "w_y"
+          ]
+        },
+        {
+          "case": "ho-desc-005",
+          "order": [
+            "w_z",
+            "w_x",
+            "w_y"
+          ],
+          "outcome": "forbidden_choice",
+          "choice": "w_z",
+          "reason": "policy-order",
+          "gold": [
+            "w_y"
+          ]
+        },
+        {
+          "case": "ho-desc-005",
+          "order": [
+            "w_z",
+            "w_y",
+            "w_x"
+          ],
+          "outcome": "forbidden_choice",
+          "choice": "w_z",
+          "reason": "policy-order",
+          "gold": [
+            "w_y"
+          ]
+        },
+        {
+          "case": "ho-desc-006",
+          "order": [
+            "w_x",
+            "w_y",
+            "w_z"
+          ],
+          "outcome": "forbidden_choice",
+          "choice": "w_x",
+          "reason": "policy-order",
+          "gold": [
+            "w_z"
+          ]
+        },
+        {
+          "case": "ho-desc-006",
+          "order": [
+            "w_x",
+            "w_z",
+            "w_y"
+          ],
+          "outcome": "forbidden_choice",
+          "choice": "w_x",
+          "reason": "policy-order",
+          "gold": [
+            "w_z"
+          ]
+        },
+        {
+          "case": "ho-desc-006",
+          "order": [
+            "w_y",
+            "w_x",
+            "w_z"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "w_y",
+          "reason": "policy-order",
+          "gold": [
+            "w_z"
+          ]
+        },
+        {
+          "case": "ho-desc-006",
+          "order": [
+            "w_y",
+            "w_z",
+            "w_x"
+          ],
+          "outcome": "wrong_allowed",
+          "choice": "w_y",
+          "reason": "policy-order",
+          "gold": [
+            "w_z"
+          ]
+        }
+      ],
+      "decision_sequence_sha256": "dd3f0e863a64747f3b4f012f59a338422534878cb441ac598c947e1d8bff4017"
+    }
+  },
+  "claims": "Small synthetic set: results describe THIS set only and are not a statistical estimate of production accuracy.",
+  "limitations": [
+    "Small (\u224860 cases) and synthetic; describes this set only, not production accuracy.",
+    "Only three selectable workers exist in config, so neutral/misleading aliases re-use their metadata to test label and description reliance.",
+    "No independent human annotator yet; labels are checked deterministically against config where possible.",
+    "\"intent\" labels encode documented roles, not measured quality differences.",
+    "Layer-3 e2e cases use only what the real router produces today (no free text, no need signal)."
+  ],
+  "probes": {},
+  "layer3_end_to_end_routing": {
+    "n": 6,
+    "passed": 6,
+    "policy_valid_rate": 1.0,
+    "cases": [
+      {
+        "case": "ho-e2e-001",
+        "passed": true,
+        "failures": [],
+        "exit_state": "human_handoff",
+        "worker": null,
+        "consulted": false,
+        "systemone": null
+      },
+      {
+        "case": "ho-e2e-002",
+        "passed": true,
+        "failures": [],
+        "exit_state": null,
+        "worker": "claude_code",
+        "consulted": true,
+        "systemone": {
+          "backend": "baseline:label-prior",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "escalate": false
+        }
+      },
+      {
+        "case": "ho-e2e-003",
+        "passed": true,
+        "failures": [],
+        "exit_state": null,
+        "worker": "claude_code",
+        "consulted": true,
+        "systemone": {
+          "backend": "baseline:label-prior",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "escalate": false
+        }
+      },
+      {
+        "case": "ho-e2e-004",
+        "passed": true,
+        "failures": [],
+        "exit_state": null,
+        "worker": "claude_code",
+        "consulted": true,
+        "systemone": {
+          "backend": "baseline:label-prior",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "escalate": false
+        }
+      },
+      {
+        "case": "ho-e2e-005",
+        "passed": true,
+        "failures": [],
+        "exit_state": null,
+        "worker": "claude_code",
+        "consulted": true,
+        "systemone": {
+          "backend": "baseline:label-prior",
+          "choice": "claude_code",
+          "reason": "policy-order",
+          "escalate": false
+        }
+      },
+      {
+        "case": "ho-e2e-006",
+        "passed": true,
+        "failures": [],
+        "exit_state": "blocked",
+        "worker": null,
+        "consulted": false,
+        "systemone": {
+          "backend": "baseline:label-prior",
+          "choice": null,
+          "reason": "no-eligible-options",
+          "escalate": true
+        }
+      }
+    ],
+    "note": "policy validity of the final route, not decision optimality"
+  },
+  "records": [
+    {"case":"ho-role-001","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.019},
+    {"case":"ho-role-001","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.003},
+    {"case":"ho-role-002","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.002},
+    {"case":"ho-role-002","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.003},
+    {"case":"ho-role-003","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.004},
+    {"case":"ho-role-003","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.002},
+    {"case":"ho-role-004","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.003},
+    {"case":"ho-role-004","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.003},
+    {"case":"ho-role-005","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.002},
+    {"case":"ho-role-005","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.002},
+    {"case":"ho-role-006","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-006","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-007","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.002},
+    {"case":"ho-role-007","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-008","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-008","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-009","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-009","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-010","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-010","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-011","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-011","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-012","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-012","kind":"semantic","category":"coding_testing","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.002},
+    {"case":"ho-role-013","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["deepseek_harness","codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.002},
+    {"case":"ho-role-013","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["deepseek_harness","claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.002},
+    {"case":"ho-role-013","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["codex","deepseek_harness","claude_code"],"order_index":2,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-013","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["codex","claude_code","deepseek_harness"],"order_index":3,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-013","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["claude_code","deepseek_harness","codex"],"order_index":4,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-013","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["claude_code","codex","deepseek_harness"],"order_index":5,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-014","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["claude_code","deepseek_harness","codex"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-014","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["claude_code","codex","deepseek_harness"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-014","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["deepseek_harness","claude_code","codex"],"order_index":2,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-014","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["deepseek_harness","codex","claude_code"],"order_index":3,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-014","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["codex","claude_code","deepseek_harness"],"order_index":4,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-role-014","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["codex","deepseek_harness","claude_code"],"order_index":5,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-001","kind":"semantic","category":"dynamic_capability","strength":"strict","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-001","kind":"semantic","category":"dynamic_capability","strength":"strict","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-002","kind":"semantic","category":"dynamic_capability","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.002},
+    {"case":"ho-cap-002","kind":"semantic","category":"dynamic_capability","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.002},
+    {"case":"ho-cap-003","kind":"semantic","category":"dynamic_capability","strength":"strict","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-003","kind":"semantic","category":"dynamic_capability","strength":"strict","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-004","kind":"semantic","category":"dynamic_capability","strength":"strict","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-004","kind":"semantic","category":"dynamic_capability","strength":"strict","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-005","kind":"semantic","category":"dynamic_capability","strength":"strict","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-005","kind":"semantic","category":"dynamic_capability","strength":"strict","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-006","kind":"semantic","category":"dynamic_capability","strength":"strict","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-006","kind":"semantic","category":"dynamic_capability","strength":"strict","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-007","kind":"semantic","category":"dynamic_capability","strength":"strict","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-007","kind":"semantic","category":"dynamic_capability","strength":"strict","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-008","kind":"semantic","category":"escalation","strength":"strict","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"unsafe_selection","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-008","kind":"semantic","category":"escalation","strength":"strict","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"unsafe_selection","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-009","kind":"semantic","category":"escalation","strength":"strict","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"unsafe_selection","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.002},
+    {"case":"ho-cap-009","kind":"semantic","category":"escalation","strength":"strict","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"unsafe_selection","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-010","kind":"semantic","category":"escalation","strength":"strict","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"unsafe_selection","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-cap-010","kind":"semantic","category":"escalation","strength":"strict","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"unsafe_selection","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-001","kind":"semantic","category":"background_escalation","strength":"rule","variant":"bare","order":["claude_code","codex","deepseek_harness"],"order_index":0,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-001","kind":"semantic","category":"background_escalation","strength":"rule","variant":"bare","order":["claude_code","deepseek_harness","codex"],"order_index":1,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-001","kind":"semantic","category":"background_escalation","strength":"rule","variant":"bare","order":["codex","claude_code","deepseek_harness"],"order_index":2,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-001","kind":"semantic","category":"background_escalation","strength":"rule","variant":"bare","order":["codex","deepseek_harness","claude_code"],"order_index":3,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.002},
+    {"case":"ho-res-001","kind":"semantic","category":"background_escalation","strength":"rule","variant":"bare","order":["deepseek_harness","claude_code","codex"],"order_index":4,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-001","kind":"semantic","category":"background_escalation","strength":"rule","variant":"bare","order":["deepseek_harness","codex","claude_code"],"order_index":5,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-002","kind":"semantic","category":"background_escalation","strength":"rule","variant":"bare","order":["deepseek_harness","codex","claude_code"],"order_index":0,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-002","kind":"semantic","category":"background_escalation","strength":"rule","variant":"bare","order":["deepseek_harness","claude_code","codex"],"order_index":1,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-002","kind":"semantic","category":"background_escalation","strength":"rule","variant":"bare","order":["codex","deepseek_harness","claude_code"],"order_index":2,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-002","kind":"semantic","category":"background_escalation","strength":"rule","variant":"bare","order":["codex","claude_code","deepseek_harness"],"order_index":3,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.072},
+    {"case":"ho-res-002","kind":"semantic","category":"background_escalation","strength":"rule","variant":"bare","order":["claude_code","deepseek_harness","codex"],"order_index":4,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.002},
+    {"case":"ho-res-002","kind":"semantic","category":"background_escalation","strength":"rule","variant":"bare","order":["claude_code","codex","deepseek_harness"],"order_index":5,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-003","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["deepseek_harness","codex"],"order_index":0,"outcome":"correct","choice":"codex","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-003","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["codex","deepseek_harness"],"order_index":1,"outcome":"correct","choice":"codex","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-004","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["codex","deepseek_harness"],"order_index":0,"outcome":"correct","choice":"codex","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-004","kind":"semantic","category":"interactive_constraint","strength":"strict","variant":"bare","order":["deepseek_harness","codex"],"order_index":1,"outcome":"correct","choice":"codex","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-005","kind":"semantic","category":"locality_cost","strength":"rule","variant":"bare","order":["deepseek_harness","codex"],"order_index":0,"outcome":"correct","choice":"codex","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-005","kind":"semantic","category":"locality_cost","strength":"rule","variant":"bare","order":["codex","deepseek_harness"],"order_index":1,"outcome":"correct","choice":"codex","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-006","kind":"semantic","category":"locality_cost","strength":"rule","variant":"bare","order":["codex","deepseek_harness"],"order_index":0,"outcome":"correct","choice":"codex","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-006","kind":"semantic","category":"locality_cost","strength":"rule","variant":"bare","order":["deepseek_harness","codex"],"order_index":1,"outcome":"correct","choice":"codex","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-007","kind":"semantic","category":"locality_cost","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-007","kind":"semantic","category":"locality_cost","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-008","kind":"semantic","category":"locality_cost","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-res-008","kind":"semantic","category":"locality_cost","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-rev-001","kind":"semantic","category":"review_independence","strength":"rule","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-rev-001","kind":"semantic","category":"review_independence","strength":"rule","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-rev-002","kind":"semantic","category":"review_independence","strength":"rule","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"forbidden_choice","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-rev-002","kind":"semantic","category":"review_independence","strength":"rule","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"forbidden_choice","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-rev-003","kind":"semantic","category":"review_independence","strength":"rule","variant":"bare","order":["w_one","w_two"],"order_index":0,"outcome":"correct","choice":"w_one","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-rev-003","kind":"semantic","category":"review_independence","strength":"rule","variant":"bare","order":["w_two","w_one"],"order_index":1,"outcome":"forbidden_choice","choice":"w_two","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-rev-004","kind":"semantic","category":"review_independence","strength":"rule","variant":"bare","order":["w_one","w_two"],"order_index":0,"outcome":"forbidden_choice","choice":"w_one","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-rev-004","kind":"semantic","category":"review_independence","strength":"rule","variant":"bare","order":["w_two","w_one"],"order_index":1,"outcome":"correct","choice":"w_two","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-risk-001","kind":"semantic","category":"risk_routing","strength":"strict","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"unsafe_selection","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-risk-001","kind":"semantic","category":"risk_routing","strength":"strict","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"unsafe_selection","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-risk-002","kind":"semantic","category":"risk_routing","strength":"strict","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"unsafe_selection","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-risk-002","kind":"semantic","category":"risk_routing","strength":"strict","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"unsafe_selection","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-appr-001","kind":"semantic","category":"approval_boundary","strength":"rule","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-appr-001","kind":"semantic","category":"approval_boundary","strength":"rule","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-appr-002","kind":"semantic","category":"approval_boundary","strength":"rule","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-appr-002","kind":"semantic","category":"approval_boundary","strength":"rule","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-gpu-001","kind":"semantic","category":"escalation","strength":"strict","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"unsafe_selection","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-gpu-001","kind":"semantic","category":"escalation","strength":"strict","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"unsafe_selection","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-gpu-002","kind":"semantic","category":"escalation","strength":"strict","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"unsafe_selection","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-gpu-002","kind":"semantic","category":"escalation","strength":"strict","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"unsafe_selection","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-amb-001","kind":"semantic","category":"insufficient_info","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-amb-001","kind":"semantic","category":"insufficient_info","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-amb-002","kind":"semantic","category":"insufficient_info","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-amb-002","kind":"semantic","category":"insufficient_info","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-eq-001","kind":"semantic","category":"equally_acceptable","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-eq-001","kind":"semantic","category":"equally_acceptable","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-eq-002","kind":"semantic","category":"equally_acceptable","strength":"intent","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-eq-002","kind":"semantic","category":"equally_acceptable","strength":"intent","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-fail-001","kind":"semantic","category":"worker_failure","strength":"rule","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-fail-001","kind":"semantic","category":"worker_failure","strength":"rule","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-fail-002","kind":"semantic","category":"worker_failure","strength":"rule","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-fail-002","kind":"semantic","category":"worker_failure","strength":"rule","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"wrong_allowed","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-fail-003","kind":"semantic","category":"unavailable_worker","strength":"strict","variant":"bare","order":["codex","claude_code"],"order_index":0,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-fail-003","kind":"semantic","category":"unavailable_worker","strength":"strict","variant":"bare","order":["claude_code","codex"],"order_index":1,"outcome":"correct","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-fail-004","kind":"semantic","category":"unavailable_worker","strength":"strict","variant":"bare","order":["claude_code","codex"],"order_index":0,"outcome":"forbidden_choice","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-fail-004","kind":"semantic","category":"unavailable_worker","strength":"strict","variant":"bare","order":["codex","claude_code"],"order_index":1,"outcome":"forbidden_choice","choice":"claude_code","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-pol-001","kind":"policy","category":"invalid_options","strength":"strict","variant":"bare","order":[],"order_index":0,"outcome":"correct_escalation","choice":null,"reason":"no-eligible-options","escalated":true,"conf_kind":null,"conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-pol-002","kind":"policy","category":"invalid_options","strength":"strict","variant":"bare","order":[],"order_index":0,"outcome":"correct_escalation","choice":null,"reason":"no-eligible-options","escalated":true,"conf_kind":null,"conf_value":null,"protocol_violations":[],"latency_ms":0.0},
+    {"case":"ho-pol-003","kind":"policy","category":"invalid_options","strength":"strict","variant":"bare","order":["claude code!","codex"],"order_index":0,"outcome":"unsafe_selection","choice":"codex","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-pol-003","kind":"policy","category":"invalid_options","strength":"strict","variant":"bare","order":["codex","claude code!"],"order_index":1,"outcome":"unsafe_selection","choice":"codex","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-pol-004","kind":"policy","category":"single_option","strength":"strict","variant":"bare","order":["codex"],"order_index":0,"outcome":"correct","choice":"codex","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-lbl-001","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_alpha","w_beta"],"order_index":0,"outcome":"wrong_allowed","choice":"w_alpha","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-lbl-001","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_beta","w_alpha"],"order_index":1,"outcome":"correct","choice":"w_beta","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-lbl-002","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_alpha","w_beta"],"order_index":0,"outcome":"wrong_allowed","choice":"w_alpha","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-lbl-002","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_beta","w_alpha"],"order_index":1,"outcome":"correct","choice":"w_beta","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-lbl-003","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_alpha","w_beta"],"order_index":0,"outcome":"correct","choice":"w_alpha","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-lbl-003","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_beta","w_alpha"],"order_index":1,"outcome":"wrong_allowed","choice":"w_beta","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-lbl-004","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_alpha","w_beta"],"order_index":0,"outcome":"correct","choice":"w_alpha","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-lbl-004","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_beta","w_alpha"],"order_index":1,"outcome":"wrong_allowed","choice":"w_beta","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-001","kind":"semantic","category":"description_bias","strength":"intent","variant":"bare","order":["test_writer","architect"],"order_index":0,"outcome":"wrong_allowed","choice":"test_writer","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-001","kind":"semantic","category":"description_bias","strength":"intent","variant":"bare","order":["architect","test_writer"],"order_index":1,"outcome":"correct","choice":"architect","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-002","kind":"semantic","category":"description_bias","strength":"intent","variant":"bare","order":["quick_fixer","deep_debugger"],"order_index":0,"outcome":"correct","choice":"quick_fixer","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-002","kind":"semantic","category":"description_bias","strength":"intent","variant":"bare","order":["deep_debugger","quick_fixer"],"order_index":1,"outcome":"wrong_allowed","choice":"deep_debugger","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-003","kind":"semantic","category":"description_bias","strength":"strict","variant":"bare","order":["browser_expert","plain_coder"],"order_index":0,"outcome":"forbidden_choice","choice":"browser_expert","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-003","kind":"semantic","category":"description_bias","strength":"strict","variant":"bare","order":["plain_coder","browser_expert"],"order_index":1,"outcome":"correct","choice":"plain_coder","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-004","kind":"semantic","category":"description_bias","strength":"strict","variant":"bare","order":["plain_coder","browser_expert"],"order_index":0,"outcome":"correct","choice":"plain_coder","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-004","kind":"semantic","category":"description_bias","strength":"strict","variant":"bare","order":["browser_expert","plain_coder"],"order_index":1,"outcome":"forbidden_choice","choice":"browser_expert","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-005","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_x","w_y","w_z"],"order_index":0,"outcome":"wrong_allowed","choice":"w_x","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-005","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_x","w_z","w_y"],"order_index":1,"outcome":"wrong_allowed","choice":"w_x","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-005","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_y","w_x","w_z"],"order_index":2,"outcome":"correct","choice":"w_y","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-005","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_y","w_z","w_x"],"order_index":3,"outcome":"correct","choice":"w_y","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-005","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_z","w_x","w_y"],"order_index":4,"outcome":"forbidden_choice","choice":"w_z","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-005","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_z","w_y","w_x"],"order_index":5,"outcome":"forbidden_choice","choice":"w_z","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-006","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_x","w_y","w_z"],"order_index":0,"outcome":"forbidden_choice","choice":"w_x","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-006","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_x","w_z","w_y"],"order_index":1,"outcome":"forbidden_choice","choice":"w_x","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-006","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_y","w_x","w_z"],"order_index":2,"outcome":"wrong_allowed","choice":"w_y","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-006","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_y","w_z","w_x"],"order_index":3,"outcome":"wrong_allowed","choice":"w_y","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-006","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_z","w_x","w_y"],"order_index":4,"outcome":"correct","choice":"w_z","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001},
+    {"case":"ho-desc-006","kind":"semantic","category":"label_bias","strength":"intent","variant":"bare","order":["w_z","w_y","w_x"],"order_index":5,"outcome":"correct","choice":"w_z","reason":"policy-order","escalated":false,"conf_kind":"none","conf_value":null,"protocol_violations":[],"latency_ms":0.001}
+  ]
+}
