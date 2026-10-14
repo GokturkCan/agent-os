@@ -47,7 +47,7 @@ Playwright is task-specific: a normal coder launch is context7 + serena; a brows
 task is context7 + serena + playwright. The acceptance runs left artifact commits on local
 `agentos/run2-real-*` task branches. They are evidence only and are **not** to be merged.
 Repository state: private `origin` (`GokturkCan/agent-os`) exists; `feature/run2-capability-plane`
-is pushed to it and was merged into `agent-os-v1` via PR #2 (2026-10-13); `main` is not updated yet (PR #1 open); pushing/merging/tagging stays a human step.
+is pushed to it and was merged into `agent-os-v1` via PR #2 (2026-10-13 UTC), then into `main` via PR #1 (2026-10-14 local time); pushing/merging/tagging stays a human step.
 
 Run 3 boundary: only the SystemOne **contract** exists. Laya, Ollaya, Jev, Decider, Kev backends,
 confidence calibration and ContextGate remain future Run 3 work.

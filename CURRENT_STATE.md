@@ -1,6 +1,6 @@
 # CURRENT_STATE — Agent OS V1
 
-**As of:** 2026-10-14 · **Release:** Agent OS **v1.0.0 release candidate** on `agent-os-v1` (product version `1.0.0` in `pyproject.toml` and `agentos.__version__`; the `version:` fields in `config/*.yaml` are file-format versions, unrelated). Run 1 and Run 2 are both included in V1; Run 3 is future work. PR #2 (Run 2 + hardening) was merged into `agent-os-v1` on 2026-10-13; PR #1 (`agent-os-v1` → `main`) is open. **`main` has not been updated and the `v1.0.0` tag / GitHub release do not exist yet.** Private remote `origin` → `GokturkCan/agent-os`. Agents never push, change remotes, merge or tag; that stays a human act. ·
+**As of:** 2026-10-14 · **Release:** Agent OS **v1.0.0 is released on `main`** (merge commit `91b08aa`; product version `1.0.0` in `pyproject.toml` and `agentos.__version__`; the `version:` fields in `config/*.yaml` are file-format versions, unrelated). Run 1 and Run 2 are both included in Agent OS v1.0.0; Run 3 is future work. PR #2 (Run 2 + hardening) merged into `agent-os-v1` on 2026-10-13 (UTC); PR #1 (`agent-os-v1` → `main`) merged on 2026-10-14 (local time; 2026-10-13 21:41 UTC). **The `v1.0.0` git tag and GitHub Release have not been created yet.** Private remote `origin` → `GokturkCan/agent-os`. Agents never push, change remotes, merge or tag; that stays a human act. ·
 **Safety tag:** `pre-agent-os-v1-mac-2026-09-30` (`b2262ec`)
 
 Quick checks: `./scripts/health-check.sh` · `./scripts/run-evals.sh`
@@ -71,7 +71,7 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 ## Next steps (in order)
 
 1. Run a real worker-timeout → resume acceptance (not yet executed).
-2. Human release sequence: review/merge PR #1 (`agent-os-v1` → `main`, merge commit), then tag `v1.0.0` and publish the release. Do not merge the local `agentos/run2-real-*` acceptance-artifact branches.
+2. Human release step: tag `v1.0.0` on `main` and publish the GitHub Release (neither exists yet). Do not merge the local `agentos/run2-real-*` acceptance-artifact branches.
 3. Re-auth GitHub MCP; rotate/delete the dormant z.ai token outside this repo.
 4. Connect MSI (SSH alias `msi`), then benchmark Qwen3.6 → set status `measured`.
 5. Benchmark Laya-MLX / Bonsai 2 on the Mac within the 6 GB model budget.

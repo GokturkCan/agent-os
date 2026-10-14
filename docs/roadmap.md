@@ -21,7 +21,7 @@ Only claims backed by `CURRENT_STATE.md` are marked VERIFIED.
 | OpenCode worker | DISABLED, fail closed (launch cannot enforce a capability profile; registered for future use) |
 | Remaining to close Run 1 | real timeout→resume run (private `origin` now exists; pushing is a human step) |
 
-## Run 2 — Capability plane — **CLOSED, VERIFIED** (2026-10-13; merged into `agent-os-v1` via PR #2; part of the V1 release candidate)
+## Run 2 — Capability plane — **CLOSED, VERIFIED** (2026-10-13; merged into `agent-os-v1` via PR #2; included in Agent OS v1.0.0 on `main`)
 
 | Item | State |
 |---|---|

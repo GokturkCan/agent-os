@@ -5,9 +5,12 @@ Product versions follow [Semantic Versioning](https://semver.org/). The `version
 
 Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run 3 is not.
 
-## [1.0.0] — release candidate (prepared 2026-10-14; not tagged, `main` not yet updated)
+## [1.0.0] — 2026-10-14
 
-Evidence for this candidate: full suite 403 passed / 2 skipped (live-only), health 0 FAIL / 3 WARN,
+Released on `main` via PR #1 (merge commit `91b08aa`). The `v1.0.0` git tag and GitHub Release have not
+been created yet.
+
+Evidence for this release: full suite 403 passed / 2 skipped (live-only), health 0 FAIL / 3 WARN,
 protected manifest and `agentos validate` pass.
 
 ### Run 1 — Core Agent OS
