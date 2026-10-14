@@ -1,0 +1,122 @@
+{
+ "BerriAI/litellm": {
+  "sha": "60e5c18b4962d4512c49d8a567a19f93479f74ba",
+  "date": "2026-10-14",
+  "license": "NOASSERTION",
+  "stars": 61238,
+  "lang": "Python",
+  "branch": "main"
+ },
+ "vercel/ai": {
+  "sha": "6ac1ee115c4e287be43ebb0e86d884033d85b0cd",
+  "date": "2026-10-14",
+  "license": "NOASSERTION",
+  "stars": 27315,
+  "lang": "TypeScript",
+  "branch": "main"
+ },
+ "pydantic/pydantic-ai": {
+  "sha": "882b0fe3e46a3e9ff3f0e02b6f7d925b4eb8d23b",
+  "date": "2026-10-14",
+  "license": "MIT",
+  "stars": 20613,
+  "lang": "Python",
+  "branch": "main"
+ },
+ "browser-use/jev-ultrafast": {
+  "sha": "1231850a0bf1a0c0341fe408ef1668dbbfdfac46",
+  "date": "2026-09-18",
+  "license": "MIT",
+  "stars": 22891,
+  "lang": "Python",
+  "branch": "main"
+ },
+ "droidrun/mobile-jev": {
+  "sha": "395fc222beac4f059f9a0beb337d114a2b066e99",
+  "date": "2026-09-17",
+  "license": "MIT",
+  "stars": 442,
+  "lang": "JavaScript",
+  "branch": "main"
+ },
+ "moritzkremb/jev-voice-browser": {
+  "sha": "198a0764395a666f8398026c0d8abdaf6d1866c5",
+  "date": "2026-09-21",
+  "license": "MIT",
+  "stars": 404,
+  "lang": "JavaScript",
+  "branch": "main"
+ },
+ "standardagents/jevpilot": {
+  "sha": "e1beeb13b9a928fb76f167f86af584f4ce9cf180",
+  "date": "2026-09-17",
+  "license": null,
+  "stars": 221,
+  "lang": "JavaScript",
+  "branch": "main"
+ },
+ "rmalde/minecraft-agent": {
+  "sha": "78b40ed59514e5e2abde33a05ce398ecb2c39e05",
+  "date": "2026-09-20",
+  "license": null,
+  "stars": 587,
+  "lang": "JavaScript",
+  "branch": "main"
+ },
+ "Conway-Research/automaton": {
+  "sha": "d8f816881fd24b6f5e3d616e59edec387a447667",
+  "date": "2026-08-26",
+  "license": "MIT",
+  "stars": 7254,
+  "lang": "TypeScript",
+  "branch": "main"
+ },
+ "jarrodwatts/jev-trader": {
+  "sha": "d6254bf36a7875e009533fb722c1af8977b96e2d",
+  "date": "2026-10-13",
+  "license": "MIT",
+  "stars": 2993,
+  "lang": "TypeScript",
+  "branch": "main"
+ },
+ "shitianfang/wakegate": {
+  "sha": "3a50a9e979943a3e77850f0364d8d80404124a7c",
+  "date": "2026-09-18",
+  "license": "MIT",
+  "stars": 6,
+  "lang": "TypeScript",
+  "branch": "main"
+ },
+ "tamaratran/fast-jev-compaction": {
+  "sha": "e3f262a7f4d42bd8dd32ced30d26176f7cb545b0",
+  "date": "2026-09-17",
+  "license": "MIT",
+  "stars": 7627,
+  "lang": "TypeScript",
+  "branch": "main"
+ },
+ "tamaratran/jev-pruner": {
+  "sha": "edbc60262a5edc07e18d646c1a3f8a9f0ae868c5",
+  "date": "2026-09-30",
+  "license": "MIT",
+  "stars": 163,
+  "lang": "TypeScript",
+  "branch": "main"
+ },
+ "kitze/unclutter": {
+  "sha": "18dfb597e17a060ce853ff8d31048fb18ab0e442",
+  "date": "2026-10-09",
+  "license": "MIT",
+  "stars": 373,
+  "lang": "TypeScript",
+  "branch": "main"
+ },
+ "AnthusAI/Jev-Calibration": {
+  "sha": "9788ecc5526b32da9fa9b9b38964586060677c77",
+  "date": "2026-09-19",
+  "license": null,
+  "stars": 3,
+  "lang": "Python",
+  "branch": "main"
+ }
+}
