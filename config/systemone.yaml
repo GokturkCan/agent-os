@@ -30,3 +30,26 @@ backends:
       sha256: 7fc5834af4d8fdfb268d272a9d1a66e5819a0daac98241651c4c888cc43adff1
       upstream: convaiinnovations/laya-multilingual
     package: {name: laya-mlx, version: "0.4.0", wheel_sha256: f8f92dd6959ce22d7dc6c334ce68740b47aee607d1fa8271c010ce3d4f5857da}
+
+  decider-mlx:
+    adapter: subprocess_json
+    # R3.2C candidate (benchmark/test only, NOT a default). Isolated, git-ignored runtime; the LoRA
+    # checkpoint and the pinned base model live in runtime_dir/hf-home (sha256-verified, offline).
+    runtime_dir: state/runtime/decider-mlx
+    argv:
+      - "{runtime}/venv/bin/python"
+      - "{repo}/agentos/systemone_workers/decider_worker.py"
+      - "--model"
+      - "{runtime}/hf-home/hub/models--StrandsAgents--strands-decider-2B-qwen3.5-v1-2610/snapshots/216d1ccb46a9e9b036eb9187b248db98480f77d4"
+      - "--hf-home"
+      - "{runtime}/hf-home"
+    timeout_seconds: 2.0
+    startup_timeout_seconds: 90.0
+    cooldown_seconds: 30.0
+    model:
+      id: StrandsAgents/strands-decider-2B-qwen3.5-v1-2610
+      revision: 216d1ccb46a9e9b036eb9187b248db98480f77d4
+      sha256: ae1d0cd1ac3edec6df0a519a3ad18f1c382099032d493f8f98c96a80cfebb4c7   # lora/adapter_model.safetensors
+      upstream: strands-labs/strands-decider
+      base: {id: Qwen/Qwen3.5-2B-Base, revision: b1485b2fa6dfa1287294f269f5fb618e03d52d7c, sha256: 928acbf11878c32185bbd863514d191769285065ab9ea14fbfe431303f5fdf2d}
+    package: {name: strands-decider, version: "0.0.0+8b6faa5", source: "strands-labs/strands-decider@8b6faa55"}
