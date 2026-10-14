@@ -30,6 +30,7 @@ import signal
 import subprocess
 import threading
 import time
+from collections.abc import Mapping
 from pathlib import Path
 from typing import Protocol
 
@@ -42,7 +43,14 @@ MAX_REPLY_BYTES = 8192
 _OPTION_ID = re.compile(r"[A-Za-z0-9_.:-]{1,64}")
 # Closed set of reasons this layer can escalate with (a subset of systemone.REASON_CODES).
 ESCALATION_REASONS = ("backend-timeout", "backend-unavailable", "backend-error", "malformed-output",
-                      "ineligible-choice", "unanswered-question", "unsupported-question", "state-too-large")
+                      "ineligible-choice", "unanswered-question", "unsupported-question", "state-too-large",
+                      "backend-abstained")
+# Per-option metadata (R3.2C): allowlisted fields only, produced from authoritative config/registry by
+# agentos/systemone_options.py. Anything else is rejected, never forwarded.
+_TOKEN = re.compile(r"[A-Za-z0-9_.:-]{1,64}")
+OPTION_FIELDS = {"roles": "list", "missing": "list", "access": "token", "cost": "token", "locality": "token",
+                 "latency": "token", "status": "token", "interactive": "bool"}
+MAX_INFO_LIST = 8
 assert set(ESCALATION_REASONS) <= set(REASON_CODES)
 
 
@@ -62,6 +70,50 @@ class DecisionRuntime(Protocol):
     def ask(self, payload: dict, timeout: float) -> object: ...
 
     def close(self) -> None: ...
+
+
+# ------------------------------------------------------------ option metadata
+def sanitize_option_info(option_info, options: list[str]) -> dict:
+    """Validated, size-capped metadata for exactly the offered options.
+
+    Entries for ids outside `options` are dropped (metadata can never introduce an option). Unknown
+    fields, wrong types or malformed values are rejected, and so is any list longer than MAX_INFO_LIST
+    (truncating e.g. `missing` capabilities could hide a hard constraint). Raises AdapterReject."""
+    if not option_info:
+        return {}
+    if not isinstance(option_info, Mapping):
+        raise AdapterReject("unsupported-question", "option_info is not a mapping")
+    out = {}
+    for opt in options:
+        info = option_info.get(opt)
+        if not info:
+            continue
+        if not isinstance(info, Mapping):
+            raise AdapterReject("unsupported-question", f"option_info[{opt}] is not a mapping")
+        clean = {}
+        for key, value in sorted(info.items(), key=lambda kv: str(kv[0])):
+            kind = OPTION_FIELDS.get(key)
+            if kind is None:
+                raise AdapterReject("unsupported-question", f"unknown option_info field {str(key)[:32]!r}")
+            texts = [value] if isinstance(value, str) else [v for v in value if isinstance(v, str)] \
+                if isinstance(value, (list, tuple)) else []
+            if any(events._SECRET.search(t) for t in texts):        # defense in depth: never forward secret-looking text
+                raise AdapterReject("unsupported-question", f"option_info[{opt}].{key} looks like a secret")
+            if kind == "bool":
+                ok = isinstance(value, bool)
+            elif kind == "token":
+                ok = isinstance(value, str) and bool(_TOKEN.fullmatch(value))
+            else:
+                if isinstance(value, (list, tuple)) and len(value) > MAX_INFO_LIST:
+                    raise AdapterReject("state-too-large", f"option_info[{opt}].{key} has too many items")
+                ok = isinstance(value, (list, tuple)) and all(isinstance(v, str) and _TOKEN.fullmatch(v) for v in value)
+                value = list(value) if ok else value
+            if not ok:
+                raise AdapterReject("unsupported-question", f"option_info[{opt}].{key} has an invalid value")
+            clean[key] = value
+        if clean:
+            out[opt] = clean
+    return out
 
 
 # ------------------------------------------------------------ payload (what a model is shown)
@@ -94,6 +146,11 @@ def build_payload(request: SystemOneRequest, question) -> dict:
     payload = {"v": PROTOCOL_VERSION,
                "question": {"id": str(question.id), "kind": "choose", "prompt": _scalar(question.prompt or "")},
                "options": options, "state": state}
+    info = sanitize_option_info(request.option_info, options)
+    if info:                                   # additive v1 field: workers that predate it ignore it
+        payload["option_info"] = info
+    if request.allow_abstain:
+        payload["allow_abstain"] = True
     if len(json.dumps(payload, separators=(",", ":")).encode()) > MAX_PAYLOAD_BYTES:
         raise AdapterReject("state-too-large")
     return payload
@@ -106,6 +163,10 @@ def parse_reply(reply: object, payload: dict) -> Answer:
         raise AdapterReject("malformed-output", "reply is not an object")
     if reply.get("v") != PROTOCOL_VERSION or reply.get("id") != payload["question"]["id"]:
         raise AdapterReject("malformed-output", "protocol version or question id mismatch")
+    if reply.get("abstain") is True:
+        if reply.get("choice") is not None or not payload.get("allow_abstain"):
+            raise AdapterReject("malformed-output", "abstain not allowed or combined with a choice")
+        raise AdapterReject("backend-abstained")             # an escalation, never a choice
     if "error" in reply and reply.get("choice") is None:
         raise AdapterReject("backend-error", "runtime reported an error")
     choice = reply.get("choice")

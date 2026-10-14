@@ -15,6 +15,7 @@
     "config/workers.yaml": "a758dd43e5c7eaeeb37319031d1aee30df2a1801e51cceb4d8667f480996b05b",
     "evals/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "evals/conftest.py": "b08fa0b9af233b9f41c6b36fceed4085aaa131827624323c6a8f4d27dc8ea308",
+    "evals/data/systemone-decisions-v1.yaml": "30e211a6ea922d6ad0ae7f1a5a65a5719a8c213efb8168f48fc991d4e7412396",
     "evals/intent-corpus.yaml": "55f0a1e0157ada862b5a951bc279b42982ff653482c82522f7125ea2ba5b45e4",
     "evals/test_a1_knowledge.py": "a55904febae82b8d42d6df808c29bb085099f8c4f1a243a7e982dbd83f8c8f66",
     "evals/test_a2_coding.py": "9248b79c020fc260a5b2b7a2ab5f21cd92602b8d4e35f8a7a69fc24b02f0776c",
@@ -42,6 +43,8 @@
     "evals/test_systemone.py": "5eac03259a770946a43c4dd4dadbd7eaa6d91ea01bc5632abb49d9c0b75cce01",
     "evals/test_systemone_adapter.py": "f5af28a9f2eb6de7fef42693b0bc8c529c501b0d5a37e696c4cb140dd68c8239",
     "evals/test_systemone_bench.py": "5b23e4049635b80264ffb2c064e7762607010f2a826fd41ca4952dacfc9831e0",
+    "evals/test_systemone_eval.py": "a94bb7ba6f70619c5584cefec16807bf7526af13035f2033fc08703ed820d9e4",
+    "evals/test_systemone_options.py": "3848b0fffdad7555e5514af50c9ff2b17bdb628ca45d193fa0d545b3b53f43bd",
     "evals/test_systemone_routing.py": "6e2016626e5f13cd5475930f5ab82faa5a5f05d6f668793affe8ed6183b30fe8",
     "evals/test_timeouts.py": "b305be34e98173d1f4675b8bbbd8128f7d333015611d5d27f7e34190cb8de0d2",
     "evals/test_worker_boundaries.py": "4a3142833958081fc85bd26bd4bd7a44abc5968c16b49e371793f3aa0aa7f52e"

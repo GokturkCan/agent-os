@@ -10,10 +10,51 @@ library prints is diverted to stderr. Offline: weights are loaded from a local d
 Mapping: a `choose` question -> a Laya `choice` question whose criteria are the option ids;
 the reply carries the chosen label and Laya's `answer_confidence` (max probability) as a RAW
 number. Calibration is neither assumed nor applied here.
+
+R3.2C (additive; a payload without these fields behaves exactly as before): when the payload has
+`option_info`, each criterion is described by deterministic text rendered from those structured
+fields (never model-generated); when it has `allow_abstain`, an extra "none fits" label is offered
+and choosing it is reported as `abstain`, which the adapter treats as an escalation.
 """
 import argparse
 import json
 import sys
+
+
+ABSTAIN_LABEL = "none_fits"
+ABSTAIN_TEXT = ("no option fits: a required capability cannot be met, the risk is too high, or the "
+                "information is insufficient; hand off to a human")
+
+
+def describe(option: str, info: dict) -> str:
+    """Deterministic one-line description of an option from its structured metadata."""
+    parts = []
+    if info.get("roles"):
+        parts.append("roles: " + ", ".join(info["roles"]))
+    if info.get("interactive") is False:
+        parts.append("background only, not interactive")
+    for key in ("access", "cost", "locality", "latency"):
+        if info.get(key):
+            parts.append(f"{key}: {info[key]}")
+    if "missing" in info:
+        parts.append("missing required capabilities: " + (", ".join(info["missing"]) or "none"))
+    return "; ".join(parts) or option
+
+
+def criteria_for(req: dict):
+    """(criteria, abstain_label). A list of ids when no metadata/abstain is requested (legacy path)."""
+    options, info = list(req["options"]), req.get("option_info") or {}
+    abstain = None
+    if info or req.get("allow_abstain"):
+        criteria = {o: describe(o, info.get(o) or {}) for o in options}
+    else:
+        criteria = options
+    if req.get("allow_abstain"):
+        abstain = ABSTAIN_LABEL
+        while abstain in options:
+            abstain += "_"
+        criteria[abstain] = ABSTAIN_TEXT
+    return criteria, abstain
 
 
 def main() -> int:
@@ -43,13 +84,16 @@ def main() -> int:
         try:
             req = json.loads(line)
             qid = req["question"]["id"]
-            options = list(req["options"])
+            criteria, abstain = criteria_for(req)
             result = agent.predict(req["state"], {qid: {"type": "choice",
                                                         "instructions": req["question"].get("prompt") or "Choose one.",
-                                                        "criteria": options}})
+                                                        "criteria": criteria}})
             ans = result["answers"][qid]
-            send({"v": 1, "id": qid, "choice": ans["choice"], "confidence": ans.get("answer_confidence"),
-                  "reason_code": "backend-choice"})
+            if abstain is not None and ans["choice"] == abstain:
+                send({"v": 1, "id": qid, "abstain": True, "confidence": ans.get("answer_confidence")})
+            else:
+                send({"v": 1, "id": qid, "choice": ans["choice"], "confidence": ans.get("answer_confidence"),
+                      "reason_code": "backend-choice"})
         except Exception as exc:                 # reported as a typed error; the adapter escalates
             send({"v": 1, "id": qid, "error": type(exc).__name__})
     return 0

@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
 
-from . import systemone
+from . import systemone, systemone_options
 from .config import USABLE, Config
 from .workers import ENFORCED_WORKERS
 
@@ -140,14 +140,19 @@ def _systemone_step(cfg: Config, event: dict, health: dict, d: Decision, tc: dic
         options = _eligible_options(cfg, tc, health, event)
         info["options"] = options
         risk = "high" if high else (event.get("risk") if event.get("risk") in ("low", "medium") else "low")
+        try:                                        # advisory context; failing to build it never fails routing
+            opt_info = systemone_options.build(cfg, options, event.get("required_capabilities") or ())
+        except Exception:
+            opt_info = {}
         req = systemone.SystemOneRequest(
             task_type=d.task_type,
-            questions=(systemone.Question("worker", "choose", "Which eligible worker should serve this task?"),),
+            questions=(systemone.Question("worker", "choose", systemone_options.QUESTION_PROMPT),),
             eligible_options=tuple(options),
             state={"task_class": d.task_class, "stage": "fastgate"},
             required_capabilities=tuple(event.get("required_capabilities") or ()),
             risk=risk,
-            resource_state={k: bool(v) for k, v in (health.get("nodes") or {}).items()})
+            resource_state={k: bool(v) for k, v in (health.get("nodes") or {}).items()},
+            option_info=opt_info)
         resp = systemone.system_one(req, be)
         ans = resp.answer("worker")
         info["backend"] = resp.backend

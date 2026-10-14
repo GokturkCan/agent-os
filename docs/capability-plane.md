@@ -315,7 +315,17 @@ event -> risk gate (human approval) -> task class -> options = workers the cloud
   protected `config/systemone.yaml`; `routing.yaml` only selects. Laya-MLX is the first definition
   (isolated runtime, pinned weights); it is **AVAILABLE + MEASURED (operational only)**, selectable
   explicitly for benchmarking, and **not a default**. Evidence: `audit/laya-mlx-r3.2-2026-10-14.md`.
-- **Still DESIGN-ONLY / DEFERRED:** other backends (Ollaya, Jev, Decider, Kev) and the R3.2C
+- **R3.2C Phase 1 (IMPLEMENTED).** The request can carry advisory per-option metadata
+  (`option_info`: roles, access, latency, cost, locality, `interactive`, and the required capabilities an
+  option cannot satisfy), built only from existing config/registry (`agentos/systemone_options.py`), and
+  an opt-in `allow_abstain` (abstaining is an escalation, never a choice). The adapter validates it:
+  allowlisted fields, ids outside the offered options dropped, unknown/oversized/secret-looking values
+  rejected. `agentos systemone-eval` scores a backend against 66 grounded labeled cases in three separate
+  layers (decision quality, protocol compliance, end-to-end policy-valid routing) with baselines, an
+  option-order sweep, and a counterfactual description-swap probe. **Finding: Laya follows the label, not
+  the description** (see `audit/systemone-eval-r3.2c-phase1-2026-10-14.md`). Small synthetic set: no
+  statistical generalization.
+- **Still DESIGN-ONLY / DEFERRED:** other backends (Ollaya, Jev, Decider, Kev) and the R3.2C Phase 2
   comparison, confidence calibration, ContextGate, and any change to `fastgate.model` (null) or the
   `"null"` default backend.
 

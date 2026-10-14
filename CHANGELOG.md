@@ -31,7 +31,20 @@ Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run
 - `agentos systemone smoke|bench` and evidence `audit/laya-mlx-r3.2-2026-10-14.md`: warm p50 ~18 ms,
   valid-choice rate 100%, reproducible across two runs. Laya is **measured (operational only)**; decision
   quality is unmeasured, and it is not a production default.
-- Still pending: R3.2C backend comparison (Decider/Kev/Jev/Ollaya), calibration, ContextGate.
+### Run 3 — R3.2C Phase 1 semantic decision-quality evaluation (same branch, not merged)
+
+- Request formulation: optional, advisory per-option metadata (`option_info`) built only from existing
+  config/registry (`agentos/systemone_options.py`) and an opt-in `allow_abstain` (an escalation, never a
+  choice). The adapter validates both (allowlist, size cap, ids outside the offered options dropped,
+  secret-looking text rejected); the wire format stays protocol v1 and is byte-identical for legacy requests.
+- `agentos systemone-eval` + `evals/data/systemone-decisions-v1.yaml`: 66 hand-authored, config-grounded
+  labeled cases (61 semantic incl. 9 escalation-gold, 5 policy) and 12 end-to-end routing cases; three
+  separate metric layers (decision quality, protocol compliance, end-to-end policy-valid routing),
+  reference baselines, an option-order sweep, a description-swap probe and abstention diagnostics.
+- Result for Laya-MLX: operationally sound but **no semantic skill demonstrated** (it follows the label
+  string; 94.6% of choices unchanged when two workers' descriptions are swapped). Recommendation: keep as a
+  baseline only. Evidence: `audit/systemone-eval-r3.2c-phase1-2026-10-14.md`.
+- Still pending: R3.2C Phase 2 backend comparison (Decider/Kev/Jev/Ollaya), calibration, ContextGate.
 
 ## [1.0.0] — 2026-10-14
 

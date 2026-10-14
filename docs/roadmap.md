@@ -42,8 +42,9 @@ Evidence: 403 passed / 2 skipped (333 at Run 2 closure, before pre-release harde
 |---|---|
 | R3.1 Router/SystemOne wiring (`fastgate` stage asks the configured backend one typed worker question over policy-eligible options) | IMPLEMENTED, VERIFIED by tests (null backend by default; escalation keeps routing identical to v1.0.0, 900/900 differential cases) |
 | R3.2A Backend adapter layer (`systemone_adapter`: typed payload/reply validation, scrubbed offline subprocess runtime, timeout kill, cool-down; definitions in protected `config/systemone.yaml`) | IMPLEMENTED, VERIFIED by tests (fail-closed to escalation on every failure mode; mutation-checked) |
-| R3.2B Laya-MLX as the first local backend candidate (`agentos systemone smoke|bench`) | IMPLEMENTED; Laya AVAILABLE + MEASURED (operational: latency, validity, reproducibility); decision quality NOT measured; benchmark candidate only, not a default (`systemone.backend` stays `"null"`, `fastgate.model` stays null) |
-| R3.2C Backend comparison (Laya vs Decider-2B / Kev-4B / Jev / OpenJev-like / Ollaya) on a labeled set with richer option descriptions | PENDING / DESIGN-ONLY |
+| R3.2B Laya-MLX as the first local backend candidate (`agentos systemone smoke|bench`) | IMPLEMENTED; Laya AVAILABLE + MEASURED (operational: latency, validity, reproducibility); decision quality evaluated in R3.2C Phase 1 (no semantic skill demonstrated); benchmark candidate only, not a default (`systemone.backend` stays `"null"`, `fastgate.model` stays null) |
+| R3.2C Phase 1 Semantic decision-quality evaluation (`agentos systemone-eval`: 66 grounded labeled cases, 3 formulations, 3 separate metric layers, baselines, description-swap and abstention probes; authoritative option metadata in the request) | IMPLEMENTED, VERIFIED (reproducible). Result: Laya follows labels, not descriptions; keep as a baseline, do not promote |
+| R3.2C Phase 2 Backend comparison (Laya vs Decider-2B / Kev-4B / Jev / OpenJev-like / Ollaya) on the same dataset, more human-labeled cases | PENDING / DESIGN-ONLY (not started) |
 | Confidence calibration (accuracy, ECE, Platt, isotonic, per-workload thresholds) | DESIGN-ONLY |
 | ContextGate runtime | DESIGN-ONLY |
 | Local models (Qwen3.6, Bonsai 2) | DESIGN-ONLY (benchmark candidates, nothing installed) |
