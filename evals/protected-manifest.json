@@ -38,6 +38,7 @@
     "evals/test_regression_config.py": "850101c47af903e0858c3959c8b35b57eb3922c0172296d22210b6f363490474",
     "evals/test_skill_enforcement.py": "90c7d8a4dba0022e64b59699abbbb4892c71c3cef4b915efcd6d2c7569db5f2a",
     "evals/test_systemone.py": "5eac03259a770946a43c4dd4dadbd7eaa6d91ea01bc5632abb49d9c0b75cce01",
+    "evals/test_systemone_routing.py": "8cc22a5b4c1c744a4e50e757341d180db738e8be62486bd326da15d61e4c4bd9",
     "evals/test_timeouts.py": "b305be34e98173d1f4675b8bbbd8128f7d333015611d5d27f7e34190cb8de0d2",
     "evals/test_worker_boundaries.py": "4a3142833958081fc85bd26bd4bd7a44abc5968c16b49e371793f3aa0aa7f52e"
   }

@@ -5,6 +5,20 @@ Product versions follow [Semantic Versioning](https://semver.org/). The `version
 
 Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run 3 is not.
 
+## [Unreleased]
+
+### Run 3 — R3.1 SystemOne router wiring (branch `feature/run3-local-intelligence`, not merged)
+
+- The router's `fastgate` stage now runs a real SystemOne decision step: one typed question
+  ("which pre-approved worker?") over options built from the same predicates the cloud stage uses, so
+  SystemOne can only narrow, never widen; the human-approval risk gate runs first.
+- Backend resolution layer (`systemone.resolve_backend`, `config/routing.yaml` `systemone.backend`):
+  `null` (default, always escalates, routing unchanged) and `policy-order` (reference/test backend).
+- Additive telemetry fields `systemone_backend`, `systemone_choice`, `systemone_reason`,
+  `systemone_escalate`.
+- Not included (DESIGN-ONLY / DEFERRED): real decision-model backends (Laya-MLX, Ollaya, Jev, Decider,
+  Kev), confidence calibration, ContextGate. `fastgate.model` stays null; `laya-mlx` stays a candidate.
+
 ## [1.0.0] — 2026-10-14
 
 Released on `main` via PR #1 (merge commit `91b08aa`). The `v1.0.0` git tag and GitHub Release have not

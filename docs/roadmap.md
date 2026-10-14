@@ -40,7 +40,10 @@ Evidence: 403 passed / 2 skipped (333 at Run 2 closure, before pre-release harde
 
 | Item | State |
 |---|---|
-| SystemOne fast local tier (FastGate/Laya) | Contract IMPLEMENTED in Run 2 (`agentos/systemone.py`); backends + calibration DESIGN-ONLY (router skips tier) |
+| R3.1 Router/SystemOne wiring (`fastgate` stage asks the configured backend one typed worker question over policy-eligible options) | IMPLEMENTED, VERIFIED by tests (null backend by default; escalation keeps routing identical to v1.0.0, 900/900 differential cases) |
+| SystemOne decision-model backends (Laya-MLX, Ollaya, Jev, Decider, Kev, ...) | DESIGN-ONLY / DEFERRED (none integrated; `laya-mlx` stays a candidate, `fastgate.model` stays null) |
+| Confidence calibration (accuracy, ECE, Platt, isotonic, per-workload thresholds) | DESIGN-ONLY |
+| ContextGate runtime | DESIGN-ONLY |
 | Local models (Qwen3.6, Bonsai 2) | DESIGN-ONLY (benchmark candidates, nothing installed) |
 | Secondary compute node (resource state machine) | PARTIAL (state machine verified; node not connected) |
 

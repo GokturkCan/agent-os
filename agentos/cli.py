@@ -119,7 +119,8 @@ def main(argv=None) -> int:
         d = router.route(cfg, {"type": a.type, "risk": a.risk}, h)
         if a.record:
             telemetry.record(task_type=a.type, route=d.stage, provider=d.provider, worker=d.worker,
-                             exit_state=d.exit_state, fallbacks=d.fallbacks, failures=d.failures)
+                             exit_state=d.exit_state, fallbacks=d.fallbacks, failures=d.failures,
+                             **d.systemone_fields())
         print(json.dumps(d.to_dict(), indent=2))
         return 0 if d.exit_state is None else 2
     if a.cmd == "tool":

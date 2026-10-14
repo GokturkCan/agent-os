@@ -94,6 +94,15 @@ tool_routing:
   repo_packing:          {prefer: repomix,    fallback: [ripgrep]}
   web_search:            {prefer: web_search, fallback: []}
 
+# ------------------------------------------------- fastgate / SystemOne (R3.1)
+# The `fastgate` stage asks the configured backend ONE typed question over options that
+# deterministic policy already approved (eligible workers); it can only narrow the choice.
+# Registered backends (agentos/systemone.py): "null" (default; always escalates, so routing is
+# unchanged) and "policy-order" (reference/test backend: picks the first eligible option).
+# No decision-model backend exists yet; do not set this to anything else until one is integrated.
+systemone:
+  backend: "null"
+
 # ---------------------------------------------------------------- budgets
 # Numeric loop bounds (closes the gap recorded in
 # docs/loop-graph-engineering.md appendix). Exceeding them forces an exit

@@ -142,8 +142,8 @@ Expected sibling paths (override with env vars, see `.env.example`):
 ## Project status
 
 **Agent OS v1.0.0** (`pyproject.toml` / `agentos.__version__` = `1.0.0`), released on `main`:
-V1 core: **implemented and acceptance-tested**; latest full suite `403 passed, 2 skipped`
-(2 live-only). See [CURRENT_STATE.md](CURRENT_STATE.md) and [CHANGELOG.md](CHANGELOG.md).
+V1 core: **implemented and acceptance-tested**; latest full suite `403 passed, 2 skipped` at the v1.0.0 release
+(2 live-only; `468 passed` on the unmerged R3.1 branch). See [CURRENT_STATE.md](CURRENT_STATE.md) and [CHANGELOG.md](CHANGELOG.md).
 Run 1 and Run 2 are both included in v1.0.0: Run 2 (capability plane) is closed and verified,
 including real worker and browser acceptance. PR #2 merged it into `agent-os-v1` (2026-10-13 UTC) and
 PR #1 merged `agent-os-v1` into `main` on 2026-10-14 (local time; 2026-10-13 21:41 UTC). The
@@ -155,7 +155,7 @@ PR #1 merged `agent-os-v1` into `main` on 2026-10-14 (local time; 2026-10-13 21:
 |---|---|---|
 | 1 | Core Agent OS | Done (V1); timeout/resume real acceptance pending |
 | 2 | Capability plane | Closed, verified (registry, probes, selection, telemetry, SystemOne contract); backends deferred to Run 3 |
-| 3 | Local intelligence plane | Not started (candidates only) |
+| 3 | Local intelligence plane | In progress: R3.1 SystemOne router wiring implemented (null backend by default); real backends, calibration and ContextGate not started |
 | 4 | Research / web plane | Design only |
 
 Full detail: [docs/roadmap.md](docs/roadmap.md).

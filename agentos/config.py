@@ -114,6 +114,11 @@ def validate(cfg: Config) -> list[str]:
                 errors.append(f"routing.{cname}: unknown worker {wk}")
     if set(routing.get("exit_states", [])) != EXIT_STATES:
         errors.append("routing.exit_states must equal the canonical exit-state set")
+    from . import systemone   # deferred: keeps config import light
+    backend = (routing.get("systemone") or {}).get("backend", "null")
+    if backend not in systemone.BACKENDS:
+        errors.append(f"routing.systemone.backend {backend!r} is not a registered backend "
+                      f"({sorted(systemone.BACKENDS)})")
     risk = routing.get("risk") or {}
     if risk.get("high_requires_human_approval") is not True:
         errors.append("routing.risk.high_requires_human_approval must be true")

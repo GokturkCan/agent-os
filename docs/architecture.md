@@ -91,7 +91,8 @@ component generates candidates autonomously**.
 `agentos capabilities` CLI, and dispatch integration (declared capabilities + the
 registry's task_type mapping) that narrows the router's worker chain and passes only
 plan-selected MCP servers to the launch. `systemone.py` is the backend-neutral SystemOne/FastGate
-contract only. See [capability-plane.md](capability-plane.md).
+contract; since R3.1 the router's `fastgate` stage calls it (null backend by default, so routing is
+unchanged; no decision model is integrated). See [capability-plane.md](capability-plane.md).
 
 ## 9. FUTURE — not implemented
 
@@ -99,7 +100,8 @@ These appear in design docs only. Do not assume any exists in code.
 
 - **SystemOne backends** — a fast local first-pass cognition tier (FastGate/local models:
   Laya-MLX, Decider-2B, ...) behind the Run 2 contract, with calibrated confidence (Run 3).
-  The router currently skips these tiers with a recorded reason.
+  The `fastgate` stage already calls the SystemOne contract (R3.1) with the null backend, which
+  escalates; the model-backed local tiers are still skipped with a recorded reason.
 - **ContextGate** — policy that decides what context is loaded into a worker/model per
   task (Runs 2–3).
 - Research/web plane, MSI compute node integration, autonomous improvement loop (Runs 3–4).

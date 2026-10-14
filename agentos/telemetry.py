@@ -22,6 +22,8 @@ FIELDS = {
     "human_corrections", "fallbacks", "failures", "artifacts",
     "lesson_candidate", "notes",
     "capabilities",   # Run 2 capability decision summary (ids + reason codes); null when not used
+    # Run 3 R3.1 fastgate SystemOne step (simple typed values; null when the step did not run).
+    "systemone_backend", "systemone_choice", "systemone_reason", "systemone_escalate",
 }
 
 

@@ -49,8 +49,9 @@ task is context7 + serena + playwright. The acceptance runs left artifact commit
 Repository state: private `origin` (`GokturkCan/agent-os`) exists; `feature/run2-capability-plane`
 is pushed to it and was merged into `agent-os-v1` via PR #2 (2026-10-13 UTC), then into `main` via PR #1 (2026-10-14 local time); pushing/merging/tagging stays a human step.
 
-Run 3 boundary: only the SystemOne **contract** exists. Laya, Ollaya, Jev, Decider, Kev backends,
-confidence calibration and ContextGate remain future Run 3 work.
+Run 3 boundary: at Run 2 closure only the SystemOne **contract** existed (R3.1 has since wired it
+into the router, see "Router wiring" below). Laya, Ollaya, Jev, Decider, Kev backends, confidence
+calibration and ContextGate remain future Run 3 work.
 
 ## What the CapabilityRegistry is — and is not
 
@@ -245,7 +246,7 @@ to Claude Code only. REA integration is `unknown` for every executor, so an RE t
 blocked until one is declared. Codex skill loading is `unknown`. Not a parity claim:
 anything undeclared stays unknown.
 
-## SystemOne / FastGate contract (R2.10)
+## SystemOne / FastGate contract (R2.10) and router wiring (R3.1)
 
 `agentos/systemone.py` is a **typed, backend-neutral contract only**. FastGate is the
 abstraction, not Laya, Jev or Ollaya.
@@ -274,6 +275,36 @@ accepts **only** calibrated confidence from that calibrator, so
 `if confidence > 0.92: execute` on a raw score is unrepresentable. Run 3 will measure
 accuracy and ECE, then fit Platt/isotonic calibrators and workload-specific thresholds.
 Nothing in Run 2 calibrates.
+
+### Router wiring (R3.1, IMPLEMENTED)
+
+The router's `fastgate` stage (task classes that list it, today `classification`) is a real
+SystemOne decision step:
+
+```
+event -> risk gate (human approval) -> task class -> options = workers the cloud stage could pick now
+      -> SystemOneRequest(question "worker", eligible_options) -> resolve_backend() -> system_one()
+      -> valid choice: narrow the cloud-stage worker pick | escalate: continue the deterministic chain
+```
+
+- **Options are policy output.** They come from the same predicate `_pick_worker` uses
+  (`_worker_block`: provider health, worker status, launch enforcement, capability
+  eligibility from the capability plane, runtime health), so SystemOne can only narrow.
+  Out-of-set choices are rejected by `system_one()` and re-checked by the router.
+- **Backends** (`systemone.BACKENDS`, `config/routing.yaml` `systemone.backend`): `null` (the
+  default; always escalates) and `policy-order` (reference/test: first eligible option). Unknown
+  names are rejected by `agentos validate` and ignored at runtime (null backend). No decision
+  model is registered.
+- **Null backend = identical routing.** A differential run of the v1.0.0 router against this one
+  over 900 event/health combinations produced identical routes (only the added `systemone`
+  summary and trace lines differ). A backend error or a malformed answer escalates; if a narrowed
+  route were ever `blocked` it is recomputed without narrowing (`unroutable-choice`).
+- **Never** generates plans or prose, mutates task state, calls tools or executes workers, and
+  never runs before the risk gate. Telemetry (additive, simple values):
+  `systemone_backend`, `systemone_choice`, `systemone_reason`, `systemone_escalate` on the
+  TraceRecord, plus a typed `Decision.systemone` summary and trace lines.
+- **Still DESIGN-ONLY / DEFERRED:** real backends (Laya-MLX, Ollaya, Jev, Decider, Kev),
+  calibration, ContextGate, and any change to `fastgate.model` (null) or `laya-mlx` (candidate).
 
 ## ContextGate (DESIGN-ONLY)
 
