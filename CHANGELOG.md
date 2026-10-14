@@ -16,8 +16,22 @@ Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run
   `null` (default, always escalates, routing unchanged) and `policy-order` (reference/test backend).
 - Additive telemetry fields `systemone_backend`, `systemone_choice`, `systemone_reason`,
   `systemone_escalate`.
-- Not included (DESIGN-ONLY / DEFERRED): real decision-model backends (Laya-MLX, Ollaya, Jev, Decider,
-  Kev), confidence calibration, ContextGate. `fastgate.model` stays null; `laya-mlx` stays a candidate.
+- Not included (DESIGN-ONLY / DEFERRED): other decision-model backends (Ollaya, Jev, Decider, Kev),
+  confidence calibration, ContextGate. `fastgate.model` stays null.
+
+### Run 3 — R3.2A/R3.2B backend adapter and Laya-MLX candidate (same branch, not merged)
+
+- `agentos/systemone_adapter.py`: backend-neutral adapter layer. Compact redacted payloads, field-by-field
+  reply validation (only an offered option and a raw confidence survive), every failure escalates with a
+  specific reason code, subprocess runtime with scrubbed offline environment, kill-on-timeout and cool-down.
+- `config/systemone.yaml` (new, **protected**): backend definitions (they name executables). `routing.yaml`
+  only selects; the default stays `"null"`.
+- Laya-MLX as the first backend (`agentos/systemone_workers/laya_worker.py`), installed in an isolated
+  git-ignored runtime (`laya-mlx` 0.4.0, `aac6fef/laya-multilingual-mlx` @ `f2b4faf5`, ~906 MiB).
+- `agentos systemone smoke|bench` and evidence `audit/laya-mlx-r3.2-2026-10-14.md`: warm p50 ~18 ms,
+  valid-choice rate 100%, reproducible across two runs. Laya is **measured (operational only)**; decision
+  quality is unmeasured, and it is not a production default.
+- Still pending: R3.2C backend comparison (Decider/Kev/Jev/Ollaya), calibration, ContextGate.
 
 ## [1.0.0] — 2026-10-14
 

@@ -27,7 +27,7 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 | SecondBrain gate over claude-obsidian | IMPLEMENTED, VERIFIED (fixture vaults) | live vault untouched; doctor ok, lint 0 |
 | Telemetry JSONL + lifecycle events (`agentos/events.py`) | IMPLEMENTED, VERIFIED | secret-redacted; TTFT/RAM/VRAM not collected |
 | Health check | IMPLEMENTED, VERIFIED | 28 checks, 0 FAIL, 3 WARN (2026-10-14; `repo.remote` is an informational PASS; the disabled OpenCode worker is no longer binary-checked) |
-| Eval suite | IMPLEMENTED, VERIFIED | latest full run (2026-10-14, branch `feature/run3-local-intelligence`, R3.1): **468 passed / 2 skipped** (live-only); the v1.0.0 release baseline was 403 passed / 2 skipped |
+| Eval suite | IMPLEMENTED, VERIFIED | latest full run (2026-10-14, branch `feature/run3-local-intelligence`, R3.2): **567 passed / 2 skipped** (live-only); the v1.0.0 release baseline was 403 passed / 2 skipped |
 | Deterministic intent routing (`agentos/intent.py`) | IMPLEMENTED, VERIFIED | read-only → normal Hermes; mutation → forced |
 | Canonical entrypoint structural mutation branch (`bin/hermes-agentos` → `agentos mutate` → dispatch) | **VERIFIED** | tests + real run |
 | Real mutation acceptance | **VERIFIED** | hermes-agentos → force=true → mutate → dispatch → claude_code → verifier → success |
@@ -36,11 +36,12 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 | Run 2 capability plane (`docs/capability-plane.md`) | **CLOSED, VERIFIED** (2026-10-13; merged into `agent-os-v1` via PR #2; included in V1) | registry + Wave A inventory, offline probes, deterministic selection/fallback, `capability_decision` telemetry, parity matrix, `agentos capabilities` CLI; dispatch plans declared caps + deterministic task_type mapping (coding → code.edit/test) and passes only plan-selected MCPs. No natural-language capability inference |
 | Run 2 real worker acceptance | **VERIFIED** | real Claude Code worker, capabilities selected correctly (code.edit + code.test), verifier passed, retry/resume compatible (task `run2-real-capability-acceptance-01`) |
 | Run 2 real Playwright acceptance | **VERIFIED** | task `run2-real-playwright-acceptance-01`: status=done, exit_state=success, worker=claude_code, provider=claude_subscription, retries=0; required code.edit + code.test + web.browser_test; `web.browser_test` → playwright; `extra_mcp=["playwright"]`; the browser opened `http://127.0.0.1:8765/` and the local server logged `GET / HTTP/1.1 200`; verifier passed. Playwright stays task-specific: normal coder launch = context7 + serena; browser-capability task = context7 + serena + playwright |
-| SystemOne/FastGate | Contract IMPLEMENTED (Run 2); **R3.1 router wiring IMPLEMENTED** (branch `feature/run3-local-intelligence`, not merged); real backends + calibration DEFERRED / DESIGN-ONLY | `fastgate` stage asks the configured backend (default `null`, always escalates; `policy-order` is a reference/test backend) one typed worker question over policy-eligible options; it only narrows, never widens, and the human-approval risk gate runs first. Laya/Ollaya/Jev/Decider/Kev backends, calibration and ContextGate are not started |
+| SystemOne/FastGate | Contract IMPLEMENTED (Run 2); **R3.1 router wiring IMPLEMENTED**; **R3.2 adapter + Laya-MLX candidate backend IMPLEMENTED** (branch `feature/run3-local-intelligence`, not merged); production default stays `null`; calibration DESIGN-ONLY; Decider/Kev/Jev/Ollaya comparison PENDING | `fastgate` stage asks the configured backend (default `null`, always escalates; `policy-order` reference/test; adapter backends defined in the protected `config/systemone.yaml`) one typed worker question over policy-eligible options; it only narrows, never widens, the human-approval risk gate runs first, and any adapter failure (timeout, crash, malformed/ineligible output) escalates with routing unchanged. Laya-MLX is selectable explicitly for benchmarking only (see the Laya row). ContextGate is not started |
 | ContextGate, Run 3 (local intelligence), Run 4 (research/web) | FUTURE / DESIGN-ONLY | see `docs/roadmap.md` |
 | MSI resource profiles | IMPLEMENTED (state machine) | MSI not connected — PARTIAL |
 | Hermes ↔ agentos | IMPLEMENTED, VERIFIED, **wired** (user-approved, 2026-10-01) | `skills.external_dirs` + `skills.disabled` via `scripts/hermes-wire.py`; canonical front door `bin/hermes-agentos`; Groq native completion measured (OK, 1.273s) |
-| Local inference (Laya, Qwen3.6, Bonsai 2) | DEFERRED (benchmark candidates) | nothing installed |
+| Laya-MLX (SystemOne backend candidate) | **AVAILABLE + MEASURED (operational only)**; not a default | isolated runtime `state/runtime/laya-mlx` (git-ignored, ~906 MiB): `laya-mlx` 0.4.0 (community port) + `aac6fef/laya-multilingual-mlx` @ `f2b4faf5`, MLX 0.32.3, Python 3.11.13. Warm decision p50 ~18 ms / p95 ~23 ms, cold start ~0.5 s, valid-choice rate 100%, reproducible across two runs. **Decision quality unmeasured**: on bare worker-id questions it follows a fixed label preference. Evidence: `audit/laya-mlx-r3.2-2026-10-14.md` |
+| Local inference (Qwen3.6, Bonsai 2) | DEFERRED (benchmark candidates) | nothing installed |
 | Research plane | DESIGN-ONLY | contract in `workflows/research-question.md` |
 | Self-improvement | IMPLEMENTED (gate mechanism only) | no autonomous candidate generation, by design |
 
@@ -74,7 +75,7 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 2. Human release step: tag `v1.0.0` on `main` and publish the GitHub Release (neither exists yet). Do not merge the local `agentos/run2-real-*` acceptance-artifact branches.
 3. Re-auth GitHub MCP; rotate/delete the dormant z.ai token outside this repo.
 4. Connect MSI (SSH alias `msi`), then benchmark Qwen3.6 → set status `measured`.
-5. Benchmark Laya-MLX / Bonsai 2 on the Mac within the 6 GB model budget.
+5. R3.2C: compare SystemOne backends (Laya-MLX vs Decider/Kev/Jev/Ollaya alternatives) on a labeled set with richer option descriptions; then calibration. Benchmark Bonsai 2 on the Mac within the 6 GB model budget.
 6. Run 3–4 per `docs/roadmap.md` (Run 2 is closed).
 
 ## Hermes milestone (2026-10-01, historical)

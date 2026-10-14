@@ -21,7 +21,7 @@ competing control plane.
 | Ponytail | BENCHMARK / not installed | intent captured as policy text in `docs/v1-implementation.md` §6 |
 | codebase-memory-mcp | BENCHMARK | derived structural index; freshness contract ready (`worktree.index_stamp`) |
 | Repomix | BENCHMARK (on demand) | `npx repomix` when repo packing is needed; no standing install |
-| Laya-MLX (FastGate) | BENCHMARK | router skips C1 until measured |
+| Laya-MLX (FastGate) | BENCHMARK (operationally measured 2026-10-14; decision quality unmeasured; not a default) | selectable explicitly via `config/systemone.yaml`; evidence `audit/laya-mlx-r3.2-2026-10-14.md` |
 | Qwen3.6-35B-A3B (MSI) | BENCHMARK | needs MSI connection + benchmark |
 | Bonsai 2 (Mac) | BENCHMARK | needs runtime + RAM check on 16 GB |
 | Firecrawl | DEFERRED | no key; web_fetch covers current need |

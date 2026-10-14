@@ -100,8 +100,10 @@ These appear in design docs only. Do not assume any exists in code.
 
 - **SystemOne backends** — a fast local first-pass cognition tier (FastGate/local models:
   Laya-MLX, Decider-2B, ...) behind the Run 2 contract, with calibrated confidence (Run 3).
-  The `fastgate` stage already calls the SystemOne contract (R3.1) with the null backend, which
-  escalates; the model-backed local tiers are still skipped with a recorded reason.
+  The `fastgate` stage already calls the SystemOne contract (R3.1) through a backend adapter layer
+  (R3.2). The default is the null backend, which escalates; Laya-MLX exists as an explicitly selected,
+  operationally measured benchmark candidate only. Other backends, calibration and the model-backed
+  local tiers (`fastgate.model`, Qwen, Bonsai) are not integrated and are skipped with a recorded reason.
 - **ContextGate** — policy that decides what context is loaded into a worker/model per
   task (Runs 2–3).
 - Research/web plane, MSI compute node integration, autonomous improvement loop (Runs 3–4).

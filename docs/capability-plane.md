@@ -303,8 +303,21 @@ event -> risk gate (human approval) -> task class -> options = workers the cloud
   never runs before the risk gate. Telemetry (additive, simple values):
   `systemone_backend`, `systemone_choice`, `systemone_reason`, `systemone_escalate` on the
   TraceRecord, plus a typed `Decision.systemone` summary and trace lines.
-- **Still DESIGN-ONLY / DEFERRED:** real backends (Laya-MLX, Ollaya, Jev, Decider, Kev),
-  calibration, ContextGate, and any change to `fastgate.model` (null) or `laya-mlx` (candidate).
+- **Adapter backends (R3.2).** `agentos/systemone_adapter.py` lets a real local decision backend sit
+  behind the contract without coupling `router.py`/`systemone.py` to a model. The payload is compact
+  operational state only (allowlisted, redacted, size-capped); the reply is parsed field by field and
+  only a `choice` that is one of the offered options plus a RAW confidence survives (free text and
+  model-supplied reason strings are dropped). Every failure (timeout, crash, unavailable, malformed,
+  unknown option, missing answer, oversized state, unsupported question) is an escalation with a
+  specific reason code, so routing continues exactly as before. The subprocess runtime uses a
+  from-scratch environment (no inherited secrets, offline), kills the process group on a missed
+  deadline and applies a failure cool-down. Backend *definitions* (which executable to run) are in the
+  protected `config/systemone.yaml`; `routing.yaml` only selects. Laya-MLX is the first definition
+  (isolated runtime, pinned weights); it is **AVAILABLE + MEASURED (operational only)**, selectable
+  explicitly for benchmarking, and **not a default**. Evidence: `audit/laya-mlx-r3.2-2026-10-14.md`.
+- **Still DESIGN-ONLY / DEFERRED:** other backends (Ollaya, Jev, Decider, Kev) and the R3.2C
+  comparison, confidence calibration, ContextGate, and any change to `fastgate.model` (null) or the
+  `"null"` default backend.
 
 ## ContextGate (DESIGN-ONLY)
 

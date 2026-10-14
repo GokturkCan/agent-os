@@ -57,7 +57,7 @@ CLS = {"type": "classification"}
 def test_r31_adds_no_model_backend(cfg):
     assert set(S.BACKENDS) == {"null", "policy-order"}
     assert cfg.models["tiers"]["fastgate"]["model"] is None
-    assert cfg.models["models"]["laya-mlx"]["status"] == "candidate"
+    assert cfg.models["models"]["laya-mlx"]["status"] in ("candidate", "available", "measured")
     assert cfg.routing["systemone"]["backend"] == "null"        # reference backend is NOT the default
 
 
