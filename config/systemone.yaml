@@ -53,3 +53,26 @@ backends:
       upstream: strands-labs/strands-decider
       base: {id: Qwen/Qwen3.5-2B-Base, revision: b1485b2fa6dfa1287294f269f5fb618e03d52d7c, sha256: 928acbf11878c32185bbd863514d191769285065ab9ea14fbfe431303f5fdf2d}
     package: {name: strands-decider, version: "0.0.0+8b6faa5", source: "strands-labs/strands-decider@8b6faa55"}
+
+  kev-mlx:
+    adapter: subprocess_json
+    # R3.2C candidate (benchmark/test only, NOT a default). Isolated, git-ignored runtime (py3.13). head.pt is a
+    # torch pickle: the worker forces every torch.load to weights_only=True (statically inspected beforehand).
+    runtime_dir: state/runtime/kev-mlx
+    argv:
+      - "{runtime}/venv/bin/python"
+      - "{repo}/agentos/systemone_workers/kev_worker.py"
+      - "--model"
+      - "{runtime}/hf-home/hub/models--jaredpalmer--kev-0.8b/snapshots/788ddbdd65715bb03a56788c822f6c632c9a551d"
+      - "--hf-home"
+      - "{runtime}/hf-home"
+    timeout_seconds: 2.0
+    startup_timeout_seconds: 90.0
+    cooldown_seconds: 30.0
+    model:
+      id: jaredpalmer/kev-0.8b
+      revision: 788ddbdd65715bb03a56788c822f6c632c9a551d   # tag v1.0; weights identical to main (bf75a6a8, card-only change)
+      sha256: 9b908623acb162118575f4e7a94524f9c139c335be4bfb74d6cfceca01e1885a   # adapter_model.safetensors (head.pt f400bd12…)
+      upstream: jaredpalmer/kev
+      base: {id: Qwen/Qwen3.5-0.8B-Base, revision: dc7cdfe2ee4154fa7e30f5b51ca41bfa40174e68, sha256: c2b1e5a17d9c1e27685d92ed9b382911ebb99955ecd89052d1721241adfbab6c}
+    package: {name: kev, version: "0.1.0", source: "jaredpalmer/kev@6b719c3c (tag kev-1.0)"}
