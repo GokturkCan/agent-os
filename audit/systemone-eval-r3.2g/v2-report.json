@@ -1,0 +1,495 @@
+{
+ "label_prior_v2": 0.6154,
+ "systems": {
+  "A": {
+   "name": "A",
+   "acceptable": 0.5673,
+   "forbidden": 0.2981,
+   "counter_prior": 0.4932,
+   "order_consistent": 0.57,
+   "escalated": 0.0,
+   "answered_precision": 0.5673,
+   "en": 0.5192,
+   "tr": 0.6154,
+   "esc_gold_with_abstain": 0.625,
+   "acceptable_with_abstain": 0.2885,
+   "p50_ms": 22.093,
+   "p95_ms": 27.101,
+   "calls_per_decision": null,
+   "gates": {
+    "G1": {
+     "value": 1.0,
+     "pass": true,
+     "status": "PASS"
+    },
+    "G2": {
+     "value": 0.825,
+     "pass": false,
+     "status": "FAIL"
+    },
+    "G3": {
+     "value": 0.4932,
+     "pass": false,
+     "status": "FAIL"
+    },
+    "G4": {
+     "value": 0.57,
+     "pass": false,
+     "status": "FAIL"
+    },
+    "G5": {
+     "value": -0.0481,
+     "pass": false,
+     "status": "FAIL"
+    },
+    "G6": {
+     "value": {
+      "p95_ms": 14.357,
+      "memory_gib": 1.07578125,
+      "source": "bench",
+      "eval_screening_p95_ms": 27.101
+     },
+     "pass": true,
+     "status": "PASS"
+    },
+    "G7": {
+     "value": 0.0787,
+     "pass": false,
+     "status": "FAIL"
+    },
+    "passed": 2,
+    "unknown": [],
+    "no_go_gate_failed": true,
+    "all_pass": false
+   },
+   "rss_gib": 1.076,
+   "footprint_gib": null,
+   "abstention": {
+    "precision_of_abstention_on_escalate_gold": 0.0787,
+    "recall_of_abstention_on_escalate_gold": 0.625,
+    "abstain_rate": {
+     "answerable": 0.58,
+     "escalate_gold": 0.625,
+     "single": 0.125
+    }
+   },
+   "swap": {
+    "description_swap": {
+     "note": "claude_code/codex descriptions swapped, labels kept; follows_label = choice unchanged",
+     "decisions": 88,
+     "follows_label": 0.8523,
+     "follows_description": 0.1477,
+     "escalated": 0.0,
+     "counts": {
+      "same_label": 75,
+      "flipped_with_description": 13
+     }
+    },
+    "description_swap_all": {
+     "note": "all two-option answerable semantic cases; metadata of the two options swapped, labels kept",
+     "decisions": 200,
+     "follows_label": 0.825,
+     "follows_description": 0.175,
+     "escalated": 0.0
+    }
+   },
+   "e2e": [
+    3,
+    [
+     {
+      "case": "v2-e2e-0",
+      "passed": true,
+      "failures": [],
+      "exit_state": null,
+      "worker": null,
+      "consulted": false,
+      "systemone": null
+     },
+     {
+      "case": "v2-e2e-1",
+      "passed": true,
+      "failures": [],
+      "exit_state": "human_handoff",
+      "worker": null,
+      "consulted": false,
+      "systemone": null
+     },
+     {
+      "case": "v2-e2e-2",
+      "passed": true,
+      "failures": [],
+      "exit_state": null,
+      "worker": "claude_code",
+      "consulted": true,
+      "systemone": {
+       "backend": "laya-mlx",
+       "choice": "claude_code",
+       "reason": "backend-choice",
+       "escalate": false
+      }
+     }
+    ]
+   ],
+   "warm_bench_ms": {
+    "p50": 12.864,
+    "p95": 14.357,
+    "p99": 14.722
+   },
+   "cold_s": 0.826,
+   "calls": 1.0,
+   "by_category": {
+    "approval_boundary": 0.0,
+    "background_escalation": 0.875,
+    "coding_testing": 0.542,
+    "conflicting_info": 1.0,
+    "dynamic_capability": 0.525,
+    "equally_acceptable": 1.0,
+    "escalation": 0.0,
+    "insufficient_info": 1.0,
+    "interactive_constraint": 0.375,
+    "label_bias": 0.571,
+    "locality_cost": 0.125,
+    "research_docs": 0.75,
+    "review_independence": 0.375,
+    "single_option": 1.0,
+    "unavailable_worker": 0.375,
+    "worker_failure": 0.438
+   }
+  },
+  "C": {
+   "name": "C",
+   "acceptable": 0.6442,
+   "forbidden": 0.2308,
+   "counter_prior": 0.5616,
+   "order_consistent": 1.0,
+   "escalated": 0.0,
+   "answered_precision": 0.6442,
+   "en": 0.6154,
+   "tr": 0.6731,
+   "esc_gold_with_abstain": 0.25,
+   "acceptable_with_abstain": 0.4663,
+   "p50_ms": 44.989,
+   "p95_ms": 53.554,
+   "calls_per_decision": 1.982,
+   "gates": {
+    "G1": {
+     "value": 1.0,
+     "pass": true,
+     "status": "PASS"
+    },
+    "G2": {
+     "value": 0.69,
+     "pass": false,
+     "status": "FAIL"
+    },
+    "G3": {
+     "value": 0.5616,
+     "pass": false,
+     "status": "FAIL"
+    },
+    "G4": {
+     "value": 1.0,
+     "pass": true,
+     "status": "PASS"
+    },
+    "G5": {
+     "value": 0.0288,
+     "pass": false,
+     "status": "FAIL"
+    },
+    "G6": {
+     "value": {
+      "p95_ms": 51.58,
+      "memory_gib": 1.5380859375,
+      "source": "bench",
+      "eval_screening_p95_ms": 53.554
+     },
+     "pass": true,
+     "status": "PASS"
+    },
+    "G7": {
+     "value": 0.0597,
+     "pass": false,
+     "status": "FAIL"
+    },
+    "passed": 3,
+    "unknown": [],
+    "no_go_gate_failed": true,
+    "all_pass": false
+   },
+   "rss_gib": 1.077,
+   "footprint_gib": 1.538,
+   "abstention": {
+    "precision_of_abstention_on_escalate_gold": 0.0597,
+    "recall_of_abstention_on_escalate_gold": 0.25,
+    "abstain_rate": {
+     "answerable": 0.31,
+     "escalate_gold": 0.25,
+     "single": 0.125
+    }
+   },
+   "swap": {
+    "description_swap": {
+     "note": "claude_code/codex descriptions swapped, labels kept; follows_label = choice unchanged",
+     "decisions": 88,
+     "follows_label": 0.75,
+     "follows_description": 0.25,
+     "escalated": 0.0,
+     "counts": {
+      "flipped_with_description": 22,
+      "same_label": 66
+     }
+    },
+    "description_swap_all": {
+     "note": "all two-option answerable semantic cases; metadata of the two options swapped, labels kept",
+     "decisions": 200,
+     "follows_label": 0.69,
+     "follows_description": 0.31,
+     "escalated": 0.0
+    }
+   },
+   "e2e": [
+    3,
+    [
+     {
+      "case": "v2-e2e-0",
+      "passed": true,
+      "failures": [],
+      "exit_state": null,
+      "worker": null,
+      "consulted": false,
+      "systemone": null
+     },
+     {
+      "case": "v2-e2e-1",
+      "passed": true,
+      "failures": [],
+      "exit_state": "human_handoff",
+      "worker": null,
+      "consulted": false,
+      "systemone": null
+     },
+     {
+      "case": "v2-e2e-2",
+      "passed": true,
+      "failures": [],
+      "exit_state": null,
+      "worker": "claude_code",
+      "consulted": true,
+      "systemone": {
+       "backend": "pipeline:laya-mlx:raw:per-option",
+       "choice": "claude_code",
+       "reason": "backend-choice",
+       "escalate": false
+      }
+     }
+    ]
+   ],
+   "warm_bench_ms": {
+    "p50": 32.15,
+    "p95": 51.58,
+    "p99": 55.989
+   },
+   "cold_s": 0.488,
+   "calls": 1.982,
+   "by_category": {
+    "approval_boundary": 0.0,
+    "background_escalation": 0.75,
+    "coding_testing": 0.583,
+    "conflicting_info": 1.0,
+    "dynamic_capability": 0.6,
+    "equally_acceptable": 1.0,
+    "escalation": 0.0,
+    "insufficient_info": 1.0,
+    "interactive_constraint": 0.75,
+    "label_bias": 0.643,
+    "locality_cost": 0.25,
+    "research_docs": 0.5,
+    "review_independence": 0.5,
+    "single_option": 1.0,
+    "unavailable_worker": 0.5,
+    "worker_failure": 0.75
+   }
+  },
+  "D": {
+   "name": "D",
+   "acceptable": 0.7212,
+   "forbidden": 0.1154,
+   "counter_prior": 0.6438,
+   "order_consistent": 1.0,
+   "escalated": 0.0,
+   "answered_precision": 0.7212,
+   "en": 0.7308,
+   "tr": 0.7115,
+   "esc_gold_with_abstain": 1.0,
+   "acceptable_with_abstain": 0.7212,
+   "p50_ms": 588.83,
+   "p95_ms": 670.415,
+   "calls_per_decision": null,
+   "gates": {
+    "G1": {
+     "value": 1.0,
+     "pass": true,
+     "status": "PASS"
+    },
+    "G2": {
+     "value": 0.58,
+     "pass": true,
+     "status": "PASS"
+    },
+    "G3": {
+     "value": 0.6438,
+     "pass": true,
+     "status": "PASS"
+    },
+    "G4": {
+     "value": 1.0,
+     "pass": true,
+     "status": "PASS"
+    },
+    "G5": {
+     "value": 0.1058,
+     "pass": true,
+     "status": "PASS"
+    },
+    "G6": {
+     "value": {
+      "p95_ms": 613.238,
+      "memory_gib": 6.3740234375,
+      "source": "bench",
+      "eval_screening_p95_ms": 670.415
+     },
+     "pass": true,
+     "status": "PASS"
+    },
+    "G7": {
+     "value": 0.8889,
+     "pass": true,
+     "status": "PASS"
+    },
+    "passed": 7,
+    "unknown": [],
+    "no_go_gate_failed": false,
+    "all_pass": true
+   },
+   "rss_gib": 0.84,
+   "footprint_gib": 6.374,
+   "abstention": {
+    "precision_of_abstention_on_escalate_gold": 0.8889,
+    "recall_of_abstention_on_escalate_gold": 1.0,
+    "abstain_rate": {
+     "answerable": 0.01,
+     "escalate_gold": 1.0,
+     "single": 0.0
+    }
+   },
+   "swap": {
+    "description_swap": {
+     "note": "claude_code/codex descriptions swapped, labels kept; follows_label = choice unchanged",
+     "decisions": 88,
+     "follows_label": 0.5682,
+     "follows_description": 0.4318,
+     "escalated": 0.0,
+     "counts": {
+      "same_label": 50,
+      "flipped_with_description": 38
+     }
+    },
+    "description_swap_all": {
+     "note": "all two-option answerable semantic cases; metadata of the two options swapped, labels kept",
+     "decisions": 200,
+     "follows_label": 0.58,
+     "follows_description": 0.42,
+     "escalated": 0.0
+    }
+   },
+   "e2e": [
+    3,
+    [
+     {
+      "case": "v2-e2e-0",
+      "passed": true,
+      "failures": [],
+      "exit_state": null,
+      "worker": null,
+      "consulted": false,
+      "systemone": null
+     },
+     {
+      "case": "v2-e2e-1",
+      "passed": true,
+      "failures": [],
+      "exit_state": "human_handoff",
+      "worker": null,
+      "consulted": false,
+      "systemone": null
+     },
+     {
+      "case": "v2-e2e-2",
+      "passed": true,
+      "failures": [],
+      "exit_state": null,
+      "worker": "codex",
+      "consulted": true,
+      "systemone": {
+       "backend": "openjev-2b",
+       "choice": "codex",
+       "reason": "backend-choice",
+       "escalate": false
+      }
+     }
+    ]
+   ],
+   "warm_bench_ms": {
+    "p50": 418.396,
+    "p95": 613.238,
+    "p99": 661.755
+   },
+   "cold_s": 13.628,
+   "calls": 1.0,
+   "by_category": {
+    "approval_boundary": 0.0,
+    "background_escalation": 0.5,
+    "coding_testing": 0.667,
+    "conflicting_info": 1.0,
+    "dynamic_capability": 1.0,
+    "equally_acceptable": 1.0,
+    "escalation": 0.0,
+    "insufficient_info": 1.0,
+    "interactive_constraint": 1.0,
+    "label_bias": 0.357,
+    "locality_cost": 1.0,
+    "research_docs": 1.0,
+    "review_independence": 0.0,
+    "single_option": 1.0,
+    "unavailable_worker": 1.0,
+    "worker_failure": 0.5
+   }
+  },
+  "first": {
+   "acceptable": 0.5769,
+   "escalated": 0.0,
+   "forbidden": 0.2692
+  },
+  "last": {
+   "acceptable": 0.5769,
+   "escalated": 0.0,
+   "forbidden": 0.2692
+  },
+  "label-prior": {
+   "acceptable": 0.6154,
+   "escalated": 0.0,
+   "forbidden": 0.2115
+  },
+  "random": {
+   "acceptable": 0.5962,
+   "escalated": 0.0,
+   "forbidden": 0.2596
+  },
+  "Null": {
+   "acceptable": 0.0,
+   "escalated": 1.0,
+   "forbidden": 0.0
+  }
+ }
+}

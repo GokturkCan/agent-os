@@ -1,0 +1,585 @@
+{
+  "variant": "described",
+  "note": "RAW confidence analysis; maps fitted on the fit set only; nothing is activated",
+  "fit": {
+    "backend": "pipeline:laya-mlx:raw:per-option",
+    "dataset": "systemone-decisions-v1",
+    "raw": {
+      "n": 179,
+      "accuracy": 0.6536,
+      "mean_conf": 0.5326,
+      "ece": 0.2871,
+      "brier": 0.2776,
+      "auroc": 0.5769,
+      "bins": [
+        {
+          "bin": [
+            0.1,
+            0.2
+          ],
+          "n": 8,
+          "mean_conf": 0.1401,
+          "accuracy": 0.25
+        },
+        {
+          "bin": [
+            0.2,
+            0.3
+          ],
+          "n": 40,
+          "mean_conf": 0.2367,
+          "accuracy": 0.6
+        },
+        {
+          "bin": [
+            0.3,
+            0.4
+          ],
+          "n": 22,
+          "mean_conf": 0.3566,
+          "accuracy": 0.7273
+        },
+        {
+          "bin": [
+            0.4,
+            0.5
+          ],
+          "n": 12,
+          "mean_conf": 0.4324,
+          "accuracy": 1.0
+        },
+        {
+          "bin": [
+            0.5,
+            0.6
+          ],
+          "n": 16,
+          "mean_conf": 0.5579,
+          "accuracy": 0.875
+        },
+        {
+          "bin": [
+            0.6,
+            0.7
+          ],
+          "n": 24,
+          "mean_conf": 0.6376,
+          "accuracy": 0.3333
+        },
+        {
+          "bin": [
+            0.7,
+            0.8
+          ],
+          "n": 26,
+          "mean_conf": 0.7561,
+          "accuracy": 0.5385
+        },
+        {
+          "bin": [
+            0.8,
+            0.9
+          ],
+          "n": 20,
+          "mean_conf": 0.8463,
+          "accuracy": 0.9
+        },
+        {
+          "bin": [
+            0.9,
+            1.0
+          ],
+          "n": 11,
+          "mean_conf": 0.9916,
+          "accuracy": 0.8182
+        }
+      ],
+      "coverage_accuracy": [
+        {
+          "coverage": 0.1,
+          "n": 18,
+          "min_conf": 0.8485,
+          "accuracy": 0.8889
+        },
+        {
+          "coverage": 0.2,
+          "n": 36,
+          "min_conf": 0.7855,
+          "accuracy": 0.8611
+        },
+        {
+          "coverage": 0.3,
+          "n": 54,
+          "min_conf": 0.7112,
+          "accuracy": 0.7407
+        },
+        {
+          "coverage": 0.4,
+          "n": 72,
+          "min_conf": 0.6149,
+          "accuracy": 0.6528
+        },
+        {
+          "coverage": 0.5,
+          "n": 90,
+          "min_conf": 0.5545,
+          "accuracy": 0.6222
+        },
+        {
+          "coverage": 0.6,
+          "n": 107,
+          "min_conf": 0.409,
+          "accuracy": 0.6822
+        },
+        {
+          "coverage": 0.7,
+          "n": 125,
+          "min_conf": 0.3452,
+          "accuracy": 0.696
+        },
+        {
+          "coverage": 0.8,
+          "n": 143,
+          "min_conf": 0.2498,
+          "accuracy": 0.6783
+        },
+        {
+          "coverage": 0.9,
+          "n": 161,
+          "min_conf": 0.2163,
+          "accuracy": 0.7019
+        },
+        {
+          "coverage": 1.0,
+          "n": 179,
+          "min_conf": 0.1039,
+          "accuracy": 0.6536
+        }
+      ]
+    }
+  },
+  "maps": {
+    "isotonic": {
+      "kind": "isotonic",
+      "x": [
+        0.10389999999999999,
+        0.11119999999999997,
+        0.21299999999999997,
+        0.34519999999999995,
+        0.7204,
+        0.7855,
+        0.8416,
+        1.0
+      ],
+      "y": [
+        0.0,
+        0.0,
+        0.285714,
+        0.65,
+        0.666667,
+        0.666667,
+        0.8,
+        0.904762
+      ]
+    },
+    "platt": {
+      "kind": "platt",
+      "a": 0.07013068791813747,
+      "b": 0.5976797518716244,
+      "ridge": 1e-06
+    }
+  },
+  "applied": {
+    "audit/systemone-eval-r3.2g/v2/C.json": {
+      "backend": "pipeline:laya-mlx:raw:per-option",
+      "dataset": "systemone-heldout-v2",
+      "raw": {
+        "n": 240,
+        "accuracy": 0.5583,
+        "mean_conf": 0.6562,
+        "ece": 0.2397,
+        "brier": 0.3071,
+        "auroc": 0.5707,
+        "bins": [
+          {
+            "bin": [
+              0.0,
+              0.1
+            ],
+            "n": 8,
+            "mean_conf": 0.0703,
+            "accuracy": 0.5
+          },
+          {
+            "bin": [
+              0.1,
+              0.2
+            ],
+            "n": 10,
+            "mean_conf": 0.1234,
+            "accuracy": 0.6
+          },
+          {
+            "bin": [
+              0.2,
+              0.3
+            ],
+            "n": 20,
+            "mean_conf": 0.2589,
+            "accuracy": 0.7
+          },
+          {
+            "bin": [
+              0.3,
+              0.4
+            ],
+            "n": 18,
+            "mean_conf": 0.3623,
+            "accuracy": 0.3333
+          },
+          {
+            "bin": [
+              0.4,
+              0.5
+            ],
+            "n": 16,
+            "mean_conf": 0.4438,
+            "accuracy": 0.375
+          },
+          {
+            "bin": [
+              0.5,
+              0.6
+            ],
+            "n": 20,
+            "mean_conf": 0.5617,
+            "accuracy": 0.4
+          },
+          {
+            "bin": [
+              0.6,
+              0.7
+            ],
+            "n": 28,
+            "mean_conf": 0.6552,
+            "accuracy": 0.4286
+          },
+          {
+            "bin": [
+              0.7,
+              0.8
+            ],
+            "n": 22,
+            "mean_conf": 0.7462,
+            "accuracy": 0.7273
+          },
+          {
+            "bin": [
+              0.8,
+              0.9
+            ],
+            "n": 32,
+            "mean_conf": 0.8517,
+            "accuracy": 0.625
+          },
+          {
+            "bin": [
+              0.9,
+              1.0
+            ],
+            "n": 66,
+            "mean_conf": 0.9641,
+            "accuracy": 0.6364
+          }
+        ],
+        "coverage_accuracy": [
+          {
+            "coverage": 0.1,
+            "n": 24,
+            "min_conf": 0.9861,
+            "accuracy": 0.6667
+          },
+          {
+            "coverage": 0.2,
+            "n": 48,
+            "min_conf": 0.9484,
+            "accuracy": 0.5833
+          },
+          {
+            "coverage": 0.3,
+            "n": 72,
+            "min_conf": 0.8869,
+            "accuracy": 0.6111
+          },
+          {
+            "coverage": 0.4,
+            "n": 96,
+            "min_conf": 0.8157,
+            "accuracy": 0.6458
+          },
+          {
+            "coverage": 0.5,
+            "n": 120,
+            "min_conf": 0.7046,
+            "accuracy": 0.65
+          },
+          {
+            "coverage": 0.6,
+            "n": 144,
+            "min_conf": 0.6227,
+            "accuracy": 0.6111
+          },
+          {
+            "coverage": 0.7,
+            "n": 168,
+            "min_conf": 0.5139,
+            "accuracy": 0.5833
+          },
+          {
+            "coverage": 0.8,
+            "n": 192,
+            "min_conf": 0.3937,
+            "accuracy": 0.5625
+          },
+          {
+            "coverage": 0.9,
+            "n": 216,
+            "min_conf": 0.2426,
+            "accuracy": 0.5556
+          },
+          {
+            "coverage": 1.0,
+            "n": 240,
+            "min_conf": 0.0525,
+            "accuracy": 0.5583
+          }
+        ]
+      },
+      "isotonic": {
+        "n": 240,
+        "accuracy": 0.5583,
+        "mean_conf": 0.7164,
+        "ece": 0.2223,
+        "brier": 0.2967,
+        "auroc": 0.5436,
+        "bins": [
+          {
+            "bin": [
+              0.0,
+              0.1
+            ],
+            "n": 10,
+            "mean_conf": 0.0,
+            "accuracy": 0.4
+          },
+          {
+            "bin": [
+              0.2,
+              0.3
+            ],
+            "n": 8,
+            "mean_conf": 0.2857,
+            "accuracy": 0.75
+          },
+          {
+            "bin": [
+              0.6,
+              0.7
+            ],
+            "n": 124,
+            "mean_conf": 0.6632,
+            "accuracy": 0.5
+          },
+          {
+            "bin": [
+              0.8,
+              0.9
+            ],
+            "n": 12,
+            "mean_conf": 0.8,
+            "accuracy": 0.6667
+          },
+          {
+            "bin": [
+              0.9,
+              1.0
+            ],
+            "n": 86,
+            "mean_conf": 0.9048,
+            "accuracy": 0.6279
+          }
+        ],
+        "coverage_accuracy": [
+          {
+            "coverage": 0.1,
+            "n": 24,
+            "min_conf": 0.9048,
+            "accuracy": 0.5833
+          },
+          {
+            "coverage": 0.2,
+            "n": 48,
+            "min_conf": 0.9048,
+            "accuracy": 0.625
+          },
+          {
+            "coverage": 0.3,
+            "n": 72,
+            "min_conf": 0.9048,
+            "accuracy": 0.6389
+          },
+          {
+            "coverage": 0.4,
+            "n": 96,
+            "min_conf": 0.8,
+            "accuracy": 0.625
+          },
+          {
+            "coverage": 0.5,
+            "n": 120,
+            "min_conf": 0.6667,
+            "accuracy": 0.5833
+          },
+          {
+            "coverage": 0.6,
+            "n": 144,
+            "min_conf": 0.6667,
+            "accuracy": 0.5972
+          },
+          {
+            "coverage": 0.7,
+            "n": 168,
+            "min_conf": 0.6667,
+            "accuracy": 0.5595
+          },
+          {
+            "coverage": 0.8,
+            "n": 192,
+            "min_conf": 0.6667,
+            "accuracy": 0.5521
+          },
+          {
+            "coverage": 0.9,
+            "n": 216,
+            "min_conf": 0.65,
+            "accuracy": 0.5648
+          },
+          {
+            "coverage": 1.0,
+            "n": 240,
+            "min_conf": 0.0,
+            "accuracy": 0.5583
+          }
+        ]
+      },
+      "platt": {
+        "n": 240,
+        "accuracy": 0.5583,
+        "mean_conf": 0.6663,
+        "ece": 0.1262,
+        "brier": 0.2529,
+        "auroc": 0.5707,
+        "bins": [
+          {
+            "bin": [
+              0.5,
+              0.6
+            ],
+            "n": 2,
+            "mean_conf": 0.5974,
+            "accuracy": 1.0
+          },
+          {
+            "bin": [
+              0.6,
+              0.7
+            ],
+            "n": 208,
+            "mean_conf": 0.6552,
+            "accuracy": 0.5288
+          },
+          {
+            "bin": [
+              0.7,
+              0.8
+            ],
+            "n": 22,
+            "mean_conf": 0.7195,
+            "accuracy": 0.6364
+          },
+          {
+            "bin": [
+              0.8,
+              0.9
+            ],
+            "n": 8,
+            "mean_conf": 0.8273,
+            "accuracy": 1.0
+          }
+        ],
+        "coverage_accuracy": [
+          {
+            "coverage": 0.1,
+            "n": 24,
+            "min_conf": 0.7102,
+            "accuracy": 0.6667
+          },
+          {
+            "coverage": 0.2,
+            "n": 48,
+            "min_conf": 0.6904,
+            "accuracy": 0.5833
+          },
+          {
+            "coverage": 0.3,
+            "n": 72,
+            "min_conf": 0.6775,
+            "accuracy": 0.6111
+          },
+          {
+            "coverage": 0.4,
+            "n": 96,
+            "min_conf": 0.6686,
+            "accuracy": 0.6458
+          },
+          {
+            "coverage": 0.5,
+            "n": 120,
+            "min_conf": 0.659,
+            "accuracy": 0.65
+          },
+          {
+            "coverage": 0.6,
+            "n": 144,
+            "min_conf": 0.6531,
+            "accuracy": 0.6111
+          },
+          {
+            "coverage": 0.7,
+            "n": 168,
+            "min_conf": 0.646,
+            "accuracy": 0.5833
+          },
+          {
+            "coverage": 0.8,
+            "n": 192,
+            "min_conf": 0.6382,
+            "accuracy": 0.5625
+          },
+          {
+            "coverage": 0.9,
+            "n": 216,
+            "min_conf": 0.6266,
+            "accuracy": 0.5556
+          },
+          {
+            "coverage": 1.0,
+            "n": 240,
+            "min_conf": 0.5974,
+            "accuracy": 0.5583
+          }
+        ]
+      }
+    }
+  }
+}

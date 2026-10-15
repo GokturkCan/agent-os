@@ -36,3 +36,10 @@ Next run scripts/r32g/run_performance.py AFTER development completes; one heavy
 model at a time. Then select candidate using prereg rules, adjudicate blinded
 review, full validation and local implementation commit; commit v2 freeze with
 exact hashes before inference. Existing JSON evidence hashes recorded.
+
+## Final session (Sonnet, 2026-10-15) — R3.2G CLOSED
+Recovery verified: no concurrent writers; v2 unscored and uncommitted at start; hashes matched v2-freeze.json.
+Commits: 9598de9 implementation+dev+modules+performance; 75e919d v2 freeze (before inference); v2 one-shot run via scripts/r32g/run_v2.py
+(v2/inference-start.json, recovery/v2-run.log); report scripts scripts/r32g/v2_report.py, v2_bootstrap.py -> v2-report.json, v2-bootstrap.json,
+v2-calibration-C.json. Closure: audit/systemone-r3.2g-closure-2026-10-15.md. Protected delta: recovery/protected-delta-final.json (human approval PENDING).
+Results: Laya pipeline 3/7 on v2; Open-Jev-2B 7/7 but fragile; NullBackend retained. Next executable step: none required for V1; optional human-reviewed v3 set.
