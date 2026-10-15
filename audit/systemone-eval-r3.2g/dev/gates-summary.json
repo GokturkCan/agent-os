@@ -1,0 +1,426 @@
+{
+ "A-plain": {
+  "name": "A-plain",
+  "acceptable": 0.6494,
+  "forbidden": 0.1494,
+  "counter_prior": 0.4667,
+  "order_consistent": 0.64,
+  "escalated": 0.0,
+  "answered_precision": 0.6494,
+  "en": null,
+  "tr": null,
+  "esc_gold_with_abstain": 0.75,
+  "acceptable_with_abstain": 0.3052,
+  "p50_ms": 24.843,
+  "p95_ms": 27.99,
+  "calls_per_decision": null,
+  "gates": {
+   "G1": {
+    "value": 1.0,
+    "pass": true
+   },
+   "G2": {
+    "value": 0.9324,
+    "pass": false
+   },
+   "G3": {
+    "value": 0.4667,
+    "pass": false
+   },
+   "G4": {
+    "value": 0.64,
+    "pass": false
+   },
+   "G5": {
+    "value": -0.0646,
+    "pass": false
+   },
+   "G6": {
+    "value": {
+     "p95_ms": 27.99,
+     "memory_gib": null,
+     "source": "eval-described (screening)"
+    },
+    "pass": true
+   },
+   "G7": {
+    "value": 0.1327,
+    "pass": false
+   },
+   "passed": 2,
+   "no_go_gate_failed": true,
+   "all_pass": false
+  }
+ },
+ "A": {
+  "name": "A",
+  "acceptable": 0.6494,
+  "forbidden": 0.1494,
+  "counter_prior": 0.4667,
+  "order_consistent": 0.64,
+  "escalated": 0.0,
+  "answered_precision": 0.6494,
+  "en": null,
+  "tr": null,
+  "esc_gold_with_abstain": 0.75,
+  "acceptable_with_abstain": 0.3052,
+  "p50_ms": 25.375,
+  "p95_ms": 29.083,
+  "calls_per_decision": 1.0,
+  "gates": {
+   "G1": {
+    "value": 1.0,
+    "pass": true
+   },
+   "G2": {
+    "value": 0.9324,
+    "pass": false
+   },
+   "G3": {
+    "value": 0.4667,
+    "pass": false
+   },
+   "G4": {
+    "value": 0.64,
+    "pass": false
+   },
+   "G5": {
+    "value": -0.0646,
+    "pass": false
+   },
+   "G6": {
+    "value": {
+     "p95_ms": 29.083,
+     "memory_gib": null,
+     "source": "eval-described (screening)"
+    },
+    "pass": true
+   },
+   "G7": {
+    "value": 0.1327,
+    "pass": false
+   },
+   "passed": 2,
+   "no_go_gate_failed": true,
+   "all_pass": false
+  }
+ },
+ "B1": {
+  "name": "B1",
+  "acceptable": 0.5714,
+  "forbidden": 0.1883,
+  "counter_prior": 0.4667,
+  "order_consistent": 0.04,
+  "escalated": 0.0,
+  "answered_precision": 0.5714,
+  "en": null,
+  "tr": null,
+  "esc_gold_with_abstain": 0.7,
+  "acceptable_with_abstain": 0.0974,
+  "p50_ms": 27.242,
+  "p95_ms": 30.585,
+  "calls_per_decision": 1.0,
+  "gates": {
+   "G1": {
+    "value": 1.0,
+    "pass": true
+   },
+   "G2": {
+    "value": 0.9459,
+    "pass": false
+   },
+   "G3": {
+    "value": 0.4667,
+    "pass": false
+   },
+   "G4": {
+    "value": 0.04,
+    "pass": false
+   },
+   "G5": {
+    "value": -0.1426,
+    "pass": false
+   },
+   "G6": {
+    "value": {
+     "p95_ms": 30.585,
+     "memory_gib": null,
+     "source": "eval-described (screening)"
+    },
+    "pass": true
+   },
+   "G7": {
+    "value": 0.0993,
+    "pass": false
+   },
+   "passed": 2,
+   "no_go_gate_failed": true,
+   "all_pass": false
+  }
+ },
+ "B2": {
+  "name": "B2",
+  "acceptable": 0.5714,
+  "forbidden": 0.1818,
+  "counter_prior": 0.4222,
+  "order_consistent": 1.0,
+  "escalated": 0.0,
+  "answered_precision": 0.5714,
+  "en": null,
+  "tr": null,
+  "esc_gold_with_abstain": 0.8,
+  "acceptable_with_abstain": 0.1039,
+  "p50_ms": 46.706,
+  "p95_ms": 75.111,
+  "calls_per_decision": 2.269,
+  "gates": {
+   "G1": {
+    "value": 1.0,
+    "pass": true
+   },
+   "G2": {
+    "value": 0.5405,
+    "pass": true
+   },
+   "G3": {
+    "value": 0.4222,
+    "pass": false
+   },
+   "G4": {
+    "value": 1.0,
+    "pass": true
+   },
+   "G5": {
+    "value": -0.1426,
+    "pass": false
+   },
+   "G6": {
+    "value": {
+     "p95_ms": 75.111,
+     "memory_gib": null,
+     "source": "eval-described (screening)"
+    },
+    "pass": true
+   },
+   "G7": {
+    "value": 0.1159,
+    "pass": false
+   },
+   "passed": 4,
+   "no_go_gate_failed": true,
+   "all_pass": false
+  }
+ },
+ "B2-raw": {
+  "name": "B2-raw",
+  "acceptable": 0.7273,
+  "forbidden": 0.1299,
+  "counter_prior": 0.6,
+  "order_consistent": 1.0,
+  "escalated": 0.0,
+  "answered_precision": 0.7273,
+  "en": null,
+  "tr": null,
+  "esc_gold_with_abstain": 0.3,
+  "acceptable_with_abstain": 0.3701,
+  "p50_ms": 45.533,
+  "p95_ms": 69.193,
+  "calls_per_decision": 2.269,
+  "gates": {
+   "G1": {
+    "value": 1.0,
+    "pass": true
+   },
+   "G2": {
+    "value": 0.7297,
+    "pass": false
+   },
+   "G3": {
+    "value": 0.6,
+    "pass": true
+   },
+   "G4": {
+    "value": 1.0,
+    "pass": true
+   },
+   "G5": {
+    "value": 0.0133,
+    "pass": false
+   },
+   "G6": {
+    "value": {
+     "p95_ms": 69.193,
+     "memory_gib": null,
+     "source": "eval-described (screening)"
+    },
+    "pass": true
+   },
+   "G7": {
+    "value": 0.0706,
+    "pass": false
+   },
+   "passed": 4,
+   "no_go_gate_failed": true,
+   "all_pass": false
+  }
+ },
+ "B3": {
+  "name": "B3",
+  "acceptable": 0.039,
+  "forbidden": 0.0,
+  "counter_prior": 0.0222,
+  "order_consistent": 0.04,
+  "escalated": 0.961,
+  "answered_precision": 1.0,
+  "en": null,
+  "tr": null,
+  "esc_gold_with_abstain": 1.0,
+  "acceptable_with_abstain": 0.0,
+  "p50_ms": 55.742,
+  "p95_ms": 87.373,
+  "calls_per_decision": 2.021,
+  "gates": {
+   "G1": {
+    "value": 1.0,
+    "pass": true
+   },
+   "G2": {
+    "value": 0.027,
+    "pass": true
+   },
+   "G3": {
+    "value": 0.0222,
+    "pass": false
+   },
+   "G4": {
+    "value": 0.04,
+    "pass": false
+   },
+   "G5": {
+    "value": -0.675,
+    "pass": false
+   },
+   "G6": {
+    "value": {
+     "p95_ms": 87.373,
+     "memory_gib": null,
+     "source": "eval-described (screening)"
+    },
+    "pass": true
+   },
+   "G7": {
+    "value": 0.1149,
+    "pass": false
+   },
+   "passed": 3,
+   "no_go_gate_failed": true,
+   "all_pass": false
+  }
+ },
+ "B3-raw": {
+  "name": "B3-raw",
+  "acceptable": 0.4416,
+  "forbidden": 0.0584,
+  "counter_prior": 0.2889,
+  "order_consistent": 0.64,
+  "escalated": 0.3896,
+  "answered_precision": 0.7234,
+  "en": null,
+  "tr": null,
+  "esc_gold_with_abstain": 1.0,
+  "acceptable_with_abstain": 0.0325,
+  "p50_ms": 51.017,
+  "p95_ms": 86.819,
+  "calls_per_decision": 2.062,
+  "gates": {
+   "G1": {
+    "value": 1.0,
+    "pass": true
+   },
+   "G2": {
+    "value": 0.7838,
+    "pass": false
+   },
+   "G3": {
+    "value": 0.2889,
+    "pass": false
+   },
+   "G4": {
+    "value": 0.64,
+    "pass": false
+   },
+   "G5": {
+    "value": -0.2724,
+    "pass": false
+   },
+   "G6": {
+    "value": {
+     "p95_ms": 86.819,
+     "memory_gib": null,
+     "source": "eval-described (screening)"
+    },
+    "pass": true
+   },
+   "G7": {
+    "value": 0.1183,
+    "pass": false
+   },
+   "passed": 2,
+   "no_go_gate_failed": true,
+   "all_pass": false
+  }
+ },
+ "Null": {
+  "name": "Null",
+  "acceptable": 0.0,
+  "forbidden": 0.0,
+  "counter_prior": 0.0,
+  "order_consistent": 0.0,
+  "escalated": 1.0,
+  "answered_precision": null,
+  "en": null,
+  "tr": null,
+  "esc_gold_with_abstain": 1.0,
+  "acceptable_with_abstain": 0.0,
+  "p50_ms": 0.0,
+  "p95_ms": 0.001,
+  "calls_per_decision": null,
+  "gates": {
+   "G1": {
+    "value": 1.0,
+    "pass": true
+   },
+   "G2": {
+    "value": 0.0,
+    "pass": true
+   },
+   "G3": {
+    "value": 0.0,
+    "pass": false
+   },
+   "G4": {
+    "value": 0.0,
+    "pass": false
+   },
+   "G5": {
+    "value": -0.714,
+    "pass": false
+   },
+   "G6": {
+    "value": {
+     "p95_ms": 0.001,
+     "memory_gib": null,
+     "source": "eval-described (screening)"
+    },
+    "pass": true
+   },
+   "G7": {
+    "value": 0.1149,
+    "pass": false
+   },
+   "passed": 3,
+   "no_go_gate_failed": true,
+   "all_pass": false
+  }
+ }
+}

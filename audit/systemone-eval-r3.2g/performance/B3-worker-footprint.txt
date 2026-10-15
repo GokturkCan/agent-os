@@ -1,0 +1,43 @@
+======================================================================
+python [64912]: 64-bit    Footprint: 1318 MB (16384 bytes per page)
+======================================================================
+
+  Dirty      Clean  Reclaimable    Regions    Category
+    ---        ---          ---        ---    ---
+1056 MB        0 B       240 KB       1854    IOAccelerator (graphics)
+ 126 MB        0 B          0 B         14    Malloc Large
+  64 MB        0 B       243 MB         81    Malloc Small
+  44 MB        0 B          0 B         22    Owned physical footprint (unmapped) (graphics)
+  20 MB        0 B          0 B         32    Untagged
+2082 KB        0 B          0 B        425    __DATA
+1728 KB        0 B        96 KB         11    Malloc Metadata
+1568 KB        0 B          0 B        412    __DATA_CONST
+1042 KB        0 B          0 B          1    page table
+ 552 KB        0 B          0 B        354    __DATA_DIRTY
+ 400 KB        0 B          0 B          9    IOAccelerator
+ 304 KB        0 B          0 B          1    Malloc Tiny
+ 208 KB        0 B          0 B         18    Stack
+ 175 KB        0 B          0 B       1192    unused dyld shared cache area
+ 160 KB        0 B          0 B          1    Deferred Reclaim
+ 104 KB        0 B          0 B        223    __AUTH
+  64 KB        0 B          0 B          4    IOKit
+  48 KB        0 B          0 B          4    __TPRO_CONST
+  47 KB        0 B          0 B          1    __OBJC_RW
+  32 KB        0 B          0 B          1    Activity Tracing
+  16 KB        0 B          0 B          1    Malloc Nano
+  16 KB        0 B          0 B          1    OS Alloc Once
+    0 B      14 MB          0 B        490    __TEXT
+    0 B    1840 KB          0 B         10    __LINKEDIT
+    0 B    1248 KB          0 B          8    mapped file
+    0 B        0 B          0 B          1    __CTF
+    0 B        0 B          0 B        407    __AUTH_CONST
+    0 B        0 B          0 B          1    __FONT_DATA
+    0 B        0 B          0 B          1    IOSurface
+    0 B        0 B          0 B          1    __OBJC_RO
+    ---        ---          ---        ---    ---
+1318 MB      17 MB       243 MB       5583    TOTAL
+
+Auxiliary data:
+    phys_footprint: 1318 MB
+    phys_footprint_peak: 1318 MB
+

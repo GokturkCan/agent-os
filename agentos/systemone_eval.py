@@ -552,6 +552,9 @@ def run_eval(cfg: Config, backend_name: str, *, variants: tuple = VARIANTS, seed
     if backend is None:
         if backend_name.startswith("baseline:"):
             backend = _Baseline(backend_name.split(":", 1)[1], seed)
+        elif backend_name.startswith("pipeline:"):                # R3.2G: explicit, evaluation-only composition
+            from .systemone_pipeline import from_spec
+            backend = from_spec(backend_name, cfg)
         else:
             backend = S.resolve_backend(backend_name, cfg)
     is_baseline = isinstance(backend, _Baseline)
@@ -581,6 +584,8 @@ def run_eval(cfg: Config, backend_name: str, *, variants: tuple = VARIANTS, seed
     if diag:
         out["probes"]["abstention"] = diag
     out["layer3_end_to_end_routing"] = run_e2e(cfg, backend, data)
+    if hasattr(backend, "summary"):
+        out["pipeline"] = backend.summary()
     if rt is not None:
         out["runtime"] = dict(getattr(rt, "info", {}) or {})
         out["worker_rss_mib"] = round((rt.rss_kib() or 0) / 1024, 1) if hasattr(rt, "rss_kib") else None
@@ -591,7 +596,8 @@ def run_eval(cfg: Config, backend_name: str, *, variants: tuple = VARIANTS, seed
 def add_parser(sub) -> None:
     sp = sub.add_parser("systemone-eval", help="labeled decision-quality evaluation of a SystemOne backend")
     sp.add_argument("--backend", required=True,
-                    help="a configured adapter backend (e.g. laya-mlx) or baseline:first|last|label-prior|random")
+                    help="a configured adapter backend (e.g. laya-mlx), baseline:first|last|label-prior|random, or "
+                         "pipeline:<backend>:<neutral|raw>:<choice|per-option|consistency>")
     sp.add_argument("--variants", default=",".join(VARIANTS), help="comma list of: " + ", ".join(VARIANTS))
     sp.add_argument("--seed", type=int, default=1337)
     sp.add_argument("--dataset", default="dev", help="dev (66-case development set) | heldout (frozen held-out set) | a path")
@@ -665,7 +671,8 @@ def run(cfg: Config, a) -> int:
         print(f"unknown variant(s) {bad}; choose from {VARIANTS}")
         return 2
     name = a.backend
-    if not name.startswith("baseline:") and name not in __import__("agentos.systemone_adapter", fromlist=["x"]).definitions(cfg):
+    if not name.startswith(("baseline:", "pipeline:")) and name not in S.BACKENDS \
+            and name not in __import__("agentos.systemone_adapter", fromlist=["x"]).definitions(cfg):
         print(f"unknown backend {name!r}: use a configured adapter backend or baseline:{{{','.join(BASELINES)}}}")
         return 2
     dataset = DATASETS.get(a.dataset) or Path(a.dataset)

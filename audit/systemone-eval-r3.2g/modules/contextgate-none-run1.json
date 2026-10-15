@@ -1,0 +1,219 @@
+{
+  "suite": "contextgate-suite-v1",
+  "backend": "none",
+  "transcripts": 12,
+  "essential_facts": 35,
+  "false_drops": 4,
+  "false_drop_rate": 0.1143,
+  "recovery_exact_all": true,
+  "tokens_before": 45871,
+  "tokens_after": 20212,
+  "token_reduction": 0.5594,
+  "model_calls": 0,
+  "latency_ms_per_transcript": {
+    "p50": 4.3,
+    "max": 5.7
+  },
+  "records": [
+    {
+      "id": "cg-001",
+      "lang": "en",
+      "tokens_before": 3431,
+      "tokens_after": 616,
+      "reduction": 0.8205,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 5.1,
+      "actions": {
+        "keep_verbatim": 12,
+        "truncate_head": 5,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-002",
+      "lang": "tr",
+      "tokens_before": 3947,
+      "tokens_after": 2588,
+      "reduction": 0.3443,
+      "model_calls": 0,
+      "missing_essential": [
+        "AssertionError: expected 42 == 41"
+      ],
+      "recovery_exact": true,
+      "latency_ms": 3.3,
+      "actions": {
+        "keep_verbatim": 11,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-003",
+      "lang": "en",
+      "tokens_before": 3802,
+      "tokens_after": 1166,
+      "reduction": 0.6933,
+      "model_calls": 0,
+      "missing_essential": [
+        "Burst limit: 120 requests per minute"
+      ],
+      "recovery_exact": true,
+      "latency_ms": 4.3,
+      "actions": {
+        "keep_verbatim": 12,
+        "truncate_head": 5,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-004",
+      "lang": "en",
+      "tokens_before": 2907,
+      "tokens_after": 1078,
+      "reduction": 0.6292,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 3.3,
+      "actions": {
+        "keep_verbatim": 13,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-005",
+      "lang": "tr",
+      "tokens_before": 3574,
+      "tokens_after": 2217,
+      "reduction": 0.3797,
+      "model_calls": 0,
+      "missing_essential": [
+        "ALTER TABLE orders ADD COLUMN refunded_at TIMESTAMP;"
+      ],
+      "recovery_exact": true,
+      "latency_ms": 3.7,
+      "actions": {
+        "keep_verbatim": 11,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-006",
+      "lang": "en",
+      "tokens_before": 5959,
+      "tokens_after": 4118,
+      "reduction": 0.3089,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 5.7,
+      "actions": {
+        "keep_verbatim": 13,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-007",
+      "lang": "en",
+      "tokens_before": 3475,
+      "tokens_after": 1197,
+      "reduction": 0.6555,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 4.0,
+      "actions": {
+        "keep_verbatim": 14,
+        "truncate_head": 5,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-008",
+      "lang": "tr",
+      "tokens_before": 2849,
+      "tokens_after": 1049,
+      "reduction": 0.6318,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 3.2,
+      "actions": {
+        "keep_verbatim": 13,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-009",
+      "lang": "en",
+      "tokens_before": 2855,
+      "tokens_after": 1067,
+      "reduction": 0.6263,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 3.2,
+      "actions": {
+        "keep_verbatim": 13,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-010",
+      "lang": "en",
+      "tokens_before": 4997,
+      "tokens_after": 2704,
+      "reduction": 0.4589,
+      "model_calls": 0,
+      "missing_essential": [
+        "WARNING: pip cache disabled; build took 412s"
+      ],
+      "recovery_exact": true,
+      "latency_ms": 4.7,
+      "actions": {
+        "keep_verbatim": 11,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-011",
+      "lang": "tr",
+      "tokens_before": 3502,
+      "tokens_after": 1059,
+      "reduction": 0.6976,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 4.3,
+      "actions": {
+        "keep_verbatim": 11,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-012",
+      "lang": "en",
+      "tokens_before": 4573,
+      "tokens_after": 1353,
+      "reduction": 0.7041,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 5.2,
+      "actions": {
+        "keep_verbatim": 14,
+        "truncate_head": 7,
+        "drop_result": 0
+      }
+    }
+  ]
+}

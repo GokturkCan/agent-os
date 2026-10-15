@@ -1,0 +1,383 @@
+{
+  "rule": "G1 and G6 required; most G2/G3/G4/G5/G7 passes; then described acceptable; then fewer calls",
+  "label_prior_preregistered": 0.714,
+  "label_prior_measured": 0.7143,
+  "selected": "B2-raw",
+  "spec": "pipeline:laya-mlx:raw:per-option",
+  "rows": {
+    "A": {
+      "name": "A",
+      "acceptable": 0.6494,
+      "forbidden": 0.1494,
+      "counter_prior": 0.4667,
+      "order_consistent": 0.64,
+      "escalated": 0.0,
+      "answered_precision": 0.6494,
+      "en": null,
+      "tr": null,
+      "esc_gold_with_abstain": 0.75,
+      "acceptable_with_abstain": 0.3052,
+      "p50_ms": 23.35,
+      "p95_ms": 27.962,
+      "calls_per_decision": 1.0,
+      "gates": {
+        "G1": {
+          "value": 1.0,
+          "pass": true,
+          "status": "PASS"
+        },
+        "G2": {
+          "value": 0.9324,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G3": {
+          "value": 0.4667,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G4": {
+          "value": 0.64,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G5": {
+          "value": -0.0646,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G6": {
+          "value": {
+            "p95_ms": 14.357,
+            "memory_gib": 1.07578125,
+            "source": "bench",
+            "eval_screening_p95_ms": 27.962
+          },
+          "pass": true,
+          "status": "PASS"
+        },
+        "G7": {
+          "value": 0.1327,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "passed": 2,
+        "unknown": [],
+        "no_go_gate_failed": true,
+        "all_pass": false
+      }
+    },
+    "B1": {
+      "name": "B1",
+      "acceptable": 0.5714,
+      "forbidden": 0.1883,
+      "counter_prior": 0.4667,
+      "order_consistent": 0.04,
+      "escalated": 0.0,
+      "answered_precision": 0.5714,
+      "en": null,
+      "tr": null,
+      "esc_gold_with_abstain": 0.7,
+      "acceptable_with_abstain": 0.0974,
+      "p50_ms": 25.227,
+      "p95_ms": 28.409,
+      "calls_per_decision": 1.0,
+      "gates": {
+        "G1": {
+          "value": 1.0,
+          "pass": true,
+          "status": "PASS"
+        },
+        "G2": {
+          "value": 0.9459,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G3": {
+          "value": 0.4667,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G4": {
+          "value": 0.04,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G5": {
+          "value": -0.1426,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G6": {
+          "value": {
+            "p95_ms": 16.302,
+            "memory_gib": 1.07607421875,
+            "source": "bench",
+            "eval_screening_p95_ms": 28.409
+          },
+          "pass": true,
+          "status": "PASS"
+        },
+        "G7": {
+          "value": 0.0993,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "passed": 2,
+        "unknown": [],
+        "no_go_gate_failed": true,
+        "all_pass": false
+      }
+    },
+    "B2": {
+      "name": "B2",
+      "acceptable": 0.5714,
+      "forbidden": 0.1818,
+      "counter_prior": 0.4222,
+      "order_consistent": 1.0,
+      "escalated": 0.0,
+      "answered_precision": 0.5714,
+      "en": null,
+      "tr": null,
+      "esc_gold_with_abstain": 0.8,
+      "acceptable_with_abstain": 0.1039,
+      "p50_ms": 44.325,
+      "p95_ms": 73.913,
+      "calls_per_decision": 2.269,
+      "gates": {
+        "G1": {
+          "value": 1.0,
+          "pass": true,
+          "status": "PASS"
+        },
+        "G2": {
+          "value": 0.5405,
+          "pass": true,
+          "status": "PASS"
+        },
+        "G3": {
+          "value": 0.4222,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G4": {
+          "value": 1.0,
+          "pass": true,
+          "status": "PASS"
+        },
+        "G5": {
+          "value": -0.1426,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G6": {
+          "value": {
+            "p95_ms": 55.385,
+            "memory_gib": 1.0765625,
+            "source": "bench",
+            "eval_screening_p95_ms": 73.913
+          },
+          "pass": true,
+          "status": "PASS"
+        },
+        "G7": {
+          "value": 0.1159,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "passed": 4,
+        "unknown": [],
+        "no_go_gate_failed": true,
+        "all_pass": false
+      }
+    },
+    "B2-raw": {
+      "name": "B2-raw",
+      "acceptable": 0.7273,
+      "forbidden": 0.1299,
+      "counter_prior": 0.6,
+      "order_consistent": 1.0,
+      "escalated": 0.0,
+      "answered_precision": 0.7273,
+      "en": null,
+      "tr": null,
+      "esc_gold_with_abstain": 0.3,
+      "acceptable_with_abstain": 0.3701,
+      "p50_ms": 43.148,
+      "p95_ms": 67.164,
+      "calls_per_decision": 2.269,
+      "gates": {
+        "G1": {
+          "value": 1.0,
+          "pass": true,
+          "status": "PASS"
+        },
+        "G2": {
+          "value": 0.7297,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G3": {
+          "value": 0.6,
+          "pass": true,
+          "status": "PASS"
+        },
+        "G4": {
+          "value": 1.0,
+          "pass": true,
+          "status": "PASS"
+        },
+        "G5": {
+          "value": 0.0133,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G6": {
+          "value": {
+            "p95_ms": 51.58,
+            "memory_gib": 1.0765625,
+            "source": "bench",
+            "eval_screening_p95_ms": 67.164
+          },
+          "pass": true,
+          "status": "PASS"
+        },
+        "G7": {
+          "value": 0.0706,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "passed": 4,
+        "unknown": [],
+        "no_go_gate_failed": true,
+        "all_pass": false
+      }
+    },
+    "B3": {
+      "name": "B3",
+      "acceptable": 0.039,
+      "forbidden": 0.0,
+      "counter_prior": 0.0222,
+      "order_consistent": 0.04,
+      "escalated": 0.961,
+      "answered_precision": 1.0,
+      "en": null,
+      "tr": null,
+      "esc_gold_with_abstain": 1.0,
+      "acceptable_with_abstain": 0.0,
+      "p50_ms": 52.587,
+      "p95_ms": 84.483,
+      "calls_per_decision": 2.021,
+      "gates": {
+        "G1": {
+          "value": 1.0,
+          "pass": true,
+          "status": "PASS"
+        },
+        "G2": {
+          "value": 0.027,
+          "pass": true,
+          "status": "PASS"
+        },
+        "G3": {
+          "value": 0.0222,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G4": {
+          "value": 0.04,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G5": {
+          "value": -0.675,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G6": {
+          "value": {
+            "p95_ms": 42.402,
+            "memory_gib": 1.076171875,
+            "source": "bench",
+            "eval_screening_p95_ms": 84.483
+          },
+          "pass": true,
+          "status": "PASS"
+        },
+        "G7": {
+          "value": 0.1149,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "passed": 3,
+        "unknown": [],
+        "no_go_gate_failed": true,
+        "all_pass": false
+      }
+    },
+    "B3-raw": {
+      "name": "B3-raw",
+      "acceptable": 0.4416,
+      "forbidden": 0.0584,
+      "counter_prior": 0.2889,
+      "order_consistent": 0.64,
+      "escalated": 0.3896,
+      "answered_precision": 0.7234,
+      "en": null,
+      "tr": null,
+      "esc_gold_with_abstain": 1.0,
+      "acceptable_with_abstain": 0.0325,
+      "p50_ms": 51.239,
+      "p95_ms": 83.464,
+      "calls_per_decision": 2.062,
+      "gates": {
+        "G1": {
+          "value": 1.0,
+          "pass": true,
+          "status": "PASS"
+        },
+        "G2": {
+          "value": 0.7838,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G3": {
+          "value": 0.2889,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G4": {
+          "value": 0.64,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G5": {
+          "value": -0.2724,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "G6": {
+          "value": {
+            "p95_ms": 43.835,
+            "memory_gib": 1.0759765625,
+            "source": "bench",
+            "eval_screening_p95_ms": 83.464
+          },
+          "pass": true,
+          "status": "PASS"
+        },
+        "G7": {
+          "value": 0.1183,
+          "pass": false,
+          "status": "FAIL"
+        },
+        "passed": 2,
+        "unknown": [],
+        "no_go_gate_failed": true,
+        "all_pass": false
+      }
+    }
+  },
+  "selection_is_not_production_go": true,
+  "memory_gate_measure": "peak sampled worker RSS (original gate); physical footprint reported separately"
+}

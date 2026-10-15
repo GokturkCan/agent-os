@@ -198,7 +198,33 @@ def add_parser(sub) -> None:
     bn.add_argument("--out", help="write the full JSON result here")
 
 
+def _pipeline_bench(cfg, a) -> dict:
+    """`pipeline:<backend>:<neutral|raw>:<strategy>` around a FRESH inner backend (R3.2G), so cold start is real."""
+    from .systemone_pipeline import STRATEGIES, PipelineBackend
+    parts = a.backend.split(":")
+    if len(parts) != 4 or parts[1] not in A.definitions(cfg) or parts[2] not in ("neutral", "raw") \
+            or parts[3] not in STRATEGIES:
+        raise ValueError(f"bad pipeline spec {a.backend!r}")
+    backend = PipelineBackend(_fresh_backend(cfg, parts[1]), neutral=parts[2] == "neutral", strategy=parts[3],
+                              name=a.backend)
+    try:
+        res = run_benchmark(cfg, parts[1], n=a.n, warmup=a.warmup, seed=a.seed, repeat=a.repeat, backend=backend)
+    finally:
+        backend.close()
+    res["backend"] = a.backend
+    res["pipeline"] = backend.summary()
+    return res
+
+
 def run(cfg, a) -> int:
+    if a.so_cmd == "bench" and a.backend.startswith("pipeline:"):
+        res = _pipeline_bench(cfg, a)
+        if a.out:
+            Path(a.out).parent.mkdir(parents=True, exist_ok=True)
+            Path(a.out).write_text(json.dumps(res, indent=2) + "\n")
+        print(json.dumps({k: res.get(k) for k in ("backend", "cold_start", "warm_latency_ms", "throughput_decisions_per_s",
+                                                   "rates", "memory", "pipeline")}, indent=2))
+        return 0
     if a.backend not in A.definitions(cfg):
         print(f"unknown configured backend {a.backend!r} (configured: {sorted(A.definitions(cfg))})")
         return 2

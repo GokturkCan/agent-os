@@ -16,7 +16,10 @@
                                          capability registry inspection (read-only; see capability_cli)
   agentos systemone smoke|bench --backend NAME ...
                                          smoke-test / benchmark a configured SystemOne backend
-  agentos systemone-eval --backend NAME|baseline:KIND [--variants ...] [--out F]
+  agentos systemone-eval --backend NAME|baseline:KIND|pipeline:SPEC [--variants ...] [--out F]
+  agentos systemone-calibration --fit DEV.json [--apply X.json ...]   offline raw-confidence analysis
+  agentos systemone-compat [--eligible a,b] < request.json            TypeSafe-shaped request -> SystemOne (opt-in)
+  agentos module-eval --suite wakegate|contextgate|toolpruner|rulecache [--backend laya-mlx|none]
                                          labeled decision-quality evaluation (R3.2C)
 """
 from __future__ import annotations
@@ -25,7 +28,7 @@ import argparse
 import json
 import sys
 
-from . import capability_cli, systemone_bench, systemone_eval
+from . import capability_cli, module_eval, systemone_bench, systemone_calibration, systemone_compat, systemone_eval
 from . import config as C
 from . import health, router, telemetry
 from .permissions import WorkerSession
@@ -105,6 +108,9 @@ def main(argv=None) -> int:
     capability_cli.add_parser(sub)
     systemone_bench.add_parser(sub)
     systemone_eval.add_parser(sub)
+    systemone_calibration.add_parser(sub)
+    systemone_compat.add_parser(sub)
+    module_eval.add_parser(sub)
     m = sub.add_parser("manifest")
     m.add_argument("--write", action="store_true",
                    help="HUMAN-ONLY: record the reviewed hashes of protected files")
@@ -198,6 +204,12 @@ def main(argv=None) -> int:
         return systemone_bench.run(cfg, a)
     if a.cmd == "systemone-eval":
         return systemone_eval.run(cfg, a)
+    if a.cmd == "systemone-calibration":
+        return systemone_calibration.run(cfg, a)
+    if a.cmd == "systemone-compat":
+        return systemone_compat.run(cfg, a)
+    if a.cmd == "module-eval":
+        return module_eval.run(cfg, a)
     if a.cmd == "intent":
         from .intent import decide
         d = decide(cfg, a.text)

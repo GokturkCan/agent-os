@@ -1,0 +1,44 @@
+======================================================================
+Python [64989]: 64-bit    Footprint: 6527 MB (16384 bytes per page)
+======================================================================
+
+  Dirty      Clean  Reclaimable    Regions    Category
+    ---        ---          ---        ---    ---
+5286 MB        0 B          0 B         39    Owned physical footprint (unmapped) (graphics)
+ 859 MB        0 B          0 B        222    Malloc Small
+ 180 MB        0 B          0 B        193    Untagged
+ 124 MB        0 B        67 MB       3341    IOAccelerator (graphics)
+  61 MB        0 B          0 B          5    Malloc Large
+4800 KB      64 KB          0 B        408    __DATA_CONST
+4256 KB        0 B          0 B         17    Malloc Metadata
+3731 KB        0 B          0 B        422    __DATA
+1570 KB        0 B          0 B          1    page table
+1072 KB        0 B          0 B         23    IOAccelerator
+ 530 KB        0 B          0 B        298    __DATA_DIRTY
+ 274 KB        0 B          0 B       1021    unused dyld shared cache area
+ 256 KB        0 B        16 KB         20    Stack
+ 240 KB        0 B          0 B          1    Malloc Tiny
+ 160 KB      19 MB          0 B         28    mapped file
+ 128 KB        0 B          0 B          4    __TPRO_CONST
+ 123 KB        0 B          0 B        178    __AUTH
+  64 KB        0 B          0 B          5    IOKit
+  48 KB        0 B          0 B          1    Activity Tracing
+  47 KB        0 B          0 B          1    __OBJC_RW
+  32 KB        0 B          0 B          1    Malloc Nano
+  16 KB        0 B          0 B          1    Deferred Reclaim
+  16 KB        0 B          0 B          1    OS Alloc Once
+    0 B      28 MB          0 B        476    __TEXT
+    0 B      64 KB          0 B         73    __LINKEDIT
+    0 B        0 B          0 B          1    __OBJC_RO
+    0 B        0 B          0 B          1    __FONT_DATA
+    0 B        0 B          0 B          6    IOSurface
+    0 B        0 B          0 B          1    CoreServices
+    0 B        0 B          0 B          1    __CTF
+    0 B        0 B          0 B        340    __AUTH_CONST
+    ---        ---          ---        ---    ---
+6527 MB      47 MB        67 MB       7132    TOTAL
+
+Auxiliary data:
+    phys_footprint: 6527 MB
+    phys_footprint_peak: 6582 MB
+
