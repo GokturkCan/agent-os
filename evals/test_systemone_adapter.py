@@ -328,7 +328,8 @@ def test_validate_rejects_selecting_an_undefined_backend(cfg):
     data["routing"]["systemone"] = {"backend": "ghost-model"}
     assert any("not a registered or configured backend" in e for e in C.validate(C.Config(root=cfg.root, data=data)))
     data["routing"]["systemone"] = {"backend": "laya-mlx"}
-    assert C.validate(C.Config(root=cfg.root, data=data)) == []                      # selectable explicitly
+    errs = C.validate(C.Config(root=cfg.root, data=data))                            # defined, but not activatable
+    assert any("benchmark-only adapter backend" in e for e in errs)                  # (see test_systemone_activation)
 
 
 # ------------------------------------------------------------ router integration

@@ -88,7 +88,7 @@ def test_committed_laya_evidence_supports_the_measured_status():
     cfg = C.load()
     model = cfg.models["models"]["laya-mlx"]
     paths = [REPO_ROOT / e for e in model["evidence"]]
-    assert model["status"] == "measured" and all(p.exists() for p in paths)
+    assert model["status"] == "candidate" and all(p.exists() for p in paths)
     runs = [json.loads(p.read_text()) for p in paths if p.suffix == ".json"]
     assert len(runs) == 2
     r1, r2 = runs

@@ -13,7 +13,7 @@ request with one JSON reply; this module owns everything that makes that safe:
   state, unsupported question) becomes an ESCALATION with a specific reason code. Nothing raises
   into the router, and system_one() still re-validates the response.
 - The subprocess runtime runs the model in a separate process with a scrubbed environment (no
-  inherited secrets), a hard per-request deadline (the process is killed on expiry), and a
+  inherited secrets; not an OS/network sandbox), a hard per-request deadline (the process is killed on expiry), and a
   failure cool-down so a broken backend cannot add its timeout to every route.
 
 Confidence stays `kind="raw"`: this layer never produces a calibrated confidence.
@@ -220,7 +220,8 @@ class AdapterBackend:
 # ------------------------------------------------------------ subprocess JSON-lines runtime
 def scrubbed_env() -> dict:
     """Environment for a model process: built from scratch, never a copy of os.environ, so no
-    token or credential is inherited. Offline: weights must already be on disk."""
+    token or credential is inherited. HF_HUB_OFFLINE=1 is a convention for libraries that honour it, NOT
+    an OS/network sandbox: the child runs with the user's privileges and HOME. Weights must already be on disk."""
     return {"PATH": "/usr/bin:/bin", "HOME": os.path.expanduser("~"), "HF_HUB_OFFLINE": "1",
             "HF_HUB_DISABLE_TELEMETRY": "1", "TOKENIZERS_PARALLELISM": "false",
             "PYTHONDONTWRITEBYTECODE": "1", "PYTHONUNBUFFERED": "1"}

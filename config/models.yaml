@@ -8,7 +8,8 @@ version: 2
 #   available  - present and usable on this machine/account today, not benchmarked
 #   configured - wired into a live config (Hermes/Claude/Codex/...) but not measured
 #   measured   - benchmarked with evidence in audit/
-#   candidate  - named, not installed / not benchmarked
+#   candidate  - named; NOT production-usable (outside USABLE). May be installed and benchmarked for
+#                research (evidence: lists the audit files); status only moves to measured by human decision
 #   disabled   - deliberately not used (reason required)
 #   deferred   - intentionally postponed until a capability gap is shown
 #   rejected   - tested and excluded
@@ -46,7 +47,7 @@ tiers:
 models:
 
   laya-mlx:
-    status: measured
+    status: candidate
     tier: fastgate
     host: mac
     runtime: mlx
@@ -56,7 +57,8 @@ models:
       - audit/laya-mlx-r3.2/run2.json
       - audit/systemone-eval-r3.2c-phase1-2026-10-14.md
     note: >
-      OPERATIONAL measurement only (2026-10-14): ~322M multilingual checkpoint
+      RESEARCH candidate, deliberately NOT `measured` (measured is USABLE: a usable status would let a one-line
+      tiers.fastgate.model change activate a model with no demonstrated decision skill). OPERATIONAL measurement (2026-10-14): ~322M multilingual checkpoint
       aac6fef/laya-multilingual-mlx @ f2b4faf5 via laya-mlx 0.4.0 (independent community port), installed in an
       isolated runtime (state/runtime/laya-mlx, ~906 MiB); warm decision p50 ~18 ms, valid-choice rate 100%,
       reproducible across two runs. Decision QUALITY was evaluated in R3.2C Phase 1 (66 labeled cases): no

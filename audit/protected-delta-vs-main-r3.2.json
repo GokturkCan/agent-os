@@ -1,9 +1,11 @@
 {
  "review_status": "PENDING HUMAN REVIEW BEFORE MERGE (manifest refreshes were mechanical, NOT approval)",
  "base": "origin/main fffc3a1",
- "head": "84e928e",
+ "head": "fdced85 + PR #3 remediation commit (this file is regenerated from the main-relative diff of the working tree)",
+ "scope": "Every file matching agentos.permissions.PROTECTED_POLICY_PATHS (including evals/protected-manifest.json itself) that differs between main and the working tree. sha256 of file bytes.",
+ "supersedes": "listing at head 84e928e (20 added + 1 modified; omitted the manifest itself)",
  "added": {
-  "config/systemone.yaml": "9d019cc2fa0050ee789048e67dda1d227a8b0b9d2b57729f31fe98fa7bf0cc76",
+  "config/systemone.yaml": "ad4fc175189373dfef2c0f92c748a2ac096251a0e7c755d75eae4b2206416fb0",
   "evals/data/modules/author_context_suites.py": "05cc3248d65e66c6b1d93afa9e0757aa7fbaaab77ebfe4f2f82df919d31a1ed2",
   "evals/data/modules/author_wakegate_suite.py": "5f6e46a01aa04e15d9ed5ec02526841dbef6a62ebad356ccdb195e4c610d87fa",
   "evals/data/modules/contextgate-suite-v1.yaml": "7dda050b0e0bafdfe8a69b1ba73f1ec91b663170edb35f6c82e6c81ebd758eb0",
@@ -15,9 +17,10 @@
   "evals/test_laya_smoke.py": "04aff9ff64a7dc74920df4da16c68e669025e75ff50151c576ebf25a4d50559e",
   "evals/test_r32g_modules.py": "506dfacf6b2113992c8e75147f3579cbbcb3887ddb3974550f34a986045aa139",
   "evals/test_r32g_recovery.py": "194d8735e51d9721d39143e4f4295158df9258eaa552c91c2e63c4de964d3ade",
-  "evals/test_systemone_adapter.py": "f5af28a9f2eb6de7fef42693b0bc8c529c501b0d5a37e696c4cb140dd68c8239",
-  "evals/test_systemone_bench.py": "5b23e4049635b80264ffb2c064e7762607010f2a826fd41ca4952dacfc9831e0",
-  "evals/test_systemone_eval.py": "a94bb7ba6f70619c5584cefec16807bf7526af13035f2033fc08703ed820d9e4",
+  "evals/test_systemone_activation.py": "9011c79f5d33e32808055b6f509eb1957da789f8c31426d1311bbc3f30bd9e0d",
+  "evals/test_systemone_adapter.py": "e71981070c6a25fa7207bbb7a2338481579f8e10d412dede38537870e0b6440e",
+  "evals/test_systemone_bench.py": "8eda241f5ca1bee2cceccb4a800e055298b288221d71caddedb7e5d26408e2a0",
+  "evals/test_systemone_eval.py": "a358791becac8bfd412f472529feb8107938c2cb8ed33b31555b227f933cc052",
   "evals/test_systemone_heldout.py": "c189a0397156588b8c5b8be9573580a6e562ce7c8e48d0b2878313207bc13c90",
   "evals/test_systemone_heldout_v2.py": "dbfaaf84f7335cdc48986bb8155279ba179883101ee59fdb8f39c6ff55f5fa69",
   "evals/test_systemone_options.py": "3848b0fffdad7555e5514af50c9ff2b17bdb628ca45d193fa0d545b3b53f43bd",
@@ -28,6 +31,10 @@
   "agentos/permissions.py": {
    "before": "92b214644de0774723904390c8f48541727e688f3ccd444cf06e7229fd9b507c",
    "after": "adecea0f24b0a8bf1e9c1045966d0e36b1036fbaf064000474ceb4dfa7bfd75b"
+  },
+  "evals/protected-manifest.json": {
+   "before": "910b35bee5053c5815be815b675c1e873ae0c34b6fc221cdd65391993f52e222",
+   "after": "f7a2017267884d8d6af2c01da580638e2a82bc7a6675c2bdf77bc5385abdda03"
   }
  },
  "removed": []

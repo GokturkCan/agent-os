@@ -310,10 +310,10 @@ event -> risk gate (human approval) -> task class -> options = workers the cloud
   model-supplied reason strings are dropped). Every failure (timeout, crash, unavailable, malformed,
   unknown option, missing answer, oversized state, unsupported question) is an escalation with a
   specific reason code, so routing continues exactly as before. The subprocess runtime uses a
-  from-scratch environment (no inherited secrets, offline), kills the process group on a missed
+  from-scratch environment (no inherited secrets; `HF_HUB_OFFLINE=1`), kills the process group on a missed
   deadline and applies a failure cool-down. Backend *definitions* (which executable to run) are in the
-  protected `config/systemone.yaml`; `routing.yaml` only selects. Laya-MLX is the first definition
-  (isolated runtime, pinned weights); it is **AVAILABLE + MEASURED (operational only)**, selectable
+  protected `config/systemone.yaml`; `routing.yaml` only selects, and `agentos validate` rejects selecting an adapter backend (or setting `tiers.fastgate.model`) unless the name is listed under `activation` in the protected `config/systemone.yaml` (both lists empty). **Isolation guarantee, stated exactly:** the worker is an ordinary child process with a from-scratch environment (no inherited secrets), `HF_HUB_OFFLINE=1`, a hard deadline with process-group kill and a cool-down. This is NOT an OS or network sandbox: it runs with the user's privileges and `HOME`, with no filesystem or network confinement, so "offline" holds by convention (pre-installed weights, env flag), not by enforcement. Laya-MLX is the first definition
+  (isolated runtime, pinned weights); it is a **research candidate** (`models.yaml` status `candidate`, operationally measured; deliberately not `measured`/USABLE), selectable
   explicitly for benchmarking, and **not a default**. Evidence: `audit/laya-mlx-r3.2-2026-10-14.md`.
 - **R3.2C Phase 1 (IMPLEMENTED).** The request can carry advisory per-option metadata
   (`option_info`: roles, access, latency, cost, locality, `interactive`, and the required capabilities an

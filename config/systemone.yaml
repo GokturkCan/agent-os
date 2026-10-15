@@ -8,7 +8,19 @@ version: 1
 #
 # adapter `subprocess_json`: argv is run as a long-lived worker speaking one JSON object per line
 # (agentos/systemone_adapter.py). Placeholders: {repo} = repository root, {runtime} = runtime_dir.
-# The worker gets a scrubbed environment (no inherited secrets) and runs offline.
+# The worker gets a scrubbed environment (no inherited secrets) and HF_HUB_OFFLINE=1. That is NOT a
+# sandbox: it is an ordinary child process with the user's privileges, the user's HOME and no OS-level
+# network or filesystem confinement, so "offline" holds by convention (weights pre-installed, env flag)
+# and not by enforcement. Trust therefore rests on the argv below being protected and on pinned weights.
+#
+# ACTIVATION BOUNDARY (enforced by agentos.config.validate; this file is protected, routing.yaml and
+# models.yaml are not). Selecting an adapter backend in routing.yaml, or setting tiers.fastgate.model in
+# models.yaml, is a validation error unless the name is listed here. Both lists are empty on purpose:
+# adding an entry is an activation decision that needs explicit human review.
+activation:
+  production_backends: []   # adapter backends allowed as routing.systemone.backend
+  fastgate_models: []       # model names allowed as tiers.fastgate.model
+
 backends:
 
   laya-mlx:

@@ -382,7 +382,7 @@ def test_cli_rejects_unknown_backend_and_variant(capsys):
 
 def test_default_backend_is_still_null_and_nothing_is_promoted(cfg):
     assert cfg.routing["systemone"]["backend"] == "null" and cfg.models["tiers"]["fastgate"]["model"] is None
-    assert cfg.models["models"]["laya-mlx"]["status"] == "measured"                      # operational only; not a default
+    assert cfg.models["models"]["laya-mlx"]["status"] == "candidate"                      # research candidate: outside USABLE, not a default
 
 
 # ------------------------------------------------------------ committed evidence

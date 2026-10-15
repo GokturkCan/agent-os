@@ -125,6 +125,21 @@ def validate(cfg: Config) -> list[str]:
     if backend not in systemone.BACKENDS and backend not in defined:
         errors.append(f"routing.systemone.backend {backend!r} is not a registered or configured backend "
                       f"({sorted(systemone.BACKENDS)} + {sorted(defined)})")
+    # Activation boundary. routing.yaml / models.yaml are the tunable (unprotected) surface, so a
+    # self-improvement candidate could otherwise activate a model-backed backend or fastgate model with a
+    # one-line edit. Activating either needs a name in config/systemone.yaml `activation` (a PROTECTED file).
+    activation = (cfg.data.get("systemone") or {}).get("activation") or {}
+    allowed_backends = activation.get("production_backends") or []
+    allowed_models = activation.get("fastgate_models") or []
+    if backend not in systemone.BACKENDS and backend in defined and backend not in allowed_backends:
+        errors.append(f"routing.systemone.backend {backend!r} is a benchmark-only adapter backend; activating it "
+                      f"requires listing it in config/systemone.yaml activation.production_backends (protected)")
+    fg_model = (cfg.models.get("tiers", {}).get("fastgate") or {}).get("model")
+    if fg_model and fg_model not in allowed_models:
+        errors.append(f"models.tiers.fastgate.model {fg_model!r} is set but not listed in "
+                      f"config/systemone.yaml activation.fastgate_models (protected)")
+    if fg_model and (cfg.models.get("models", {}).get(fg_model) or {}).get("status") not in USABLE:
+        errors.append(f"models.tiers.fastgate.model {fg_model!r} does not have a usable status")
     risk = routing.get("risk") or {}
     if risk.get("high_requires_human_approval") is not True:
         errors.append("routing.risk.high_requires_human_approval must be true")
