@@ -52,6 +52,18 @@ def load(root: str | os.PathLike | None = None) -> Config:
     return Config(root=root, data=data)
 
 
+def activation_allowlists(cfg: "Config") -> tuple[list, list]:
+    """(production_backends, fastgate_models) from the PROTECTED config/systemone.yaml `activation`.
+    Malformed or missing -> empty lists (fail closed). Shared by validate() and the router's runtime guard."""
+    act = (cfg.data.get("systemone") or {}).get("activation")
+    act = act if isinstance(act, dict) else {}
+    lists = []
+    for key in ("production_backends", "fastgate_models"):
+        v = act.get(key)
+        lists.append([x for x in v if isinstance(x, str)] if isinstance(v, list) else [])
+    return lists[0], lists[1]
+
+
 def validate(cfg: Config) -> list[str]:
     """Return a list of human-readable errors (empty == valid)."""
     errors: list[str] = []
@@ -128,9 +140,7 @@ def validate(cfg: Config) -> list[str]:
     # Activation boundary. routing.yaml / models.yaml are the tunable (unprotected) surface, so a
     # self-improvement candidate could otherwise activate a model-backed backend or fastgate model with a
     # one-line edit. Activating either needs a name in config/systemone.yaml `activation` (a PROTECTED file).
-    activation = (cfg.data.get("systemone") or {}).get("activation") or {}
-    allowed_backends = activation.get("production_backends") or []
-    allowed_models = activation.get("fastgate_models") or []
+    allowed_backends, allowed_models = activation_allowlists(cfg)
     if backend not in systemone.BACKENDS and backend in defined and backend not in allowed_backends:
         errors.append(f"routing.systemone.backend {backend!r} is a benchmark-only adapter backend; activating it "
                       f"requires listing it in config/systemone.yaml activation.production_backends (protected)")

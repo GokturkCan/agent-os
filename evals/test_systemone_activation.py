@@ -79,3 +79,78 @@ def test_candidate_cannot_edit_the_activation_lists(tmp_path):
     c = Candidate.propose(tmp_path / "si", "act1", producer="codex", rationale="activate", lesson_ref="x")
     with pytest.raises(GateViolation, match="protected"):
         c.isolate("agentos/cand", ["config/routing.yaml", "config/systemone.yaml"])
+
+
+# ------------------------------------------------ runtime guard: config.validate is NEVER called below
+from agentos import systemone as S
+from agentos import systemone_adapter as A
+
+CLS = {"type": "classification"}
+
+
+def _cfg(cfg, mutate):
+    data = copy.deepcopy(cfg.data)
+    mutate(data)
+    return C.Config(root=cfg.root, data=data)
+
+
+@pytest.mark.parametrize("name", ["laya-mlx", "decider-mlx", "kev-mlx", "openjev-2b", "openjev-masked"])
+def test_runtime_rejects_unlisted_adapter_backend_without_validate(cfg, name):
+    A.close_all()
+    c = _cfg(cfg, lambda d: d["routing"].update(systemone={"backend": name}))
+    d = router.route(c, CLS)
+    base = router.route(cfg, CLS)
+    assert d.systemone["backend"] == "null" and d.systemone["escalate"] is True
+    assert any("not in activation.production_backends" in t and "using null backend" in t for t in d.trace)
+    assert (d.stage, d.worker, d.provider, d.exit_state) == (base.stage, base.worker, base.provider, base.exit_state)
+    assert A._CACHE == {}                                   # the adapter was never even built
+
+
+def test_runtime_allows_listed_backend_and_builtins(cfg, monkeypatch):
+    seen = []
+    monkeypatch.setattr(S, "resolve_backend", lambda spec=None, cfg=None: (seen.append(spec), S.NullBackend())[1])
+    def listed(d):
+        d["routing"]["systemone"] = {"backend": "laya-mlx"}
+        d["systemone"]["activation"]["production_backends"] = ["laya-mlx"]
+    router.route(_cfg(cfg, listed), CLS)
+    router.route(_cfg(cfg, lambda d: d["routing"].update(systemone={"backend": "policy-order"})), CLS)
+    assert seen == ["laya-mlx", "policy-order"]
+
+
+def test_runtime_guard_fails_closed_on_malformed_allowlist(cfg):
+    for bad in (None, "laya-mlx", {"laya-mlx": 1}, [1, None]):
+        def m(d, bad=bad):
+            d["routing"]["systemone"] = {"backend": "laya-mlx"}
+            d["systemone"]["activation"] = {"production_backends": bad}
+        d = router.route(_cfg(cfg, m), CLS)
+        assert d.systemone["backend"] == "null"
+    d = router.route(_cfg(cfg, lambda d: (d["routing"].update(systemone={"backend": "laya-mlx"}),
+                                          d["systemone"].pop("activation"))), CLS)
+    assert d.systemone["backend"] == "null"
+
+
+def test_explicit_backend_argument_is_the_research_path_and_stays_possible(cfg):
+    d = router.route(cfg, CLS, systemone_backend="policy-order")
+    assert d.systemone["backend"] == "policy-order"
+    class Stub:
+        name = "stub"
+        def decide(self, request):
+            return S.SystemOneResponse((), True, "backend-abstained", "stub")
+    assert router.route(cfg, CLS, systemone_backend=Stub()).systemone["backend"] == "stub"
+
+
+def test_runtime_fastgate_model_needs_allowlist_and_usable_status(cfg):
+    def tier(d, status=None, listed=False):
+        d["models"]["tiers"]["fastgate"]["model"] = "laya-mlx"
+        if status:
+            d["models"]["models"]["laya-mlx"]["status"] = status
+        if listed:
+            d["systemone"]["activation"]["fastgate_models"] = ["laya-mlx"]
+    t = lambda **kw: router._tier_model(_cfg(cfg, lambda d: tier(d, **kw)), "fastgate")
+    assert t() is None                                       # candidate, unlisted
+    assert t(listed=True) is None                            # listed but candidate (not USABLE)
+    assert t(status="measured") is None                      # USABLE but unlisted (the edit-two-files attack)
+    assert t(status="measured", listed=True) == "laya-mlx"   # both required
+    assert router._tier_model(cfg, "fastgate") is None       # shipped default
+    d = router.route(_cfg(cfg, lambda d: tier(d, status="measured")), CLS)
+    assert any("fastgate: skip" in x for x in d.trace)

@@ -280,6 +280,7 @@ def _cfg_with_stub(cfg, tmp_path, mode, **extra):
                                              "timeout_seconds": 0.6, "startup_timeout_seconds": 5.0,
                                              "cooldown_seconds": 0, **extra}
     data["routing"]["systemone"] = {"backend": "stub"}
+    data["systemone"]["activation"]["production_backends"] = ["stub"]  # test-local copy of the protected allowlist
     return C.Config(root=cfg.root, data=data)
 
 
@@ -361,6 +362,7 @@ def test_laya_unavailable_falls_back_without_failing_the_task(cfg):
     data = copy.deepcopy(cfg.data)
     data["systemone"]["backends"]["laya-mlx"]["argv"][0] = "/nonexistent/runtime/python"
     data["routing"]["systemone"] = {"backend": "laya-mlx"}
+    data["systemone"]["activation"]["production_backends"] = ["laya-mlx"]  # test-local copy of the protected allowlist
     c = C.Config(root=cfg.root, data=data)
     base = router.route(cfg, CLS)
     d = router.route(c, CLS)

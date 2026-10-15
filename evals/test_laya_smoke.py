@@ -33,6 +33,7 @@ def _cfg_select(cfg, **overrides):
     data = copy.deepcopy(cfg.data)
     data["systemone"]["backends"]["laya-mlx"].update(overrides)
     data["routing"]["systemone"] = {"backend": "laya-mlx"}
+    data["systemone"]["activation"]["production_backends"] = ["laya-mlx"]   # test-local copy of the protected allowlist
     return C.Config(root=cfg.root, data=data)
 
 

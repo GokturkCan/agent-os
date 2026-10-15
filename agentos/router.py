@@ -18,7 +18,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 
 from . import systemone, systemone_options
-from .config import USABLE, Config
+from .config import USABLE, Config, activation_allowlists
 from .workers import ENFORCED_WORKERS
 
 LOCAL_STAGE_PROVIDER = {"local_primary": "local_msi", "local_fallback": "local_mac"}
@@ -71,6 +71,10 @@ def _tier_model(cfg: Config, stage: str) -> str | None:
     if not model:
         return None
     if cfg.models["models"].get(model, {}).get("status") not in USABLE:
+        return None
+    # Runtime activation guard (does not rely on config.validate having run): a tier model is only
+    # honoured when the protected config/systemone.yaml allowlists it. Fail closed.
+    if stage == "fastgate" and model not in activation_allowlists(cfg)[1]:
         return None
     return model
 
@@ -132,8 +136,15 @@ def _systemone_step(cfg: Config, event: dict, health: dict, d: Decision, tc: dic
             "confidence_kind": None}
     try:
         try:
-            be = systemone.resolve_backend(backend if backend is not None
-                                           else (cfg.routing.get("systemone") or {}).get("backend"), cfg)
+            spec = backend if backend is not None else (cfg.routing.get("systemone") or {}).get("backend")
+            # Runtime activation guard (does not rely on config.validate having run). A backend named by
+            # routing.yaml (tunable, unprotected) must be built in or allowlisted in the protected
+            # config/systemone.yaml. An explicit `backend` argument is code-level (benchmarks/tests), not
+            # a file edit, so it is the research path and is not gated.
+            if backend is None and isinstance(spec, str) and spec not in systemone.BACKENDS \
+                    and spec not in activation_allowlists(cfg)[0]:
+                raise ValueError(f"backend {spec!r} is not in activation.production_backends")
+            be = systemone.resolve_backend(spec, cfg)
         except ValueError as exc:
             d.trace.append(f"fastgate: systemone backend unusable ({exc}); using null backend")
             be = systemone.NullBackend()

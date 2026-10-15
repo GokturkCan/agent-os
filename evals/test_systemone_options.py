@@ -316,6 +316,7 @@ def test_safe_fallback_when_an_adapter_backend_fails_with_metadata_present(cfg, 
     data["systemone"]["backends"]["boom"] = {"adapter": "subprocess_json", "argv": [sys.executable, str(path)],
                                              "timeout_seconds": 0.5, "startup_timeout_seconds": 3, "cooldown_seconds": 0}
     data["routing"]["systemone"] = {"backend": "boom"}
+    data["systemone"]["activation"]["production_backends"] = ["boom"]  # test-local copy of the protected allowlist
     base = router.route(cfg, CLS)
     d = router.route(C.Config(root=cfg.root, data=data), CLS)
     assert d.systemone["reason"] == "backend-unavailable" and (d.worker, d.exit_state) == (base.worker, None)
