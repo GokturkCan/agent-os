@@ -7,6 +7,17 @@ Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run
 
 ## [Unreleased]
 
+### Run 3 — R3.3 Mac-side compute-node capability contract (branch `feature/run3-r33-capability-contract`, not merged)
+
+- `config/compute.yaml` (new, **protected**): capability types, declared offerings and human-approved
+  authorizations; offerings and authorizations are empty. `config/resources.yaml`: additive
+  `nodes.msi.compute` block (`enabled: false`, symbolic `endpoint_ref`/`auth_ref`, declared resources).
+- `agentos/compute.py`: configured/installed/healthy/benchmarked/authorized/active ladder; a node's
+  advertisement can never authorize. `agentos/compute_jobs.py`: typed job request/result, closed error
+  codes, state machine, idempotency ledger, response validation, offline-by-default client protocol.
+- `docs/compute-contract.md`: contract and R3.4 handoff. No network client, no MSI integration, no inference.
+  SystemOne `null` backend, `fastgate.model: null` and empty activation allowlists are unchanged.
+
 ### Run 3 — R3.1 SystemOne router wiring (branch `feature/run3-local-intelligence`, not merged)
 
 - The router's `fastgate` stage now runs a real SystemOne decision step: one typed question
