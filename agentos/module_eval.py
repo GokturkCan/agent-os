@@ -30,9 +30,9 @@ def _pct(xs, p):
     return round(xs[min(len(xs) - 1, int(p * len(xs)))], 3) if xs else None
 
 
-def eval_wakegate(cfg, backend_name) -> dict:
+def eval_wakegate(cfg, backend_name, suite_file=None) -> dict:
     from . import wakegate as W
-    data = yaml.safe_load((SUITES / "wakegate-suite-v1.yaml").read_text())
+    data = yaml.safe_load((Path(suite_file) if suite_file else SUITES / "wakegate-suite-v1.yaml").read_text())
     be = _backend(backend_name, cfg)
     recs = []
     for c in data["cases"]:
@@ -66,6 +66,9 @@ def eval_wakegate(cfg, backend_name) -> dict:
             "unnecessary_wake_rate": round(sum(r["unnecessary_wake"] for r in defer) / len(defer), 4),
             "deferred_total": sum(r["action"] == W.DEFER for r in recs),
             "avoided_reasoning_turns_vs_always_wake": sum(r["action"] == W.DEFER for r in recs),
+            # R3.5: must-wake events caught by a deterministic RULE (a model can never suppress these). Events that wake only
+            # via the rules-only fallback are safe today but unprotected the moment a model is allowed to defer.
+            "must_wake_rule_coverage": round(sum(r["reason"].startswith("rule:") for r in must) / len(must), 4),
             "model_calls": sum(r["model_called"] for r in recs),
             "model_latency_ms": {"p50": _pct(model_lat, .5), "p95": _pct(model_lat, .95)},
             "by_family": fam, "by_lang": {l: {"fn": sum(r["false_negative"] for r in recs if r["lang"] == l),
@@ -74,9 +77,9 @@ def eval_wakegate(cfg, backend_name) -> dict:
             "records": recs}
 
 
-def eval_contextgate(cfg, backend_name) -> dict:
+def eval_contextgate(cfg, backend_name, suite_file=None) -> dict:
     from . import contextgate as C
-    data = yaml.safe_load((SUITES / "contextgate-suite-v1.yaml").read_text())
+    data = yaml.safe_load((Path(suite_file) if suite_file else SUITES / "contextgate-suite-v1.yaml").read_text())
     be = _backend(backend_name, cfg)
     out, tb, ta = [], 0, 0
     with tempfile.TemporaryDirectory() as tmp:
@@ -105,10 +108,10 @@ def eval_contextgate(cfg, backend_name) -> dict:
             "records": out}
 
 
-def eval_toolpruner(cfg, backend_name) -> dict:
+def eval_toolpruner(cfg, backend_name, suite_file=None) -> dict:
     from . import toolpruner as P
     from .contextgate import Store
-    data = yaml.safe_load((SUITES / "toolpruner-suite-v1.yaml").read_text())
+    data = yaml.safe_load((Path(suite_file) if suite_file else SUITES / "toolpruner-suite-v1.yaml").read_text())
     be = _backend(backend_name, cfg)
     out, tb, ta = [], 0, 0
     with tempfile.TemporaryDirectory() as tmp:
@@ -133,7 +136,7 @@ def eval_toolpruner(cfg, backend_name) -> dict:
             "records": out}
 
 
-def eval_rulecache(cfg, backend_name) -> dict:
+def eval_rulecache(cfg, backend_name, suite_file=None) -> dict:
     """Behavioural acceptance of the review/scoping/invalidation rules on the dev set's requests (no model needed)."""
     from . import rulecache as R
     from . import systemone_eval as E
@@ -177,10 +180,55 @@ def eval_rulecache(cfg, backend_name) -> dict:
     return {"suite": "rulecache-behaviour-v1", "backend": "n/a", **checks}
 
 
-EVALS = {"wakegate": eval_wakegate, "contextgate": eval_contextgate, "toolpruner": eval_toolpruner, "rulecache": eval_rulecache}
+def eval_retrieval(cfg, backend_name, suite_file=None) -> dict:
+    """R3.5: passage selection strategies and citation verification on the retrieval suite. No embeddings (none installed)."""
+    from . import retrieval_select as R
+    data = yaml.safe_load((Path(suite_file) if suite_file else REPO_ROOT / "evals" / "data" / "retrieval-suite-v1.yaml").read_text())
+    pool = [R.Candidate(n["source_id"], n["text"], n["path"]) for n in data["pool"]]
+    be = _backend(backend_name, cfg)
+
+    def naive(query, k):                       # deterministic baseline: count of exact (unstemmed, unfolded) shared words
+        qw = set(query.lower().replace("?", "").split())
+        sc = sorted(((len(qw & set(c.text.lower().replace(".", "").replace(",", "").split())), c.source_id) for c in pool), key=lambda x: (-x[0], x[1]))
+        return [i for n, i in sc if n > 0][:k]
+
+    strategies = {"naive-word-overlap": lambda q: naive(q, 3), "lexical-bm25": lambda q: [s.source_id for s in R.select(q, pool, 3)]}
+    if be is not None:
+        strategies["lexical+neural-rerank"] = lambda q: [s.source_id for s in R.select(q, pool, 3, backend=be)]
+    out = {}
+    for name, fn in strategies.items():
+        t0 = time.perf_counter()
+        recs = []
+        for q in data["queries"]:
+            got = fn(q["query"])
+            rank = next((i + 1 for i, g in enumerate(got) if g in q["relevant"]), None)
+            recs.append({"id": q["id"], "kind": q["kind"], "lang": q["lang"], "rank": rank})
+        by = lambda kind: [r for r in recs if kind is None or r["kind"] == kind]
+        stat = lambda rs: {"n": len(rs), "recall@1": round(sum(r["rank"] == 1 for r in rs) / len(rs), 3),
+                           "recall@3": round(sum(r["rank"] is not None for r in rs) / len(rs), 3),
+                           "mrr": round(sum(1 / r["rank"] for r in rs if r["rank"]) / len(rs), 3)} if rs else None
+        out[name] = {"all": stat(by(None)), "lexical_queries": stat(by("lexical")), "vocab_mismatch_queries": stat(by("vocab_mismatch")),
+                     "ms_total": round((time.perf_counter() - t0) * 1000, 1), "records": recs}
+    cit, false_accepts, mismatches = [], 0, 0
+    for c in data["citation_cases"]:
+        sel = [R.Selected(i, "", "", 0.0, 1) for i in c["selected_only"]]
+        got = [v.reason for v in R.verify_citations(c["citations"], pool, sel)]
+        false_accepts += sum(g == "supported" and e != "supported" for g, e in zip(got, c["expect"]))
+        mismatches += got != c["expect"]
+        cit.append({"id": c["id"], "got": got, "expect": c["expect"]})
+    return {"suite": data["suite"], "backend": backend_name, "strategies": out,
+            "embedding_selection": "unavailable: no embedding model installed; none downloaded (not measured, not estimated)",
+            "citation_cases": len(cit), "citation_false_accepts": false_accepts, "citation_verdict_mismatches": mismatches,
+            "citations": cit}
+
+
+EVALS = {"wakegate": eval_wakegate, "contextgate": eval_contextgate, "toolpruner": eval_toolpruner, "rulecache": eval_rulecache,
+         "retrieval": eval_retrieval}
 
 
 def acceptance(res: dict) -> bool:
+    if "citation_false_accepts" in res:
+        return res["citation_false_accepts"] == 0 and res["citation_verdict_mismatches"] == 0
     if "false_negatives" in res:
         return res["false_negatives"] == 0
     if "false_drops" in res:
@@ -194,16 +242,18 @@ def add_parser(sub) -> None:
     sp = sub.add_parser("module-eval", help="R3.2G module acceptance suites (wakegate/contextgate/toolpruner/rulecache)")
     sp.add_argument("--suite", required=True, choices=sorted(EVALS))
     sp.add_argument("--backend", default="none", help="a SystemOne backend name, or none (deterministic-only)")
+    sp.add_argument("--suite-file", help="evaluate this suite file instead of the v1 suite (same schema)")
     sp.add_argument("--out")
 
 
 def run(cfg, a) -> int:
     from . import systemone_adapter as A
     try:
-        res = EVALS[a.suite](cfg, a.backend)
+        res = EVALS[a.suite](cfg, a.backend, a.suite_file)
     finally:
         A.close_all()
     res["acceptance_pass"] = acceptance(res)
+    res["suite_file"] = a.suite_file
     res["token_measurement"] = "character-count estimate: ceil(chars/4), not tokenizer-measured"
     if a.out:
         Path(a.out).parent.mkdir(parents=True, exist_ok=True)

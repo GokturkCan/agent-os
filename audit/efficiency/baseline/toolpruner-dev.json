@@ -1,0 +1,142 @@
+{
+  "suite": "toolpruner-suite-v2-dev",
+  "backend": "none",
+  "outputs": 10,
+  "essential_lines": 12,
+  "essential_lost": 0,
+  "essential_loss_rate": 0.0,
+  "recovery_exact_all": true,
+  "tokens_before": 15276,
+  "tokens_after": 12929,
+  "token_reduction": 0.1536,
+  "model_calls": 0,
+  "latency_ms": {
+    "p50": 0.1,
+    "max": 5.8
+  },
+  "records": [
+    {
+      "id": "tp2-dev-001",
+      "lang": "en",
+      "tokens_before": 1339,
+      "tokens_after": 1339,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    },
+    {
+      "id": "tp2-dev-002",
+      "lang": "en",
+      "tokens_before": 1156,
+      "tokens_after": 1156,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    },
+    {
+      "id": "tp2-dev-003",
+      "lang": "en",
+      "tokens_before": 1597,
+      "tokens_after": 1618,
+      "reduction": -0.0131,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 3.2
+    },
+    {
+      "id": "tp2-dev-004",
+      "lang": "en",
+      "tokens_before": 1179,
+      "tokens_after": 1179,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    },
+    {
+      "id": "tp2-dev-005",
+      "lang": "tr",
+      "tokens_before": 1306,
+      "tokens_after": 1306,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    },
+    {
+      "id": "tp2-dev-006",
+      "lang": "en",
+      "tokens_before": 1412,
+      "tokens_after": 1412,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    },
+    {
+      "id": "tp2-dev-007",
+      "lang": "en",
+      "tokens_before": 2152,
+      "tokens_after": 1581,
+      "reduction": 0.2653,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 4.3
+    },
+    {
+      "id": "tp2-dev-008",
+      "lang": "en",
+      "tokens_before": 2839,
+      "tokens_after": 1042,
+      "reduction": 0.633,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 5.8
+    },
+    {
+      "id": "tp2-dev-009",
+      "lang": "en",
+      "tokens_before": 1119,
+      "tokens_after": 1119,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    },
+    {
+      "id": "tp2-dev-010",
+      "lang": "tr",
+      "tokens_before": 1177,
+      "tokens_after": 1177,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    }
+  ],
+  "acceptance_pass": true,
+  "suite_file": "evals/data/modules/toolpruner-suite-v2-dev.yaml",
+  "token_measurement": "character-count estimate: ceil(chars/4), not tokenizer-measured"
+}
