@@ -1,0 +1,322 @@
+{
+  "suite": "wakegate-suite-v2-holdout",
+  "backend": "laya-mlx",
+  "cases": 16,
+  "false_negatives": 0,
+  "false_negative_rate": 0.0,
+  "unnecessary_wakes": 5,
+  "unnecessary_wake_rate": 0.8333,
+  "deferred_total": 1,
+  "avoided_reasoning_turns_vs_always_wake": 1,
+  "must_wake_rule_coverage": 1.0,
+  "model_calls": 2,
+  "model_latency_ms": {
+    "p50": 501.849,
+    "p95": 501.849
+  },
+  "by_family": {
+    "expired": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "denied": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "rejected": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "refused_tr": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "expired_tr": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "overdue": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "unreachable": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "killed": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "bulk_failure_word": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 1,
+      "deferred": 0
+    },
+    "bulk_down_word": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 1,
+      "deferred": 0
+    },
+    "bulk_tr": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 1,
+      "deferred": 0
+    },
+    "bulk_security_word": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 1,
+      "deferred": 0
+    },
+    "bulk_overlap_topic": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 1,
+      "deferred": 0
+    },
+    "relevant": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "no_change": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 1
+    },
+    "bulk_but_approval": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    }
+  },
+  "by_lang": {
+    "en": {
+      "fn": 0,
+      "unnecessary": 4
+    },
+    "tr": {
+      "fn": 0,
+      "unnecessary": 1
+    }
+  },
+  "records": [
+    {
+      "id": "wg2-holdout-001",
+      "lang": "en",
+      "family": "expired",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.012,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-holdout-002",
+      "lang": "en",
+      "family": "denied",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.011,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-holdout-003",
+      "lang": "en",
+      "family": "rejected",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.008,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-holdout-004",
+      "lang": "tr",
+      "family": "refused_tr",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.01,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-holdout-005",
+      "lang": "tr",
+      "family": "expired_tr",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.007,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-holdout-006",
+      "lang": "en",
+      "family": "overdue",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.012,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-holdout-007",
+      "lang": "en",
+      "family": "unreachable",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.007,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-holdout-008",
+      "lang": "en",
+      "family": "killed",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.007,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-holdout-009",
+      "lang": "en",
+      "family": "bulk_failure_word",
+      "gold": "should_defer",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.012,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg2-holdout-010",
+      "lang": "en",
+      "family": "bulk_down_word",
+      "gold": "should_defer",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.01,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg2-holdout-011",
+      "lang": "tr",
+      "family": "bulk_tr",
+      "gold": "should_defer",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.013,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg2-holdout-012",
+      "lang": "en",
+      "family": "bulk_security_word",
+      "gold": "should_defer",
+      "action": "wake_cloud_candidate",
+      "reason": "rule:security",
+      "model_called": false,
+      "latency_ms": 0.003,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg2-holdout-013",
+      "lang": "en",
+      "family": "bulk_overlap_topic",
+      "gold": "should_defer",
+      "action": "wake_local_reasoning",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 501.849,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg2-holdout-014",
+      "lang": "en",
+      "family": "relevant",
+      "gold": "wake_ok",
+      "action": "wake_local_reasoning",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 15.628,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-holdout-015",
+      "lang": "en",
+      "family": "no_change",
+      "gold": "should_defer",
+      "action": "defer_no_change",
+      "reason": "rule:no-change",
+      "model_called": false,
+      "latency_ms": 0.013,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-holdout-016",
+      "lang": "en",
+      "family": "bulk_but_approval",
+      "gold": "must_wake",
+      "action": "wake_cloud_candidate",
+      "reason": "rule:approval",
+      "model_called": false,
+      "latency_ms": 0.001,
+      "false_negative": false,
+      "unnecessary_wake": false
+    }
+  ],
+  "acceptance_pass": true,
+  "suite_file": "evals/data/modules/wakegate-suite-v2-holdout.yaml",
+  "token_measurement": "character-count estimate: ceil(chars/4), not tokenizer-measured"
+}

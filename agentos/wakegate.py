@@ -31,7 +31,10 @@ PROMPT = "The agent is asleep waiting for something. Given this event, should it
 SECURITY = re.compile(r"credential|password|secret|token|api[ _-]?key|security|breach|vulnerab|unauthori[sz]ed|"
                       r"kimlik bilgisi|parola|şifre|güvenlik|yetkisiz|ihlal", re.I)
 FAILURE = re.compile(r"\b(fail(ed|ure)?|error|exception|crash(ed)?|down|outage|timeout|timed out|rollback|incident)\b|"
-                     r"hata|başarısız|çöktü|kesinti|zaman aşımı", re.I)
+                     r"hata|başarısız|çöktü|kesinti|zaman aşımı|"
+                     # R3.5: failure signals without an "error"/"failed" word (substring on purpose: ECONNREFUSED, "OOM killed").
+                     r"refus|reject|denied|forbid|unreachable|unavailable|expire|revoke|overdue|suspend|locked|killed|\boom\b|"
+                     r"reddedil|erişilemi|süresi doldu|\b(HTTP|status|code)[ :=]*(401|403|429|5[0-9]{2})\b|\(403\)", re.I)
 APPROVAL = re.compile(r"approv|sign[- ]?off|consent|onay|izin", re.I)
 DEADLINE_MINUTES = 60
 

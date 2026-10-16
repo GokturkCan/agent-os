@@ -1,0 +1,150 @@
+{
+  "suite": "contextgate-suite-v2-holdout",
+  "backend": "none",
+  "transcripts": 8,
+  "essential_facts": 9,
+  "false_drops": 0,
+  "false_drop_rate": 0.0,
+  "recovery_exact_all": true,
+  "tokens_before": 8793,
+  "tokens_after": 2733,
+  "token_reduction": 0.6892,
+  "model_calls": 0,
+  "latency_ms_per_transcript": {
+    "p50": 2.6,
+    "max": 4.8
+  },
+  "records": [
+    {
+      "id": "cg2-holdout-001",
+      "lang": "en",
+      "tokens_before": 949,
+      "tokens_after": 160,
+      "reduction": 0.8314,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 2.9,
+      "actions": {
+        "keep_verbatim": 17,
+        "truncate_head": 1,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg2-holdout-002",
+      "lang": "en",
+      "tokens_before": 793,
+      "tokens_after": 165,
+      "reduction": 0.7919,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 2.2,
+      "actions": {
+        "keep_verbatim": 17,
+        "truncate_head": 1,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg2-holdout-003",
+      "lang": "tr",
+      "tokens_before": 1505,
+      "tokens_after": 1028,
+      "reduction": 0.3169,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 3.1,
+      "actions": {
+        "keep_verbatim": 17,
+        "truncate_head": 1,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg2-holdout-004",
+      "lang": "en",
+      "tokens_before": 1922,
+      "tokens_after": 158,
+      "reduction": 0.9178,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 4.8,
+      "actions": {
+        "keep_verbatim": 17,
+        "truncate_head": 1,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg2-holdout-005",
+      "lang": "en",
+      "tokens_before": 905,
+      "tokens_after": 444,
+      "reduction": 0.5094,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 2.1,
+      "actions": {
+        "keep_verbatim": 17,
+        "truncate_head": 1,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg2-holdout-006",
+      "lang": "en",
+      "tokens_before": 964,
+      "tokens_after": 180,
+      "reduction": 0.8133,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 2.6,
+      "actions": {
+        "keep_verbatim": 17,
+        "truncate_head": 1,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg2-holdout-007",
+      "lang": "en",
+      "tokens_before": 918,
+      "tokens_after": 444,
+      "reduction": 0.5163,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 2.2,
+      "actions": {
+        "keep_verbatim": 17,
+        "truncate_head": 1,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg2-holdout-008",
+      "lang": "en",
+      "tokens_before": 837,
+      "tokens_after": 154,
+      "reduction": 0.816,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 2.4,
+      "actions": {
+        "keep_verbatim": 17,
+        "truncate_head": 1,
+        "drop_result": 0
+      }
+    }
+  ],
+  "acceptance_pass": true,
+  "suite_file": "evals/data/modules/contextgate-suite-v2-holdout.yaml",
+  "token_measurement": "character-count estimate: ceil(chars/4), not tokenizer-measured"
+}

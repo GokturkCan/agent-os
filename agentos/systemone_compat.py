@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import sys
+import time
 from collections.abc import Mapping, Sequence
 
 from . import systemone as S
@@ -60,7 +61,7 @@ def to_requests(body: Mapping, eligible: Sequence[str], *, task_type: str = "com
     return out
 
 
-def to_body(responses: list[S.SystemOneResponse], backend_name: str) -> dict:
+def to_body(responses: list[S.SystemOneResponse], backend_name: str, latencies_ms: list[float] | None = None) -> dict:
     answers = {}
     for resp in responses:
         if resp.escalate:
@@ -69,13 +70,23 @@ def to_body(responses: list[S.SystemOneResponse], backend_name: str) -> dict:
         for a in resp.answers:
             answers[a.question_id] = {"type": "choice", "choice": a.choice, "confidence": a.confidence.value,
                                       "confidence_kind": a.confidence.kind}
-    return {"model": backend_name, "answers": answers}
+    body = {"model": backend_name, "answers": answers}
+    if latencies_ms is not None:           # R3.5 observability: closed-vocabulary, no model text, no inputs
+        body["trace"] = [{"question": i, "escalated": r.escalate, "reason": r.reason_code,
+                          "fallback": "deterministic-policy" if r.escalate else None, "latency_ms": round(ms, 3)}
+                         for i, (r, ms) in enumerate(zip(responses, latencies_ms))]
+    return body
 
 
 def decide(body: Mapping, eligible: Sequence[str], backend=None, **kw) -> dict:
     backend = backend or S.NullBackend()
     reqs = to_requests(body, eligible, **kw)
-    return to_body([S.system_one(r, backend) for r in reqs], getattr(backend, "name", "backend"))
+    responses, latencies = [], []
+    for r in reqs:
+        t0 = time.perf_counter()
+        responses.append(S.system_one(r, backend))
+        latencies.append((time.perf_counter() - t0) * 1000)
+    return to_body(responses, getattr(backend, "name", "backend"), latencies)
 
 
 def add_parser(sub) -> None:

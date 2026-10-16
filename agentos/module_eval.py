@@ -66,6 +66,9 @@ def eval_wakegate(cfg, backend_name, suite_file=None) -> dict:
             "unnecessary_wake_rate": round(sum(r["unnecessary_wake"] for r in defer) / len(defer), 4),
             "deferred_total": sum(r["action"] == W.DEFER for r in recs),
             "avoided_reasoning_turns_vs_always_wake": sum(r["action"] == W.DEFER for r in recs),
+            # R3.5: must-wake events caught by a deterministic RULE (a model can never suppress these). Events that wake only
+            # via the rules-only fallback are safe today but unprotected the moment a model is allowed to defer.
+            "must_wake_rule_coverage": round(sum(r["reason"].startswith("rule:") for r in must) / len(must), 4),
             "model_calls": sum(r["model_called"] for r in recs),
             "model_latency_ms": {"p50": _pct(model_lat, .5), "p95": _pct(model_lat, .95)},
             "by_family": fam, "by_lang": {l: {"fn": sum(r["false_negative"] for r in recs if r["lang"] == l),
@@ -177,10 +180,55 @@ def eval_rulecache(cfg, backend_name, suite_file=None) -> dict:
     return {"suite": "rulecache-behaviour-v1", "backend": "n/a", **checks}
 
 
-EVALS = {"wakegate": eval_wakegate, "contextgate": eval_contextgate, "toolpruner": eval_toolpruner, "rulecache": eval_rulecache}
+def eval_retrieval(cfg, backend_name, suite_file=None) -> dict:
+    """R3.5: passage selection strategies and citation verification on the retrieval suite. No embeddings (none installed)."""
+    from . import retrieval_select as R
+    data = yaml.safe_load((Path(suite_file) if suite_file else REPO_ROOT / "evals" / "data" / "retrieval-suite-v1.yaml").read_text())
+    pool = [R.Candidate(n["source_id"], n["text"], n["path"]) for n in data["pool"]]
+    be = _backend(backend_name, cfg)
+
+    def naive(query, k):                       # deterministic baseline: count of exact (unstemmed, unfolded) shared words
+        qw = set(query.lower().replace("?", "").split())
+        sc = sorted(((len(qw & set(c.text.lower().replace(".", "").replace(",", "").split())), c.source_id) for c in pool), key=lambda x: (-x[0], x[1]))
+        return [i for n, i in sc if n > 0][:k]
+
+    strategies = {"naive-word-overlap": lambda q: naive(q, 3), "lexical-bm25": lambda q: [s.source_id for s in R.select(q, pool, 3)]}
+    if be is not None:
+        strategies["lexical+neural-rerank"] = lambda q: [s.source_id for s in R.select(q, pool, 3, backend=be)]
+    out = {}
+    for name, fn in strategies.items():
+        t0 = time.perf_counter()
+        recs = []
+        for q in data["queries"]:
+            got = fn(q["query"])
+            rank = next((i + 1 for i, g in enumerate(got) if g in q["relevant"]), None)
+            recs.append({"id": q["id"], "kind": q["kind"], "lang": q["lang"], "rank": rank})
+        by = lambda kind: [r for r in recs if kind is None or r["kind"] == kind]
+        stat = lambda rs: {"n": len(rs), "recall@1": round(sum(r["rank"] == 1 for r in rs) / len(rs), 3),
+                           "recall@3": round(sum(r["rank"] is not None for r in rs) / len(rs), 3),
+                           "mrr": round(sum(1 / r["rank"] for r in rs if r["rank"]) / len(rs), 3)} if rs else None
+        out[name] = {"all": stat(by(None)), "lexical_queries": stat(by("lexical")), "vocab_mismatch_queries": stat(by("vocab_mismatch")),
+                     "ms_total": round((time.perf_counter() - t0) * 1000, 1), "records": recs}
+    cit, false_accepts, mismatches = [], 0, 0
+    for c in data["citation_cases"]:
+        sel = [R.Selected(i, "", "", 0.0, 1) for i in c["selected_only"]]
+        got = [v.reason for v in R.verify_citations(c["citations"], pool, sel)]
+        false_accepts += sum(g == "supported" and e != "supported" for g, e in zip(got, c["expect"]))
+        mismatches += got != c["expect"]
+        cit.append({"id": c["id"], "got": got, "expect": c["expect"]})
+    return {"suite": data["suite"], "backend": backend_name, "strategies": out,
+            "embedding_selection": "unavailable: no embedding model installed; none downloaded (not measured, not estimated)",
+            "citation_cases": len(cit), "citation_false_accepts": false_accepts, "citation_verdict_mismatches": mismatches,
+            "citations": cit}
+
+
+EVALS = {"wakegate": eval_wakegate, "contextgate": eval_contextgate, "toolpruner": eval_toolpruner, "rulecache": eval_rulecache,
+         "retrieval": eval_retrieval}
 
 
 def acceptance(res: dict) -> bool:
+    if "citation_false_accepts" in res:
+        return res["citation_false_accepts"] == 0 and res["citation_verdict_mismatches"] == 0
     if "false_negatives" in res:
         return res["false_negatives"] == 0
     if "false_drops" in res:

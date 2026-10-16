@@ -43,6 +43,21 @@ PROTECT = [re.compile(p, re.I) for p in (
     r"^\s+File \".*\", line \d+|^\s+at [\w.$<>]+\(.*\)",
     r"https?://\S+|\bdoi:\S+|\bsource:\s",
     r"\b(approv\w*|permission|credential|secret|password|api[ _-]?key|token|must not|never|do not|don't|required|onay|izin|asla|yapma|zorunlu)\b",
+    # R3.5 failure/status signals that carry no "error"/"failed" word. Anchored at a word start (so "room"/"vacuum" are not "oom");
+    # ECONNREFUSED / SIGSEGV style tokens are covered by the errno rule below instead of by an unanchored substring.
+    r"\b(refus\w*|reject\w*|denied|forbid\w*|unauthori[sz]\w*|unreachable|reset by peer|expire[ds]?|revoked?|not found|no such|"
+    r"no space left|cannot |can't |unable to|killed|oom\w*|crashloop\w*|back-?off|evict\w*|segmentation|core dumped|abort\w*|"
+    r"terminated|time(d)? ?out|unavailable|certificate|x509|not ok|degraded|overdue|suspend\w*|locked|hata|reddedil\w*|"
+    r"erişilemi\w*|zaman aşımı|süresi doldu)|_failed\b",
+    r"\bHTTP/[0-9.]+\s+[45][0-9]{2}\b|\b(status|code)[=: ]+\"?[45][0-9]{2}\b|(?-i:\bE[A-Z]{3,}\b|\bSIG[A-Z]{3,}\b)|exit code:?\s*[1-9]",
+)]
+# R3.5 identifiers a later step may quote exactly (hashes with a digit AND a letter, ticket ids, id=..., revisions, host:port /
+# port N, name-version pins, standalone one-line JSON records, install/digest summaries). ContextGate protects them; ToolPruner
+# does not (its goal is shortening outputs, and these patterns match ordinary log noise).
+IDENT = [re.compile(p, re.I) for p in (
+    r"\b(?=[0-9a-f]*[0-9])(?=[0-9a-f]*[a-f])[0-9a-f]{7,40}\b|\b[A-Z]{2,6}-[0-9]{1,6}\b|\b\w*id\s*[=:]\s*\S+|\brevision\b|"
+    r"\bport\s+[0-9]{2,5}\b|\b[A-Za-z][\w.-]*:[0-9]{2,5}\b|\b[0-9]{1,3}(\.[0-9]{1,3}){3}:[0-9]{2,5}\b|"
+    r"\b[A-Za-z][\w.]*-[0-9]+\.[0-9]+(\.[0-9]+)?\b|^\s*\{.*\}\s*$|\bsuccessfully\b|\bdigest\b|\bsha256:",
 )]
 STRUCTURED = (re.compile(r"^\s*[\[{]"), re.compile(r"^(diff --git|--- |\+\+\+ |@@ )", re.M), re.compile(r"^\s*<\?xml|^\s*<\w+[^>]*>"))
 
@@ -51,8 +66,9 @@ def tokens(text: str) -> int:
     return (len(text) + 3) // 4
 
 
-def protected_lines(text: str) -> list[int]:
-    return [i for i, line in enumerate(text.splitlines()) if any(p.search(line) for p in PROTECT)]
+def protected_lines(text: str, identifiers: bool = True) -> list[int]:
+    pats = PROTECT + IDENT if identifiers else PROTECT
+    return [i for i, line in enumerate(text.splitlines()) if any(p.search(line) for p in pats)]
 
 
 def is_structured(text: str) -> bool:
