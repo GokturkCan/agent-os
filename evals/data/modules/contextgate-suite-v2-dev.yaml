@@ -1,0 +1,1364 @@
+version: 1
+suite: contextgate-suite-v2-dev
+authored: '2026-10-16'
+provenance: 'Independence caveat (stated, not hidden): written by the same model-assisted
+  session that reviewed the earlier modules, from general'
+metric: essential string present in the compacted view; exact recovery from the store
+transcripts:
+- id: cg2-dev-001
+  lang: en
+  items:
+  - id: u1
+    role: user
+    kind: text
+    text: Do not touch the billing tables.
+  - id: c0
+    role: assistant
+    kind: tool_call
+    text: run sql
+  - id: r0
+    role: tool
+    kind: tool_result
+    tool: sql
+    text: 'batch d60809: committed after 216 ms
+
+      checkpoint 247 written (6e996e)
+
+      vacuum pass 264: 5dfe5e pages scanned
+
+      batch 01a0e4: committed after 405 ms
+
+      191 rows migrated in batch db3bdd
+
+      76 rows migrated in batch 76e9d3
+
+      batch 15acfc: committed after 357 ms
+
+      vacuum pass 380: d04409 pages scanned
+
+      vacuum pass 19: a8696d pages scanned
+
+      vacuum pass 357: 3b4b6c pages scanned
+
+      checkpoint 13 written (4f43a8)
+
+      65 rows migrated in batch 0a0264
+
+      vacuum pass 84: af9365 pages scanned
+
+      vacuum pass 250: 4d5ca9 pages scanned
+
+      batch 1303f4: committed after 342 ms
+
+      vacuum pass 122: 263507 pages scanned
+
+      batch 245085: committed after 108 ms
+
+      288 rows migrated in batch f3e0eb
+
+      vacuum pass 104: aeb5d8 pages scanned
+
+      batch d1b750: committed after 276 ms
+
+      checkpoint 188 written (e713a0)
+
+      vacuum pass 164: f80a27 pages scanned
+
+      vacuum pass 138: 0dbd67 pages scanned
+
+      83 rows migrated in batch fdf51f
+
+      253 rows migrated in batch 23e653
+
+      batch a324ee: committed after 294 ms
+
+      94 rows migrated in batch 571647
+
+      checkpoint 172 written (b17750)
+
+      checkpoint 127 written (34e03a)
+
+      batch 5918e6: committed after 35 ms
+
+      vacuum pass 193: 51dc74 pages scanned
+
+      348 rows migrated in batch 7bacd5
+
+      vacuum pass 85: 074d73 pages scanned
+
+      checkpoint 253 written (c0496b)
+
+      batch 531802: committed after 127 ms
+
+      226 rows migrated in batch d09f19
+
+      vacuum pass 31: 937237 pages scanned
+
+      134 rows migrated in batch 946a73
+
+      216 rows migrated in batch 7f47c8
+
+      batch 238f1d: committed after 203 ms
+
+      checkpoint 332 written (4acf8a)
+
+      batch f53bf9: committed after 383 ms
+
+      131 rows migrated in batch 47782b
+
+      vacuum pass 16: 6c9741 pages scanned
+
+      checkpoint 409 written (4ec453)
+
+      checkpoint 309 written (da277c)
+
+      vacuum pass 299: f42591 pages scanned
+
+      checkpoint 73 written (8d4d7c)
+
+      batch 053d55: committed after 395 ms
+
+      vacuum pass 352: 4073b1 pages scanned
+
+      137 rows migrated in batch a6ffb5
+
+      batch d79a60: committed after 301 ms
+
+      checkpoint 351 written (cfaba1)
+
+      batch 48afe6: committed after 70 ms
+
+      205 rows migrated in batch 3018c0
+
+      batch e4ca3d: committed after 14 ms
+
+      batch 3cf710: committed after 38 ms
+
+      checkpoint 66 written (9ba94b)
+
+      checkpoint 204 written (fcdc1a)
+
+      batch 55087f: committed after 320 ms
+
+      Created resource id=88213 in region eu-west-1
+
+      batch c17068: committed after 96 ms
+
+      batch 17a517: committed after 365 ms
+
+      406 rows migrated in batch 04015b
+
+      vacuum pass 239: 2081f2 pages scanned
+
+      vacuum pass 393: 59c08c pages scanned
+
+      batch a09271: committed after 131 ms
+
+      127 rows migrated in batch c71a1a
+
+      batch 970dc7: committed after 160 ms
+
+      vacuum pass 295: 3276e7 pages scanned
+
+      262 rows migrated in batch a5d93f
+
+      checkpoint 151 written (610d06)
+
+      317 rows migrated in batch a6c7a7
+
+      batch 2170f4: committed after 183 ms
+
+      checkpoint 338 written (d72e0a)
+
+      40 rows migrated in batch 258bc1
+
+      vacuum pass 260: 0a207f pages scanned
+
+      vacuum pass 243: c75fa6 pages scanned
+
+      vacuum pass 38: 7372e4 pages scanned
+
+      26 rows migrated in batch de2a39
+
+      128 rows migrated in batch 8d1921
+
+      vacuum pass 372: daa59a pages scanned
+
+      vacuum pass 410: 790e44 pages scanned
+
+      vacuum pass 199: a7adee pages scanned
+
+      vacuum pass 118: 2bba5e pages scanned
+
+      247 rows migrated in batch 587f7d
+
+      vacuum pass 192: 6e8b48 pages scanned
+
+      vacuum pass 322: 863e13 pages scanned
+
+      batch ff52e9: committed after 248 ms
+
+      vacuum pass 158: c381c6 pages scanned
+
+      84 rows migrated in batch a00f3d
+
+      batch c84e61: committed after 161 ms
+
+      batch 59c35a: committed after 48 ms
+
+      269 rows migrated in batch 9aeeb2
+
+      vacuum pass 382: ecb900 pages scanned
+
+      87 rows migrated in batch ddd608
+
+      batch abab9f: committed after 349 ms
+
+      checkpoint 330 written (60abf6)
+
+      checkpoint 43 written (0ea373)
+
+      checkpoint 265 written (822b99)
+
+      batch 6656ce: committed after 350 ms
+
+      batch 8e08d2: committed after 308 ms
+
+      vacuum pass 82: c90bdb pages scanned
+
+      vacuum pass 207: dfaedd pages scanned
+
+      vacuum pass 317: 8fae66 pages scanned
+
+      batch c4eecc: committed after 343 ms
+
+      finished step
+
+      next
+
+      idle
+
+      '
+  - id: p0
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q0
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p1
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q1
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p2
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q2
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p3
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q3
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p4
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q4
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p5
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q5
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p6
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q6
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: u2
+    role: user
+    kind: text
+    text: Summarise what we found.
+  essential:
+  - id=88213
+  note: ''
+- id: cg2-dev-002
+  lang: en
+  items:
+  - id: u1
+    role: user
+    kind: text
+    text: Keep the cache TTL unchanged.
+  - id: c0
+    role: assistant
+    kind: tool_call
+    text: run kubectl
+  - id: r0
+    role: tool
+    kind: tool_result
+    tool: kubectl
+    text: "  Normal  Started    52m   kubelet  Started container sidecar-607d66\n\
+      \  Normal  Created    19m   kubelet  Created container sidecar-b381b3\n  Normal\
+      \  Started    11m   kubelet  Started container sidecar-26566f\n  Normal  Pulled\
+      \     205m   kubelet  Container image already present on machine\n  Tolerations:\
+      \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Created    50m\
+      \   kubelet  Created container sidecar-9e3059\n  Normal  Created    234m   kubelet\
+      \  Created container sidecar-bdbbc4\n  Normal  Pulled     191m   kubelet  Container\
+      \ image already present on machine\n  Normal  Created    294m   kubelet  Created\
+      \ container sidecar-dd44a0\n  Normal  Pulled     160m   kubelet  Container image\
+      \ already present on machine\n  Tolerations: node.kubernetes.io/not-ready op=Exists\
+      \ for 300s\n  Normal  Created    296m   kubelet  Created container sidecar-ef7b67\n\
+      \  Normal  Pulled     339m   kubelet  Container image already present on machine\n\
+      \  Normal  Pulled     225m   kubelet  Container image already present on machine\n\
+      \  Normal  Created    32m   kubelet  Created container sidecar-fea56c\n  Tolerations:\
+      \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Created    140m\
+      \   kubelet  Created container sidecar-4e93c3\n  Normal  Started    149m   kubelet\
+      \  Started container sidecar-9891e4\n  Normal  Pulled     38m   kubelet  Container\
+      \ image already present on machine\n  Normal  Created    264m   kubelet  Created\
+      \ container sidecar-324116\n  Normal  Created    186m   kubelet  Created container\
+      \ sidecar-8a2aee\n  Normal  Started    32m   kubelet  Started container sidecar-52fec4\n\
+      \  Normal  Pulled     301m   kubelet  Container image already present on machine\n\
+      \  Normal  Started    350m   kubelet  Started container sidecar-cc8764\n  Normal\
+      \  Created    18m   kubelet  Created container sidecar-354dc5\n  Normal  Created\
+      \    185m   kubelet  Created container sidecar-80393a\n  Tolerations: node.kubernetes.io/not-ready\
+      \ op=Exists for 300s\n  Tolerations: node.kubernetes.io/not-ready op=Exists\
+      \ for 300s\n  Normal  Created    111m   kubelet  Created container sidecar-14b981\n\
+      \  Normal  Started    312m   kubelet  Started container sidecar-5922de\n  Normal\
+      \  Pulled     365m   kubelet  Container image already present on machine\n \
+      \ Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Tolerations:\
+      \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Pulled     113m\
+      \   kubelet  Container image already present on machine\n  Normal  Started \
+      \   201m   kubelet  Started container sidecar-6b98b4\n  Tolerations: node.kubernetes.io/not-ready\
+      \ op=Exists for 300s\n  Normal  Pulled     182m   kubelet  Container image already\
+      \ present on machine\n  Normal  Started    312m   kubelet  Started container\
+      \ sidecar-0ccdb1\n  Tolerations: node.kubernetes.io/not-ready op=Exists for\
+      \ 300s\n  Normal  Created    276m   kubelet  Created container sidecar-d33988\n\
+      \  Normal  Created    117m   kubelet  Created container sidecar-926938\n  Tolerations:\
+      \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Pulled     124m\
+      \   kubelet  Container image already present on machine\n  Normal  Created \
+      \   182m   kubelet  Created container sidecar-b974d3\n  Normal  Created    15m\
+      \   kubelet  Created container sidecar-d88cf3\n  Normal  Pulled     342m   kubelet\
+      \  Container image already present on machine\n  Normal  Pulled     110m   kubelet\
+      \  Container image already present on machine\n  Normal  Started    64m   kubelet\
+      \  Started container sidecar-5279d2\n  Normal  Created    341m   kubelet  Created\
+      \ container sidecar-d93887\n  Tolerations: node.kubernetes.io/not-ready op=Exists\
+      \ for 300s\n  Normal  Created    335m   kubelet  Created container sidecar-6ca55f\n\
+      \  Normal  Started    96m   kubelet  Started container sidecar-dc39ef\n  Tolerations:\
+      \ node.kubernetes.io/not-ready op=Exists for 300s\n  Tolerations: node.kubernetes.io/not-ready\
+      \ op=Exists for 300s\n  Tolerations: node.kubernetes.io/not-ready op=Exists\
+      \ for 300s\n  Normal  Started    302m   kubelet  Started container sidecar-e16fdd\n\
+      \  Normal  Started    379m   kubelet  Started container sidecar-475a7d\n  Normal\
+      \  Created    83m   kubelet  Created container sidecar-c0f57d\n  Normal  Created\
+      \    203m   kubelet  Created container sidecar-10c45e\n  Normal  Pulled    \
+      \ 400m   kubelet  Container image already present on machine\n    Reason:  \
+      \     OOMKilled\n    Exit Code:    137\n  Tolerations: node.kubernetes.io/not-ready\
+      \ op=Exists for 300s\n  Normal  Created    377m   kubelet  Created container\
+      \ sidecar-f7360b\n  Normal  Pulled     15m   kubelet  Container image already\
+      \ present on machine\n  Normal  Created    257m   kubelet  Created container\
+      \ sidecar-aae515\n  Tolerations: node.kubernetes.io/not-ready op=Exists for\
+      \ 300s\n  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Normal\
+      \  Started    386m   kubelet  Started container sidecar-3589f9\n  Normal  Started\
+      \    337m   kubelet  Started container sidecar-80337e\n  Tolerations: node.kubernetes.io/not-ready\
+      \ op=Exists for 300s\n  Normal  Created    306m   kubelet  Created container\
+      \ sidecar-aa9866\n  Normal  Pulled     383m   kubelet  Container image already\
+      \ present on machine\n  Normal  Created    326m   kubelet  Created container\
+      \ sidecar-428031\n  Normal  Created    386m   kubelet  Created container sidecar-87993e\n\
+      \  Normal  Pulled     351m   kubelet  Container image already present on machine\n\
+      \  Normal  Created    265m   kubelet  Created container sidecar-69f711\n  Normal\
+      \  Created    256m   kubelet  Created container sidecar-fd8dd8\n  Normal  Created\
+      \    18m   kubelet  Created container sidecar-ab92b1\n  Normal  Started    6m\
+      \   kubelet  Started container sidecar-62f285\n  Normal  Created    147m   kubelet\
+      \  Created container sidecar-1d9136\n  Normal  Started    358m   kubelet  Started\
+      \ container sidecar-d3cc3d\n  Normal  Pulled     65m   kubelet  Container image\
+      \ already present on machine\n  Normal  Created    306m   kubelet  Created container\
+      \ sidecar-e33382\n  Tolerations: node.kubernetes.io/not-ready op=Exists for\
+      \ 300s\n  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Normal\
+      \  Started    75m   kubelet  Started container sidecar-b1585b\n  Tolerations:\
+      \ node.kubernetes.io/not-ready op=Exists for 300s\n  Tolerations: node.kubernetes.io/not-ready\
+      \ op=Exists for 300s\n  Tolerations: node.kubernetes.io/not-ready op=Exists\
+      \ for 300s\n  Normal  Pulled     331m   kubelet  Container image already present\
+      \ on machine\n  Normal  Created    398m   kubelet  Created container sidecar-2c6e63\n\
+      \  Normal  Started    252m   kubelet  Started container sidecar-4f0ccc\n  Normal\
+      \  Created    8m   kubelet  Created container sidecar-8acf4c\n  Normal  Started\
+      \    356m   kubelet  Started container sidecar-a81d6c\n  Normal  Started   \
+      \ 112m   kubelet  Started container sidecar-18a437\n  Tolerations: node.kubernetes.io/not-ready\
+      \ op=Exists for 300s\n  Normal  Created    7m   kubelet  Created container sidecar-50ee0f\n\
+      \  Normal  Created    115m   kubelet  Created container sidecar-39381b\n  Normal\
+      \  Created    275m   kubelet  Created container sidecar-3b30c3\n  Tolerations:\
+      \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Created    360m\
+      \   kubelet  Created container sidecar-6a9d93\n  Normal  Pulled     45m   kubelet\
+      \  Container image already present on machine\n  Normal  Created    308m   kubelet\
+      \  Created container sidecar-314854\n  Normal  Created    106m   kubelet  Created\
+      \ container sidecar-dd1a67\n  Normal  Pulled     206m   kubelet  Container image\
+      \ already present on machine\n  Normal  Started    353m   kubelet  Started container\
+      \ sidecar-b70c71\nfinished step\nnext\nidle\n"
+  - id: p0
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q0
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p1
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q1
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p2
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q2
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p3
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q3
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p4
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q4
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p5
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q5
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p6
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q6
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: u2
+    role: user
+    kind: text
+    text: Summarise what we found.
+  essential:
+  - OOMKilled
+  - 'Exit Code:    137'
+  note: ''
+- id: cg2-dev-003
+  lang: tr
+  items:
+  - id: u1
+    role: user
+    kind: text
+    text: Üretim ortamına dokunma.
+  - id: c0
+    role: assistant
+    kind: tool_call
+    text: run curl
+  - id: r0
+    role: tool
+    kind: tool_result
+    tool: curl
+    text: '* TLSv1.3 (IN), TLS handshake, record 19
+
+      * Added f6dd54 to connection cache
+
+      > User-Agent: probe/21
+
+      < x-request-id: f18a2bf18a2b
+
+      < x-request-id: 53f4e753f4e7
+
+      < x-request-id: bdfecbbdfecb
+
+      * TLSv1.3 (IN), TLS handshake, record 337
+
+      * TLSv1.3 (IN), TLS handshake, record 152
+
+      * Added 2e4e4b to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 168
+
+      > User-Agent: probe/161
+
+      * TLSv1.3 (IN), TLS handshake, record 59
+
+      * TLSv1.3 (IN), TLS handshake, record 120
+
+      < x-request-id: d9abbfd9abbf
+
+      * Added f27d72 to connection cache
+
+      > User-Agent: probe/286
+
+      > User-Agent: probe/25
+
+      < x-request-id: a900e0a900e0
+
+      * TLSv1.3 (IN), TLS handshake, record 97
+
+      * TLSv1.3 (IN), TLS handshake, record 259
+
+      > User-Agent: probe/18
+
+      > User-Agent: probe/86
+
+      * Added 760529 to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 129
+
+      * TLSv1.3 (IN), TLS handshake, record 99
+
+      > User-Agent: probe/356
+
+      * TLSv1.3 (IN), TLS handshake, record 75
+
+      < x-request-id: 4aa6804aa680
+
+      < x-request-id: 2836e12836e1
+
+      * Added 9bb51a to connection cache
+
+      < x-request-id: c276f9c276f9
+
+      > User-Agent: probe/371
+
+      * Added 8bb8c0 to connection cache
+
+      < x-request-id: 760a59760a59
+
+      * Added 6ba33c to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 99
+
+      > User-Agent: probe/87
+
+      * TLSv1.3 (IN), TLS handshake, record 341
+
+      > User-Agent: probe/267
+
+      * Added 020e0d to connection cache
+
+      * Added e8a0ac to connection cache
+
+      * Added f25e41 to connection cache
+
+      * Added a7d0a6 to connection cache
+
+      * Added 97715d to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 366
+
+      * TLSv1.3 (IN), TLS handshake, record 394
+
+      * Added b2a790 to connection cache
+
+      * Added d18f12 to connection cache
+
+      < x-request-id: a00ff8a00ff8
+
+      < x-request-id: 45298e45298e
+
+      < x-request-id: b46d65b46d65
+
+      > User-Agent: probe/325
+
+      * Added 52c0bc to connection cache
+
+      * Added 162079 to connection cache
+
+      > User-Agent: probe/406
+
+      > User-Agent: probe/260
+
+      * Added 58d493 to connection cache
+
+      < x-request-id: 76ba9d76ba9d
+
+      > User-Agent: probe/167
+
+      > User-Agent: probe/51
+
+      < HTTP/1.1 503 Service Unavailable
+
+      < x-request-id: 816a9e816a9e
+
+      < x-request-id: cad04ccad04c
+
+      * TLSv1.3 (IN), TLS handshake, record 407
+
+      * Added 992625 to connection cache
+
+      < x-request-id: 9bc3299bc329
+
+      * TLSv1.3 (IN), TLS handshake, record 396
+
+      * Added ed9eb7 to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 366
+
+      > User-Agent: probe/370
+
+      * Added f94df8 to connection cache
+
+      * Added f9194c to connection cache
+
+      > User-Agent: probe/282
+
+      * Added 0ff2ad to connection cache
+
+      < x-request-id: 487ca3487ca3
+
+      * Added 20150b to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 48
+
+      < x-request-id: cbfcb1cbfcb1
+
+      * TLSv1.3 (IN), TLS handshake, record 252
+
+      > User-Agent: probe/291
+
+      > User-Agent: probe/156
+
+      > User-Agent: probe/83
+
+      < x-request-id: 85fba585fba5
+
+      < x-request-id: 3b6bca3b6bca
+
+      < x-request-id: 1a26281a2628
+
+      * Added 678191 to connection cache
+
+      > User-Agent: probe/237
+
+      * TLSv1.3 (IN), TLS handshake, record 151
+
+      * TLSv1.3 (IN), TLS handshake, record 145
+
+      < x-request-id: f77eb4f77eb4
+
+      * TLSv1.3 (IN), TLS handshake, record 387
+
+      < x-request-id: 5bfcdc5bfcdc
+
+      > User-Agent: probe/50
+
+      < x-request-id: f64bf3f64bf3
+
+      * TLSv1.3 (IN), TLS handshake, record 307
+
+      > User-Agent: probe/259
+
+      * Added 3b41a8 to connection cache
+
+      < x-request-id: 200866200866
+
+      > User-Agent: probe/277
+
+      * Added 795bad to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 359
+
+      * TLSv1.3 (IN), TLS handshake, record 135
+
+      * TLSv1.3 (IN), TLS handshake, record 100
+
+      < x-request-id: d5ef84d5ef84
+
+      > User-Agent: probe/345
+
+      * TLSv1.3 (IN), TLS handshake, record 253
+
+      finished step
+
+      next
+
+      idle
+
+      '
+  - id: p0
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q0
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p1
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q1
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p2
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q2
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p3
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q3
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p4
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q4
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p5
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q5
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p6
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q6
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: u2
+    role: user
+    kind: text
+    text: Summarise what we found.
+  essential:
+  - HTTP/1.1 503
+  note: ''
+- id: cg2-dev-004
+  lang: en
+  items:
+  - id: u1
+    role: user
+    kind: text
+    text: Pin to the reviewed release.
+  - id: c0
+    role: assistant
+    kind: tool_call
+    text: run git
+  - id: r0
+    role: tool
+    kind: tool_result
+    tool: git
+    text: "  CC  obj/b9817d.o\n  LD  libae9c30.a\n[info] resolving unit 1d44e4 (264\
+      \ of 412)\n  LD  lib523080.a\n  CC  obj/34e315.o\n  LD  lib73f898.a\n  CC  obj/586cf2.o\n\
+      \  LD  lib2b3c71.a\n[ 28/412] Building object f643fd\n  CC  obj/cb3873.o\n[info]\
+      \ resolving unit ed706d (156 of 412)\n[ 86/412] Building object 4ac44f\n  CC\
+      \  obj/c29508.o\n[info] resolving unit ceb853 (86 of 412)\n[info] resolving\
+      \ unit 3c8185 (177 of 412)\n  CC  obj/5bf5dd.o\n[ 60/412] Building object ac686b\n\
+      [ 60/412] Building object c32acf\n  LD  libcd7714.a\n[info] resolving unit 2b0db1\
+      \ (141 of 412)\n[info] resolving unit 8037bd (29 of 412)\n  CC  obj/ff40f7.o\n\
+      [165/412] Building object 33ed1d\n[info] resolving unit d2ddd3 (205 of 412)\n\
+      [info] resolving unit 90d02f (247 of 412)\n[212/412] Building object 7c8d2c\n\
+      [397/412] Building object 87d358\n  CC  obj/86fba8.o\n  LD  libda77bb.a\n  CC\
+      \  obj/de93e7.o\n[info] resolving unit 611ec6 (177 of 412)\n  LD  lib9183b9.a\n\
+      \  LD  libe47ec8.a\n[324/412] Building object 2e2fdf\n  LD  lib3c1f68.a\n[info]\
+      \ resolving unit f0559a (336 of 412)\n  LD  libd8c819.a\n  LD  lib747805.a\n\
+      \  LD  lib477354.a\n  CC  obj/278283.o\n  CC  obj/cf166c.o\n[info] resolving\
+      \ unit 3668af (253 of 412)\n  CC  obj/cc5f02.o\n[info] resolving unit d5087a\
+      \ (99 of 412)\n  CC  obj/8d6ff7.o\n  CC  obj/561cdb.o\n  CC  obj/aaf67f.o\n\
+      [info] resolving unit 6538eb (308 of 412)\n[207/412] Building object 9000d5\n\
+      [300/412] Building object 89e634\n[354/412] Building object 7d22ed\n[info] resolving\
+      \ unit c402bd (410 of 412)\n[info] resolving unit 1f8d4d (178 of 412)\n  LD\
+      \  lib8b79b5.a\n[ 12/412] Building object 417d9e\n[250/412] Building object\
+      \ c655b0\n  LD  libed86a3.a\n[299/412] Building object 8a2308\n[136/412] Building\
+      \ object a289ff\n  LD  lib156ce8.a\nrevision 4421-b is the reviewed release\n\
+      \  CC  obj/568e9b.o\n[137/412] Building object 52c018\n[info] resolving unit\
+      \ 7345e4 (317 of 412)\n[ 44/412] Building object 84acd3\n[info] resolving unit\
+      \ 2ca3be (357 of 412)\n  LD  libf2e0ed.a\n[info] resolving unit 806cdc (403\
+      \ of 412)\n[250/412] Building object ae2bc9\n  CC  obj/ac7be3.o\n  CC  obj/50531d.o\n\
+      [info] resolving unit ca3dd2 (364 of 412)\n  CC  obj/07b574.o\n[info] resolving\
+      \ unit 24bd37 (134 of 412)\n  CC  obj/856965.o\n[ 73/412] Building object 7281df\n\
+      [info] resolving unit 6736c8 (328 of 412)\n  CC  obj/f749cb.o\n  LD  lib49e110.a\n\
+      \  CC  obj/b21c96.o\n  LD  lib8f51cd.a\n  LD  libc58393.a\n  LD  lib5df5a9.a\n\
+      \  LD  lib10d63c.a\n  LD  lib84742f.a\n[info] resolving unit a11244 (114 of\
+      \ 412)\n  LD  lib049404.a\n[295/412] Building object 12ee2e\n[info] resolving\
+      \ unit fca0ec (82 of 412)\n[info] resolving unit 4f1ee3 (234 of 412)\n[info]\
+      \ resolving unit 74a01a (225 of 412)\n  CC  obj/15b407.o\n  LD  lib3cf866.a\n\
+      [info] resolving unit 87e7cb (165 of 412)\n[info] resolving unit 919af0 (65\
+      \ of 412)\n[136/412] Building object 7e7ecf\n  LD  lib5f54c2.a\n[170/412] Building\
+      \ object ab2d1e\n[info] resolving unit b05453 (374 of 412)\n[info] resolving\
+      \ unit df8445 (91 of 412)\n  LD  libf7f0a2.a\n  CC  obj/5fec24.o\n  CC  obj/fb0aa4.o\n\
+      [194/412] Building object 57d0d3\n[182/412] Building object 4cf683\n[info] resolving\
+      \ unit 9587ca (394 of 412)\nfinished step\nnext\nidle\n"
+  - id: p0
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q0
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p1
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q1
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p2
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q2
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p3
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q3
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p4
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q4
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p5
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q5
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p6
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q6
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: u2
+    role: user
+    kind: text
+    text: Summarise what we found.
+  essential:
+  - revision 4421-b
+  note: ''
+- id: cg2-dev-005
+  lang: en
+  items:
+  - id: u1
+    role: user
+    kind: text
+    text: Report the ticket reference.
+  - id: c0
+    role: assistant
+    kind: tool_call
+    text: run jira
+  - id: r0
+    role: tool
+    kind: tool_result
+    tool: jira
+    text: 'vacuum pass 198: a17fd2 pages scanned
+
+      103 rows migrated in batch c1bea0
+
+      checkpoint 294 written (72cd68)
+
+      406 rows migrated in batch a5da85
+
+      checkpoint 155 written (a55823)
+
+      90 rows migrated in batch 0010e6
+
+      vacuum pass 157: e4b714 pages scanned
+
+      408 rows migrated in batch 562eda
+
+      17 rows migrated in batch 69f6ae
+
+      batch dc4fe7: committed after 357 ms
+
+      316 rows migrated in batch cb78f8
+
+      batch 683e2b: committed after 320 ms
+
+      228 rows migrated in batch 089770
+
+      402 rows migrated in batch fb2543
+
+      vacuum pass 315: 11f6d9 pages scanned
+
+      batch dc6ae2: committed after 249 ms
+
+      batch 0101db: committed after 72 ms
+
+      291 rows migrated in batch b09277
+
+      batch 64e07a: committed after 401 ms
+
+      checkpoint 399 written (311ba5)
+
+      checkpoint 92 written (d28864)
+
+      checkpoint 370 written (cae7b4)
+
+      369 rows migrated in batch 84f4fe
+
+      vacuum pass 217: 9c47d8 pages scanned
+
+      224 rows migrated in batch 71d029
+
+      68 rows migrated in batch 9c08b4
+
+      vacuum pass 328: eb01e9 pages scanned
+
+      150 rows migrated in batch b31bbd
+
+      vacuum pass 366: 2e35ab pages scanned
+
+      161 rows migrated in batch 739456
+
+      vacuum pass 136: d95891 pages scanned
+
+      190 rows migrated in batch 049184
+
+      batch dd64ee: committed after 175 ms
+
+      371 rows migrated in batch 48f35e
+
+      checkpoint 179 written (3fa58e)
+
+      vacuum pass 202: 34ab4c pages scanned
+
+      batch 1ebcad: committed after 181 ms
+
+      batch 5e7e50: committed after 75 ms
+
+      batch e4716d: committed after 236 ms
+
+      134 rows migrated in batch e4a4e2
+
+      batch 129895: committed after 75 ms
+
+      checkpoint 40 written (de7d14)
+
+      147 rows migrated in batch bf0582
+
+      checkpoint 408 written (24b048)
+
+      batch 75fda6: committed after 188 ms
+
+      vacuum pass 168: 5c271d pages scanned
+
+      vacuum pass 147: 2005e7 pages scanned
+
+      checkpoint 94 written (dece6c)
+
+      batch d49f4c: committed after 222 ms
+
+      336 rows migrated in batch 8da64d
+
+      checkpoint 101 written (c78ffe)
+
+      vacuum pass 278: e0380a pages scanned
+
+      batch 777061: committed after 324 ms
+
+      410 rows migrated in batch e3bca4
+
+      vacuum pass 189: e8f51b pages scanned
+
+      291 rows migrated in batch 9a3f86
+
+      139 rows migrated in batch 6849bf
+
+      batch 32ebf1: committed after 346 ms
+
+      120 rows migrated in batch 01dab6
+
+      checkpoint 23 written (ee4d85)
+
+      linked to ticket PAY-2291 by the importer
+
+      284 rows migrated in batch a9342e
+
+      112 rows migrated in batch 99b615
+
+      vacuum pass 3: b657aa pages scanned
+
+      vacuum pass 69: dfa762 pages scanned
+
+      128 rows migrated in batch efc814
+
+      batch 44f62c: committed after 228 ms
+
+      checkpoint 106 written (478d83)
+
+      batch 4c8466: committed after 73 ms
+
+      checkpoint 192 written (5e59cb)
+
+      vacuum pass 261: fa9ab3 pages scanned
+
+      386 rows migrated in batch 3ea62e
+
+      batch 2ab070: committed after 212 ms
+
+      vacuum pass 57: b7d497 pages scanned
+
+      batch e97c37: committed after 185 ms
+
+      batch fb7551: committed after 258 ms
+
+      batch bd37fc: committed after 63 ms
+
+      299 rows migrated in batch 168866
+
+      vacuum pass 325: 047794 pages scanned
+
+      batch 5eb7dc: committed after 6 ms
+
+      checkpoint 360 written (8a1695)
+
+      checkpoint 171 written (4a10f8)
+
+      batch 8dc0a6: committed after 278 ms
+
+      checkpoint 343 written (c7fae9)
+
+      192 rows migrated in batch 0e05e3
+
+      vacuum pass 241: be35ed pages scanned
+
+      309 rows migrated in batch 976a5c
+
+      168 rows migrated in batch a5bbb0
+
+      265 rows migrated in batch e80d7a
+
+      vacuum pass 362: 91a6f2 pages scanned
+
+      vacuum pass 115: 28c998 pages scanned
+
+      123 rows migrated in batch 0e411e
+
+      66 rows migrated in batch 252344
+
+      250 rows migrated in batch e97609
+
+      checkpoint 206 written (d52a71)
+
+      vacuum pass 222: 500abd pages scanned
+
+      batch 36c8f5: committed after 319 ms
+
+      batch 2e7b18: committed after 274 ms
+
+      batch b50ad4: committed after 256 ms
+
+      batch 2bd973: committed after 115 ms
+
+      366 rows migrated in batch 24c45a
+
+      vacuum pass 116: c05451 pages scanned
+
+      vacuum pass 11: 7d0b36 pages scanned
+
+      checkpoint 264 written (d88728)
+
+      batch 239938: committed after 81 ms
+
+      vacuum pass 224: 7729c1 pages scanned
+
+      finished step
+
+      next
+
+      idle
+
+      '
+  - id: p0
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q0
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p1
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q1
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p2
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q2
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p3
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q3
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p4
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q4
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p5
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q5
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p6
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q6
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: u2
+    role: user
+    kind: text
+    text: Summarise what we found.
+  essential:
+  - PAY-2291
+  note: ''
+- id: cg2-dev-006
+  lang: en
+  items:
+  - id: u1
+    role: user
+    kind: text
+    text: Only use the private registry.
+  - id: c0
+    role: assistant
+    kind: tool_call
+    text: run docker
+  - id: r0
+    role: tool
+    kind: tool_result
+    tool: docker
+    text: "#279 [stage-2 279/9] layer 4d365b done\n#60 [stage-2 60/9] layer fbd0d2\
+      \ done\nStep 48/31 : COPY layer298041 /opt/layer298041\nStep 26/31 : COPY layere540f3\
+      \ /opt/layere540f3\n#141 [stage-2 141/9] layer 576eec done\n#117 [stage-2 117/9]\
+      \ layer 4bf317 done\n#378 [stage-2 378/9] layer 98950b done\n ---> Using cache\
+      \ f0cfbc\n#124 sha256:229ae3229ae3 124.124MB / 88.4MB\n#299 [stage-2 299/9]\
+      \ layer df8a79 done\n ---> Using cache f2c3c7\nStep 288/31 : COPY layer6e9bb7\
+      \ /opt/layer6e9bb7\n ---> Using cache ad702b\n ---> Using cache f24c67\n --->\
+      \ Using cache fc8a9b\n#388 [stage-2 388/9] layer 4aef61 done\n#305 sha256:ab96cbab96cb\
+      \ 305.305MB / 88.4MB\n#173 [stage-2 173/9] layer 9d18be done\n#209 sha256:998086998086\
+      \ 209.209MB / 88.4MB\n#47 [stage-2 47/9] layer c725c0 done\n#327 sha256:94c09a94c09a\
+      \ 327.327MB / 88.4MB\nStep 236/31 : COPY layerbf6dbd /opt/layerbf6dbd\n#94 [stage-2\
+      \ 94/9] layer 2c1868 done\n#196 sha256:0b83c40b83c4 196.196MB / 88.4MB\nStep\
+      \ 97/31 : COPY layer2abef2 /opt/layer2abef2\nStep 178/31 : COPY layerdb1a32\
+      \ /opt/layerdb1a32\nStep 92/31 : COPY layereba6cb /opt/layereba6cb\n#405 [stage-2\
+      \ 405/9] layer 3f9b4a done\n ---> Using cache 9bf78f\n#205 [stage-2 205/9] layer\
+      \ 713d4f done\n ---> Using cache 3564d5\n#26 sha256:5dd4965dd496 26.26MB / 88.4MB\n\
+      #14 [stage-2 14/9] layer 620863 done\nStep 317/31 : COPY layerb5d076 /opt/layerb5d076\n\
+      #61 [stage-2 61/9] layer 810f27 done\n ---> Using cache b687cd\n#91 [stage-2\
+      \ 91/9] layer ef07f6 done\n#286 sha256:2051f62051f6 286.286MB / 88.4MB\n --->\
+      \ Using cache 5c4055\n ---> Using cache 46b25c\nStep 332/31 : COPY layer1ea815\
+      \ /opt/layer1ea815\nStep 25/31 : COPY layer464745 /opt/layer464745\n#148 [stage-2\
+      \ 148/9] layer 25d026 done\n#256 [stage-2 256/9] layer 73cd13 done\n#360 [stage-2\
+      \ 360/9] layer f3451f done\n#104 sha256:c7a8f2c7a8f2 104.104MB / 88.4MB\n#169\
+      \ sha256:c20273c20273 169.169MB / 88.4MB\n ---> Using cache 1dd735\n#259 [stage-2\
+      \ 259/9] layer 067d03 done\n#225 [stage-2 225/9] layer 959265 done\nStep 283/31\
+      \ : COPY layer5658d9 /opt/layer5658d9\nStep 394/31 : COPY layer4f25e1 /opt/layer4f25e1\n\
+      #229 [stage-2 229/9] layer 5d2731 done\nStep 393/31 : COPY layer5ee207 /opt/layer5ee207\n\
+      \ ---> Using cache ee49cf\n ---> Using cache 3f8690\n#347 sha256:ef48aeef48ae\
+      \ 347.347MB / 88.4MB\nStep 349/31 : COPY layer386fe2 /opt/layer386fe2\n#60 [stage-2\
+      \ 60/9] layer 71ec0f done\n ---> Using cache b2a6c3\nx509: certificate signed\
+      \ by unknown authority\n#380 sha256:1ef5451ef545 380.380MB / 88.4MB\n ---> Using\
+      \ cache c2fcfa\n#394 [stage-2 394/9] layer 29a5b7 done\n#70 sha256:b07791b07791\
+      \ 70.70MB / 88.4MB\n#94 sha256:a4bc01a4bc01 94.94MB / 88.4MB\n#299 [stage-2\
+      \ 299/9] layer 353897 done\n#328 sha256:be20abbe20ab 328.328MB / 88.4MB\n#312\
+      \ [stage-2 312/9] layer 4e4094 done\n#353 [stage-2 353/9] layer 3c77c2 done\n\
+      \ ---> Using cache afa4d2\n#219 [stage-2 219/9] layer e177d0 done\n ---> Using\
+      \ cache 647847\n ---> Using cache 0fcd58\n#369 sha256:38632f38632f 369.369MB\
+      \ / 88.4MB\n#94 sha256:a80b2aa80b2a 94.94MB / 88.4MB\nStep 405/31 : COPY layer60d899\
+      \ /opt/layer60d899\nStep 92/31 : COPY layerb8a410 /opt/layerb8a410\n#408 sha256:ca1f95ca1f95\
+      \ 408.408MB / 88.4MB\nStep 136/31 : COPY layerc379d3 /opt/layerc379d3\n --->\
+      \ Using cache cfd5f7\n#183 sha256:30a6a830a6a8 183.183MB / 88.4MB\n ---> Using\
+      \ cache f3bd59\nStep 307/31 : COPY layere72349 /opt/layere72349\n ---> Using\
+      \ cache 71398d\n#38 sha256:a181f2a181f2 38.38MB / 88.4MB\n#35 sha256:e8605ae8605a\
+      \ 35.35MB / 88.4MB\nStep 335/31 : COPY layer71aff1 /opt/layer71aff1\n#120 sha256:e028e7e028e7\
+      \ 120.120MB / 88.4MB\n#305 [stage-2 305/9] layer 241d64 done\n#106 [stage-2\
+      \ 106/9] layer e661a3 done\n#80 sha256:6af51e6af51e 80.80MB / 88.4MB\nStep 201/31\
+      \ : COPY layer7fea3e /opt/layer7fea3e\n ---> Using cache 129e44\n#285 sha256:340885340885\
+      \ 285.285MB / 88.4MB\n ---> Using cache d222f5\n ---> Using cache 66d5bc\n --->\
+      \ Using cache 4c73a5\nStep 58/31 : COPY layer396644 /opt/layer396644\n --->\
+      \ Using cache e2e2b8\nStep 359/31 : COPY layer24da83 /opt/layer24da83\n#276\
+      \ [stage-2 276/9] layer 68e569 done\n ---> Using cache 50f379\nStep 237/31 :\
+      \ COPY layer896818 /opt/layer896818\n#271 [stage-2 271/9] layer a9e960 done\n\
+      #222 sha256:06376b06376b 222.222MB / 88.4MB\nfinished step\nnext\nidle\n"
+  - id: p0
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q0
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p1
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q1
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p2
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q2
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p3
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q3
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p4
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q4
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p5
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q5
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p6
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q6
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: u2
+    role: user
+    kind: text
+    text: Summarise what we found.
+  essential:
+  - 'x509: certificate signed by unknown authority'
+  note: ''

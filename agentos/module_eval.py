@@ -30,9 +30,9 @@ def _pct(xs, p):
     return round(xs[min(len(xs) - 1, int(p * len(xs)))], 3) if xs else None
 
 
-def eval_wakegate(cfg, backend_name) -> dict:
+def eval_wakegate(cfg, backend_name, suite_file=None) -> dict:
     from . import wakegate as W
-    data = yaml.safe_load((SUITES / "wakegate-suite-v1.yaml").read_text())
+    data = yaml.safe_load((Path(suite_file) if suite_file else SUITES / "wakegate-suite-v1.yaml").read_text())
     be = _backend(backend_name, cfg)
     recs = []
     for c in data["cases"]:
@@ -74,9 +74,9 @@ def eval_wakegate(cfg, backend_name) -> dict:
             "records": recs}
 
 
-def eval_contextgate(cfg, backend_name) -> dict:
+def eval_contextgate(cfg, backend_name, suite_file=None) -> dict:
     from . import contextgate as C
-    data = yaml.safe_load((SUITES / "contextgate-suite-v1.yaml").read_text())
+    data = yaml.safe_load((Path(suite_file) if suite_file else SUITES / "contextgate-suite-v1.yaml").read_text())
     be = _backend(backend_name, cfg)
     out, tb, ta = [], 0, 0
     with tempfile.TemporaryDirectory() as tmp:
@@ -105,10 +105,10 @@ def eval_contextgate(cfg, backend_name) -> dict:
             "records": out}
 
 
-def eval_toolpruner(cfg, backend_name) -> dict:
+def eval_toolpruner(cfg, backend_name, suite_file=None) -> dict:
     from . import toolpruner as P
     from .contextgate import Store
-    data = yaml.safe_load((SUITES / "toolpruner-suite-v1.yaml").read_text())
+    data = yaml.safe_load((Path(suite_file) if suite_file else SUITES / "toolpruner-suite-v1.yaml").read_text())
     be = _backend(backend_name, cfg)
     out, tb, ta = [], 0, 0
     with tempfile.TemporaryDirectory() as tmp:
@@ -133,7 +133,7 @@ def eval_toolpruner(cfg, backend_name) -> dict:
             "records": out}
 
 
-def eval_rulecache(cfg, backend_name) -> dict:
+def eval_rulecache(cfg, backend_name, suite_file=None) -> dict:
     """Behavioural acceptance of the review/scoping/invalidation rules on the dev set's requests (no model needed)."""
     from . import rulecache as R
     from . import systemone_eval as E
@@ -194,16 +194,18 @@ def add_parser(sub) -> None:
     sp = sub.add_parser("module-eval", help="R3.2G module acceptance suites (wakegate/contextgate/toolpruner/rulecache)")
     sp.add_argument("--suite", required=True, choices=sorted(EVALS))
     sp.add_argument("--backend", default="none", help="a SystemOne backend name, or none (deterministic-only)")
+    sp.add_argument("--suite-file", help="evaluate this suite file instead of the v1 suite (same schema)")
     sp.add_argument("--out")
 
 
 def run(cfg, a) -> int:
     from . import systemone_adapter as A
     try:
-        res = EVALS[a.suite](cfg, a.backend)
+        res = EVALS[a.suite](cfg, a.backend, a.suite_file)
     finally:
         A.close_all()
     res["acceptance_pass"] = acceptance(res)
+    res["suite_file"] = a.suite_file
     res["token_measurement"] = "character-count estimate: ceil(chars/4), not tokenizer-measured"
     if a.out:
         Path(a.out).parent.mkdir(parents=True, exist_ok=True)

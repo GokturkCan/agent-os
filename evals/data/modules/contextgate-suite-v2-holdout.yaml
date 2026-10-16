@@ -1,0 +1,1645 @@
+version: 1
+suite: contextgate-suite-v2-holdout
+authored: '2026-10-16'
+provenance: 'Independence caveat (stated, not hidden): written by the same model-assisted
+  session that reviewed the earlier modules, from general'
+metric: essential string present in the compacted view; exact recovery from the store
+transcripts:
+- id: cg2-holdout-001
+  lang: en
+  items:
+  - id: u1
+    role: user
+    kind: text
+    text: Do not rotate the keys.
+  - id: c0
+    role: assistant
+    kind: tool_call
+    text: run psql
+  - id: r0
+    role: tool
+    kind: tool_result
+    tool: psql
+    text: 'batch 77684f: committed after 325 ms
+
+      checkpoint 247 written (5f7e92)
+
+      checkpoint 353 written (f6410e)
+
+      vacuum pass 146: 243c4a pages scanned
+
+      checkpoint 213 written (9e5740)
+
+      vacuum pass 28: da2f42 pages scanned
+
+      checkpoint 165 written (7dc1c2)
+
+      30 rows migrated in batch a37cf0
+
+      checkpoint 111 written (21e8a4)
+
+      checkpoint 65 written (a4b214)
+
+      batch 8ba01c: committed after 264 ms
+
+      checkpoint 5 written (b52eb8)
+
+      checkpoint 286 written (c9d5d1)
+
+      vacuum pass 96: 385d0b pages scanned
+
+      188 rows migrated in batch 3f6834
+
+      78 rows migrated in batch 2fc075
+
+      164 rows migrated in batch 018e4f
+
+      211 rows migrated in batch 8d01ca
+
+      checkpoint 105 written (62bbb6)
+
+      vacuum pass 236: f26c01 pages scanned
+
+      checkpoint 303 written (e896aa)
+
+      checkpoint 250 written (23f4c0)
+
+      248 rows migrated in batch c27121
+
+      vacuum pass 390: b91c27 pages scanned
+
+      343 rows migrated in batch 7cd202
+
+      279 rows migrated in batch e31f32
+
+      checkpoint 361 written (53906f)
+
+      vacuum pass 375: f77fda pages scanned
+
+      355 rows migrated in batch 2cc86d
+
+      checkpoint 238 written (8f3874)
+
+      vacuum pass 261: d0120f pages scanned
+
+      checkpoint 243 written (f6bc5f)
+
+      vacuum pass 12: cb51e7 pages scanned
+
+      checkpoint 168 written (55d698)
+
+      96 rows migrated in batch a3b11e
+
+      checkpoint 321 written (584fea)
+
+      checkpoint 221 written (de3138)
+
+      checkpoint 332 written (bc8f65)
+
+      384 rows migrated in batch 06961b
+
+      batch 2f32d4: committed after 248 ms
+
+      checkpoint 300 written (2807ff)
+
+      103 rows migrated in batch 6090a4
+
+      batch 249bf4: committed after 313 ms
+
+      350 rows migrated in batch 05a4bd
+
+      vacuum pass 272: be2aca pages scanned
+
+      81 rows migrated in batch d3ab25
+
+      47 rows migrated in batch 46b53c
+
+      vacuum pass 22: 0aa96f pages scanned
+
+      batch 74bf12: committed after 407 ms
+
+      173 rows migrated in batch bba570
+
+      411 rows migrated in batch ff9488
+
+      checkpoint 17 written (086231)
+
+      256 rows migrated in batch 94be00
+
+      checkpoint 169 written (41a491)
+
+      checkpoint 52 written (ada334)
+
+      vacuum pass 255: e6533b pages scanned
+
+      checkpoint 105 written (2a02f3)
+
+      batch 844931: committed after 67 ms
+
+      90 rows migrated in batch d43b1f
+
+      batch f662ae: committed after 72 ms
+
+      listening on port 5433 (replica)
+
+      vacuum pass 237: a5ca87 pages scanned
+
+      batch 0bfd14: committed after 5 ms
+
+      42 rows migrated in batch 4c5f26
+
+      checkpoint 97 written (b8f40b)
+
+      checkpoint 123 written (9ce610)
+
+      255 rows migrated in batch e5e99d
+
+      vacuum pass 295: 90683a pages scanned
+
+      checkpoint 116 written (15a6a2)
+
+      checkpoint 83 written (c99fbd)
+
+      179 rows migrated in batch 2a4c08
+
+      98 rows migrated in batch c44495
+
+      checkpoint 125 written (c28d4c)
+
+      123 rows migrated in batch 421b62
+
+      batch c5903b: committed after 406 ms
+
+      321 rows migrated in batch fee799
+
+      batch 661a8e: committed after 401 ms
+
+      vacuum pass 364: 9163b0 pages scanned
+
+      checkpoint 375 written (c4f403)
+
+      checkpoint 322 written (deb729)
+
+      batch c1d4c8: committed after 302 ms
+
+      vacuum pass 229: cc8217 pages scanned
+
+      190 rows migrated in batch e1ae7b
+
+      batch 6fd9bc: committed after 145 ms
+
+      55 rows migrated in batch 53f38b
+
+      batch a8b396: committed after 198 ms
+
+      vacuum pass 91: d95500 pages scanned
+
+      batch 791b4c: committed after 390 ms
+
+      410 rows migrated in batch 455212
+
+      vacuum pass 77: 2ee979 pages scanned
+
+      vacuum pass 50: e26918 pages scanned
+
+      vacuum pass 3: 3172e6 pages scanned
+
+      vacuum pass 254: 6c0569 pages scanned
+
+      checkpoint 94 written (dd9295)
+
+      checkpoint 307 written (eaa0a2)
+
+      batch 81f60f: committed after 214 ms
+
+      157 rows migrated in batch 56878b
+
+      vacuum pass 157: 076b97 pages scanned
+
+      checkpoint 157 written (63b1b4)
+
+      checkpoint 232 written (142dd4)
+
+      batch de45bc: committed after 131 ms
+
+      checkpoint 181 written (3d0f30)
+
+      batch dceef1: committed after 17 ms
+
+      checkpoint 126 written (8f9790)
+
+      checkpoint 334 written (865cf3)
+
+      checkpoint 16 written (941770)
+
+      finished step
+
+      next
+
+      idle
+
+      '
+  - id: p0
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q0
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p1
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q1
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p2
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q2
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p3
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q3
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p4
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q4
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p5
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q5
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p6
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q6
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: u2
+    role: user
+    kind: text
+    text: Summarise what we found.
+  essential:
+  - port 5433
+  note: ''
+- id: cg2-holdout-002
+  lang: en
+  items:
+  - id: u1
+    role: user
+    kind: text
+    text: Keep the schema frozen.
+  - id: c0
+    role: assistant
+    kind: tool_call
+    text: run git
+  - id: r0
+    role: tool
+    kind: tool_result
+    tool: git
+    text: "[ 95/412] Building object 69749d\n[368/412] Building object 935f10\n[215/412]\
+      \ Building object a2159e\n  LD  libddaf20.a\n  LD  libb3a40a.a\n  CC  obj/075c20.o\n\
+      [info] resolving unit 2dd91f (380 of 412)\n  LD  lib9b654d.a\n[168/412] Building\
+      \ object dd02a7\n  LD  lib5bd33d.a\n[info] resolving unit 9d802b (76 of 412)\n\
+      \  CC  obj/5aa1ac.o\n[info] resolving unit b3b6b7 (192 of 412)\n  LD  lib97e256.a\n\
+      \  LD  lib00939e.a\n  LD  lib207285.a\n[info] resolving unit a3bcea (276 of\
+      \ 412)\n  CC  obj/fcdecb.o\n  CC  obj/7a8b4b.o\n  CC  obj/93fbcb.o\n  CC  obj/667d3d.o\n\
+      [info] resolving unit 3f4440 (390 of 412)\n[315/412] Building object 620d6a\n\
+      \  CC  obj/8e3780.o\n  LD  libb1905d.a\n  CC  obj/58eea1.o\n[ 59/412] Building\
+      \ object 231b52\n[ 89/412] Building object 481377\n[info] resolving unit 3f9219\
+      \ (278 of 412)\n[info] resolving unit 66ee50 (314 of 412)\n[383/412] Building\
+      \ object dcc414\n[info] resolving unit bb034a (17 of 412)\n[232/412] Building\
+      \ object 2d2908\n  CC  obj/4ee5c1.o\n[info] resolving unit 93bc98 (374 of 412)\n\
+      \  LD  lib6bc090.a\n  CC  obj/47314f.o\n  CC  obj/a4c9a9.o\n  CC  obj/44119f.o\n\
+      [ 53/412] Building object 6b1b2b\n  CC  obj/cbf06d.o\n[info] resolving unit\
+      \ 274397 (254 of 412)\n  LD  libc14640.a\n  LD  lib010620.a\n[104/412] Building\
+      \ object b3b129\n  CC  obj/8c35c8.o\n  CC  obj/7cb525.o\n[ 62/412] Building\
+      \ object bbfb59\n[info] resolving unit 1fa3a5 (72 of 412)\n[ 17/412] Building\
+      \ object db74dc\n[info] resolving unit 83137f (175 of 412)\n  LD  libb04348.a\n\
+      \  CC  obj/3a3c1a.o\n  LD  lib56ac4d.a\n[ 13/412] Building object 9dbf2b\n \
+      \ LD  lib592a8a.a\n[info] resolving unit e39214 (221 of 412)\n[info] resolving\
+      \ unit fc57f1 (142 of 412)\n[102/412] Building object cd060e\n[info] resolving\
+      \ unit 4f36a1 (196 of 412)\nintroduced in commit 9fceb02a by the importer\n\
+      \  LD  lib59b8ba.a\n  LD  libc17ec9.a\n  LD  lib9ad70c.a\n[160/412] Building\
+      \ object 9dafc9\n  LD  lib695a05.a\n  CC  obj/9e8355.o\n[204/412] Building object\
+      \ 7110d4\n  CC  obj/2a9bf8.o\n  CC  obj/5426ad.o\n  LD  lib967595.a\n  CC  obj/5344b9.o\n\
+      [332/412] Building object c99de0\n  LD  lib5f2ff4.a\n[info] resolving unit 0329b4\
+      \ (193 of 412)\n[230/412] Building object 454c26\n  LD  libb8c6cd.a\n  CC  obj/59e149.o\n\
+      [info] resolving unit a36a71 (303 of 412)\n[319/412] Building object 091eba\n\
+      [info] resolving unit 829abc (172 of 412)\n  CC  obj/b520ec.o\n  CC  obj/dc39fd.o\n\
+      \  CC  obj/ffcc3e.o\n[133/412] Building object 4394a2\n  LD  libf5767b.a\n[\
+      \ 16/412] Building object 68bff0\n[383/412] Building object 533dc9\n[ 57/412]\
+      \ Building object f591c0\n[374/412] Building object a901ca\n  CC  obj/a8c7d8.o\n\
+      [234/412] Building object 4f7969\n[info] resolving unit 1e45f2 (308 of 412)\n\
+      [ 90/412] Building object 46673d\n[info] resolving unit 566937 (351 of 412)\n\
+      [152/412] Building object ee3ddb\n  CC  obj/ee2c99.o\n[info] resolving unit\
+      \ d464be (291 of 412)\n  LD  libfe1e7a.a\n[info] resolving unit 246564 (347\
+      \ of 412)\n[info] resolving unit 63fa7c (69 of 412)\n[info] resolving unit 907d2a\
+      \ (192 of 412)\n[info] resolving unit 54ee66 (102 of 412)\n  LD  libaad9f3.a\n\
+      [206/412] Building object b8060e\n[  5/412] Building object 2c10f6\nfinished\
+      \ step\nnext\nidle\n"
+  - id: p0
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q0
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p1
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q1
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p2
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q2
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p3
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q3
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p4
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q4
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p5
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q5
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p6
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q6
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: u2
+    role: user
+    kind: text
+    text: Summarise what we found.
+  essential:
+  - 9fceb02a
+  note: ''
+- id: cg2-holdout-003
+  lang: tr
+  items:
+  - id: u1
+    role: user
+    kind: text
+    text: Sürümü değiştirme.
+  - id: c0
+    role: assistant
+    kind: tool_call
+    text: run pip
+  - id: r0
+    role: tool
+    kind: tool_result
+    tool: pip
+    text: "  Preparing metadata (pyproject.toml): finished with status 'done'\n  Downloading\
+      \ wheel_c09f29-1.212.0-py3-none-any.whl (41 kB)\nRequirement already satisfied:\
+      \ libb09fa4 in site-packages (144.0)\n  Downloading wheel_beeed8-1.26.0-py3-none-any.whl\
+      \ (41 kB)\nCollecting wheel-23325f\n  Downloading wheel_ccb788-1.357.0-py3-none-any.whl\
+      \ (41 kB)\n  Preparing metadata (pyproject.toml): finished with status 'done'\n\
+      Requirement already satisfied: libb98b4a in site-packages (49.0)\n  Preparing\
+      \ metadata (pyproject.toml): finished with status 'done'\nRequirement already\
+      \ satisfied: lib56920e in site-packages (393.0)\nCollecting wheel-bffd73\nCollecting\
+      \ wheel-438277\n  Downloading wheel_db1220-1.380.0-py3-none-any.whl (41 kB)\n\
+      Requirement already satisfied: lib104b80 in site-packages (269.0)\n  Downloading\
+      \ wheel_f96bbe-1.323.0-py3-none-any.whl (41 kB)\n  Downloading wheel_d32425-1.24.0-py3-none-any.whl\
+      \ (41 kB)\n  Downloading wheel_8a71dc-1.182.0-py3-none-any.whl (41 kB)\nRequirement\
+      \ already satisfied: libabe929 in site-packages (124.0)\n  Downloading wheel_03717b-1.401.0-py3-none-any.whl\
+      \ (41 kB)\nRequirement already satisfied: libb9a529 in site-packages (26.0)\n\
+      Requirement already satisfied: lib62cfdf in site-packages (193.0)\n  Downloading\
+      \ wheel_73694c-1.344.0-py3-none-any.whl (41 kB)\nRequirement already satisfied:\
+      \ lib9116ed in site-packages (370.0)\n  Preparing metadata (pyproject.toml):\
+      \ finished with status 'done'\n  Preparing metadata (pyproject.toml): finished\
+      \ with status 'done'\nCollecting wheel-7cfbfa\nCollecting wheel-78c9db\n  Downloading\
+      \ wheel_86850a-1.386.0-py3-none-any.whl (41 kB)\nCollecting wheel-2f4209\n \
+      \ Preparing metadata (pyproject.toml): finished with status 'done'\nRequirement\
+      \ already satisfied: lib66a9d9 in site-packages (63.0)\n  Downloading wheel_bd697d-1.356.0-py3-none-any.whl\
+      \ (41 kB)\nCollecting wheel-7d69c4\nCollecting wheel-a695a6\n  Preparing metadata\
+      \ (pyproject.toml): finished with status 'done'\nRequirement already satisfied:\
+      \ lib232787 in site-packages (367.0)\nCollecting wheel-0179b7\n  Downloading\
+      \ wheel_1ce0ac-1.296.0-py3-none-any.whl (41 kB)\nRequirement already satisfied:\
+      \ lib3dff46 in site-packages (133.0)\nCollecting wheel-c36d84\nCollecting wheel-c889b0\n\
+      \  Downloading wheel_08bf5d-1.219.0-py3-none-any.whl (41 kB)\n  Downloading\
+      \ wheel_c94786-1.226.0-py3-none-any.whl (41 kB)\nRequirement already satisfied:\
+      \ libe63322 in site-packages (175.0)\nCollecting wheel-9359fb\n  Preparing metadata\
+      \ (pyproject.toml): finished with status 'done'\nCollecting wheel-926910\n \
+      \ Downloading wheel_694144-1.349.0-py3-none-any.whl (41 kB)\n  Downloading wheel_14edf8-1.46.0-py3-none-any.whl\
+      \ (41 kB)\nRequirement already satisfied: lib09e82d in site-packages (348.0)\n\
+      \  Downloading wheel_72d021-1.206.0-py3-none-any.whl (41 kB)\n  Downloading\
+      \ wheel_ed3dcc-1.8.0-py3-none-any.whl (41 kB)\n  Downloading wheel_4c4c6c-1.225.0-py3-none-any.whl\
+      \ (41 kB)\nRequirement already satisfied: lib135c4b in site-packages (149.0)\n\
+      Collecting wheel-c917c0\n  Downloading wheel_cd6ea4-1.369.0-py3-none-any.whl\
+      \ (41 kB)\n  Downloading wheel_5945e4-1.382.0-py3-none-any.whl (41 kB)\n  Preparing\
+      \ metadata (pyproject.toml): finished with status 'done'\nCollecting wheel-a31517\n\
+      \  Preparing metadata (pyproject.toml): finished with status 'done'\nSuccessfully\
+      \ installed numpy-1.26.4 pandas-2.2.1\nCollecting wheel-4cd501\n  Preparing\
+      \ metadata (pyproject.toml): finished with status 'done'\nCollecting wheel-aa3ce1\n\
+      Requirement already satisfied: lib0f5619 in site-packages (216.0)\n  Downloading\
+      \ wheel_35192c-1.295.0-py3-none-any.whl (41 kB)\n  Downloading wheel_b2b318-1.108.0-py3-none-any.whl\
+      \ (41 kB)\n  Downloading wheel_40146f-1.31.0-py3-none-any.whl (41 kB)\n  Preparing\
+      \ metadata (pyproject.toml): finished with status 'done'\n  Downloading wheel_d1412a-1.53.0-py3-none-any.whl\
+      \ (41 kB)\nRequirement already satisfied: lib2e1b1a in site-packages (408.0)\n\
+      Collecting wheel-7d32cd\nRequirement already satisfied: libb8aea9 in site-packages\
+      \ (322.0)\n  Preparing metadata (pyproject.toml): finished with status 'done'\n\
+      Requirement already satisfied: lib37666d in site-packages (201.0)\nRequirement\
+      \ already satisfied: lib56b3d6 in site-packages (143.0)\nRequirement already\
+      \ satisfied: lib881de9 in site-packages (255.0)\nRequirement already satisfied:\
+      \ lib704dff in site-packages (47.0)\n  Preparing metadata (pyproject.toml):\
+      \ finished with status 'done'\nRequirement already satisfied: lib340808 in site-packages\
+      \ (401.0)\n  Preparing metadata (pyproject.toml): finished with status 'done'\n\
+      Collecting wheel-7ba05b\n  Downloading wheel_d4fde2-1.250.0-py3-none-any.whl\
+      \ (41 kB)\n  Preparing metadata (pyproject.toml): finished with status 'done'\n\
+      \  Downloading wheel_51fc2b-1.89.0-py3-none-any.whl (41 kB)\n  Preparing metadata\
+      \ (pyproject.toml): finished with status 'done'\nRequirement already satisfied:\
+      \ liba11082 in site-packages (239.0)\n  Preparing metadata (pyproject.toml):\
+      \ finished with status 'done'\nCollecting wheel-fdf409\n  Downloading wheel_ac82e1-1.10.0-py3-none-any.whl\
+      \ (41 kB)\n  Downloading wheel_bf00b1-1.5.0-py3-none-any.whl (41 kB)\n  Preparing\
+      \ metadata (pyproject.toml): finished with status 'done'\n  Preparing metadata\
+      \ (pyproject.toml): finished with status 'done'\n  Downloading wheel_ae8a2a-1.3.0-py3-none-any.whl\
+      \ (41 kB)\nCollecting wheel-d9aa11\nRequirement already satisfied: lib5d9d8e\
+      \ in site-packages (409.0)\n  Downloading wheel_fa4094-1.345.0-py3-none-any.whl\
+      \ (41 kB)\n  Preparing metadata (pyproject.toml): finished with status 'done'\n\
+      \  Downloading wheel_89721d-1.339.0-py3-none-any.whl (41 kB)\n  Preparing metadata\
+      \ (pyproject.toml): finished with status 'done'\n  Preparing metadata (pyproject.toml):\
+      \ finished with status 'done'\n  Downloading wheel_a91b7e-1.307.0-py3-none-any.whl\
+      \ (41 kB)\nCollecting wheel-b0b294\nRequirement already satisfied: lib27edf0\
+      \ in site-packages (177.0)\n  Preparing metadata (pyproject.toml): finished\
+      \ with status 'done'\n  Downloading wheel_2ac354-1.379.0-py3-none-any.whl (41\
+      \ kB)\nfinished step\nnext\nidle\n"
+  - id: p0
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q0
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p1
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q1
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p2
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q2
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p3
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q3
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p4
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q4
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p5
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q5
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p6
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q6
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: u2
+    role: user
+    kind: text
+    text: Summarise what we found.
+  essential:
+  - numpy-1.26.4
+  - pandas-2.2.1
+  note: ''
+- id: cg2-holdout-004
+  lang: en
+  items:
+  - id: u1
+    role: user
+    kind: text
+    text: No restarts during business hours.
+  - id: c0
+    role: assistant
+    kind: tool_call
+    text: run kubectl
+  - id: r0
+    role: tool
+    kind: tool_result
+    tool: kubectl
+    text: "  Normal  Created    323m   kubelet  Created container sidecar-48437d\n\
+      \  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Started\
+      \    157m   kubelet  Started container sidecar-aa1117\n  Tolerations: node.kubernetes.io/not-ready\
+      \ op=Exists for 300s\n  Normal  Created    292m   kubelet  Created container\
+      \ sidecar-0269c5\n  Normal  Pulled     245m   kubelet  Container image already\
+      \ present on machine\n  Normal  Pulled     260m   kubelet  Container image already\
+      \ present on machine\n  Normal  Started    266m   kubelet  Started container\
+      \ sidecar-1b0614\n  Normal  Started    204m   kubelet  Started container sidecar-0eac05\n\
+      \  Normal  Started    242m   kubelet  Started container sidecar-1e2a94\n  Normal\
+      \  Pulled     123m   kubelet  Container image already present on machine\n \
+      \ Normal  Started    5m   kubelet  Started container sidecar-4e3f3f\n  Tolerations:\
+      \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Started    191m\
+      \   kubelet  Started container sidecar-84e622\n  Normal  Created    394m   kubelet\
+      \  Created container sidecar-b144d9\n  Normal  Created    274m   kubelet  Created\
+      \ container sidecar-48a830\n  Normal  Started    182m   kubelet  Started container\
+      \ sidecar-9ea899\n  Normal  Created    34m   kubelet  Created container sidecar-dc5a8e\n\
+      \  Normal  Started    258m   kubelet  Started container sidecar-95e93b\n  Normal\
+      \  Started    316m   kubelet  Started container sidecar-ccbdc5\n  Normal  Pulled\
+      \     390m   kubelet  Container image already present on machine\n  Normal \
+      \ Created    359m   kubelet  Created container sidecar-4de695\n  Normal  Started\
+      \    135m   kubelet  Started container sidecar-6ee76a\n  Normal  Created   \
+      \ 177m   kubelet  Created container sidecar-a6ee92\n  Normal  Started    267m\
+      \   kubelet  Started container sidecar-c958b1\n  Tolerations: node.kubernetes.io/not-ready\
+      \ op=Exists for 300s\n  Normal  Created    158m   kubelet  Created container\
+      \ sidecar-450bed\n  Normal  Pulled     137m   kubelet  Container image already\
+      \ present on machine\n  Normal  Pulled     295m   kubelet  Container image already\
+      \ present on machine\n  Normal  Started    8m   kubelet  Started container sidecar-64627a\n\
+      \  Normal  Pulled     253m   kubelet  Container image already present on machine\n\
+      \  Normal  Started    41m   kubelet  Started container sidecar-0c66e8\n  Normal\
+      \  Created    90m   kubelet  Created container sidecar-b411c6\n  Normal  Pulled\
+      \     84m   kubelet  Container image already present on machine\n  Normal  Pulled\
+      \     402m   kubelet  Container image already present on machine\n  Normal \
+      \ Created    16m   kubelet  Created container sidecar-e8b25f\n  Normal  Created\
+      \    261m   kubelet  Created container sidecar-3d23e0\n  Normal  Pulled    \
+      \ 189m   kubelet  Container image already present on machine\n  Normal  Pulled\
+      \     57m   kubelet  Container image already present on machine\n  Normal  Created\
+      \    31m   kubelet  Created container sidecar-9020ac\n  Normal  Started    142m\
+      \   kubelet  Started container sidecar-26350d\n  Normal  Created    110m   kubelet\
+      \  Created container sidecar-ee7477\n  Normal  Pulled     348m   kubelet  Container\
+      \ image already present on machine\n  Normal  Pulled     112m   kubelet  Container\
+      \ image already present on machine\n  Normal  Created    269m   kubelet  Created\
+      \ container sidecar-75ef3a\n  Normal  Started    102m   kubelet  Started container\
+      \ sidecar-c1fcf2\n  Tolerations: node.kubernetes.io/not-ready op=Exists for\
+      \ 300s\n  Normal  Started    265m   kubelet  Started container sidecar-16bb78\n\
+      \  Normal  Started    77m   kubelet  Started container sidecar-fc86d0\n  Normal\
+      \  Pulled     134m   kubelet  Container image already present on machine\n \
+      \ Normal  Pulled     16m   kubelet  Container image already present on machine\n\
+      \  Normal  Pulled     364m   kubelet  Container image already present on machine\n\
+      \  Normal  Started    23m   kubelet  Started container sidecar-7dc9ae\n  Normal\
+      \  Pulled     254m   kubelet  Container image already present on machine\n \
+      \ Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Pulled\
+      \     338m   kubelet  Container image already present on machine\n  Tolerations:\
+      \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Pulled     179m\
+      \   kubelet  Container image already present on machine\n  Normal  Pulled  \
+      \   64m   kubelet  Container image already present on machine\n  Normal  Started\
+      \    361m   kubelet  Started container sidecar-95b90f\nworker-5c8   0/1   CrashLoopBackOff\
+      \   14   31m\n  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n\
+      \  Normal  Started    166m   kubelet  Started container sidecar-a9966a\n  Normal\
+      \  Pulled     87m   kubelet  Container image already present on machine\n  Normal\
+      \  Created    241m   kubelet  Created container sidecar-07eb9a\n  Normal  Created\
+      \    3m   kubelet  Created container sidecar-2126e1\n  Normal  Started    202m\
+      \   kubelet  Started container sidecar-0bd240\n  Normal  Pulled     43m   kubelet\
+      \  Container image already present on machine\n  Normal  Started    265m   kubelet\
+      \  Started container sidecar-f75db2\n  Normal  Created    14m   kubelet  Created\
+      \ container sidecar-4dbb7c\n  Normal  Pulled     102m   kubelet  Container image\
+      \ already present on machine\n  Normal  Started    329m   kubelet  Started container\
+      \ sidecar-398902\n  Normal  Created    400m   kubelet  Created container sidecar-2569d9\n\
+      \  Normal  Pulled     302m   kubelet  Container image already present on machine\n\
+      \  Normal  Pulled     151m   kubelet  Container image already present on machine\n\
+      \  Normal  Created    307m   kubelet  Created container sidecar-7d8538\n  Tolerations:\
+      \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Started    141m\
+      \   kubelet  Started container sidecar-d33751\n  Tolerations: node.kubernetes.io/not-ready\
+      \ op=Exists for 300s\n  Tolerations: node.kubernetes.io/not-ready op=Exists\
+      \ for 300s\n  Normal  Started    395m   kubelet  Started container sidecar-eb5c7a\n\
+      \  Normal  Started    198m   kubelet  Started container sidecar-d99486\n  Tolerations:\
+      \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Started    263m\
+      \   kubelet  Started container sidecar-0ff0e9\n  Normal  Started    117m   kubelet\
+      \  Started container sidecar-ddc5cd\n  Tolerations: node.kubernetes.io/not-ready\
+      \ op=Exists for 300s\n  Normal  Pulled     327m   kubelet  Container image already\
+      \ present on machine\n  Tolerations: node.kubernetes.io/not-ready op=Exists\
+      \ for 300s\n  Normal  Created    298m   kubelet  Created container sidecar-c7161e\n\
+      \  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Created\
+      \    394m   kubelet  Created container sidecar-2a59b4\n  Tolerations: node.kubernetes.io/not-ready\
+      \ op=Exists for 300s\n  Normal  Pulled     207m   kubelet  Container image already\
+      \ present on machine\n  Normal  Pulled     229m   kubelet  Container image already\
+      \ present on machine\n  Tolerations: node.kubernetes.io/not-ready op=Exists\
+      \ for 300s\n  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n\
+      \  Normal  Started    293m   kubelet  Started container sidecar-dae726\n  Normal\
+      \  Started    9m   kubelet  Started container sidecar-a5a660\n  Normal  Created\
+      \    165m   kubelet  Created container sidecar-b0ac94\n  Tolerations: node.kubernetes.io/not-ready\
+      \ op=Exists for 300s\n  Normal  Started    389m   kubelet  Started container\
+      \ sidecar-4bb6c3\n  Normal  Created    362m   kubelet  Created container sidecar-16b475\n\
+      \  Normal  Created    332m   kubelet  Created container sidecar-d376eb\n  Tolerations:\
+      \ node.kubernetes.io/not-ready op=Exists for 300s\n  Tolerations: node.kubernetes.io/not-ready\
+      \ op=Exists for 300s\n  Normal  Created    33m   kubelet  Created container\
+      \ sidecar-f011ef\nfinished step\nnext\nidle\n"
+  - id: p0
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q0
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p1
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q1
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p2
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q2
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p3
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q3
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p4
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q4
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p5
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q5
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p6
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q6
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: u2
+    role: user
+    kind: text
+    text: Summarise what we found.
+  essential:
+  - CrashLoopBackOff
+  note: ''
+- id: cg2-holdout-005
+  lang: en
+  items:
+  - id: u1
+    role: user
+    kind: text
+    text: Leave the firewall as is.
+  - id: c0
+    role: assistant
+    kind: tool_call
+    text: run curl
+  - id: r0
+    role: tool
+    kind: tool_result
+    tool: curl
+    text: "< x-request-id: affc09affc09\n< x-request-id: fbb1e4fbb1e4\n* TLSv1.3 (IN),\
+      \ TLS handshake, record 103\n< x-request-id: 7d3c947d3c94\n* TLSv1.3 (IN), TLS\
+      \ handshake, record 129\n> User-Agent: probe/60\n* TLSv1.3 (IN), TLS handshake,\
+      \ record 299\n< x-request-id: 923373923373\n< x-request-id: cb051bcb051b\n*\
+      \ TLSv1.3 (IN), TLS handshake, record 107\n< x-request-id: b56476b56476\n> User-Agent:\
+      \ probe/377\n* TLSv1.3 (IN), TLS handshake, record 196\n* Added 6df9d1 to connection\
+      \ cache\n> User-Agent: probe/58\n< x-request-id: 638248638248\n* Added 885f12\
+      \ to connection cache\n* TLSv1.3 (IN), TLS handshake, record 249\n> User-Agent:\
+      \ probe/233\n* TLSv1.3 (IN), TLS handshake, record 219\n> User-Agent: probe/104\n\
+      * Added e04a56 to connection cache\n* TLSv1.3 (IN), TLS handshake, record 182\n\
+      > User-Agent: probe/206\n* TLSv1.3 (IN), TLS handshake, record 172\n* TLSv1.3\
+      \ (IN), TLS handshake, record 347\n* TLSv1.3 (IN), TLS handshake, record 200\n\
+      * TLSv1.3 (IN), TLS handshake, record 70\n* TLSv1.3 (IN), TLS handshake, record\
+      \ 202\n< x-request-id: b21d0ab21d0a\n* Added 3f1532 to connection cache\n> User-Agent:\
+      \ probe/235\n> User-Agent: probe/373\n< x-request-id: 007ff8007ff8\n* TLSv1.3\
+      \ (IN), TLS handshake, record 128\n* Added 1148fc to connection cache\n> User-Agent:\
+      \ probe/167\n> User-Agent: probe/48\n< x-request-id: 9360db9360db\n* TLSv1.3\
+      \ (IN), TLS handshake, record 276\n> User-Agent: probe/207\n> User-Agent: probe/268\n\
+      < x-request-id: 8ba8b28ba8b2\n< x-request-id: 340e90340e90\n< x-request-id:\
+      \ 3a9c923a9c92\n* TLSv1.3 (IN), TLS handshake, record 195\n* TLSv1.3 (IN), TLS\
+      \ handshake, record 22\n> User-Agent: probe/285\n* Added a5e904 to connection\
+      \ cache\n* TLSv1.3 (IN), TLS handshake, record 276\n* TLSv1.3 (IN), TLS handshake,\
+      \ record 340\n* TLSv1.3 (IN), TLS handshake, record 185\n* Added a29b84 to connection\
+      \ cache\n> User-Agent: probe/61\n* TLSv1.3 (IN), TLS handshake, record 248\n\
+      < x-request-id: 4a6cf64a6cf6\n* Added fd164b to connection cache\n< x-request-id:\
+      \ 862907862907\n* TLSv1.3 (IN), TLS handshake, record 320\n* Added cb009a to\
+      \ connection cache\n< HTTP/2 429 \n* TLSv1.3 (IN), TLS handshake, record 29\n\
+      * Added aa4fe1 to connection cache\n> User-Agent: probe/372\n> User-Agent: probe/50\n\
+      > User-Agent: probe/142\n> User-Agent: probe/251\n* TLSv1.3 (IN), TLS handshake,\
+      \ record 131\n< x-request-id: 8a54558a5455\n* TLSv1.3 (IN), TLS handshake, record\
+      \ 275\n* Added 37fefc to connection cache\n* Added e723ce to connection cache\n\
+      * Added 2f03e7 to connection cache\n< x-request-id: 476a35476a35\n< x-request-id:\
+      \ a57417a57417\n* Added 238384 to connection cache\n* TLSv1.3 (IN), TLS handshake,\
+      \ record 41\n* Added b90fa1 to connection cache\n* Added 3cb350 to connection\
+      \ cache\n> User-Agent: probe/260\n> User-Agent: probe/207\n* TLSv1.3 (IN), TLS\
+      \ handshake, record 49\n< x-request-id: 694486694486\n> User-Agent: probe/196\n\
+      < x-request-id: a5d947a5d947\n* Added 142a16 to connection cache\n< x-request-id:\
+      \ e8d816e8d816\n* Added 54bcc2 to connection cache\n> User-Agent: probe/137\n\
+      * TLSv1.3 (IN), TLS handshake, record 397\n> User-Agent: probe/121\n> User-Agent:\
+      \ probe/238\n> User-Agent: probe/49\n* TLSv1.3 (IN), TLS handshake, record 123\n\
+      > User-Agent: probe/43\n> User-Agent: probe/193\n< x-request-id: f2c335f2c335\n\
+      < x-request-id: 9700d79700d7\n> User-Agent: probe/171\n* TLSv1.3 (IN), TLS handshake,\
+      \ record 172\n* TLSv1.3 (IN), TLS handshake, record 241\n* TLSv1.3 (IN), TLS\
+      \ handshake, record 13\n* Added b1bfc1 to connection cache\n> User-Agent: probe/300\n\
+      * TLSv1.3 (IN), TLS handshake, record 249\n* Added 4f0c70 to connection cache\n\
+      finished step\nnext\nidle\n"
+  - id: p0
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q0
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p1
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q1
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p2
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q2
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p3
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q3
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p4
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q4
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p5
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q5
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p6
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q6
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: u2
+    role: user
+    kind: text
+    text: Summarise what we found.
+  essential:
+  - HTTP/2 429
+  note: ''
+- id: cg2-holdout-006
+  lang: en
+  items:
+  - id: u1
+    role: user
+    kind: text
+    text: Use the staging database only.
+  - id: c0
+    role: assistant
+    kind: tool_call
+    text: run app
+  - id: r0
+    role: tool
+    kind: tool_result
+    tool: app
+    text: '65 rows migrated in batch b8d613
+
+      vacuum pass 302: 624154 pages scanned
+
+      batch 43f135: committed after 92 ms
+
+      batch 025606: committed after 314 ms
+
+      batch c5f825: committed after 143 ms
+
+      checkpoint 76 written (816da6)
+
+      checkpoint 5 written (64f2a3)
+
+      checkpoint 90 written (afebef)
+
+      362 rows migrated in batch af3964
+
+      checkpoint 323 written (59ac92)
+
+      vacuum pass 71: 7a1919 pages scanned
+
+      410 rows migrated in batch b47565
+
+      164 rows migrated in batch 49e989
+
+      checkpoint 139 written (3edd06)
+
+      batch b58aea: committed after 324 ms
+
+      checkpoint 142 written (df0069)
+
+      batch 265564: committed after 102 ms
+
+      vacuum pass 236: 67161b pages scanned
+
+      batch c02d51: committed after 383 ms
+
+      checkpoint 398 written (31eaaf)
+
+      112 rows migrated in batch c8b20f
+
+      vacuum pass 348: e383b5 pages scanned
+
+      110 rows migrated in batch b6ff37
+
+      checkpoint 37 written (88a3d9)
+
+      checkpoint 128 written (810894)
+
+      batch 1c7d73: committed after 406 ms
+
+      checkpoint 192 written (feec5e)
+
+      189 rows migrated in batch c54a78
+
+      286 rows migrated in batch f03aa7
+
+      batch 267cb7: committed after 384 ms
+
+      batch c59cb6: committed after 9 ms
+
+      checkpoint 123 written (cdb951)
+
+      checkpoint 268 written (dea807)
+
+      359 rows migrated in batch 8eaee1
+
+      checkpoint 262 written (ad08f0)
+
+      batch dd877b: committed after 327 ms
+
+      vacuum pass 188: 555d3e pages scanned
+
+      vacuum pass 192: c473a8 pages scanned
+
+      vacuum pass 170: c25342 pages scanned
+
+      batch befc8b: committed after 382 ms
+
+      checkpoint 337 written (5cfa8a)
+
+      checkpoint 99 written (92d8f3)
+
+      vacuum pass 237: e8db18 pages scanned
+
+      batch 8eb08c: committed after 171 ms
+
+      vacuum pass 210: 6a5859 pages scanned
+
+      369 rows migrated in batch ad9d55
+
+      batch e1b567: committed after 139 ms
+
+      71 rows migrated in batch e1e840
+
+      196 rows migrated in batch 528a30
+
+      batch 60d758: committed after 297 ms
+
+      checkpoint 314 written (db314f)
+
+      241 rows migrated in batch 79d27e
+
+      vacuum pass 147: 32dffe pages scanned
+
+      vacuum pass 275: 25425d pages scanned
+
+      vacuum pass 164: 0b755b pages scanned
+
+      vacuum pass 116: 6561b2 pages scanned
+
+      241 rows migrated in batch e14579
+
+      vacuum pass 122: 5f02e0 pages scanned
+
+      340 rows migrated in batch 8cdeed
+
+      checkpoint 104 written (f4882f)
+
+      connect ECONNREFUSED 127.0.0.1:5432
+
+      batch e8abd2: committed after 116 ms
+
+      21 rows migrated in batch 6285ec
+
+      checkpoint 101 written (32af33)
+
+      batch 6c317b: committed after 27 ms
+
+      checkpoint 369 written (f78487)
+
+      308 rows migrated in batch b306ac
+
+      vacuum pass 245: 89d02a pages scanned
+
+      batch 84178c: committed after 192 ms
+
+      335 rows migrated in batch a3c764
+
+      batch 0ae5a9: committed after 95 ms
+
+      batch 51f434: committed after 80 ms
+
+      164 rows migrated in batch d716d7
+
+      45 rows migrated in batch 73cbec
+
+      checkpoint 134 written (e6d664)
+
+      249 rows migrated in batch 9854b3
+
+      batch e82216: committed after 313 ms
+
+      314 rows migrated in batch bcd4c2
+
+      229 rows migrated in batch 3e11e9
+
+      268 rows migrated in batch 76d91a
+
+      checkpoint 339 written (87d5e3)
+
+      vacuum pass 233: 7960d1 pages scanned
+
+      328 rows migrated in batch 7f56a6
+
+      392 rows migrated in batch 7e6bf0
+
+      checkpoint 82 written (ca268d)
+
+      batch 242c6e: committed after 339 ms
+
+      264 rows migrated in batch ddc00a
+
+      vacuum pass 188: abd355 pages scanned
+
+      checkpoint 294 written (33fd46)
+
+      checkpoint 52 written (ae45a4)
+
+      vacuum pass 360: 28b45b pages scanned
+
+      checkpoint 141 written (ee2287)
+
+      vacuum pass 30: 28f3fc pages scanned
+
+      batch b65ad3: committed after 278 ms
+
+      153 rows migrated in batch 22ca33
+
+      vacuum pass 35: 6fef96 pages scanned
+
+      178 rows migrated in batch 8cfefa
+
+      checkpoint 245 written (cd138e)
+
+      vacuum pass 51: e2ae43 pages scanned
+
+      vacuum pass 115: 071bfa pages scanned
+
+      checkpoint 336 written (381aa5)
+
+      349 rows migrated in batch e42567
+
+      checkpoint 272 written (5d7a7d)
+
+      checkpoint 357 written (970c8c)
+
+      321 rows migrated in batch 9505c5
+
+      batch f1f662: committed after 211 ms
+
+      finished step
+
+      next
+
+      idle
+
+      '
+  - id: p0
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q0
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p1
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q1
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p2
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q2
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p3
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q3
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p4
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q4
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p5
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q5
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p6
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q6
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: u2
+    role: user
+    kind: text
+    text: Summarise what we found.
+  essential:
+  - ECONNREFUSED 127.0.0.1:5432
+  note: ''
+- id: cg2-holdout-007
+  lang: en
+  items:
+  - id: u1
+    role: user
+    kind: text
+    text: Report latency exactly.
+  - id: c0
+    role: assistant
+    kind: tool_call
+    text: run probe
+  - id: r0
+    role: tool
+    kind: tool_result
+    tool: probe
+    text: '> User-Agent: probe/60
+
+      < x-request-id: b592b6b592b6
+
+      < x-request-id: abd37babd37b
+
+      * TLSv1.3 (IN), TLS handshake, record 176
+
+      * TLSv1.3 (IN), TLS handshake, record 163
+
+      * Added faa117 to connection cache
+
+      < x-request-id: 85c44785c447
+
+      * Added a62540 to connection cache
+
+      > User-Agent: probe/167
+
+      < x-request-id: b051eab051ea
+
+      * Added 1b9720 to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 392
+
+      * Added a1d697 to connection cache
+
+      * Added 20723c to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 387
+
+      > User-Agent: probe/153
+
+      < x-request-id: 802362802362
+
+      > User-Agent: probe/110
+
+      > User-Agent: probe/317
+
+      < x-request-id: b5b685b5b685
+
+      * Added d498f9 to connection cache
+
+      < x-request-id: 403fa9403fa9
+
+      * Added 0d4a95 to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 132
+
+      * Added e90b89 to connection cache
+
+      > User-Agent: probe/118
+
+      * Added 49484d to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 23
+
+      < x-request-id: 0dfc730dfc73
+
+      * TLSv1.3 (IN), TLS handshake, record 106
+
+      * Added 89ea60 to connection cache
+
+      < x-request-id: 8e560d8e560d
+
+      > User-Agent: probe/52
+
+      > User-Agent: probe/76
+
+      * Added 963a72 to connection cache
+
+      > User-Agent: probe/315
+
+      * Added e3e927 to connection cache
+
+      > User-Agent: probe/129
+
+      < x-request-id: 92c5dd92c5dd
+
+      < x-request-id: 3d1f7e3d1f7e
+
+      * TLSv1.3 (IN), TLS handshake, record 347
+
+      > User-Agent: probe/242
+
+      * Added f239d7 to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 342
+
+      * Added c6ef30 to connection cache
+
+      < x-request-id: 7b43ee7b43ee
+
+      > User-Agent: probe/159
+
+      * TLSv1.3 (IN), TLS handshake, record 140
+
+      * Added b0accc to connection cache
+
+      > User-Agent: probe/153
+
+      < x-request-id: fb8901fb8901
+
+      > User-Agent: probe/213
+
+      * TLSv1.3 (IN), TLS handshake, record 63
+
+      * TLSv1.3 (IN), TLS handshake, record 126
+
+      * TLSv1.3 (IN), TLS handshake, record 243
+
+      * Added 17f5bc to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 255
+
+      > User-Agent: probe/14
+
+      < x-request-id: 39a64e39a64e
+
+      * TLSv1.3 (IN), TLS handshake, record 352
+
+      {"p99_ms":4200,"region":"eu-1"}
+
+      < x-request-id: 7d48577d4857
+
+      < x-request-id: fb50fcfb50fc
+
+      < x-request-id: edc84cedc84c
+
+      < x-request-id: b5e0d3b5e0d3
+
+      < x-request-id: 893120893120
+
+      > User-Agent: probe/163
+
+      * Added 473066 to connection cache
+
+      > User-Agent: probe/48
+
+      < x-request-id: ef7d6aef7d6a
+
+      * Added b6d5e0 to connection cache
+
+      > User-Agent: probe/93
+
+      * TLSv1.3 (IN), TLS handshake, record 154
+
+      < x-request-id: 589854589854
+
+      < x-request-id: 810360810360
+
+      * Added ddd8b9 to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 318
+
+      * Added 126d67 to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 180
+
+      * TLSv1.3 (IN), TLS handshake, record 229
+
+      * Added c6f65d to connection cache
+
+      > User-Agent: probe/331
+
+      < x-request-id: 8c48938c4893
+
+      * TLSv1.3 (IN), TLS handshake, record 60
+
+      * TLSv1.3 (IN), TLS handshake, record 298
+
+      * TLSv1.3 (IN), TLS handshake, record 235
+
+      * TLSv1.3 (IN), TLS handshake, record 332
+
+      > User-Agent: probe/370
+
+      * Added ee6839 to connection cache
+
+      < x-request-id: e61f15e61f15
+
+      * TLSv1.3 (IN), TLS handshake, record 139
+
+      * TLSv1.3 (IN), TLS handshake, record 197
+
+      * Added 8e995f to connection cache
+
+      * TLSv1.3 (IN), TLS handshake, record 259
+
+      < x-request-id: 68a1c668a1c6
+
+      * Added 703db4 to connection cache
+
+      * Added aaa1a5 to connection cache
+
+      < x-request-id: 6248c76248c7
+
+      > User-Agent: probe/157
+
+      * TLSv1.3 (IN), TLS handshake, record 127
+
+      * Added 4f997b to connection cache
+
+      < x-request-id: 68337a68337a
+
+      * TLSv1.3 (IN), TLS handshake, record 51
+
+      > User-Agent: probe/136
+
+      * TLSv1.3 (IN), TLS handshake, record 192
+
+      * TLSv1.3 (IN), TLS handshake, record 98
+
+      finished step
+
+      next
+
+      idle
+
+      '
+  - id: p0
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q0
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p1
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q1
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p2
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q2
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p3
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q3
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p4
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q4
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p5
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q5
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p6
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q6
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: u2
+    role: user
+    kind: text
+    text: Summarise what we found.
+  essential:
+  - p99_ms
+  note: ''
+- id: cg2-holdout-008
+  lang: en
+  items:
+  - id: u1
+    role: user
+    kind: text
+    text: Quote the exact segfault line.
+  - id: c0
+    role: assistant
+    kind: tool_call
+    text: run render
+  - id: r0
+    role: tool
+    kind: tool_result
+    tool: render
+    text: "[  8/412] Building object 87901c\n[info] resolving unit c006c5 (359 of\
+      \ 412)\n  LD  lib0e8a26.a\n[149/412] Building object eab6a9\n[info] resolving\
+      \ unit 23fedb (316 of 412)\n  LD  lib4c8914.a\n[info] resolving unit 50d1c8\
+      \ (298 of 412)\n  CC  obj/811b07.o\n[347/412] Building object 548e24\n[ 33/412]\
+      \ Building object 15c3ec\n[157/412] Building object d1dc1c\n  CC  obj/4b7b70.o\n\
+      [403/412] Building object 20ee10\n[168/412] Building object ca64a1\n[368/412]\
+      \ Building object 5f08d5\n[info] resolving unit 12f0b0 (101 of 412)\n  LD  lib14d8f0.a\n\
+      [267/412] Building object f611b9\n[127/412] Building object a5049c\n  CC  obj/3533c9.o\n\
+      [325/412] Building object 5c50bb\n[info] resolving unit 14ffe2 (64 of 412)\n\
+      [info] resolving unit 15399a (83 of 412)\n  LD  libcfed3e.a\n  LD  lib03f42c.a\n\
+      \  CC  obj/680ad6.o\n  CC  obj/bddf49.o\n[info] resolving unit 43798d (267 of\
+      \ 412)\n[225/412] Building object 6c1f4e\n  CC  obj/1f18a8.o\n[info] resolving\
+      \ unit 498106 (337 of 412)\n[info] resolving unit 88cb05 (298 of 412)\n  LD\
+      \  lib321750.a\n[info] resolving unit 4ea832 (57 of 412)\n  CC  obj/2d3527.o\n\
+      [info] resolving unit acc14a (314 of 412)\n[info] resolving unit 483a0a (87\
+      \ of 412)\n[info] resolving unit ec0f33 (194 of 412)\n[ 42/412] Building object\
+      \ 0b0324\n  LD  lib6c477c.a\n[370/412] Building object 6be441\n[info] resolving\
+      \ unit 92341b (342 of 412)\n  CC  obj/813581.o\n[info] resolving unit 836f9f\
+      \ (204 of 412)\n[info] resolving unit 33da31 (53 of 412)\n[info] resolving unit\
+      \ 21571d (331 of 412)\n  CC  obj/8fe309.o\n  LD  lib5c9f23.a\n  CC  obj/f26bf4.o\n\
+      [ 10/412] Building object b11297\n  LD  libeaabb5.a\n  LD  libac29b4.a\n  LD\
+      \  lib72837c.a\n  CC  obj/f0d8ec.o\n  LD  lib124ac6.a\n[info] resolving unit\
+      \ 8bcce8 (361 of 412)\n  CC  obj/2bc38b.o\n[365/412] Building object 1218eb\n\
+      [info] resolving unit 2eaa1a (50 of 412)\n  CC  obj/07660d.o\nSegmentation fault\
+      \ (core dumped)\n[251/412] Building object f1b2f0\n  LD  lib7c3b46.a\n[352/412]\
+      \ Building object baf4fe\n[411/412] Building object aff839\n[144/412] Building\
+      \ object 11651e\n  LD  lib4345cb.a\n  LD  lib9c2b37.a\n[info] resolving unit\
+      \ e3d8d7 (183 of 412)\n[info] resolving unit da9ffd (57 of 412)\n  CC  obj/c9f03e.o\n\
+      \  LD  libfc3472.a\n[info] resolving unit f82e54 (132 of 412)\n[291/412] Building\
+      \ object d7a024\n[info] resolving unit 6f1b13 (278 of 412)\n  CC  obj/2d054a.o\n\
+      \  LD  lib7d4335.a\n  CC  obj/ea9b86.o\n[info] resolving unit cfbadc (343 of\
+      \ 412)\n[info] resolving unit ec6601 (116 of 412)\n[ 28/412] Building object\
+      \ 2ce66f\n[info] resolving unit 5adf8d (178 of 412)\n  CC  obj/48b8ed.o\n[info]\
+      \ resolving unit d35184 (374 of 412)\n[190/412] Building object c574e0\n[info]\
+      \ resolving unit 930341 (9 of 412)\n[info] resolving unit 21aa12 (97 of 412)\n\
+      [info] resolving unit 7ac572 (17 of 412)\n  CC  obj/3602ca.o\n  LD  libb5d170.a\n\
+      \  LD  lib43a68a.a\n  CC  obj/592942.o\n[154/412] Building object 1479cd\n[info]\
+      \ resolving unit 1bea82 (192 of 412)\n[137/412] Building object 1c4513\n  LD\
+      \  lib4bd2c2.a\n[234/412] Building object 525e7b\n  LD  libbae72c.a\n[351/412]\
+      \ Building object e61a8b\n[info] resolving unit 1f7f21 (344 of 412)\n  LD  libc7c59a.a\n\
+      \  CC  obj/a9f8ba.o\n[info] resolving unit 980fed (170 of 412)\n[265/412] Building\
+      \ object c03094\n[info] resolving unit da8cfc (171 of 412)\n  CC  obj/8d6397.o\n\
+      finished step\nnext\nidle\n"
+  - id: p0
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q0
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p1
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q1
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p2
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q2
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p3
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q3
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p4
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q4
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p5
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q5
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: p6
+    role: assistant
+    kind: tool_call
+    text: check
+  - id: q6
+    role: tool
+    kind: tool_result
+    tool: check
+    text: ok
+  - id: u2
+    role: user
+    kind: text
+    text: Summarise what we found.
+  essential:
+  - Segmentation fault (core dumped)
+  note: ''
