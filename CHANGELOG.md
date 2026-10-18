@@ -7,6 +7,12 @@ Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run
 
 ## [Unreleased]
 
+### Run 3 — R3.2H Open-Jev v3 optimisation and independent evaluation (branch `feature/run3-openjev-optimization`, not merged)
+
+- 107 new scenario families (cal 33 / opt 31 / frozen final 43), research scorer returning full probabilities, cached score client with a memory guard, deterministic prefilter, alias/ensemble modes. Nothing registered or activated.
+- Frozen final (43 families): shipped Open-Jev 3/7 gates, 17 % forbidden choices (NO-GO); optimised hybrid (alias + prefilter) 7/7, 0 forbidden, acceptable .759 vs deterministic prefilter .667 (CI of the difference −4…+24 points) => SHADOW-ONLY candidate at most.
+- Open-Jev is exactly option-order invariant (max probability difference 0.0). Calibration/abstention did not make confidence trustworthy. Decider/Kev/SemIf NOT MEASURED. See `audit/openjev-v3-closure-2026-10-18.md`.
+
 ### Run 3 — R3.1 SystemOne router wiring (branch `feature/run3-local-intelligence`, not merged)
 
 - The router's `fastgate` stage now runs a real SystemOne decision step: one typed question

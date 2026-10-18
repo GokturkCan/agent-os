@@ -1,5 +1,5 @@
 {
-  "note": "Reviewed hashes of protected policy/eval files. Refresh only after human review (agentos manifest --write). Current values were refreshed mechanically by agentos manifest --write during PR #3 remediation (incl. runtime activation guard): NOT human approval; see audit/protected-delta-vs-main-r3.2.json.",
+  "note": "Reviewed hashes of protected policy/eval files. Refresh only after human review (agentos manifest --write). Current values were refreshed mechanically by agentos manifest --write during the Open-Jev v3 study (R3.2H): NOT human approval; see audit/protected-delta-vs-r3.2-tip-r3.2h.json.",
   "files": {
     "CLAUDE.md": "2bc1baa1dbfd8c08bf1490ee0df257546fdf499a6e60d8aca26223346a1a85a2",
     "agentos/githooks/pre-push": "dc73b4e24f45ed93b3cbf9c42edf54c8ca7e7bea8ac06835fb316813f47e19da",
@@ -20,6 +20,9 @@
     "evals/data/modules/contextgate-suite-v1.yaml": "7dda050b0e0bafdfe8a69b1ba73f1ec91b663170edb35f6c82e6c81ebd758eb0",
     "evals/data/modules/toolpruner-suite-v1.yaml": "72ebb1df2b00245f7423e3408c1294461790a8515e9443597be93e7664207b9f",
     "evals/data/modules/wakegate-suite-v1.yaml": "c505146d237a30a3651190e95e9ac144f23083a770c74e0f42dd8411157b9b75",
+    "evals/data/openjev-v3-cal.yaml": "a5aa118fd7f6b05b81c86fda94058fd3deaf3c3ccb9109679bb4405d199225d5",
+    "evals/data/openjev-v3-final.yaml": "c707921a14c50cb9d20d9c1503d67961be8bcf9294ec6fe1036c5cfa7a538a41",
+    "evals/data/openjev-v3-opt.yaml": "c6318e69561473cd04fef7e7f9cff28d7e5e969e64a69f45dcccc16c7251cef8",
     "evals/data/systemone-decisions-v1.yaml": "30e211a6ea922d6ad0ae7f1a5a65a5719a8c213efb8168f48fc991d4e7412396",
     "evals/data/systemone-heldout-v1.yaml": "3affe3b44a1734357f32a5675540f9dedf9d6802715385f6607c7c781b2e6253",
     "evals/data/systemone-heldout-v2.yaml": "c35d90cd91c1c855102fa05f9ad0054c6d8086e40bed40a77472871e5e2026cc",
@@ -43,6 +46,7 @@
     "evals/test_hermes_integration.py": "8df503be8fb98c299602bb641fdb44877d500fec52dc56ba1acd87671559427b",
     "evals/test_intent_routing.py": "88bf3c2a5d1ea9035f14bdd7b5560e0ee001c480e281448e6ccd8fe77d8d2e20",
     "evals/test_laya_smoke.py": "347c60d6a49bc97c8ad62c36ed8cc27a9d47a42b8caceaaa29b44aeb7e7d2273",
+    "evals/test_openjev_opt.py": "6b7fd0efdfada4c86b1c76b19494aa202770b57083c83974c2e4ad9e3433c536",
     "evals/test_policy_protection.py": "824907bc5b7b74d52b8078032380950822a722addd73f9046ca68c1600dff110",
     "evals/test_protected_manifest.py": "ef751717dfeddfbe12c2bf3d20cb2f589a867c8e8145e6dc8a1e3a86dba1b28d",
     "evals/test_r32g_modules.py": "506dfacf6b2113992c8e75147f3579cbbcb3887ddb3974550f34a986045aa139",
