@@ -1,0 +1,17 @@
+{
+ "idle_exit_seconds": 6,
+ "cold_first_decision_s": 11.05,
+ "warm_second_decision_s": 0.628,
+ "process_exited_when_idle": true,
+ "system_free_percent_while_idle": 75,
+ "restart_first_decision_s": 8.77,
+ "restart_worker_ready": {
+  "torch": "2.8.0",
+  "transformers": "5.10.2",
+  "python": "3.13.11",
+  "device": "mps",
+  "load_s": "6.764",
+  "warmup_s": "0.581",
+  "temperature": "1.518796342858676"
+ }
+}

@@ -1,0 +1,13 @@
+{
+ "note": "v3 datasets frozen BEFORE any v3 model output. final = never tuned on. Scorer/backend code hashes recorded so the baseline is reproducible.",
+ "frozen_utc": "2026-10-18T05:12:50.967991Z",
+ "files": {
+  "evals/data/openjev-v3-cal.yaml": "a5aa118fd7f6b05b81c86fda94058fd3deaf3c3ccb9109679bb4405d199225d5",
+  "evals/data/openjev-v3-opt.yaml": "c6318e69561473cd04fef7e7f9cff28d7e5e969e64a69f45dcccc16c7251cef8",
+  "evals/data/openjev-v3-final.yaml": "c707921a14c50cb9d20d9c1503d67961be8bcf9294ec6fe1036c5cfa7a538a41",
+  "scripts/openjev/author_v3.py": "4340300c5d56d72865b07d336be842656a9531928db462ad93ec7894f67073a5",
+  "agentos/openjev_opt.py": "3fd5ef75e1a6806099bafe2441aa68dd42bd9d691040bdf5696e4f6560f4af0f",
+  "agentos/systemone_workers/openjev_scorer.py": "2de9b594c29f7babee0f4f8ba0c35aabc616490f4b97e18f2ed9d7e67bed6461",
+  "scripts/openjev/run_study.py": "2ee4b438db7d4263f333ed089e08f2659e2135d40f693d52cc090804f6b513ec"
+ }
+}
