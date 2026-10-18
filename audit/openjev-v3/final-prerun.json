@@ -1,0 +1,12 @@
+{
+ "note": "Frozen BEFORE any model inference on the final partition. Systems to run once on final: base (shipped Open-Jev), base+pf, alias, alias+pf (selected on cal+opt), det, laya, baselines. No tuning after this point.",
+ "utc": "2026-10-18T05:46:21.338118Z",
+ "files": {
+  "evals/data/openjev-v3-final.yaml": "c707921a14c50cb9d20d9c1503d67961be8bcf9294ec6fe1036c5cfa7a538a41",
+  "agentos/openjev_opt.py": "f3bbc259fcc2b7b4ae5cff8ef1223336adc255847f432772357f5f185d83cec7",
+  "agentos/systemone_workers/openjev_scorer.py": "2de9b594c29f7babee0f4f8ba0c35aabc616490f4b97e18f2ed9d7e67bed6461",
+  "scripts/openjev/run_study.py": "17937d40d67245b262fc99c85922aefe13cac9d89aa614eb97a8a92c29f7ba7e",
+  "scripts/openjev/analyse.py": "2df0f52bdbaefcc874db370f34e1d76a139978952d968f72e26004c9a98899c3",
+  "audit/openjev-v3/selection.json": "83d9a2474cb14357ffc533c6b0ed282768e2d01c30f86248452785df0ad59e78"
+ }
+}

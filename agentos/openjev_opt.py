@@ -31,10 +31,27 @@ from .systemone_workers.laya_worker import criteria_for
 SCORER = "openjev_scorer.py"
 
 
+class MemoryThrash(RuntimeError):
+    """The scorer slowed down far beyond its normal latency: the machine is under memory pressure."""
+
+
+def system_free_percent() -> int | None:
+    """macOS `memory_pressure` system-wide free percentage, or None when unavailable."""
+    import re
+    import subprocess
+    try:
+        out = subprocess.run(["memory_pressure"], capture_output=True, text=True, timeout=10).stdout
+        m = re.search(r"free percentage:\s*(\d+)%", out)
+        return int(m.group(1)) if m else None
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+
+
 class ScoreClient:
     """Cached client for the research scorer. The cache key is the exact (state, prompt, criteria) payload, so identical requests are never rescored."""
 
-    def __init__(self, cfg, cache_path: str | os.PathLike | None = None, idle_exit_seconds: float = 0.0, timeout: float = 90.0):
+    def __init__(self, cfg, cache_path: str | os.PathLike | None = None, idle_exit_seconds: float = 0.0, timeout: float = 90.0,
+                 thrash_ms: float = 4000.0, min_free_percent: int = 15, offline: bool = False):
         conf = A.definitions(cfg)["openjev-2b"]
         argv = [A._expand(a, cfg, conf) for a in conf["argv"]]
         argv[1] = str(Path(argv[1]).with_name(SCORER))               # same python, same checkpoint args, research scorer script
@@ -42,7 +59,8 @@ class ScoreClient:
             argv += ["--idle-exit-seconds", str(idle_exit_seconds)]
         self.runtime = A.SubprocessJsonRuntime(argv, name="openjev-scorer", cwd=str(Path(cfg.root).resolve()),
                                                startup_timeout=240.0, cooldown=0.0)
-        self.timeout, self.cache, self.path = timeout, {}, Path(cache_path) if cache_path else None
+        self.min_free_percent, self.offline = min_free_percent, offline
+        self.timeout, self.thrash_ms, self.cache, self.path = timeout, thrash_ms, {}, Path(cache_path) if cache_path else None
         self.calls = self.hits = 0
         self.model_ms: list[float] = []
         if self.path and self.path.exists():
@@ -59,6 +77,8 @@ class ScoreClient:
         if k in self.cache:
             self.hits += 1
             return self.cache[k]
+        if self.offline:
+            raise KeyError("payload not in the score cache (offline client)")
         reply = self.runtime.ask({"state": state, "prompt": prompt, "criteria": criteria}, self.timeout)
         probs = reply.get("probs") if isinstance(reply, dict) else None
         if not (isinstance(probs, list) and len(probs) == len(criteria) and all(isinstance(p, (int, float)) and math.isfinite(p) for p in probs)
@@ -66,6 +86,14 @@ class ScoreClient:
             raise A.AdapterReject("malformed-output", "scorer reply")
         self.calls += 1
         self.model_ms.append(float(reply.get("ms") or 0.0))
+        if self.calls % 25 == 0 and (free := system_free_percent()) is not None and free < self.min_free_percent:
+            self.runtime.close()
+            raise MemoryThrash(f"system-wide free memory {free}% < {self.min_free_percent}%: stopping to protect the control plane")
+        recent = sorted(self.model_ms[-12:])
+        if len(recent) >= 12 and recent[len(recent) // 2] > self.thrash_ms:        # memory-safety guard on the 16 GB host
+            self.runtime.close()
+            raise MemoryThrash(f"median scoring time {recent[len(recent) // 2]:.0f} ms over the last 12 calls (> {self.thrash_ms:.0f}); "
+                               "the host is swapping - stopping instead of degrading the control plane")
         self.cache[k] = probs
         if self.path:
             self.path.parent.mkdir(parents=True, exist_ok=True)
