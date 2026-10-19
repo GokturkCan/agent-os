@@ -47,7 +47,9 @@ What the numbers mean:
   I also tried a bulk-mail defer rule; it **never fired** (every bulk fixture contains a must-wake trigger word by design), its benefit was unmeasured, so it was removed. Unnecessary wakes are unchanged.
 * New rules are deliberately broad substring/word-start matches: more false wakes/keeps are the accepted failure direction. Not covered: negations ("no errors"), non-EN/TR languages, free-form identifiers.
 
-### Neural vs deterministic on identical holdout fixtures (local Laya-MLX only; Open-Jev not run — 6.4 GiB, no need after the above)
+### Neural vs deterministic on identical holdout fixtures (local Laya-MLX only; Open-Jev not run here — 6.4 GiB, no need after the above)
+
+> Update (integration): Open-Jev-2B was evaluated separately and completed in R3.2H on its own frozen v3 partitions (`audit/openjev-v3-closure-2026-10-18.md`): shipped Open-Jev **NO-GO**; an optimised hybrid is a **SHADOW-ONLY research candidate, not approved**, and its advantage over the deterministic prefilter is not established (CI crosses zero). This does not change the conclusion below: deterministic rules first, no neural path wired.
 | | deterministic | + Laya | |
 |---|---|---|---|
 | ContextGate reduction / drops | 68.9% / 0 | 63.5% / 0, 8 calls, p50 28.6 ms, max 512 ms | model keeps *more*; no retention gain |
@@ -86,5 +88,4 @@ Design requirements distilled from the already-reviewed references (jev-ultrafas
 
 ## 5. Explicitly deferred
 LiteLLM/Vercel/Pydantic AI/Ollaya/open-jev-bridge integration (no unmet requirement); embedding retrieval (needs an approved model); neural pruning/compaction/wake models (no demonstrated gain);
-a deterministic bulk-mail defer rule (needs plain-bulk fixtures to prove value); wiring any module into Hermes/hooks (needs explicit approval); Open-Jev v3 independent evaluation (paused on branch
-`feature/run3-openjev-optimization`, no commits); autonomous browser/mobile control; human review of all fixtures.
+a deterministic bulk-mail defer rule (needs plain-bulk fixtures to prove value); wiring any module into Hermes/hooks (needs explicit approval); Open-Jev v3 independent evaluation (COMPLETED in R3.2H; see `audit/openjev-v3-closure-2026-10-18.md`: shipped NO-GO, hybrid SHADOW-ONLY, deterministic-first); autonomous browser/mobile control; human review of all fixtures.
