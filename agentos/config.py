@@ -14,7 +14,7 @@ import yaml
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CONFIG_FILES = ("models", "providers", "routing", "workers", "capabilities",
-                "resources", "mcp", "skills", "knowledge", "permissions", "systemone")
+                "resources", "mcp", "skills", "knowledge", "permissions", "systemone", "compute")
 # Security-relevant routing policy that is not file-protected (routing.yaml is the tunable
 # surface for self-improvement candidates) and is therefore enforced by validate() instead.
 REQUIRED_RISK_MARKERS = {"credential_change", "permission_change", "external_publish",
@@ -179,4 +179,6 @@ def validate(cfg: Config) -> list[str]:
 
     from . import capability_registry   # imports this module; deferred to avoid a cycle
     errors.extend(capability_registry.validate(cfg))
+    from . import compute
+    errors.extend(compute.validate(cfg))
     return errors
