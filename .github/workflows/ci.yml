@@ -35,6 +35,14 @@ jobs:
           git config --global user.name "ci"
           git config --global init.defaultBranch main
 
+      # Dispatch/routing tests check that a worker binary is on PATH (workers.py: shutil.which) but inject a fake runner and never
+      # execute it. Give the runner presence-only stubs (exit 97 if ever run). No real worker CLI or credential is involved.
+      - name: Worker CLI presence stubs (never executed by the tests)
+        run: |
+          mkdir -p "$RUNNER_TEMP/stubs"
+          for b in claude codex opencode dsh; do printf '#!/bin/sh\nexit 97\n' > "$RUNNER_TEMP/stubs/$b"; chmod +x "$RUNNER_TEMP/stubs/$b"; done
+          echo "$RUNNER_TEMP/stubs" >> "$GITHUB_PATH"
+
       - name: Install (locked)
         run: cd "$HOME/agent-stack" && uv sync --extra test --frozen
 

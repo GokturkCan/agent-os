@@ -5,6 +5,8 @@ locked dependency install (`uv sync --extra test --frozen`). It runs, in order: 
 tests, the compute fail-closed tests, the efficiency safety/recovery tests, the Open-Jev closure tests + evidence-archive verification,
 the Hermes integration tests, the full regression, and a whitespace check limited to newly introduced source.
 
+The runner has no worker CLIs, so the workflow installs presence-only stubs (`claude codex opencode dsh`, exit 97) because dispatch/routing tests check `shutil.which` while injecting a fake runner. A stub is never executed by a passing test.
+
 ## Deliberately NOT run in CI (and why)
 | Not run | Reason | How it is covered instead |
 |---|---|---|
