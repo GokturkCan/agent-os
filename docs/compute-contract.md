@@ -1,7 +1,12 @@
-# Compute-node contract (R3.3, Mac side)
+# Compute-node contract (CN-1, Mac side)
+
+> **Numbering.** This track is `CN-1` (Mac-side contract) and `CN-2` (node-side service and private transport, a
+> separate workstream). It was first drafted as "R3.3/R3.4", which collides with the existing, immutable audit
+> records where **R3.3 = confidence calibration** (still design-only). `R3.3`/`R3.4` are therefore NOT used for
+> compute; filenames of earlier audit evidence (e.g. `audit/protected-delta-vs-r3.2-tip-r3.3.json`) keep the old label.
 
 Status: **contract + mock-tested only.** No node is connected, no network client exists, nothing was installed
-or benchmarked. The Mac runs normally with the MSI powered off (default: MSI `compute.enabled: false`).
+or benchmarked. The Mac runs normally with the MSI powered off (default: `compute.nodes.msi.enabled: false` in the protected config/compute.yaml).
 
 Hermes remains the single orchestrator. Mac/Hermes owns intent, eligibility, data sensitivity, authorization,
 approval, global routing, cloud escalation and durable audit/task state. A node (the MSI) may only report
@@ -13,7 +18,8 @@ capability: a response naming a different node/offering/capability/model revisio
 
 | Concern | Authority | Notes |
 |---|---|---|
-| Node identity, role, reachability, declared resources | `config/resources.yaml` (existing) | additive `nodes.<n>.compute` block: `enabled` (false), `endpoint_ref`, `auth_ref`, `declared_resources`. Refs are symbolic: no URL/IP/`@`; `auth_ref` is `env:NAME` or `keychain:NAME`. |
+| Node identity, role, reachability probing | `config/resources.yaml` (existing, tunable) | no compute settings: a `compute` block here is rejected by `agentos validate` |
+| Node compute enablement, `endpoint_ref`, `auth_ref`, declared resources | `config/compute.yaml` `nodes:` (**protected**) | `enabled: false`; refs are symbolic: no URL/IP/`@`; `auth_ref` is `env:NAME` or `keychain:NAME` |
 | Capability types, offerings, **authorizations** | `config/compute.yaml` (new, **protected**) | offerings `{}` and authorizations `[]` by default |
 | Worker/tool CAN registry | `config/capability_registry.yaml` (existing, untouched) | different concern: harness tools, not node-hosted model services |
 | Logic | `agentos/compute.py` (registry, ladder, validation), `agentos/compute_jobs.py` (job/error/state contract) | validated by `agentos validate` |
@@ -41,7 +47,7 @@ Idempotency: same key + same request → original result, `replayed=True`, nothi
 request → `DUPLICATE_REQUEST`. A request refused before anything was sent (policy, offline, disabled) does not
 consume its key.
 
-## R3.4 handoff (separate MSI workstream)
+## CN-2 handoff (separate MSI workstream)
 
 Minimum node API (private authenticated transport; JSON; bearer token from `auth_ref`; bind to a private/LAN/VPN
 interface only, never public):
@@ -65,7 +71,7 @@ inference runtimes are not modified. The Mac never calls those endpoints directl
 First vertical slice: User → Hermes → policy (`compute.evaluate`, authorization) → Mac `NodeClient` → MSI Qwen
 inference → structured `JobResult` → Mac audit. SecondBrain writes stay under the existing permission rules.
 
-R3.4 dependencies (not done here): the real `NodeClient` over the private transport; the node-side service;
+CN-2 dependencies (not done here): the real `NodeClient` over the private transport; the node-side service;
 resolving `endpoint_ref`/`auth_ref` (ssh alias or env/keychain); installing and benchmarking a model so that an
 offering can be `benchmarked` with evidence; a **human** adding the offering and authorization to
 `config/compute.yaml`; routing integration that asks `compute.evaluate` (Hermes decides, node never routes);

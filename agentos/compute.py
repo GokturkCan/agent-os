@@ -1,7 +1,8 @@
-"""Compute-node capability registry and authorization ladder (R3.3).
+"""Compute-node capability registry and authorization ladder (CN-1).
 
-Reuses config/resources.yaml for node identity/reachability (agentos/resources.py probes it) and adds only
-config/compute.yaml (PROTECTED): capability types, declared offerings and human-approved authorizations.
+Reuses config/resources.yaml for node identity/reachability (agentos/resources.py probes it). config/compute.yaml
+(PROTECTED) holds node enablement + endpoint/auth references, capability types, declared offerings and
+human-approved authorizations.
 
   configured != installed != healthy != benchmarked != authorized != ACTIVE
 
@@ -57,8 +58,10 @@ def authorizations(cfg: Config) -> list[dict]:
 
 
 def node_compute(cfg: Config, node: str) -> dict:
-    n = (cfg.resources.get("nodes") or {}).get(node)
-    c = n.get("compute") if isinstance(n, dict) else None
+    """Enablement/endpoint/auth references for a node: ONLY from the protected compute.yaml `nodes:` block.
+    (A `compute` block in the tunable resources.yaml is ignored here and rejected by validate().)"""
+    n = section(cfg).get("nodes")
+    c = n.get(node) if isinstance(n, dict) else None
     return c if isinstance(c, dict) else {}
 
 
@@ -92,12 +95,21 @@ def validate(cfg: Config) -> list[str]:
             if isinstance(v, bool) or not isinstance(v, int) or not 0 < v <= ceiling:
                 errors.append(f"compute.job_limits.{k} must be an integer in 1..{ceiling}")
 
-    nodes = cfg.resources.get("nodes") or {}
-    for name, n in nodes.items():                                    # node-level compute block
-        c = n.get("compute") if isinstance(n, dict) else None
-        if c is None:
-            continue
-        w = f"resources.nodes.{name}.compute"
+    res_nodes = cfg.resources.get("nodes") or {}
+    for name, n in res_nodes.items():                                # security-sensitive keys may not live in resources.yaml
+        if isinstance(n, dict) and "compute" in n:
+            errors.append(f"resources.nodes.{name}.compute: compute enablement/endpoint/auth belong in the "
+                          f"protected config/compute.yaml `nodes:` block, not in resources.yaml")
+    cnodes = sec.get("nodes")
+    if cnodes is None:
+        cnodes = {}
+    if not isinstance(cnodes, dict):
+        errors.append("compute.nodes must be a mapping")
+        cnodes = {}
+    for name, c in cnodes.items():                                   # node-level compute block
+        w = f"compute.nodes.{name}"
+        if name not in res_nodes:
+            errors.append(f"{w}: node is not declared in resources.yaml")
         if not isinstance(c, dict):
             errors.append(f"{w}: must be a mapping")
             continue
@@ -119,7 +131,7 @@ def validate(cfg: Config) -> list[str]:
         errors.append("compute.offerings must be a mapping")
         offs = {}
     for oid, o in offs.items():
-        errors.extend(_validate_offering(oid, o, types, nodes))
+        errors.extend(_validate_offering(oid, o, types, res_nodes))
     auths = sec.get("authorizations")
     if not isinstance(auths, list):
         errors.append("compute.authorizations must be a list")
@@ -130,12 +142,12 @@ def validate(cfg: Config) -> list[str]:
     return errors
 
 
-def _validate_offering(oid, o, types, nodes) -> list[str]:
+def _validate_offering(oid, o, types, res_nodes) -> list[str]:
     w = f"compute.offerings.{oid}"
     if not (isinstance(oid, str) and _ID.fullmatch(oid)) or not isinstance(o, dict):
         return [f"{w}: id must be a simple identifier and the entry a mapping"]
     errs = [f"{w}: unknown field {k!r}" for k in o if k not in _OFFERING_KEYS]
-    if o.get("node") not in nodes or o.get("node") == "mac":
+    if o.get("node") not in res_nodes or o.get("node") == "mac":
         errs.append(f"{w}.node must be a declared non-control-plane node")
     t = types.get(o.get("capability")) if isinstance(types, dict) else None
     if not isinstance(t, dict):

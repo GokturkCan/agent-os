@@ -24,12 +24,8 @@ nodes:
       probe_timeout_seconds: 3
     status: unreachable_unconfigured
     exclusive_gpu_profiles: true
-    # R3.3 compute-node contract (agentos/compute.py). Everything here is CONFIGURED, not verified.
-    compute:
-      enabled: false               # fail closed: no remote jobs until a human flips this AND authorizes offerings
-      endpoint_ref: null           # symbolic private reference (e.g. "msi-private"); never a URL, IP or credential
-      auth_ref: null               # "env:NAME" or "keychain:NAME"; the secret itself is never tracked
-      declared_resources: {vram_mb: 8192, ram_mb: 32768}   # expectation only; GET /resources is untrusted discovery
+    # Compute enablement / endpoint_ref / auth_ref for this node live in the PROTECTED config/compute.yaml
+    # (`nodes.msi`); a `compute` block here is rejected by config.validate.
 
   rtx3080:
     role: future

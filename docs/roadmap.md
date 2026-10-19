@@ -48,7 +48,7 @@ Evidence: 403 passed / 2 skipped (333 at Run 2 closure, before pre-release harde
 | Confidence calibration (accuracy, ECE, Platt, isotonic, per-workload thresholds) | DESIGN-ONLY |
 | ContextGate runtime | DESIGN-ONLY |
 | Local models (Qwen3.6, Bonsai 2) | DESIGN-ONLY (benchmark candidates, nothing installed) |
-| Secondary compute node (resource state machine) | PARTIAL (state machine verified; node not connected). **R3.3 Mac-side compute-node/capability/job contract IMPLEMENTED (mock-tested; `docs/compute-contract.md`)**: no node connected, nothing installed/benchmarked, offerings and authorizations empty. Confidence calibration remains DESIGN-ONLY; this is not a calibration milestone. |
+| Secondary compute node (resource state machine) | PARTIAL (state machine verified; node not connected). **CN-1 Mac-side compute-node/capability/job contract IMPLEMENTED (mock-tested; `docs/compute-contract.md`)**: no node connected, nothing installed/benchmarked, offerings and authorizations empty. Confidence calibration remains DESIGN-ONLY; this is not a calibration milestone. |
 
 ## Run 4 — Research / web plane
 

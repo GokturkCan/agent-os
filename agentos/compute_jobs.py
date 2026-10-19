@@ -1,4 +1,4 @@
-"""Typed job contract for future compute nodes (R3.3). Mac side only: no network client ships here.
+"""Typed job contract for future compute nodes (CN-1). Mac side only: no network client ships here.
 
 Mac/Hermes keeps authority over intent, eligibility, data sensitivity, authorization, approval, routing, cloud
 escalation and durable audit. A node may report resources, accept/reject an AUTHORIZED job, queue, load/unload
@@ -253,7 +253,7 @@ def parse_response(raw: object, req: JobRequest, cfg: Config) -> JobResult:
 
 # ------------------------------------------------------------------ client protocol and ledger
 class NodeClient(Protocol):
-    """What R3.4 must implement over a private authenticated transport. Each call returns decoded JSON or
+    """What CN-2 must implement over a private authenticated transport. Each call returns decoded JSON or
     raises ComputeError (NODE_UNAVAILABLE / TIMEOUT / BACKEND_FAILURE ...)."""
 
     def health(self) -> dict: ...
@@ -292,7 +292,7 @@ class JobRecord:
 
 
 class JobLedger:
-    """In-memory idempotency/state ledger (durable Mac audit is an R3.4 dependency)."""
+    """In-memory idempotency/state ledger (durable Mac audit is an CN-2 dependency)."""
 
     def __init__(self):
         self._by_key: dict[str, JobRecord] = {}

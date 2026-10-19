@@ -1,4 +1,4 @@
-"""R3.3 compute-node contract: registry, authorization ladder, job/error/state contract. Mock client only:
+"""CN-1 compute-node contract: registry, authorization ladder, job/error/state contract. Mock client only:
 no network, no MSI, no inference."""
 import copy
 
@@ -21,8 +21,8 @@ AUTH = {"offering": "msi-chat", "revision": REV, "max_data_class": "internal", "
 def mkcfg(cfg, *, enabled=True, offering=True, auth=True, mutate=None):
     data = copy.deepcopy(cfg.data)
     if enabled:
-        data["resources"]["nodes"]["msi"]["compute"].update(enabled=True, endpoint_ref="msi-private",
-                                                            auth_ref="env:MSI_TOKEN")
+        data["compute"]["nodes"]["msi"].update(enabled=True, endpoint_ref="msi-private",
+                                               auth_ref="env:MSI_TOKEN")
     if offering:
         data["compute"]["offerings"] = {"msi-chat": copy.deepcopy(OFFER)}
     if auth:
@@ -83,7 +83,7 @@ def test_shipped_defaults_valid_and_non_operational(cfg):
     assert C.validate(cfg) == []
     assert compute.offerings(cfg) == {} and compute.authorizations(cfg) == []
     assert compute.node_enabled(cfg, "msi") is False and compute.node_enabled(cfg, "mac") is False
-    nc = cfg.resources["nodes"]["msi"]["compute"]
+    nc = cfg.data["compute"]["nodes"]["msi"]
     assert nc["endpoint_ref"] is None and nc["auth_ref"] is None
     assert cfg.resources["nodes"]["msi"]["boot_critical"] is False
     assert is_protected("config/compute.yaml")
@@ -325,22 +325,40 @@ def _errs(cfg, mutate):
 
 @pytest.mark.parametrize("ep", ["http://10.0.0.5:8000", "10.0.0.5", "user@host", "msi.example.com"])
 def test_endpoint_must_be_symbolic(cfg, ep):
-    errs = _errs(cfg, lambda d: d["resources"]["nodes"]["msi"]["compute"].update(endpoint_ref=ep))
+    errs = _errs(cfg, lambda d: d["compute"]["nodes"]["msi"].update(endpoint_ref=ep))
     assert any("endpoint_ref" in e for e in errs)
 
 
 @pytest.mark.parametrize("ref", ["sk-live-abcdef", "hunter2", "env:", "file:/etc/x"])
 def test_auth_ref_cannot_be_an_inline_secret(cfg, ref):
-    assert any("auth_ref" in e for e in _errs(cfg, lambda d: d["resources"]["nodes"]["msi"]["compute"]
+    assert any("auth_ref" in e for e in _errs(cfg, lambda d: d["compute"]["nodes"]["msi"]
                                               .update(auth_ref=ref)))
 
 
 def test_enabling_requires_refs_and_mac_is_never_a_compute_node(cfg):
     assert any("enabled requires" in e for e in _errs(
-        cfg, lambda d: d["resources"]["nodes"]["msi"]["compute"].update(enabled=True)))
+        cfg, lambda d: d["compute"]["nodes"]["msi"].update(enabled=True)))
     def mac(d):
-        d["resources"]["nodes"]["mac"]["compute"] = {"enabled": True, "endpoint_ref": "a", "auth_ref": "env:X"}
+        d["compute"]["nodes"]["mac"] = {"enabled": True, "endpoint_ref": "a", "auth_ref": "env:X"}
     assert any("not a remote compute node" in e for e in _errs(cfg, mac))
+
+
+def test_security_sensitive_node_settings_cannot_live_in_resources_yaml(cfg):
+    # resources.yaml is tunable (not protected): an `enabled: true` there must neither enable nor validate.
+    def tunable(d):
+        d["resources"]["nodes"]["msi"]["compute"] = {"enabled": True, "endpoint_ref": "msi-private",
+                                                     "auth_ref": "env:MSI_TOKEN"}
+    c = mkcfg(cfg, enabled=False, offering=False, auth=False, mutate=tunable)
+    assert any("protected config/compute.yaml" in e for e in C.validate(c))
+    assert compute.node_enabled(c, "msi") is False              # ...and it is ignored at runtime (fail closed)
+    assert not (set(cfg.resources["nodes"]["msi"]) & {"compute"})
+
+
+def test_node_must_exist_and_missing_nodes_block_fails_closed(cfg):
+    assert any("not declared in resources.yaml" in e for e in _errs(
+        cfg, lambda d: d["compute"]["nodes"].update(ghost={"enabled": False})))
+    c = mkcfg(cfg, enabled=False, offering=False, auth=False, mutate=lambda d: d["compute"].pop("nodes"))
+    assert compute.node_enabled(c, "msi") is False and C.validate(c) == []
 
 
 def test_authorization_validation(cfg):
