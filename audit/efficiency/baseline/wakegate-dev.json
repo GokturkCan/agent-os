@@ -1,0 +1,237 @@
+{
+  "suite": "wakegate-suite-v2-dev",
+  "backend": "none",
+  "cases": 12,
+  "false_negatives": 0,
+  "false_negative_rate": 0.0,
+  "unnecessary_wakes": 3,
+  "unnecessary_wake_rate": 0.75,
+  "deferred_total": 1,
+  "avoided_reasoning_turns_vs_always_wake": 1,
+  "model_calls": 0,
+  "model_latency_ms": {
+    "p50": null,
+    "p95": null
+  },
+  "by_family": {
+    "expired": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "denied": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "refused": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "unreachable": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "overdue": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "bulk_failure_word": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 1,
+      "deferred": 0
+    },
+    "bulk_down_word": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 1,
+      "deferred": 0
+    },
+    "bulk_tr": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 1,
+      "deferred": 0
+    },
+    "relevant": {
+      "n": 3,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "no_change": {
+      "n": 1,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 1
+    }
+  },
+  "by_lang": {
+    "en": {
+      "fn": 0,
+      "unnecessary": 2
+    },
+    "tr": {
+      "fn": 0,
+      "unnecessary": 1
+    }
+  },
+  "records": [
+    {
+      "id": "wg2-dev-001",
+      "lang": "en",
+      "family": "expired",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "fallback:no-model",
+      "model_called": false,
+      "latency_ms": 0.011,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-dev-002",
+      "lang": "en",
+      "family": "denied",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "fallback:no-model",
+      "model_called": false,
+      "latency_ms": 0.008,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-dev-003",
+      "lang": "en",
+      "family": "refused",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "fallback:no-model",
+      "model_called": false,
+      "latency_ms": 0.007,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-dev-004",
+      "lang": "tr",
+      "family": "unreachable",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "fallback:no-model",
+      "model_called": false,
+      "latency_ms": 0.011,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-dev-005",
+      "lang": "en",
+      "family": "overdue",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "fallback:no-model",
+      "model_called": false,
+      "latency_ms": 0.008,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-dev-006",
+      "lang": "en",
+      "family": "bulk_failure_word",
+      "gold": "should_defer",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.011,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg2-dev-007",
+      "lang": "en",
+      "family": "bulk_down_word",
+      "gold": "should_defer",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.007,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg2-dev-008",
+      "lang": "tr",
+      "family": "bulk_tr",
+      "gold": "should_defer",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.014,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg2-dev-009",
+      "lang": "en",
+      "family": "relevant",
+      "gold": "wake_ok",
+      "action": "wake_local_reasoning",
+      "reason": "fallback:no-model",
+      "model_called": false,
+      "latency_ms": 0.009,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-dev-010",
+      "lang": "en",
+      "family": "relevant",
+      "gold": "wake_ok",
+      "action": "wake_local_reasoning",
+      "reason": "fallback:no-model",
+      "model_called": false,
+      "latency_ms": 0.006,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-dev-011",
+      "lang": "en",
+      "family": "no_change",
+      "gold": "should_defer",
+      "action": "defer_no_change",
+      "reason": "rule:no-change",
+      "model_called": false,
+      "latency_ms": 0.007,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg2-dev-012",
+      "lang": "en",
+      "family": "relevant",
+      "gold": "wake_ok",
+      "action": "wake_local_reasoning",
+      "reason": "fallback:no-model",
+      "model_called": false,
+      "latency_ms": 0.005,
+      "false_negative": false,
+      "unnecessary_wake": false
+    }
+  ],
+  "acceptance_pass": true,
+  "suite_file": "evals/data/modules/wakegate-suite-v2-dev.yaml",
+  "token_measurement": "character-count estimate: ceil(chars/4), not tokenizer-measured"
+}

@@ -46,7 +46,7 @@ Evidence: 403 passed / 2 skipped (333 at Run 2 closure, before pre-release harde
 | R3.2C Phase 1 Semantic decision-quality evaluation (`agentos systemone-eval`: 66 grounded labeled cases, 3 formulations, 3 separate metric layers, baselines, description-swap and abstention probes; authoritative option metadata in the request) | IMPLEMENTED, VERIFIED (reproducible). Result: Laya follows labels, not descriptions; keep as a baseline, do not promote |
 | R3.2C Phase 2 Backend comparison (Laya vs Decider-2B / Kev-4B / Jev / OpenJev-like / Ollaya) on the same dataset, more human-labeled cases | PENDING / DESIGN-ONLY (not started) |
 | Confidence calibration (accuracy, ECE, Platt, isotonic, per-workload thresholds) | DESIGN-ONLY |
-| ContextGate runtime | DESIGN-ONLY |
+| ContextGate runtime | DESIGN-ONLY at runtime; **R3.5: deterministic prototype hardened** (opt-in library + `module-eval`, not wired into Hermes) — `docs/efficiency-patterns.md` |
 | Local models (Qwen3.6, Bonsai 2) | DESIGN-ONLY (benchmark candidates, nothing installed) |
 | Secondary compute node (resource state machine) | PARTIAL (state machine verified; node not connected). **CN-1 Mac-side compute-node/capability/job contract IMPLEMENTED (mock-tested; `docs/compute-contract.md`)**: no node connected, nothing installed/benchmarked, offerings and authorizations empty. Confidence calibration remains DESIGN-ONLY; this is not a calibration milestone. |
 

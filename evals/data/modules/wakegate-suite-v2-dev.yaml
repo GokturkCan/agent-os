@@ -1,0 +1,141 @@
+version: 1
+suite: wakegate-suite-v2-dev
+authored: '2026-10-16'
+provenance: 'Independence caveat (stated, not hidden): written by the same model-assisted
+  session that reviewed the earlier modules, from general'
+cases:
+- id: wg2-dev-001
+  lang: en
+  family: expired
+  waiting_for: The nightly integration run to finish
+  event:
+    kind: alert
+    summary: TLS certificate for api.example.com has expired
+    source: monitor
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg2-dev-002
+  lang: en
+  family: denied
+  waiting_for: The nightly integration run to finish
+  event:
+    kind: alert
+    summary: Deploy key was revoked and pushes are now denied
+    source: git
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg2-dev-003
+  lang: en
+  family: refused
+  waiting_for: Code review comments on pull request 482
+  event:
+    kind: alert
+    summary: Database connection refused from the worker pool
+    source: monitor
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg2-dev-004
+  lang: tr
+  family: unreachable
+  waiting_for: Gece entegrasyon çalışmasının bitmesi
+  event:
+    kind: alert
+    summary: Hizmet erişilemiyor, sağlık kontrolü yanıt vermiyor
+    source: izleme
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg2-dev-005
+  lang: en
+  family: overdue
+  waiting_for: Code review comments on pull request 482
+  event:
+    kind: email
+    summary: Your invoice is overdue and the account will be suspended
+    source: billing
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg2-dev-006
+  lang: en
+  family: bulk_failure_word
+  waiting_for: A reply from HR about the interview
+  event:
+    kind: email
+    summary: 'Weekly digest: 5 lessons learned from failure in startups. Unsubscribe'
+    source: newsletter@blog.example
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg2-dev-007
+  lang: en
+  family: bulk_down_word
+  waiting_for: A reply from HR about the interview
+  event:
+    kind: email
+    summary: 'Newsletter: prices are down this week! Unsubscribe'
+    source: promo@shop.example
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg2-dev-008
+  lang: tr
+  family: bulk_tr
+  waiting_for: 482 numaralı çekme isteğine inceleme yorumları
+  event:
+    kind: email
+    summary: 'Bülten: bu haftanın hata ayıklama ipuçları. Abonelikten çık'
+    source: bulten@ornek.com
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg2-dev-009
+  lang: en
+  family: relevant
+  waiting_for: A reply from HR about the interview
+  event:
+    kind: email
+    summary: 'Re: second round interview times for Thursday'
+    source: dana@acme.com
+  previous_observation: null
+  skipped: 0
+  gold: wake_ok
+- id: wg2-dev-010
+  lang: en
+  family: relevant
+  waiting_for: Code review comments on pull request 482
+  event:
+    kind: email
+    summary: New review comments on PR 482
+    source: github
+  previous_observation: null
+  skipped: 0
+  gold: wake_ok
+- id: wg2-dev-011
+  lang: en
+  family: no_change
+  waiting_for: The nightly integration run to finish
+  event:
+    kind: timer
+    observation:
+      status: running
+      done: 41
+  previous_observation:
+    status: running
+    done: 41
+  skipped: 0
+  gold: should_defer
+- id: wg2-dev-012
+  lang: en
+  family: relevant
+  waiting_for: The nightly integration run to finish
+  event:
+    kind: webhook
+    summary: 'Nightly run finished: 812 passed'
+    source: ci
+  previous_observation: null
+  skipped: 0
+  gold: wake_ok

@@ -1,0 +1,131 @@
+{
+  "suite": "contextgate-suite-v2-dev",
+  "backend": "none",
+  "transcripts": 6,
+  "essential_facts": 7,
+  "false_drops": 7,
+  "false_drop_rate": 1.0,
+  "recovery_exact_all": true,
+  "tokens_before": 6621,
+  "tokens_after": 1285,
+  "token_reduction": 0.8059,
+  "model_calls": 0,
+  "latency_ms_per_transcript": {
+    "p50": 1.3,
+    "max": 2.4
+  },
+  "records": [
+    {
+      "id": "cg2-dev-001",
+      "lang": "en",
+      "tokens_before": 987,
+      "tokens_after": 145,
+      "reduction": 0.8531,
+      "model_calls": 0,
+      "missing_essential": [
+        "id=88213"
+      ],
+      "recovery_exact": true,
+      "latency_ms": 1.6,
+      "actions": {
+        "keep_verbatim": 17,
+        "truncate_head": 1,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg2-dev-002",
+      "lang": "en",
+      "tokens_before": 1897,
+      "tokens_after": 163,
+      "reduction": 0.9141,
+      "model_calls": 0,
+      "missing_essential": [
+        "OOMKilled",
+        "Exit Code:    137"
+      ],
+      "recovery_exact": true,
+      "latency_ms": 2.4,
+      "actions": {
+        "keep_verbatim": 17,
+        "truncate_head": 1,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg2-dev-003",
+      "lang": "tr",
+      "tokens_before": 906,
+      "tokens_after": 285,
+      "reduction": 0.6854,
+      "model_calls": 0,
+      "missing_essential": [
+        "HTTP/1.1 503"
+      ],
+      "recovery_exact": true,
+      "latency_ms": 1.2,
+      "actions": {
+        "keep_verbatim": 17,
+        "truncate_head": 1,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg2-dev-004",
+      "lang": "en",
+      "tokens_before": 800,
+      "tokens_after": 144,
+      "reduction": 0.82,
+      "model_calls": 0,
+      "missing_essential": [
+        "revision 4421-b"
+      ],
+      "recovery_exact": true,
+      "latency_ms": 1.1,
+      "actions": {
+        "keep_verbatim": 17,
+        "truncate_head": 1,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg2-dev-005",
+      "lang": "en",
+      "tokens_before": 975,
+      "tokens_after": 152,
+      "reduction": 0.8441,
+      "model_calls": 0,
+      "missing_essential": [
+        "PAY-2291"
+      ],
+      "recovery_exact": true,
+      "latency_ms": 1.3,
+      "actions": {
+        "keep_verbatim": 17,
+        "truncate_head": 1,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg2-dev-006",
+      "lang": "en",
+      "tokens_before": 1056,
+      "tokens_after": 396,
+      "reduction": 0.625,
+      "model_calls": 0,
+      "missing_essential": [
+        "x509: certificate signed by unknown authority"
+      ],
+      "recovery_exact": true,
+      "latency_ms": 1.3,
+      "actions": {
+        "keep_verbatim": 17,
+        "truncate_head": 1,
+        "drop_result": 0
+      }
+    }
+  ],
+  "acceptance_pass": false,
+  "suite_file": "evals/data/modules/contextgate-suite-v2-dev.yaml",
+  "token_measurement": "character-count estimate: ceil(chars/4), not tokenizer-measured"
+}

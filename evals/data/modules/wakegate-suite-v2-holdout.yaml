@@ -1,0 +1,187 @@
+version: 1
+suite: wakegate-suite-v2-holdout
+authored: '2026-10-16'
+provenance: 'Independence caveat (stated, not hidden): written by the same model-assisted
+  session that reviewed the earlier modules, from general'
+cases:
+- id: wg2-holdout-001
+  lang: en
+  family: expired
+  waiting_for: Code review comments on pull request 482
+  event:
+    kind: alert
+    summary: Service certificate expires in 2 hours and was not renewed
+    source: monitor
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg2-holdout-002
+  lang: en
+  family: denied
+  waiting_for: The nightly integration run to finish
+  event:
+    kind: alert
+    summary: Access to the artifact bucket was forbidden (403)
+    source: storage
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg2-holdout-003
+  lang: en
+  family: rejected
+  waiting_for: Code review comments on pull request 482
+  event:
+    kind: alert
+    summary: Queue consumer rejected the batch and dropped 40 messages
+    source: queue
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg2-holdout-004
+  lang: tr
+  family: refused_tr
+  waiting_for: Gece entegrasyon çalışmasının bitmesi
+  event:
+    kind: alert
+    summary: Veritabanı bağlantısı reddedildi
+    source: izleme
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg2-holdout-005
+  lang: tr
+  family: expired_tr
+  waiting_for: 482 numaralı çekme isteğine inceleme yorumları
+  event:
+    kind: alert
+    summary: Sertifikanın süresi doldu
+    source: izleme
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg2-holdout-006
+  lang: en
+  family: overdue
+  waiting_for: A reply from HR about the interview
+  event:
+    kind: email
+    summary: Your subscription payment is overdue; service will be locked
+    source: billing@vendor.example
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg2-holdout-007
+  lang: en
+  family: unreachable
+  waiting_for: The nightly integration run to finish
+  event:
+    kind: alert
+    summary: Primary node is unreachable from two regions
+    source: monitor
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg2-holdout-008
+  lang: en
+  family: killed
+  waiting_for: Code review comments on pull request 482
+  event:
+    kind: alert
+    summary: Job was OOM killed on the build agent
+    source: ci
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg2-holdout-009
+  lang: en
+  family: bulk_failure_word
+  waiting_for: A reply from HR about the interview
+  event:
+    kind: email
+    summary: 'Newsletter: how teams recover from failure. Unsubscribe'
+    source: newsletter@mag.example
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg2-holdout-010
+  lang: en
+  family: bulk_down_word
+  waiting_for: A reply from HR about the interview
+  event:
+    kind: email
+    summary: 'Promo digest: flights down 40 percent. Unsubscribe here'
+    source: deals@travel.example
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg2-holdout-011
+  lang: tr
+  family: bulk_tr
+  waiting_for: A reply from HR about the interview
+  event:
+    kind: email
+    summary: 'Haftalık bülten: hata yönetimi üzerine yazılar. Abonelikten çık'
+    source: bulten@ornek.com
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg2-holdout-012
+  lang: en
+  family: bulk_security_word
+  waiting_for: A reply from HR about the interview
+  event:
+    kind: email
+    summary: 'Digest: security habits for remote teams. Unsubscribe'
+    source: digest@sec.example
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg2-holdout-013
+  lang: en
+  family: bulk_overlap_topic
+  waiting_for: Code review comments on pull request 482
+  event:
+    kind: email
+    summary: 'Newsletter: reviewing pull requests faster. Unsubscribe'
+    source: newsletter@dev.example
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg2-holdout-014
+  lang: en
+  family: relevant
+  waiting_for: A reply from HR about the interview
+  event:
+    kind: email
+    summary: 'Re: interview schedule, can you do Friday?'
+    source: dana@acme.com
+  previous_observation: null
+  skipped: 0
+  gold: wake_ok
+- id: wg2-holdout-015
+  lang: en
+  family: no_change
+  waiting_for: The nightly integration run to finish
+  event:
+    kind: timer
+    observation:
+      status: running
+      done: 7
+  previous_observation:
+    status: running
+    done: 7
+  skipped: 0
+  gold: should_defer
+- id: wg2-holdout-016
+  lang: en
+  family: bulk_but_approval
+  waiting_for: Code review comments on pull request 482
+  event:
+    kind: email
+    summary: 'Newsletter: unsubscribe confirmation required for your PR notifications
+      - please approve'
+    source: noreply@github.example
+    requires_approval: true
+  previous_observation: null
+  skipped: 0
+  gold: must_wake

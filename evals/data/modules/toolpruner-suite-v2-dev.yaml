@@ -1,0 +1,1622 @@
+version: 1
+suite: toolpruner-suite-v2-dev
+authored: '2026-10-16'
+provenance: 'Independence caveat (stated, not hidden): written by the same model-assisted
+  session that reviewed the earlier modules, from general'
+metric: essential string retained verbatim in the pruned view; exact recovery from
+  the stored original
+outputs:
+- id: tp2-dev-001
+  lang: en
+  goal: Why did the health check fail
+  output: '* Trying 10.8.0.12:8443...
+
+    * Connected to svc.internal (10.8.0.12) port 8443
+
+    < x-request-id: ca264eca264e
+
+    * Added 3031d0 to connection cache
+
+    < x-request-id: 1db2081db208
+
+    > User-Agent: probe/21
+
+    * TLSv1.3 (IN), TLS handshake, record 216
+
+    > User-Agent: probe/48
+
+    * Added 3f62f8 to connection cache
+
+    > User-Agent: probe/324
+
+    * TLSv1.3 (IN), TLS handshake, record 27
+
+    * Added 442f7d to connection cache
+
+    < x-request-id: 49dbcd49dbcd
+
+    * Added 9df154 to connection cache
+
+    > User-Agent: probe/54
+
+    < x-request-id: 2025e02025e0
+
+    * Added 69736b to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 350
+
+    < x-request-id: e807c8e807c8
+
+    < x-request-id: 7f31c47f31c4
+
+    > User-Agent: probe/359
+
+    * Added 99ba40 to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 177
+
+    < x-request-id: 257a95257a95
+
+    * Added d61431 to connection cache
+
+    > User-Agent: probe/389
+
+    > User-Agent: probe/252
+
+    * Added 27bddf to connection cache
+
+    < x-request-id: b34a94b34a94
+
+    * TLSv1.3 (IN), TLS handshake, record 298
+
+    * Added 8a357b to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 358
+
+    * Added 9e84db to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 147
+
+    < x-request-id: ec6353ec6353
+
+    < x-request-id: 3bf3fa3bf3fa
+
+    * TLSv1.3 (IN), TLS handshake, record 32
+
+    < x-request-id: 7ec75f7ec75f
+
+    * TLSv1.3 (IN), TLS handshake, record 202
+
+    * Added e5fbe4 to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 283
+
+    > User-Agent: probe/222
+
+    * TLSv1.3 (IN), TLS handshake, record 185
+
+    > User-Agent: probe/79
+
+    > User-Agent: probe/79
+
+    > User-Agent: probe/8
+
+    > User-Agent: probe/136
+
+    * Added d68027 to connection cache
+
+    < x-request-id: a32111a32111
+
+    > User-Agent: probe/355
+
+    * TLSv1.3 (IN), TLS handshake, record 401
+
+    * TLSv1.3 (IN), TLS handshake, record 206
+
+    * Added cd06d1 to connection cache
+
+    * Added 227b62 to connection cache
+
+    > User-Agent: probe/227
+
+    * Added 1aeb30 to connection cache
+
+    * Added 4d7298 to connection cache
+
+    * Added 0d0e73 to connection cache
+
+    * Added c0a122 to connection cache
+
+    > User-Agent: probe/326
+
+    < x-request-id: ba73a1ba73a1
+
+    * TLSv1.3 (IN), TLS handshake, record 64
+
+    * TLSv1.3 (IN), TLS handshake, record 240
+
+    * TLSv1.3 (IN), TLS handshake, record 161
+
+    > User-Agent: probe/54
+
+    < x-request-id: 52a81452a814
+
+    * Added b9379e to connection cache
+
+    > User-Agent: probe/355
+
+    < x-request-id: 2e98ef2e98ef
+
+    < x-request-id: bbc013bbc013
+
+    > User-Agent: probe/184
+
+    < x-request-id: 723284723284
+
+    > User-Agent: probe/124
+
+    > User-Agent: probe/104
+
+    < x-request-id: 0ed67c0ed67c
+
+    * Added 8f0ff2 to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 134
+
+    < x-request-id: b2f43db2f43d
+
+    < x-request-id: 70e07070e070
+
+    * Added f0ae52 to connection cache
+
+    > User-Agent: probe/174
+
+    * TLSv1.3 (IN), TLS handshake, record 321
+
+    * TLSv1.3 (IN), TLS handshake, record 336
+
+    * Added 3d6402 to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 402
+
+    * TLSv1.3 (IN), TLS handshake, record 93
+
+    < x-request-id: caab57caab57
+
+    * TLSv1.3 (IN), TLS handshake, record 207
+
+    > User-Agent: probe/89
+
+    * Added ee42dd to connection cache
+
+    > User-Agent: probe/315
+
+    < x-request-id: 431050431050
+
+    < HTTP/1.1 503 Service Unavailable
+
+    * Added 349e89 to connection cache
+
+    > User-Agent: probe/224
+
+    > User-Agent: probe/16
+
+    > User-Agent: probe/151
+
+    < x-request-id: d688d0d688d0
+
+    > User-Agent: probe/33
+
+    * TLSv1.3 (IN), TLS handshake, record 341
+
+    > User-Agent: probe/274
+
+    * Added 5dc051 to connection cache
+
+    * Added 4cb2e9 to connection cache
+
+    > User-Agent: probe/74
+
+    * Added 1f9e63 to connection cache
+
+    < x-request-id: f70889f70889
+
+    * Added 1d17d9 to connection cache
+
+    > User-Agent: probe/99
+
+    * Added 320bab to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 289
+
+    * Added a6b6d4 to connection cache
+
+    > User-Agent: probe/356
+
+    * TLSv1.3 (IN), TLS handshake, record 262
+
+    > User-Agent: probe/359
+
+    > User-Agent: probe/231
+
+    * TLSv1.3 (IN), TLS handshake, record 64
+
+    * TLSv1.3 (IN), TLS handshake, record 163
+
+    > User-Agent: probe/221
+
+    > User-Agent: probe/344
+
+    * Added 4f13a0 to connection cache
+
+    < x-request-id: 819759819759
+
+    > User-Agent: probe/241
+
+    * Added f97a3e to connection cache
+
+    > User-Agent: probe/343
+
+    > User-Agent: probe/363
+
+    * TLSv1.3 (IN), TLS handshake, record 175
+
+    > User-Agent: probe/184
+
+    * Added bb5e20 to connection cache
+
+    * Added ead6e5 to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 362
+
+    * TLSv1.3 (IN), TLS handshake, record 171
+
+    * Added 750502 to connection cache
+
+    * Added 87f80a to connection cache
+
+    < x-request-id: 5cf44d5cf44d
+
+    < x-request-id: 42551b42551b
+
+    * TLSv1.3 (IN), TLS handshake, record 348
+
+    * TLSv1.3 (IN), TLS handshake, record 78
+
+    < x-request-id: 8ee1418ee141
+
+    * Added 5ddf44 to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 39
+
+    * Added 2d5883 to connection cache
+
+    < x-request-id: 71df7571df75
+
+    * Added 3e4c85 to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 7
+
+    * TLSv1.3 (IN), TLS handshake, record 139
+
+    * Added 7a144e to connection cache
+
+    * Added 861723 to connection cache
+
+    * Added 674e2a to connection cache
+
+    < x-request-id: 9c29aa9c29aa
+
+    > User-Agent: probe/150
+
+    > User-Agent: probe/140
+
+    * Added 12eb06 to connection cache
+
+    * Added 610071 to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 127
+
+    * Added dd4661 to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 281
+
+    < x-request-id: 6e2c386e2c38
+
+    > User-Agent: probe/177
+
+    > User-Agent: probe/209
+
+    * Added 074c72 to connection cache
+
+    * Added 82dd33 to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 85
+
+    * Added c302ef to connection cache
+
+    * Connection #0 to host svc.internal left intact
+
+    curl exit
+
+    '
+  essential:
+  - < HTTP/1.1 503 Service Unavailable
+- id: tp2-dev-002
+  lang: en
+  goal: Find the link failure
+  output: "cmake --build . -j8\n  LD  lib7c0355.a\n  LD  libeb3d6a.a\n  CC  obj/89bf2d.o\n\
+    [info] resolving unit 86c7cb (3 of 412)\n  LD  liba5a63c.a\n  CC  obj/9e7d10.o\n\
+    \  CC  obj/5daca8.o\n[173/412] Building object c36490\n[245/412] Building object\
+    \ 8ecfc3\n  CC  obj/0288e0.o\n[137/412] Building object 2df428\n  CC  obj/15555f.o\n\
+    [info] resolving unit 996b35 (13 of 412)\n  LD  lib7732d0.a\n[301/412] Building\
+    \ object 4f7d35\n[info] resolving unit a6fb22 (393 of 412)\n[info] resolving unit\
+    \ 917f97 (78 of 412)\n  CC  obj/dbc5f6.o\n  CC  obj/083b9b.o\n  CC  obj/0ff445.o\n\
+    [ 70/412] Building object b8aea6\n[194/412] Building object e71c16\n[323/412]\
+    \ Building object 09a57c\n  CC  obj/870fdc.o\n[235/412] Building object 23e5a8\n\
+    [339/412] Building object 21d15a\n[info] resolving unit 261e4f (131 of 412)\n\
+    \  LD  lib691245.a\n  CC  obj/ebb1b1.o\n[info] resolving unit 274a72 (197 of 412)\n\
+    [info] resolving unit 931b7f (352 of 412)\n[317/412] Building object 658648\n\
+    [309/412] Building object 4b7b4c\n  LD  lib9bdc90.a\n  CC  obj/f6ffd8.o\n[250/412]\
+    \ Building object 899c95\n[356/412] Building object 6f7584\n[info] resolving unit\
+    \ 9232c3 (150 of 412)\n[info] resolving unit eec401 (240 of 412)\n[283/412] Building\
+    \ object 660419\n  LD  libf225de.a\n[150/412] Building object eafe39\n[261/412]\
+    \ Building object e61e6f\n  LD  lib6b6fc8.a\n  CC  obj/2e3c35.o\n  CC  obj/860bd3.o\n\
+    \  LD  lib8f2385.a\n[362/412] Building object baf9fd\n  CC  obj/f8e76d.o\n[info]\
+    \ resolving unit 517100 (14 of 412)\n[253/412] Building object e6ca0d\n[info]\
+    \ resolving unit 480ac6 (156 of 412)\n[info] resolving unit c090fc (178 of 412)\n\
+    \  LD  liba9a358.a\n[168/412] Building object ad3211\n[info] resolving unit 64382e\
+    \ (63 of 412)\n[380/412] Building object 9464fc\n  LD  lib2144b6.a\n[info] resolving\
+    \ unit 271dfd (201 of 412)\n  LD  lib8ce126.a\n[145/412] Building object 341350\n\
+    [340/412] Building object 923d33\n  CC  obj/880d80.o\n[info] resolving unit a19680\
+    \ (263 of 412)\n  CC  obj/bf27a3.o\n[info] resolving unit ccd242 (16 of 412)\n\
+    \  CC  obj/294160.o\n[376/412] Building object d25fa6\n[info] resolving unit 46f2fa\
+    \ (316 of 412)\n  LD  lib191380.a\n  CC  obj/f1c21c.o\n[info] resolving unit 904104\
+    \ (177 of 412)\n  LD  lib8534e0.a\n[info] resolving unit 7a324d (337 of 412)\n\
+    \  LD  libc9ea92.a\n[ 87/412] Building object 52c4b3\n[108/412] Building object\
+    \ fe80b7\n  CC  obj/aa6940.o\n[info] resolving unit 477922 (220 of 412)\n  CC\
+    \  obj/2e7221.o\n  CC  obj/2ea3ea.o\n  LD  libbc9284.a\n  LD  lib677f22.a\n[385/412]\
+    \ Building object d3581e\n[info] resolving unit 6b85c4 (213 of 412)\n[info] resolving\
+    \ unit ad28f4 (140 of 412)\n[257/412] Building object 8e169f\n  LD  lib6e92b8.a\n\
+    [140/412] Building object 7f3551\n[info] resolving unit e4478d (206 of 412)\n\
+    ld: symbol(s) not found for architecture arm64\n[info] resolving unit 0b2abf (161\
+    \ of 412)\n  CC  obj/d9b3cc.o\n[info] resolving unit faca42 (302 of 412)\n[ 39/412]\
+    \ Building object c87573\n[info] resolving unit 7f36d7 (231 of 412)\n[116/412]\
+    \ Building object 4f0aaf\n  CC  obj/37c07b.o\n[info] resolving unit 143f68 (45\
+    \ of 412)\n[402/412] Building object 40556d\n  CC  obj/133f39.o\n  LD  lib80eb22.a\n\
+    [info] resolving unit 396974 (359 of 412)\n[ 38/412] Building object 99c761\n\
+    \  CC  obj/85924f.o\n  CC  obj/0096ff.o\n[277/412] Building object 9a60ff\n[info]\
+    \ resolving unit a1f98c (144 of 412)\n  CC  obj/783386.o\n  CC  obj/d2d8c7.o\n\
+    \  LD  lib0b27b7.a\n  CC  obj/d70c52.o\n[133/412] Building object 74a782\n[info]\
+    \ resolving unit 741d4d (191 of 412)\n[info] resolving unit ad1518 (19 of 412)\n\
+    [info] resolving unit caef76 (187 of 412)\n  CC  obj/958f99.o\n[107/412] Building\
+    \ object fdcbd0\n  CC  obj/634b38.o\n  CC  obj/7160f3.o\n  LD  lib970170.a\n[321/412]\
+    \ Building object fdd4df\n  CC  obj/f858d5.o\n[info] resolving unit 1ce2b2 (342\
+    \ of 412)\n  CC  obj/1bd4dc.o\n  CC  obj/48a891.o\n[info] resolving unit 1eca0c\
+    \ (28 of 412)\n  CC  obj/e63778.o\n  LD  lib39f614.a\n[ 86/412] Building object\
+    \ a89281\n  CC  obj/ef6b57.o\n[161/412] Building object c1da67\n  LD  libe286dc.a\n\
+    \  CC  obj/017845.o\n[145/412] Building object 2959c3\n  LD  lib3f56b1.a\n  CC\
+    \  obj/b6981a.o\n  LD  lib2ceee9.a\n[363/412] Building object f269e1\n  CC  obj/e487a8.o\n\
+    \  CC  obj/ba7ed3.o\n[info] resolving unit d2549e (17 of 412)\n  CC  obj/cf3e5b.o\n\
+    [194/412] Building object 11d86f\n[info] resolving unit 1fbef9 (34 of 412)\n \
+    \ LD  lib202e1a.a\n  LD  lib8b6cd3.a\n  LD  lib1650d8.a\n  LD  liba20a24.a\n \
+    \ LD  lib01ee5a.a\n[ 14/412] Building object 77bd51\n[245/412] Building object\
+    \ ee75fc\n[info] resolving unit 808935 (406 of 412)\n[info] resolving unit 43f235\
+    \ (254 of 412)\n[info] resolving unit 047501 (95 of 412)\n  LD  lib4d7930.a\n\
+    \  CC  obj/a39be5.o\n[info] resolving unit 2874a3 (187 of 412)\n  CC  obj/51e350.o\n\
+    \  CC  obj/2124af.o\n[248/412] Building object a6c9cc\nmake finished\nsee log\n"
+  essential:
+  - 'ld: symbol(s) not found for architecture arm64'
+- id: tp2-dev-003
+  lang: en
+  goal: Why did the image build stop
+  output: "Sending build context to Docker daemon  18.2MB\n#220 sha256:35df9435df94\
+    \ 220.220MB / 88.4MB\n#137 [stage-2 137/9] layer 2b0cdf done\n#51 sha256:d79536d79536\
+    \ 51.51MB / 88.4MB\nStep 365/31 : COPY layere4d859 /opt/layere4d859\n#121 sha256:440f8d440f8d\
+    \ 121.121MB / 88.4MB\nStep 237/31 : COPY layer78492d /opt/layer78492d\n#401 [stage-2\
+    \ 401/9] layer 967d21 done\n ---> Using cache 890b80\n ---> Using cache 854aa2\n\
+    #226 sha256:7eaf077eaf07 226.226MB / 88.4MB\n#127 sha256:7893fb7893fb 127.127MB\
+    \ / 88.4MB\n#146 sha256:606252606252 146.146MB / 88.4MB\n ---> Using cache cac9a2\n\
+    \ ---> Using cache 767790\n#336 [stage-2 336/9] layer ed865b done\n#54 [stage-2\
+    \ 54/9] layer 024cc9 done\nStep 120/31 : COPY layere58734 /opt/layere58734\n --->\
+    \ Using cache 965ce4\n#63 sha256:19ccde19ccde 63.63MB / 88.4MB\n#309 sha256:636926636926\
+    \ 309.309MB / 88.4MB\n#192 [stage-2 192/9] layer 5b033a done\nStep 310/31 : COPY\
+    \ layer8517ee /opt/layer8517ee\n#56 [stage-2 56/9] layer b30bd4 done\n#21 sha256:bcc75ebcc75e\
+    \ 21.21MB / 88.4MB\n ---> Using cache 169cfe\n#132 sha256:1393ab1393ab 132.132MB\
+    \ / 88.4MB\n#7 sha256:a78d36a78d36 7.7MB / 88.4MB\nStep 349/31 : COPY layerbe5dc8\
+    \ /opt/layerbe5dc8\n#319 sha256:9fd81e9fd81e 319.319MB / 88.4MB\n#106 [stage-2\
+    \ 106/9] layer 101c63 done\nStep 282/31 : COPY layerf78e3b /opt/layerf78e3b\n\
+    #210 [stage-2 210/9] layer 33e918 done\nStep 341/31 : COPY layer4f2176 /opt/layer4f2176\n\
+    #336 [stage-2 336/9] layer 53cf16 done\nStep 358/31 : COPY layer8ad662 /opt/layer8ad662\n\
+    Step 147/31 : COPY layer9d7d31 /opt/layer9d7d31\nStep 28/31 : COPY layer9fede5\
+    \ /opt/layer9fede5\n ---> Using cache d53854\n#394 [stage-2 394/9] layer ba418d\
+    \ done\n#202 sha256:cf58adcf58ad 202.202MB / 88.4MB\n#5 sha256:de4ac6de4ac6 5.5MB\
+    \ / 88.4MB\n#218 sha256:3a21d23a21d2 218.218MB / 88.4MB\n#209 [stage-2 209/9]\
+    \ layer babd83 done\nStep 397/31 : COPY layer53390b /opt/layer53390b\n#9 sha256:1a77d11a77d1\
+    \ 9.9MB / 88.4MB\n#330 sha256:cb1ec5cb1ec5 330.330MB / 88.4MB\n#295 [stage-2 295/9]\
+    \ layer bddf37 done\n#76 sha256:b225d6b225d6 76.76MB / 88.4MB\n ---> Using cache\
+    \ 57f43e\n#57 [stage-2 57/9] layer c478e1 done\nStep 387/31 : COPY layer6509f8\
+    \ /opt/layer6509f8\n ---> Using cache 164548\nStep 163/31 : COPY layer1b53e8 /opt/layer1b53e8\n\
+    Step 46/31 : COPY layer520fb7 /opt/layer520fb7\n#319 sha256:cf1899cf1899 319.319MB\
+    \ / 88.4MB\n#244 sha256:5dada85dada8 244.244MB / 88.4MB\n#23 sha256:ccab73ccab73\
+    \ 23.23MB / 88.4MB\n#198 sha256:b7ea11b7ea11 198.198MB / 88.4MB\n#78 [stage-2\
+    \ 78/9] layer 7e7e80 done\n#23 sha256:13859a13859a 23.23MB / 88.4MB\n ---> Using\
+    \ cache c798a6\nStep 283/31 : COPY layer9cc819 /opt/layer9cc819\nStep 159/31 :\
+    \ COPY layer7f9edb /opt/layer7f9edb\nStep 201/31 : COPY layerbc2268 /opt/layerbc2268\n\
+    Step 259/31 : COPY layere06fc0 /opt/layere06fc0\n#13 sha256:01cbd001cbd0 13.13MB\
+    \ / 88.4MB\nStep 240/31 : COPY layer7872cf /opt/layer7872cf\nStep 392/31 : COPY\
+    \ layereaa4dc /opt/layereaa4dc\n#244 sha256:ccf9acccf9ac 244.244MB / 88.4MB\n\
+    #36 [stage-2 36/9] layer 41c4f8 done\n ---> Using cache bb0cd6\n#228 [stage-2\
+    \ 228/9] layer 14df62 done\n#327 [stage-2 327/9] layer 42b2e0 done\n#377 [stage-2\
+    \ 377/9] layer a0a0ac done\n#29 [stage-2 29/9] layer c17735 done\n#15 sha256:21fca521fca5\
+    \ 15.15MB / 88.4MB\n#101 [stage-2 101/9] layer 43635d done\nStep 149/31 : COPY\
+    \ layer54897f /opt/layer54897f\n#35 sha256:b3a8d2b3a8d2 35.35MB / 88.4MB\n --->\
+    \ Using cache a5ce39\n ---> Using cache 49824e\n ---> Using cache f5d0a9\n#305\
+    \ sha256:869697869697 305.305MB / 88.4MB\n#165 sha256:be99c6be99c6 165.165MB /\
+    \ 88.4MB\n#103 [stage-2 103/9] layer 5d3bbc done\nStep 84/31 : COPY layer8e6ffd\
+    \ /opt/layer8e6ffd\n ---> Using cache 56655b\n ---> Using cache 18de5f\n --->\
+    \ Using cache 358f48\n ---> Using cache c9dbf9\n/bin/sh: line 1:    77 Killed\
+    \                  npm run build\n ---> Using cache c060f6\n ---> Using cache\
+    \ 4ada21\n ---> Using cache 29ab5d\nStep 119/31 : COPY layer5a7fc5 /opt/layer5a7fc5\n\
+    #153 [stage-2 153/9] layer 81debd done\n ---> Using cache a01381\n#384 [stage-2\
+    \ 384/9] layer 114d56 done\n#78 sha256:94fa3b94fa3b 78.78MB / 88.4MB\nStep 215/31\
+    \ : COPY layerba6b2e /opt/layerba6b2e\n#69 [stage-2 69/9] layer fa0ed8 done\n\
+    #315 sha256:1756bf1756bf 315.315MB / 88.4MB\n#29 [stage-2 29/9] layer 0156d1 done\n\
+    \ ---> Using cache 36752a\n ---> Using cache 72d212\nStep 300/31 : COPY layer9a30fc\
+    \ /opt/layer9a30fc\n#106 sha256:bb8317bb8317 106.106MB / 88.4MB\nStep 83/31 :\
+    \ COPY layer44fdc8 /opt/layer44fdc8\n#126 [stage-2 126/9] layer 4c72c3 done\n\
+    Step 51/31 : COPY layer20992d /opt/layer20992d\n#342 sha256:8a1e008a1e00 342.342MB\
+    \ / 88.4MB\nStep 137/31 : COPY layer05e2cf /opt/layer05e2cf\n#332 [stage-2 332/9]\
+    \ layer b35ece done\nStep 310/31 : COPY layerfc570d /opt/layerfc570d\n#86 sha256:00345f00345f\
+    \ 86.86MB / 88.4MB\n#33 [stage-2 33/9] layer 0cea52 done\nStep 97/31 : COPY layer79afb9\
+    \ /opt/layer79afb9\n#31 sha256:35b7ca35b7ca 31.31MB / 88.4MB\n#315 [stage-2 315/9]\
+    \ layer 64ff05 done\n#213 sha256:662742662742 213.213MB / 88.4MB\nStep 315/31\
+    \ : COPY layer596a58 /opt/layer596a58\n ---> Using cache 99bc7c\n#372 [stage-2\
+    \ 372/9] layer f4b29e done\n#194 [stage-2 194/9] layer df9041 done\nStep 43/31\
+    \ : COPY layere7ac68 /opt/layere7ac68\n#117 sha256:35e77b35e77b 117.117MB / 88.4MB\n\
+    \ ---> Using cache 13dfe5\n#173 [stage-2 173/9] layer 86cf10 done\n#138 [stage-2\
+    \ 138/9] layer df424d done\n ---> Using cache 6f1a09\n#261 [stage-2 261/9] layer\
+    \ 07cbed done\n#135 sha256:78e35178e351 135.135MB / 88.4MB\n#83 sha256:a75bb0a75bb0\
+    \ 83.83MB / 88.4MB\n#201 sha256:a83831a83831 201.201MB / 88.4MB\n#196 sha256:f06161f06161\
+    \ 196.196MB / 88.4MB\nStep 273/31 : COPY layer034476 /opt/layer034476\n#225 [stage-2\
+    \ 225/9] layer 77b85d done\n ---> Using cache 6c86d2\nStep 320/31 : COPY layer27d5b5\
+    \ /opt/layer27d5b5\n#76 sha256:10da0d10da0d 76.76MB / 88.4MB\n#59 [stage-2 59/9]\
+    \ layer 369e8c done\n#178 sha256:489f75489f75 178.178MB / 88.4MB\n#17 [stage-2\
+    \ 17/9] layer 155313 done\n#356 sha256:15d5bd15d5bd 356.356MB / 88.4MB\n#379 [stage-2\
+    \ 379/9] layer 17e7a1 done\n#304 [stage-2 304/9] layer ba105d done\n#275 sha256:21c3fd21c3fd\
+    \ 275.275MB / 88.4MB\nStep 56/31 : COPY layer7e3f64 /opt/layer7e3f64\n#106 sha256:395418395418\
+    \ 106.106MB / 88.4MB\n#19 [stage-2 19/9] layer 2cc8d4 done\n ---> Using cache\
+    \ 332317\n#52 sha256:68f4e668f4e6 52.52MB / 88.4MB\n ---> Using cache ac4bcc\n\
+    Step 135/31 : COPY layer0ab5d3 /opt/layer0ab5d3\n ---> Using cache 90b00f\n#368\
+    \ [stage-2 368/9] layer bc6dae done\n ---> Using cache f3c11f\n ---> Using cache\
+    \ 0fdcc9\nStep 17/31 : COPY layerdf7651 /opt/layerdf7651\n#179 [stage-2 179/9]\
+    \ layer f0191f done\n#277 [stage-2 277/9] layer 6ee2d2 done\nlayer cleanup\nbuild\
+    \ aborted\n"
+  essential:
+  - '/bin/sh: line 1:    77 Killed                  npm run build'
+- id: tp2-dev-004
+  lang: en
+  goal: Which test is failing
+  output: "TAP version 13\n1..40\nok 296 - case 93000a\n    ... 00aa45 225 assertions\
+    \ evaluated\n    ... 1ba13c 149 assertions evaluated\nok 180 - case fb4d26\nok\
+    \ 253 - case 5e794c\nok 305 - fixture b1c252 loaded\n# subtest 515abb in 297ms\n\
+    # subtest 768ac7 in 111ms\nok 86 - fixture 3847db loaded\nok 253 - case 35889d\n\
+    # subtest 30b74c in 184ms\nok 204 - fixture 2c1eda loaded\nok 332 - fixture 0ce39c\
+    \ loaded\n# subtest 9b354d in 107ms\n# subtest 579b0b in 221ms\nok 324 - fixture\
+    \ 779737 loaded\nok 66 - fixture 115942 loaded\n# subtest a74001 in 299ms\n  \
+    \  ... a58c05 232 assertions evaluated\n    ... e0aa22 239 assertions evaluated\n\
+    # subtest 7648d6 in 298ms\n    ... ec8d9e 173 assertions evaluated\n    ... 6215f5\
+    \ 261 assertions evaluated\n# subtest 4f26fd in 156ms\n    ... a73335 128 assertions\
+    \ evaluated\n# subtest 78f0ea in 84ms\n# subtest 8472c6 in 98ms\nok 86 - case\
+    \ 3409e5\n    ... 4d4aa4 198 assertions evaluated\n    ... 9aad8b 408 assertions\
+    \ evaluated\n# subtest 8c3235 in 224ms\n    ... 36b7a0 57 assertions evaluated\n\
+    # subtest c6d4a8 in 107ms\nok 19 - fixture 0675c6 loaded\nok 406 - fixture df809a\
+    \ loaded\n    ... 97a944 258 assertions evaluated\nok 13 - fixture 489ba6 loaded\n\
+    # subtest cf3697 in 311ms\nok 381 - case 7c0cae\nok 360 - fixture d7a19a loaded\n\
+    \    ... 750bdd 343 assertions evaluated\n    ... 3f992c 330 assertions evaluated\n\
+    ok 223 - fixture a04368 loaded\n# subtest 321b99 in 323ms\nok 126 - fixture ccde18\
+    \ loaded\n    ... d8df75 130 assertions evaluated\nok 235 - fixture 0a1085 loaded\n\
+    ok 267 - fixture 5dba4f loaded\n# subtest 057192 in 400ms\nok 252 - fixture 367771\
+    \ loaded\nok 130 - case 6f8e29\n    ... 664db2 368 assertions evaluated\n# subtest\
+    \ e9dfae in 53ms\n    ... f3939b 369 assertions evaluated\nok 329 - case bd655a\n\
+    # subtest e9f00d in 212ms\n    ... 5e1b61 352 assertions evaluated\nok 265 - fixture\
+    \ 3eaa82 loaded\n# subtest 1cfd13 in 328ms\n# subtest c38019 in 142ms\nok 33 -\
+    \ fixture 06d059 loaded\nok 216 - case d751f1\n# subtest 87c2b8 in 299ms\nok 116\
+    \ - case 9b63bf\nok 271 - fixture 701563 loaded\nok 238 - fixture 6c8cf0 loaded\n\
+    \    ... 234633 68 assertions evaluated\n    ... 73b48a 242 assertions evaluated\n\
+    \    ... d39a49 182 assertions evaluated\nok 152 - fixture 4015c4 loaded\nok 183\
+    \ - fixture 75fe0e loaded\n# subtest c09689 in 362ms\n# subtest 5f2cf0 in 220ms\n\
+    ok 3 - fixture 8ffafa loaded\n# subtest 9a882f in 127ms\n# subtest f84754 in 247ms\n\
+    ok 321 - fixture 2bbc5e loaded\n# subtest 9b38ec in 80ms\nok 31 - fixture 2ba9cf\
+    \ loaded\n# subtest 47e2bb in 403ms\n# subtest 07ac39 in 326ms\nok 109 - case\
+    \ 24dd21\n# subtest 33f95f in 130ms\n    ... 5f0f48 121 assertions evaluated\n\
+    ok 179 - fixture 4e2b03 loaded\n    ... 55f8a9 208 assertions evaluated\nok 344\
+    \ - case 98161e\n    ... 6d1b8b 255 assertions evaluated\nok 381 - case e08e5d\n\
+    ok 286 - case 3ca1e2\nnot ok 14 - handles empty payload\n# subtest 77e5e2 in 216ms\n\
+    \    ... fc748d 244 assertions evaluated\nok 249 - case ef26f7\n    ... fb9524\
+    \ 360 assertions evaluated\n    ... 544899 257 assertions evaluated\nok 84 - case\
+    \ a430b1\nok 358 - fixture fec647 loaded\n# subtest bffa7a in 240ms\nok 216 -\
+    \ fixture 269a59 loaded\n    ... b8831a 328 assertions evaluated\nok 12 - case\
+    \ 177c4f\n# subtest f7e54f in 50ms\nok 389 - fixture 49fa82 loaded\nok 111 - case\
+    \ d4c86a\n    ... 305dc1 175 assertions evaluated\n# subtest f2f60e in 176ms\n\
+    \    ... ded129 147 assertions evaluated\n# subtest 80ce0a in 218ms\nok 150 -\
+    \ case 95f4bc\n# subtest ceb5a8 in 254ms\n# subtest 8b1bfe in 259ms\n# subtest\
+    \ fc00b7 in 106ms\nok 171 - case 62764b\n# subtest 99334d in 367ms\n    ... 2cd6ca\
+    \ 302 assertions evaluated\nok 206 - case cfe30d\nok 206 - case 99cede\nok 5 -\
+    \ case 17c14e\n    ... 1ecbd1 245 assertions evaluated\nok 317 - fixture 4b4a5a\
+    \ loaded\nok 110 - case 1435f5\nok 322 - fixture 5909fd loaded\nok 341 - case\
+    \ 5cd31c\nok 217 - case 338298\nok 190 - case 470323\n# subtest 8418ee in 289ms\n\
+    # subtest d7f42a in 96ms\nok 165 - case 0a70d3\nok 291 - fixture 1bf6de loaded\n\
+    ok 292 - fixture 14298a loaded\nok 398 - case d796ae\nok 230 - fixture 226a82\
+    \ loaded\nok 350 - case c63796\n    ... d32855 245 assertions evaluated\nok 44\
+    \ - case f1c337\n    ... 07f38e 79 assertions evaluated\nok 4 - fixture 04c691\
+    \ loaded\nok 47 - case 6fbdd5\nok 68 - case f1d578\nok 143 - case 7c0add\nok 377\
+    \ - fixture 5ff43f loaded\nok 189 - case 4a232a\nok 152 - case ff068a\nok 344\
+    \ - fixture 8212ea loaded\nok 369 - case 105e34\nok 33 - case 078aa2\nok 201 -\
+    \ case 9f4398\n# subtest 54fd90 in 375ms\nok 313 - fixture 1e9b5b loaded\n# subtest\
+    \ e0a066 in 190ms\nok 348 - fixture 553b97 loaded\n    ... 3bc0cf 410 assertions\
+    \ evaluated\n# subtest 53fb2d in 332ms\nok 246 - fixture c57f62 loaded\nok 141\
+    \ - fixture aaf30b loaded\n# subtest 1f0beb in 145ms\n# subtest 07efb1 in 312ms\n\
+    \    ... 9e0085 309 assertions evaluated\nok 128 - fixture c0dbc9 loaded\nok 352\
+    \ - fixture c09d45 loaded\n# tests 40\n# pass 39\n"
+  essential:
+  - not ok 14 - handles empty payload
+- id: tp2-dev-005
+  lang: tr
+  goal: Sertifika sorununu bul
+  output: '* Trying 192.168.1.20:443...
+
+    > User-Agent: probe/233
+
+    * Added 86adc6 to connection cache
+
+    < x-request-id: 50870f50870f
+
+    * Added 4805dd to connection cache
+
+    > User-Agent: probe/142
+
+    < x-request-id: 2b8d732b8d73
+
+    * TLSv1.3 (IN), TLS handshake, record 410
+
+    > User-Agent: probe/405
+
+    < x-request-id: 1d78971d7897
+
+    * TLSv1.3 (IN), TLS handshake, record 240
+
+    < x-request-id: 04cc1804cc18
+
+    * TLSv1.3 (IN), TLS handshake, record 237
+
+    < x-request-id: 201133201133
+
+    > User-Agent: probe/205
+
+    < x-request-id: 675b74675b74
+
+    > User-Agent: probe/110
+
+    * Added 946031 to connection cache
+
+    < x-request-id: b7c080b7c080
+
+    * TLSv1.3 (IN), TLS handshake, record 401
+
+    > User-Agent: probe/24
+
+    < x-request-id: be4b4fbe4b4f
+
+    * TLSv1.3 (IN), TLS handshake, record 405
+
+    > User-Agent: probe/163
+
+    < x-request-id: 0a882a0a882a
+
+    * Added 68c711 to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 302
+
+    < x-request-id: 8f45278f4527
+
+    * TLSv1.3 (IN), TLS handshake, record 51
+
+    > User-Agent: probe/132
+
+    < x-request-id: 5c89595c8959
+
+    * TLSv1.3 (IN), TLS handshake, record 44
+
+    * Added bd4093 to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 251
+
+    * TLSv1.3 (IN), TLS handshake, record 63
+
+    < x-request-id: 776706776706
+
+    * Added c946cc to connection cache
+
+    > User-Agent: probe/231
+
+    < x-request-id: 718587718587
+
+    > User-Agent: probe/21
+
+    < x-request-id: 0e39f70e39f7
+
+    * Added f7837b to connection cache
+
+    * Added 4a22e8 to connection cache
+
+    < x-request-id: 02f54502f545
+
+    > User-Agent: probe/348
+
+    * TLSv1.3 (IN), TLS handshake, record 390
+
+    * TLSv1.3 (IN), TLS handshake, record 167
+
+    < x-request-id: 3f8fbe3f8fbe
+
+    < x-request-id: c260f8c260f8
+
+    > User-Agent: probe/227
+
+    > User-Agent: probe/348
+
+    * TLSv1.3 (IN), TLS handshake, record 369
+
+    * Added 70ec3b to connection cache
+
+    * Added bf065d to connection cache
+
+    > User-Agent: probe/400
+
+    * Added 0b20ff to connection cache
+
+    * Added adf785 to connection cache
+
+    < x-request-id: f47fe6f47fe6
+
+    * Added bb688e to connection cache
+
+    > User-Agent: probe/171
+
+    * Added e71af9 to connection cache
+
+    > User-Agent: probe/226
+
+    < x-request-id: d2d50cd2d50c
+
+    > User-Agent: probe/81
+
+    < x-request-id: 97d58a97d58a
+
+    < x-request-id: 8576d18576d1
+
+    * TLSv1.3 (IN), TLS handshake, record 57
+
+    * TLSv1.3 (IN), TLS handshake, record 249
+
+    > User-Agent: probe/264
+
+    > User-Agent: probe/288
+
+    < x-request-id: 83fd7683fd76
+
+    > User-Agent: probe/188
+
+    < x-request-id: 79ee8679ee86
+
+    * Added 942ffd to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 85
+
+    < x-request-id: 0834e40834e4
+
+    * TLSv1.3 (IN), TLS handshake, record 261
+
+    > User-Agent: probe/228
+
+    < x-request-id: b85eecb85eec
+
+    * TLSv1.3 (IN), TLS handshake, record 22
+
+    > User-Agent: probe/143
+
+    > User-Agent: probe/94
+
+    > User-Agent: probe/102
+
+    * Added fdaf99 to connection cache
+
+    < x-request-id: 697d03697d03
+
+    > User-Agent: probe/315
+
+    < x-request-id: 05237c05237c
+
+    * Added d0f57e to connection cache
+
+    * Added b1fe0c to connection cache
+
+    < x-request-id: fc6cbdfc6cbd
+
+    * Added d1ac2e to connection cache
+
+    x509: certificate signed by unknown authority
+
+    * TLSv1.3 (IN), TLS handshake, record 70
+
+    > User-Agent: probe/97
+
+    * Added be0961 to connection cache
+
+    * Added e43b9f to connection cache
+
+    * Added b6a3c5 to connection cache
+
+    > User-Agent: probe/166
+
+    * Added 3722f4 to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 230
+
+    > User-Agent: probe/12
+
+    * Added 5d62b9 to connection cache
+
+    > User-Agent: probe/54
+
+    < x-request-id: 0f65cd0f65cd
+
+    * Added 63e22c to connection cache
+
+    < x-request-id: ed898eed898e
+
+    > User-Agent: probe/361
+
+    * Added 30147b to connection cache
+
+    > User-Agent: probe/25
+
+    * Added fcb814 to connection cache
+
+    < x-request-id: 3e7baf3e7baf
+
+    * Added 461eea to connection cache
+
+    > User-Agent: probe/118
+
+    * TLSv1.3 (IN), TLS handshake, record 384
+
+    > User-Agent: probe/11
+
+    * TLSv1.3 (IN), TLS handshake, record 307
+
+    * TLSv1.3 (IN), TLS handshake, record 28
+
+    < x-request-id: 7b12b47b12b4
+
+    < x-request-id: df0496df0496
+
+    < x-request-id: 1b6b521b6b52
+
+    < x-request-id: 4b12fb4b12fb
+
+    < x-request-id: d8223ad8223a
+
+    * Added 37d22f to connection cache
+
+    > User-Agent: probe/37
+
+    * TLSv1.3 (IN), TLS handshake, record 104
+
+    > User-Agent: probe/73
+
+    * TLSv1.3 (IN), TLS handshake, record 399
+
+    * Added 11996c to connection cache
+
+    < x-request-id: 8bff6c8bff6c
+
+    * Added 337549 to connection cache
+
+    < x-request-id: 06ff6406ff64
+
+    * TLSv1.3 (IN), TLS handshake, record 123
+
+    < x-request-id: 9c5eed9c5eed
+
+    < x-request-id: 557e2c557e2c
+
+    * Added 896d3c to connection cache
+
+    * Added 4bfc0b to connection cache
+
+    * TLSv1.3 (IN), TLS handshake, record 65
+
+    < x-request-id: 939cfe939cfe
+
+    < x-request-id: 2cfa4f2cfa4f
+
+    < x-request-id: 7177a87177a8
+
+    * TLSv1.3 (IN), TLS handshake, record 105
+
+    * TLSv1.3 (IN), TLS handshake, record 282
+
+    * TLSv1.3 (IN), TLS handshake, record 242
+
+    * Added aad653 to connection cache
+
+    > User-Agent: probe/98
+
+    * TLSv1.3 (IN), TLS handshake, record 8
+
+    > User-Agent: probe/124
+
+    < x-request-id: 8a33fd8a33fd
+
+    < x-request-id: 974c55974c55
+
+    * Added 0b2782 to connection cache
+
+    > User-Agent: probe/284
+
+    < x-request-id: 1fc0ac1fc0ac
+
+    * TLSv1.3 (IN), TLS handshake, record 227
+
+    * Added 734918 to connection cache
+
+    > User-Agent: probe/215
+
+    < x-request-id: 67ad1a67ad1a
+
+    < x-request-id: 30aa9f30aa9f
+
+    * TLSv1.3 (IN), TLS handshake, record 139
+
+    * TLSv1.3 (IN), TLS handshake, record 54
+
+    * TLSv1.3 (IN), TLS handshake, record 394
+
+    * TLSv1.3 (IN), TLS handshake, record 205
+
+    * TLSv1.3 (IN), TLS handshake, record 403
+
+    * closing connection 0
+
+    bitti
+
+    '
+  essential:
+  - 'x509: certificate signed by unknown authority'
+- id: tp2-dev-006
+  lang: en
+  goal: What stopped the backup
+  output: 'backup job started
+
+    196 rows migrated in batch e791ab
+
+    vacuum pass 149: b48a70 pages scanned
+
+    checkpoint 182 written (c807ca)
+
+    vacuum pass 333: a4dc5e pages scanned
+
+    404 rows migrated in batch ffc4fe
+
+    vacuum pass 229: 999c94 pages scanned
+
+    batch 9baa2d: committed after 276 ms
+
+    batch c10605: committed after 225 ms
+
+    batch a90060: committed after 47 ms
+
+    checkpoint 313 written (7c3cff)
+
+    checkpoint 106 written (da574b)
+
+    15 rows migrated in batch 184a54
+
+    checkpoint 291 written (fea300)
+
+    checkpoint 276 written (9ff555)
+
+    vacuum pass 266: dc3056 pages scanned
+
+    vacuum pass 239: b72608 pages scanned
+
+    306 rows migrated in batch b3c444
+
+    vacuum pass 7: 22f427 pages scanned
+
+    batch d1ac7c: committed after 52 ms
+
+    checkpoint 258 written (cd41ef)
+
+    batch d7aad8: committed after 98 ms
+
+    vacuum pass 207: e15d18 pages scanned
+
+    checkpoint 356 written (2f3a72)
+
+    batch a2db16: committed after 187 ms
+
+    checkpoint 40 written (9f0ae5)
+
+    batch 96ffd3: committed after 58 ms
+
+    checkpoint 262 written (d77e84)
+
+    batch 94713a: committed after 270 ms
+
+    batch 604fb6: committed after 260 ms
+
+    vacuum pass 95: 1ece97 pages scanned
+
+    182 rows migrated in batch 15aa23
+
+    vacuum pass 7: 016c40 pages scanned
+
+    checkpoint 365 written (0200e4)
+
+    checkpoint 205 written (326e39)
+
+    344 rows migrated in batch 0f1ed4
+
+    batch fee7ad: committed after 91 ms
+
+    checkpoint 333 written (499557)
+
+    batch 3e356c: committed after 212 ms
+
+    batch 369a52: committed after 82 ms
+
+    53 rows migrated in batch 26fa85
+
+    batch fb1934: committed after 269 ms
+
+    vacuum pass 315: dc7a64 pages scanned
+
+    334 rows migrated in batch 066540
+
+    checkpoint 75 written (79fd99)
+
+    checkpoint 143 written (56bd83)
+
+    138 rows migrated in batch 32ebdc
+
+    180 rows migrated in batch 622050
+
+    vacuum pass 321: c574c8 pages scanned
+
+    29 rows migrated in batch 70aa1e
+
+    vacuum pass 300: 167d27 pages scanned
+
+    vacuum pass 29: 7a017b pages scanned
+
+    batch 168462: committed after 116 ms
+
+    batch 58d914: committed after 302 ms
+
+    checkpoint 5 written (e92fde)
+
+    checkpoint 216 written (8101e9)
+
+    vacuum pass 36: 7c610a pages scanned
+
+    vacuum pass 347: 715b1f pages scanned
+
+    vacuum pass 160: cc1507 pages scanned
+
+    vacuum pass 13: 7c9dbd pages scanned
+
+    90 rows migrated in batch 570051
+
+    checkpoint 196 written (5f83d8)
+
+    150 rows migrated in batch cac409
+
+    checkpoint 60 written (ab8706)
+
+    vacuum pass 173: ce6fb7 pages scanned
+
+    65 rows migrated in batch d834b1
+
+    checkpoint 285 written (7d6841)
+
+    vacuum pass 99: ef1c70 pages scanned
+
+    checkpoint 178 written (796ef6)
+
+    vacuum pass 19: 8eea80 pages scanned
+
+    176 rows migrated in batch 4fd142
+
+    batch 427dad: committed after 363 ms
+
+    102 rows migrated in batch 8a11e1
+
+    batch e2f95b: committed after 286 ms
+
+    vacuum pass 409: 7af973 pages scanned
+
+    batch b4b1c1: committed after 190 ms
+
+    batch cf7018: committed after 371 ms
+
+    vacuum pass 324: 6a86b3 pages scanned
+
+    checkpoint 245 written (68ad14)
+
+    batch 430b34: committed after 233 ms
+
+    checkpoint 307 written (e17521)
+
+    checkpoint 275 written (7e1490)
+
+    vacuum pass 313: 6cd24c pages scanned
+
+    batch 3ede2f: committed after 386 ms
+
+    279 rows migrated in batch 8a7310
+
+    vacuum pass 16: 4a4697 pages scanned
+
+    checkpoint 9 written (c7a589)
+
+    357 rows migrated in batch 5aa5ee
+
+    batch 606abf: committed after 166 ms
+
+    36 rows migrated in batch b91433
+
+    checkpoint 100 written (21bf15)
+
+    ENOSPC: no space left on device, write
+
+    checkpoint 47 written (73edf4)
+
+    checkpoint 66 written (cc4628)
+
+    checkpoint 184 written (ce8794)
+
+    vacuum pass 398: 43ab81 pages scanned
+
+    checkpoint 92 written (0f2455)
+
+    checkpoint 349 written (b3ee82)
+
+    vacuum pass 14: ecd782 pages scanned
+
+    batch b44839: committed after 207 ms
+
+    95 rows migrated in batch 953c67
+
+    140 rows migrated in batch 7039ea
+
+    209 rows migrated in batch 147ab0
+
+    batch 656bbf: committed after 222 ms
+
+    checkpoint 81 written (c2f09d)
+
+    284 rows migrated in batch 9f3081
+
+    batch 748f30: committed after 291 ms
+
+    vacuum pass 368: 82693a pages scanned
+
+    vacuum pass 345: b2b541 pages scanned
+
+    59 rows migrated in batch 929a84
+
+    301 rows migrated in batch 183dd6
+
+    batch 38ed8b: committed after 350 ms
+
+    407 rows migrated in batch a3192b
+
+    batch b0fac5: committed after 399 ms
+
+    215 rows migrated in batch c98a96
+
+    batch 2e0bc6: committed after 145 ms
+
+    checkpoint 219 written (e296d9)
+
+    checkpoint 356 written (e7d2d6)
+
+    348 rows migrated in batch 6974c4
+
+    vacuum pass 346: 415aa3 pages scanned
+
+    vacuum pass 392: 60eb6a pages scanned
+
+    361 rows migrated in batch 85bbaf
+
+    batch 53cffc: committed after 281 ms
+
+    batch 854301: committed after 280 ms
+
+    batch 560ac9: committed after 32 ms
+
+    checkpoint 179 written (d2c237)
+
+    105 rows migrated in batch 9f00c6
+
+    batch f90f17: committed after 71 ms
+
+    vacuum pass 123: 7bc19f pages scanned
+
+    265 rows migrated in batch e3db1b
+
+    batch b3f2b3: committed after 330 ms
+
+    checkpoint 70 written (48a58d)
+
+    batch 3c66ba: committed after 172 ms
+
+    vacuum pass 391: 56a2da pages scanned
+
+    batch ec1fa1: committed after 308 ms
+
+    vacuum pass 107: 3a9ce4 pages scanned
+
+    checkpoint 8 written (b890f0)
+
+    vacuum pass 107: 163819 pages scanned
+
+    145 rows migrated in batch 9b9941
+
+    batch 9e2a52: committed after 58 ms
+
+    vacuum pass 59: 52987b pages scanned
+
+    checkpoint 229 written (eff421)
+
+    checkpoint 150 written (561097)
+
+    25 rows migrated in batch 05896e
+
+    vacuum pass 386: f896b7 pages scanned
+
+    384 rows migrated in batch a9d7de
+
+    checkpoint 57 written (fa4dff)
+
+    vacuum pass 252: 612e98 pages scanned
+
+    checkpoint 6 written (b7f594)
+
+    331 rows migrated in batch 926b11
+
+    checkpoint 336 written (7df233)
+
+    72 rows migrated in batch 0e2a91
+
+    398 rows migrated in batch ca613d
+
+    batch bc5bc9: committed after 153 ms
+
+    batch 564047: committed after 328 ms
+
+    403 rows migrated in batch 9ee613
+
+    checkpoint 196 written (5e7c66)
+
+    checkpoint 165 written (75e02b)
+
+    checkpoint 71 written (bd11bf)
+
+    checkpoint 124 written (1d8dbf)
+
+    56 rows migrated in batch ce7328
+
+    112 rows migrated in batch fd1f5a
+
+    job cleanup
+
+    backup aborted
+
+    '
+  essential:
+  - 'ENOSPC: no space left on device, write'
+- id: tp2-dev-007
+  lang: en
+  goal: Why can't the dependency install
+  output: "pip install -r reqs.txt\nRequirement already satisfied: lib50a18a in site-packages\
+    \ (257.0)\n  Preparing metadata (pyproject.toml): finished with status 'done'\n\
+    \  Downloading wheel_747ac8-1.354.0-py3-none-any.whl (41 kB)\n  Downloading wheel_e2e996-1.72.0-py3-none-any.whl\
+    \ (41 kB)\nRequirement already satisfied: lib14736b in site-packages (47.0)\n\
+    Requirement already satisfied: lib61b267 in site-packages (247.0)\n  Downloading\
+    \ wheel_beb6ee-1.372.0-py3-none-any.whl (41 kB)\nCollecting wheel-d9d3d6\n  Downloading\
+    \ wheel_24dc6c-1.147.0-py3-none-any.whl (41 kB)\nCollecting wheel-d7a895\n  Preparing\
+    \ metadata (pyproject.toml): finished with status 'done'\nCollecting wheel-5a419f\n\
+    \  Downloading wheel_976b46-1.195.0-py3-none-any.whl (41 kB)\nCollecting wheel-b23a7d\n\
+    \  Downloading wheel_2b8a9a-1.242.0-py3-none-any.whl (41 kB)\n  Preparing metadata\
+    \ (pyproject.toml): finished with status 'done'\nRequirement already satisfied:\
+    \ lib4f08e1 in site-packages (275.0)\nRequirement already satisfied: lib29b254\
+    \ in site-packages (313.0)\nCollecting wheel-a9bfd8\n  Preparing metadata (pyproject.toml):\
+    \ finished with status 'done'\n  Preparing metadata (pyproject.toml): finished\
+    \ with status 'done'\n  Preparing metadata (pyproject.toml): finished with status\
+    \ 'done'\n  Downloading wheel_e50a66-1.115.0-py3-none-any.whl (41 kB)\nCollecting\
+    \ wheel-be7814\nRequirement already satisfied: lib7b0085 in site-packages (186.0)\n\
+    Requirement already satisfied: lib85ac70 in site-packages (204.0)\nCollecting\
+    \ wheel-5c6ab6\n  Downloading wheel_397bb0-1.282.0-py3-none-any.whl (41 kB)\n\
+    \  Downloading wheel_309f37-1.131.0-py3-none-any.whl (41 kB)\n  Downloading wheel_80ca22-1.273.0-py3-none-any.whl\
+    \ (41 kB)\nRequirement already satisfied: libea9348 in site-packages (118.0)\n\
+    \  Downloading wheel_39dd78-1.279.0-py3-none-any.whl (41 kB)\nCollecting wheel-259e44\n\
+    Requirement already satisfied: lib3aae9b in site-packages (70.0)\nCollecting wheel-c8af57\n\
+    \  Downloading wheel_f3416c-1.100.0-py3-none-any.whl (41 kB)\nCollecting wheel-bf2998\n\
+    Collecting wheel-794b3d\nCollecting wheel-155eb4\nCollecting wheel-6d1fdc\nRequirement\
+    \ already satisfied: lib3db71c in site-packages (155.0)\n  Downloading wheel_2ce7b7-1.220.0-py3-none-any.whl\
+    \ (41 kB)\n  Downloading wheel_3abb65-1.290.0-py3-none-any.whl (41 kB)\n  Preparing\
+    \ metadata (pyproject.toml): finished with status 'done'\n  Preparing metadata\
+    \ (pyproject.toml): finished with status 'done'\n  Preparing metadata (pyproject.toml):\
+    \ finished with status 'done'\n  Preparing metadata (pyproject.toml): finished\
+    \ with status 'done'\nRequirement already satisfied: libb4f66a in site-packages\
+    \ (24.0)\nCollecting wheel-a79c01\nCollecting wheel-7c225f\n  Preparing metadata\
+    \ (pyproject.toml): finished with status 'done'\nRequirement already satisfied:\
+    \ libe137bb in site-packages (12.0)\nCollecting wheel-0abad5\nRequirement already\
+    \ satisfied: lib25c331 in site-packages (58.0)\n  Preparing metadata (pyproject.toml):\
+    \ finished with status 'done'\n  Preparing metadata (pyproject.toml): finished\
+    \ with status 'done'\n  Downloading wheel_80227c-1.303.0-py3-none-any.whl (41\
+    \ kB)\n  Preparing metadata (pyproject.toml): finished with status 'done'\nCollecting\
+    \ wheel-4d4723\nRequirement already satisfied: libf7cad7 in site-packages (258.0)\n\
+    Collecting wheel-1227aa\nCollecting wheel-c8fe3a\nRequirement already satisfied:\
+    \ libe5ad36 in site-packages (83.0)\nRequirement already satisfied: lib26da35\
+    \ in site-packages (119.0)\n  Preparing metadata (pyproject.toml): finished with\
+    \ status 'done'\n  Preparing metadata (pyproject.toml): finished with status 'done'\n\
+    \  Downloading wheel_b8d30a-1.88.0-py3-none-any.whl (41 kB)\nRequirement already\
+    \ satisfied: libefd2d4 in site-packages (171.0)\nRequirement already satisfied:\
+    \ liba0f3c3 in site-packages (183.0)\nCollecting wheel-f78527\n  Preparing metadata\
+    \ (pyproject.toml): finished with status 'done'\n  Downloading wheel_173c3e-1.237.0-py3-none-any.whl\
+    \ (41 kB)\n  Downloading wheel_498c9f-1.374.0-py3-none-any.whl (41 kB)\n  Preparing\
+    \ metadata (pyproject.toml): finished with status 'done'\nCollecting wheel-862dba\n\
+    \  Preparing metadata (pyproject.toml): finished with status 'done'\nCollecting\
+    \ wheel-30c4df\n  Downloading wheel_da3db3-1.398.0-py3-none-any.whl (41 kB)\n\
+    Collecting wheel-902bb8\n  Downloading wheel_4843fb-1.409.0-py3-none-any.whl (41\
+    \ kB)\nCollecting wheel-aed921\n  Preparing metadata (pyproject.toml): finished\
+    \ with status 'done'\n  Preparing metadata (pyproject.toml): finished with status\
+    \ 'done'\n  Preparing metadata (pyproject.toml): finished with status 'done'\n\
+    \  Preparing metadata (pyproject.toml): finished with status 'done'\n  Preparing\
+    \ metadata (pyproject.toml): finished with status 'done'\n  Preparing metadata\
+    \ (pyproject.toml): finished with status 'done'\n  Downloading wheel_e8003f-1.5.0-py3-none-any.whl\
+    \ (41 kB)\nRequirement already satisfied: libcaca3c in site-packages (230.0)\n\
+    \  Preparing metadata (pyproject.toml): finished with status 'done'\nCould not\
+    \ find a version that satisfies the requirement torchx==9.9\n  Downloading wheel_9df33d-1.156.0-py3-none-any.whl\
+    \ (41 kB)\n  Preparing metadata (pyproject.toml): finished with status 'done'\n\
+    Collecting wheel-28f9f5\n  Downloading wheel_b4fc9b-1.157.0-py3-none-any.whl (41\
+    \ kB)\nRequirement already satisfied: libdb462b in site-packages (184.0)\nCollecting\
+    \ wheel-a375b0\n  Downloading wheel_83dc2e-1.143.0-py3-none-any.whl (41 kB)\n\
+    Collecting wheel-5441e1\n  Preparing metadata (pyproject.toml): finished with\
+    \ status 'done'\n  Downloading wheel_cc94e8-1.26.0-py3-none-any.whl (41 kB)\n\
+    Requirement already satisfied: lib90b595 in site-packages (104.0)\nCollecting\
+    \ wheel-7bc4c6\nCollecting wheel-18e23d\nCollecting wheel-aeac91\n  Downloading\
+    \ wheel_6058ba-1.4.0-py3-none-any.whl (41 kB)\n  Preparing metadata (pyproject.toml):\
+    \ finished with status 'done'\n  Preparing metadata (pyproject.toml): finished\
+    \ with status 'done'\n  Preparing metadata (pyproject.toml): finished with status\
+    \ 'done'\nRequirement already satisfied: libacf0d2 in site-packages (209.0)\n\
+    \  Downloading wheel_d41b71-1.31.0-py3-none-any.whl (41 kB)\nCollecting wheel-ab462a\n\
+    Requirement already satisfied: libcc92c8 in site-packages (308.0)\n  Preparing\
+    \ metadata (pyproject.toml): finished with status 'done'\nCollecting wheel-a07ac7\n\
+    Collecting wheel-a88876\n  Downloading wheel_09861d-1.49.0-py3-none-any.whl (41\
+    \ kB)\n  Downloading wheel_490a79-1.109.0-py3-none-any.whl (41 kB)\nCollecting\
+    \ wheel-b9343e\nRequirement already satisfied: lib4e8bbc in site-packages (178.0)\n\
+    \  Preparing metadata (pyproject.toml): finished with status 'done'\nRequirement\
+    \ already satisfied: lib10323d in site-packages (392.0)\n  Preparing metadata\
+    \ (pyproject.toml): finished with status 'done'\n  Preparing metadata (pyproject.toml):\
+    \ finished with status 'done'\n  Downloading wheel_04a0ee-1.131.0-py3-none-any.whl\
+    \ (41 kB)\nRequirement already satisfied: libb99971 in site-packages (53.0)\n\
+    \  Downloading wheel_74d263-1.323.0-py3-none-any.whl (41 kB)\nRequirement already\
+    \ satisfied: lib2e08fa in site-packages (389.0)\nCollecting wheel-44ae67\nCollecting\
+    \ wheel-68edb7\n  Downloading wheel_bb3126-1.134.0-py3-none-any.whl (41 kB)\n\
+    \  Downloading wheel_52fc24-1.92.0-py3-none-any.whl (41 kB)\nCollecting wheel-7c3429\n\
+    Requirement already satisfied: lib6d2012 in site-packages (257.0)\n  Preparing\
+    \ metadata (pyproject.toml): finished with status 'done'\nRequirement already\
+    \ satisfied: liba5cd46 in site-packages (110.0)\nCollecting wheel-07e74a\nCollecting\
+    \ wheel-cdbfc6\n  Preparing metadata (pyproject.toml): finished with status 'done'\n\
+    Requirement already satisfied: libc04a49 in site-packages (211.0)\n  Downloading\
+    \ wheel_80fcce-1.17.0-py3-none-any.whl (41 kB)\nCollecting wheel-de1a4f\n  Downloading\
+    \ wheel_b5675f-1.120.0-py3-none-any.whl (41 kB)\n  Downloading wheel_d9e985-1.168.0-py3-none-any.whl\
+    \ (41 kB)\n  Preparing metadata (pyproject.toml): finished with status 'done'\n\
+    \  Downloading wheel_503e12-1.293.0-py3-none-any.whl (41 kB)\nRequirement already\
+    \ satisfied: lib88d86c in site-packages (395.0)\n  Downloading wheel_90ac7b-1.155.0-py3-none-any.whl\
+    \ (41 kB)\nCollecting wheel-020360\nRequirement already satisfied: lib52bcef in\
+    \ site-packages (129.0)\n  Preparing metadata (pyproject.toml): finished with\
+    \ status 'done'\n  Downloading wheel_1ab081-1.298.0-py3-none-any.whl (41 kB)\n\
+    \  Downloading wheel_b881ad-1.378.0-py3-none-any.whl (41 kB)\nCollecting wheel-e0ce9b\n\
+    \  Downloading wheel_4793b3-1.224.0-py3-none-any.whl (41 kB)\n  Preparing metadata\
+    \ (pyproject.toml): finished with status 'done'\nCollecting wheel-04d370\n  Downloading\
+    \ wheel_4d35fc-1.156.0-py3-none-any.whl (41 kB)\n  Preparing metadata (pyproject.toml):\
+    \ finished with status 'done'\nRequirement already satisfied: libcb5a63 in site-packages\
+    \ (351.0)\nCollecting wheel-add828\npip finished with problems\ndone\n"
+  essential:
+  - Could not find a version that satisfies the requirement torchx==9.9
+- id: tp2-dev-008
+  lang: en
+  goal: Why did the pod restart
+  output: "Name: api-7d9f\nNamespace: prod\n  Tolerations: node.kubernetes.io/not-ready\
+    \ op=Exists for 300s\n  Normal  Created    105m   kubelet  Created container sidecar-07dcb8\n\
+    \  Normal  Pulled     71m   kubelet  Container image already present on machine\n\
+    \  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Pulled\
+    \     26m   kubelet  Container image already present on machine\n  Normal  Pulled\
+    \     58m   kubelet  Container image already present on machine\n  Tolerations:\
+    \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Pulled     93m  \
+    \ kubelet  Container image already present on machine\n  Normal  Created    326m\
+    \   kubelet  Created container sidecar-3987a8\n  Normal  Started    256m   kubelet\
+    \  Started container sidecar-279779\n  Normal  Started    112m   kubelet  Started\
+    \ container sidecar-72aae4\n  Normal  Pulled     141m   kubelet  Container image\
+    \ already present on machine\n  Normal  Pulled     137m   kubelet  Container image\
+    \ already present on machine\n  Normal  Pulled     24m   kubelet  Container image\
+    \ already present on machine\n  Normal  Pulled     210m   kubelet  Container image\
+    \ already present on machine\n  Normal  Started    7m   kubelet  Started container\
+    \ sidecar-a6c3b7\n  Normal  Pulled     336m   kubelet  Container image already\
+    \ present on machine\n  Normal  Started    282m   kubelet  Started container sidecar-a9586c\n\
+    \  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Tolerations:\
+    \ node.kubernetes.io/not-ready op=Exists for 300s\n  Tolerations: node.kubernetes.io/not-ready\
+    \ op=Exists for 300s\n  Tolerations: node.kubernetes.io/not-ready op=Exists for\
+    \ 300s\n  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Normal\
+    \  Created    313m   kubelet  Created container sidecar-82637e\n  Tolerations:\
+    \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Pulled     46m  \
+    \ kubelet  Container image already present on machine\n  Normal  Pulled     209m\
+    \   kubelet  Container image already present on machine\n  Tolerations: node.kubernetes.io/not-ready\
+    \ op=Exists for 300s\n  Tolerations: node.kubernetes.io/not-ready op=Exists for\
+    \ 300s\n  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Normal\
+    \  Started    305m   kubelet  Started container sidecar-c2814d\n  Normal  Created\
+    \    324m   kubelet  Created container sidecar-c1f6bf\n  Normal  Started    366m\
+    \   kubelet  Started container sidecar-20d411\n  Tolerations: node.kubernetes.io/not-ready\
+    \ op=Exists for 300s\n  Normal  Started    38m   kubelet  Started container sidecar-724fa5\n\
+    \  Normal  Started    136m   kubelet  Started container sidecar-f2514c\n  Normal\
+    \  Started    269m   kubelet  Started container sidecar-f4074d\n  Normal  Created\
+    \    74m   kubelet  Created container sidecar-21b71a\n  Normal  Started    270m\
+    \   kubelet  Started container sidecar-68e0fa\n  Normal  Created    189m   kubelet\
+    \  Created container sidecar-7a2f4f\n  Normal  Created    80m   kubelet  Created\
+    \ container sidecar-ebac47\n  Normal  Created    329m   kubelet  Created container\
+    \ sidecar-162610\n  Normal  Started    197m   kubelet  Started container sidecar-b938fc\n\
+    \  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Created\
+    \    361m   kubelet  Created container sidecar-80c239\n  Tolerations: node.kubernetes.io/not-ready\
+    \ op=Exists for 300s\n  Normal  Started    341m   kubelet  Started container sidecar-9ad442\n\
+    \  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Started\
+    \    204m   kubelet  Started container sidecar-94bc6c\n  Tolerations: node.kubernetes.io/not-ready\
+    \ op=Exists for 300s\n  Tolerations: node.kubernetes.io/not-ready op=Exists for\
+    \ 300s\n  Normal  Created    390m   kubelet  Created container sidecar-4cbd23\n\
+    \  Normal  Pulled     350m   kubelet  Container image already present on machine\n\
+    \  Normal  Started    252m   kubelet  Started container sidecar-79aa8b\n  Normal\
+    \  Started    269m   kubelet  Started container sidecar-ae20e0\n  Tolerations:\
+    \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Created    2m   kubelet\
+    \  Created container sidecar-84f319\n  Normal  Pulled     304m   kubelet  Container\
+    \ image already present on machine\n  Normal  Started    369m   kubelet  Started\
+    \ container sidecar-8c97c4\n  Normal  Started    132m   kubelet  Started container\
+    \ sidecar-7bd159\n  Normal  Started    226m   kubelet  Started container sidecar-2ec2a2\n\
+    \  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Created\
+    \    218m   kubelet  Created container sidecar-94b63b\n  Normal  Started    24m\
+    \   kubelet  Started container sidecar-e2934b\n  Tolerations: node.kubernetes.io/not-ready\
+    \ op=Exists for 300s\n  Normal  Started    210m   kubelet  Started container sidecar-dca7b7\n\
+    \  Normal  Started    182m   kubelet  Started container sidecar-7a2d2c\n  Tolerations:\
+    \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Created    366m \
+    \  kubelet  Created container sidecar-bea570\n  Normal  Pulled     342m   kubelet\
+    \  Container image already present on machine\n  Normal  Started    38m   kubelet\
+    \  Started container sidecar-28edc6\n  Tolerations: node.kubernetes.io/not-ready\
+    \ op=Exists for 300s\n  Tolerations: node.kubernetes.io/not-ready op=Exists for\
+    \ 300s\n  Normal  Pulled     305m   kubelet  Container image already present on\
+    \ machine\n  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Tolerations:\
+    \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Pulled     227m \
+    \  kubelet  Container image already present on machine\n  Tolerations: node.kubernetes.io/not-ready\
+    \ op=Exists for 300s\n  Normal  Created    381m   kubelet  Created container sidecar-66867c\n\
+    \  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Started\
+    \    285m   kubelet  Started container sidecar-a909a3\n  Tolerations: node.kubernetes.io/not-ready\
+    \ op=Exists for 300s\n  Normal  Pulled     48m   kubelet  Container image already\
+    \ present on machine\n  Normal  Pulled     294m   kubelet  Container image already\
+    \ present on machine\n  Normal  Pulled     256m   kubelet  Container image already\
+    \ present on machine\n  Normal  Created    290m   kubelet  Created container sidecar-e89712\n\
+    \  Normal  Pulled     350m   kubelet  Container image already present on machine\n\
+    \  Normal  Started    249m   kubelet  Started container sidecar-1c0be7\n  Tolerations:\
+    \ node.kubernetes.io/not-ready op=Exists for 300s\n  Tolerations: node.kubernetes.io/not-ready\
+    \ op=Exists for 300s\n    Last State:     Terminated\n      Reason:       OOMKilled\n\
+    \      Exit Code:    137\n  Normal  Started    173m   kubelet  Started container\
+    \ sidecar-616880\n  Normal  Pulled     97m   kubelet  Container image already\
+    \ present on machine\n  Normal  Started    46m   kubelet  Started container sidecar-a046d9\n\
+    \  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Tolerations:\
+    \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Pulled     159m \
+    \  kubelet  Container image already present on machine\n  Normal  Created    196m\
+    \   kubelet  Created container sidecar-df4905\n  Normal  Started    158m   kubelet\
+    \  Started container sidecar-676d80\n  Normal  Created    28m   kubelet  Created\
+    \ container sidecar-6a3e41\n  Normal  Started    239m   kubelet  Started container\
+    \ sidecar-fa5c82\n  Normal  Created    189m   kubelet  Created container sidecar-aefa88\n\
+    \  Normal  Created    235m   kubelet  Created container sidecar-1a31b2\n  Normal\
+    \  Started    6m   kubelet  Started container sidecar-22a1fe\n  Tolerations: node.kubernetes.io/not-ready\
+    \ op=Exists for 300s\n  Normal  Pulled     142m   kubelet  Container image already\
+    \ present on machine\n  Tolerations: node.kubernetes.io/not-ready op=Exists for\
+    \ 300s\n  Normal  Created    305m   kubelet  Created container sidecar-e8c386\n\
+    \  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Created\
+    \    106m   kubelet  Created container sidecar-1d8d00\n  Normal  Created    224m\
+    \   kubelet  Created container sidecar-3fb9ab\n  Normal  Pulled     72m   kubelet\
+    \  Container image already present on machine\n  Tolerations: node.kubernetes.io/not-ready\
+    \ op=Exists for 300s\n  Normal  Created    257m   kubelet  Created container sidecar-710d6d\n\
+    \  Normal  Started    110m   kubelet  Started container sidecar-516290\n  Normal\
+    \  Created    400m   kubelet  Created container sidecar-69efca\n  Normal  Pulled\
+    \     240m   kubelet  Container image already present on machine\n  Normal  Created\
+    \    403m   kubelet  Created container sidecar-2edd45\n  Normal  Pulled     214m\
+    \   kubelet  Container image already present on machine\n  Normal  Started   \
+    \ 363m   kubelet  Started container sidecar-e28318\n  Tolerations: node.kubernetes.io/not-ready\
+    \ op=Exists for 300s\n  Normal  Created    23m   kubelet  Created container sidecar-51fe69\n\
+    \  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Started\
+    \    363m   kubelet  Started container sidecar-4ed79e\n  Normal  Started    134m\
+    \   kubelet  Started container sidecar-a616c1\n  Normal  Created    79m   kubelet\
+    \  Created container sidecar-762d9c\n  Tolerations: node.kubernetes.io/not-ready\
+    \ op=Exists for 300s\n  Tolerations: node.kubernetes.io/not-ready op=Exists for\
+    \ 300s\n  Normal  Created    337m   kubelet  Created container sidecar-2feb13\n\
+    \  Normal  Created    239m   kubelet  Created container sidecar-4c3f77\n  Normal\
+    \  Created    222m   kubelet  Created container sidecar-aa96c8\n  Tolerations:\
+    \ node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Started    64m  \
+    \ kubelet  Started container sidecar-6bc35c\n  Normal  Pulled     150m   kubelet\
+    \  Container image already present on machine\n  Normal  Started    11m   kubelet\
+    \  Started container sidecar-fe3bdb\n  Normal  Pulled     104m   kubelet  Container\
+    \ image already present on machine\n  Normal  Started    157m   kubelet  Started\
+    \ container sidecar-2d4737\n  Normal  Created    73m   kubelet  Created container\
+    \ sidecar-f0df91\n  Normal  Started    395m   kubelet  Started container sidecar-7450b8\n\
+    \  Normal  Started    18m   kubelet  Started container sidecar-338a93\n  Normal\
+    \  Pulled     178m   kubelet  Container image already present on machine\n  Normal\
+    \  Created    338m   kubelet  Created container sidecar-999cc5\n  Normal  Pulled\
+    \     90m   kubelet  Container image already present on machine\n  Normal  Started\
+    \    232m   kubelet  Started container sidecar-f64afe\n  Normal  Created    170m\
+    \   kubelet  Created container sidecar-ba64e3\n  Normal  Created    58m   kubelet\
+    \  Created container sidecar-98b1e7\n  Normal  Pulled     372m   kubelet  Container\
+    \ image already present on machine\n  Normal  Pulled     384m   kubelet  Container\
+    \ image already present on machine\n  Normal  Created    306m   kubelet  Created\
+    \ container sidecar-c959cc\n  Tolerations: node.kubernetes.io/not-ready op=Exists\
+    \ for 300s\n  Normal  Pulled     264m   kubelet  Container image already present\
+    \ on machine\n  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n\
+    \  Tolerations: node.kubernetes.io/not-ready op=Exists for 300s\n  Normal  Pulled\
+    \     193m   kubelet  Container image already present on machine\n  Normal  Started\
+    \    88m   kubelet  Started container sidecar-2e192c\n  Normal  Started    4m\
+    \   kubelet  Started container sidecar-f5e2f3\n  Normal  Started    78m   kubelet\
+    \  Started container sidecar-85c69e\n  Normal  Pulled     56m   kubelet  Container\
+    \ image already present on machine\n  Normal  Pulled     80m   kubelet  Container\
+    \ image already present on machine\n  Normal  Started    276m   kubelet  Started\
+    \ container sidecar-3c33c9\n  Normal  Started    241m   kubelet  Started container\
+    \ sidecar-7defcb\nEvents: <none>\nend of describe\n"
+  essential:
+  - '    Last State:     Terminated'
+  - '      Reason:       OOMKilled'
+  - '      Exit Code:    137'
+- id: tp2-dev-009
+  lang: en
+  goal: Is the branch behind
+  output: "git status\n  CC  obj/158950.o\n  LD  lib653aa6.a\n  LD  lib682baf.a\n\
+    \  CC  obj/7ab2ef.o\n[  9/412] Building object 36257a\n[252/412] Building object\
+    \ 6bffda\n  CC  obj/57b1ae.o\n  CC  obj/0fd4c0.o\n[info] resolving unit 381f15\
+    \ (203 of 412)\n  LD  lib3dd33b.a\n[341/412] Building object 6f6c61\n  CC  obj/1fd09e.o\n\
+    \  CC  obj/acb1f6.o\n[ 23/412] Building object 6e0758\n  CC  obj/af240d.o\n[390/412]\
+    \ Building object ec6fb7\n  CC  obj/a28c82.o\n[info] resolving unit d0700e (404\
+    \ of 412)\n[ 47/412] Building object 7d5b67\n  CC  obj/5592c3.o\n  CC  obj/b04a9e.o\n\
+    \  CC  obj/657a8d.o\n  CC  obj/a980c3.o\n[  3/412] Building object f59ed0\n[256/412]\
+    \ Building object a8f5fc\n[386/412] Building object 20128f\n  CC  obj/19c423.o\n\
+    \  LD  libd29cee.a\n[335/412] Building object b2ca46\n  CC  obj/fe113f.o\n  CC\
+    \  obj/9b1e6d.o\n[383/412] Building object eeaba3\n  CC  obj/c58ad1.o\n  LD  lib3b4f24.a\n\
+    [402/412] Building object 8106b8\n  CC  obj/656208.o\n[info] resolving unit 792921\
+    \ (289 of 412)\n[info] resolving unit 19b42c (296 of 412)\n[info] resolving unit\
+    \ ca2523 (341 of 412)\n  LD  libcffed0.a\n[118/412] Building object addeee\n[info]\
+    \ resolving unit 9c09f0 (407 of 412)\n[155/412] Building object fa6527\n[ 58/412]\
+    \ Building object f36581\n[info] resolving unit 995293 (212 of 412)\n[info] resolving\
+    \ unit abbbd0 (76 of 412)\n  CC  obj/b51a06.o\n[info] resolving unit 10ace0 (240\
+    \ of 412)\n  LD  lib2d0b38.a\n  LD  libe251ed.a\n[info] resolving unit 7bc419\
+    \ (340 of 412)\n[112/412] Building object 154254\n[info] resolving unit c782cd\
+    \ (96 of 412)\n  LD  lib4d434f.a\n  LD  lib72ca63.a\n  LD  libc9e8ea.a\n  LD \
+    \ liba31190.a\n  CC  obj/c828c5.o\n[  2/412] Building object 59c70a\n[127/412]\
+    \ Building object e8bd7f\n  LD  libb4612e.a\n[284/412] Building object c0dd39\n\
+    \  CC  obj/81b5f1.o\n[info] resolving unit a98a18 (40 of 412)\n[info] resolving\
+    \ unit 977797 (138 of 412)\n  LD  libc07123.a\n[337/412] Building object ff0923\n\
+    [info] resolving unit 09366c (188 of 412)\n[351/412] Building object 3cf4ab\n\
+    [info] resolving unit 9f4eb6 (231 of 412)\n  CC  obj/eaf1e6.o\n[168/412] Building\
+    \ object f70682\n  CC  obj/8afc49.o\n  CC  obj/17e570.o\n[info] resolving unit\
+    \ 8fce64 (90 of 412)\n  CC  obj/0d3637.o\n[info] resolving unit d0ac1c (282 of\
+    \ 412)\n[348/412] Building object c2cf11\n[info] resolving unit b8717d (365 of\
+    \ 412)\n  LD  lib52e143.a\n[info] resolving unit b1ca1f (26 of 412)\n  CC  obj/1f901e.o\n\
+    \  CC  obj/576307.o\n  LD  lib986341.a\n[info] resolving unit b8604b (399 of 412)\n\
+    \  CC  obj/9e6a22.o\n[info] resolving unit a44ce0 (103 of 412)\n[info] resolving\
+    \ unit 3783de (208 of 412)\n  LD  libc9b692.a\n  LD  libf1f2e4.a\nhave diverged,\
+    \ and have 3 and 5 different commits each, respectively.\n  LD  lib686f5b.a\n\
+    [info] resolving unit d106eb (258 of 412)\n  CC  obj/a127bf.o\n[ 79/412] Building\
+    \ object 8ecc80\n[info] resolving unit d2cd65 (340 of 412)\n[142/412] Building\
+    \ object c8854a\n  LD  libca843d.a\n  LD  lib3e004c.a\n  LD  lib060381.a\n[274/412]\
+    \ Building object 9c75d3\n  LD  libb83806.a\n  LD  lib23c5aa.a\n[387/412] Building\
+    \ object d351dd\n[159/412] Building object 54f392\n  CC  obj/3c5458.o\n[info]\
+    \ resolving unit aef926 (203 of 412)\n[info] resolving unit ffe744 (202 of 412)\n\
+    \  LD  lib5f18bf.a\n  CC  obj/d3c899.o\n  LD  lib6d1549.a\n  LD  lib21c42f.a\n\
+    [info] resolving unit 019759 (36 of 412)\n  CC  obj/dd77a7.o\n[info] resolving\
+    \ unit 8c312d (111 of 412)\n  CC  obj/71c1be.o\n  CC  obj/3ff85d.o\n  LD  libc30b23.a\n\
+    \  LD  libc4c703.a\n  LD  lib2276b1.a\n  LD  lib6d1910.a\n  CC  obj/300bcd.o\n\
+    \  LD  lib284733.a\n  LD  lib24f4d5.a\n[168/412] Building object 6fd11e\n[236/412]\
+    \ Building object 470bc5\n[info] resolving unit 1e4262 (142 of 412)\n[info] resolving\
+    \ unit 108511 (304 of 412)\n[277/412] Building object ef6719\n[249/412] Building\
+    \ object 72eddb\n  LD  libae21bd.a\n  LD  lib75e89a.a\n  CC  obj/6affd0.o\n  LD\
+    \  lib0f9c76.a\n  CC  obj/58987c.o\n[260/412] Building object 893ee8\n[info] resolving\
+    \ unit 2048e9 (193 of 412)\n  LD  lib2dd585.a\n[206/412] Building object c7d640\n\
+    [info] resolving unit 1c04e4 (117 of 412)\n  LD  liba8aa6b.a\n  LD  libf4ac44.a\n\
+    \  CC  obj/e86ea3.o\n[info] resolving unit aef0a7 (99 of 412)\n  CC  obj/ce45f1.o\n\
+    \  CC  obj/636f38.o\n[378/412] Building object 0876a4\n[info] resolving unit 653972\
+    \ (400 of 412)\n  CC  obj/87fda4.o\n  CC  obj/97ab7f.o\n[380/412] Building object\
+    \ 0813cd\n[183/412] Building object 6949cc\n[info] resolving unit 870fa8 (8 of\
+    \ 412)\n  LD  lib53c993.a\n  LD  lib9c8af1.a\n[ 24/412] Building object 59b03b\n\
+    \  LD  lib0f0b83.a\n[info] resolving unit 344d31 (397 of 412)\n  LD  lib4ec8c6.a\n\
+    \  LD  libf14949.a\n[info] resolving unit acdee1 (44 of 412)\nnothing to commit\n\
+    clean\n"
+  essential:
+  - have diverged, and have 3 and 5 different commits each, respectively.
+- id: tp2-dev-010
+  lang: tr
+  goal: Kaç test koştu
+  output: "test koşumu başladı\n# subtest 41b234 in 245ms\nok 272 - case 80a246\n\
+    ok 109 - fixture b52762 loaded\n# subtest 0add25 in 338ms\n    ... 8e7ec9 365\
+    \ assertions evaluated\nok 398 - fixture c4af85 loaded\n    ... 448552 225 assertions\
+    \ evaluated\n    ... 38e5e8 8 assertions evaluated\n    ... c2001c 374 assertions\
+    \ evaluated\nok 6 - case 2c0e19\nok 401 - fixture 1624ef loaded\n    ... 24578d\
+    \ 295 assertions evaluated\n# subtest ec6c3c in 175ms\nok 395 - fixture 695429\
+    \ loaded\nok 126 - case 68acdc\n# subtest 3541dd in 197ms\nok 304 - case 40a2af\n\
+    \    ... e9ae35 227 assertions evaluated\nok 391 - fixture 2296f2 loaded\nok 242\
+    \ - case 5683bc\nok 335 - fixture 7ac5a5 loaded\nok 356 - fixture f1847c loaded\n\
+    \    ... fef602 62 assertions evaluated\nok 34 - fixture 7a29e9 loaded\n    ...\
+    \ c8dc1d 4 assertions evaluated\n    ... 139ad4 326 assertions evaluated\n   \
+    \ ... 6677ce 50 assertions evaluated\nok 21 - case eedd8e\nok 207 - case 7b1c5e\n\
+    \    ... 16a4ef 398 assertions evaluated\nok 136 - fixture 152853 loaded\n   \
+    \ ... 095469 241 assertions evaluated\nok 389 - fixture 35275c loaded\nok 97 -\
+    \ case 495878\n    ... a5840a 317 assertions evaluated\nok 263 - case c363c4\n\
+    ok 38 - case 0f366c\nok 259 - case 27be02\nok 340 - case 94f961\nok 205 - fixture\
+    \ 03e85e loaded\n    ... 5feec0 14 assertions evaluated\nok 108 - fixture 3e8aeb\
+    \ loaded\n    ... dbac28 345 assertions evaluated\nok 315 - case 2c366d\n# subtest\
+    \ 3024d3 in 348ms\nok 375 - case 7a5526\nok 47 - case bc346b\n# subtest 9e50c1\
+    \ in 156ms\n# subtest fcff61 in 77ms\n# subtest 62517a in 395ms\nok 42 - case\
+    \ 2665cc\nok 60 - case 6d81f4\nok 235 - fixture d095d3 loaded\n    ... 28dcd0\
+    \ 390 assertions evaluated\nok 32 - case 0fad9e\n    ... 1c10c3 222 assertions\
+    \ evaluated\n    ... 96341a 318 assertions evaluated\nok 132 - fixture 44adf6\
+    \ loaded\n# subtest 99dfce in 405ms\n# subtest a619ad in 16ms\nok 50 - fixture\
+    \ 53035e loaded\nok 85 - fixture f2562e loaded\n# subtest 7fdee4 in 142ms\nok\
+    \ 213 - case 0ab6c3\n# subtest b6ad18 in 120ms\n# subtest 7a41da in 2ms\n# subtest\
+    \ 2898eb in 408ms\n    ... 121dba 55 assertions evaluated\n# subtest ac8529 in\
+    \ 219ms\n# subtest 3e641e in 34ms\nok 84 - fixture 6c4acf loaded\nok 334 - case\
+    \ 7d6aeb\nok 267 - fixture 2de54d loaded\n    ... 9324ab 113 assertions evaluated\n\
+    ok 367 - case 853795\nok 368 - fixture 3c95ce loaded\n    ... e0407e 314 assertions\
+    \ evaluated\n    ... 919093 355 assertions evaluated\nok 129 - fixture aef80d\
+    \ loaded\n# subtest 2efb89 in 16ms\n    ... 84dfcd 330 assertions evaluated\n\
+    \    ... 238977 337 assertions evaluated\nok 357 - case c84245\n# subtest 20bce8\
+    \ in 41ms\nok 276 - case 07716f\nok 187 - case 2622b2\n    ... 39c922 287 assertions\
+    \ evaluated\nok 333 - fixture 8c0232 loaded\nok 93 - fixture 333ed8 loaded\n#\
+    \ subtest ca20ce in 157ms\nRan 812 tests in 41.2s\nok 358 - fixture 58b011 loaded\n\
+    ok 374 - fixture 308f6d loaded\nok 177 - fixture a537df loaded\n    ... c6a5af\
+    \ 17 assertions evaluated\n    ... 6af136 56 assertions evaluated\n# subtest abcc7e\
+    \ in 345ms\n# subtest 050535 in 321ms\n    ... 2dd10f 39 assertions evaluated\n\
+    \    ... 9fbab7 402 assertions evaluated\n# subtest 17603b in 94ms\n    ... 31b764\
+    \ 248 assertions evaluated\nok 198 - case 82046a\nok 293 - case 724efb\nok 35\
+    \ - case 977e3c\nok 139 - case 429882\n# subtest 5a47b5 in 188ms\n    ... 80d7be\
+    \ 191 assertions evaluated\n# subtest 551c2a in 189ms\nok 129 - case 54e6f1\n\
+    # subtest c2f4ab in 391ms\nok 116 - case 634ab4\n    ... c4b346 392 assertions\
+    \ evaluated\n# subtest f18e7a in 125ms\n# subtest 19e45f in 5ms\nok 341 - case\
+    \ c13c3d\n# subtest 904d7e in 122ms\nok 243 - case e06eaf\nok 61 - fixture 38423d\
+    \ loaded\nok 286 - fixture fbfbfc loaded\nok 209 - case 3c4c35\nok 247 - fixture\
+    \ 58fe8f loaded\n    ... e16a8a 220 assertions evaluated\nok 62 - case 61af2e\n\
+    ok 138 - case b8e786\nok 242 - fixture 7a68b1 loaded\n# subtest 1d551a in 286ms\n\
+    ok 262 - case 71df0c\nok 383 - fixture 6e860e loaded\nok 58 - fixture 1eab61 loaded\n\
+    ok 270 - fixture 1ca816 loaded\n    ... 575f49 269 assertions evaluated\n# subtest\
+    \ 33f7c5 in 110ms\nok 246 - case 87d5d3\nok 237 - fixture 437284 loaded\nok 233\
+    \ - case a2b935\nok 107 - case 8fae98\n# subtest 3d4a4c in 36ms\nok 248 - fixture\
+    \ 83bf87 loaded\n    ... 059209 262 assertions evaluated\nok 331 - case f0cba3\n\
+    ok 277 - case 77da4a\nok 342 - fixture 475228 loaded\n# subtest c653af in 76ms\n\
+    # subtest 15608c in 381ms\n# subtest 5d0b6b in 338ms\n    ... eabe6b 10 assertions\
+    \ evaluated\nok 232 - case 6f166b\nok 148 - case e0c6a3\n    ... 9be00b 100 assertions\
+    \ evaluated\n# subtest 66121b in 300ms\nok 207 - case 0cd035\n    ... b84771 8\
+    \ assertions evaluated\nok 121 - fixture 21b3ae loaded\nok 193 - fixture fbf4fb\
+    \ loaded\n    ... 6ec96f 320 assertions evaluated\n    ... 676082 242 assertions\
+    \ evaluated\n# subtest e9c4a4 in 403ms\n# subtest a4c0d4 in 117ms\nok 210 - case\
+    \ 5ae260\n# subtest 0bc0b9 in 213ms\nsüreç tamamlandı\ntemizlik\n"
+  essential:
+  - Ran 812 tests in 41.2s
