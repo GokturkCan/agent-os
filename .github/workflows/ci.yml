@@ -1,0 +1,73 @@
+name: ci
+
+# Minimal OFFLINE verification of the Agent OS policy/config repo. No secrets, no network after dependency install,
+# no model inference, no Hermes/worker CLIs, no MSI. Everything that needs the live Mac host is listed under "Not run in CI" in docs/ci.md.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: astral-sh/setup-uv@v5
+
+      # Several tests resolve ~/agent-stack (the documented install path); give them that path without changing the tests.
+      - name: Expose the checkout at ~/agent-stack
+        run: ln -s "$GITHUB_WORKSPACE" "$HOME/agent-stack"
+
+      - name: Git identity for fixture repos
+        run: |
+          git config --global user.email "ci@example.invalid"
+          git config --global user.name "ci"
+          git config --global init.defaultBranch main
+
+      - name: Install (locked)
+        run: cd "$HOME/agent-stack" && uv sync --extra test --frozen
+
+      - name: Protected-file manifest matches the tree
+        run: cd "$HOME/agent-stack" && uv run agentos manifest
+
+      - name: Config validation
+        run: cd "$HOME/agent-stack" && uv run agentos validate
+
+      - name: Activation / security boundary (SystemOne stays null, allowlists empty)
+        run: |
+          cd "$HOME/agent-stack" && uv run pytest -q \
+            evals/test_systemone_activation.py evals/test_policy_protection.py evals/test_a7_permissions.py \
+            evals/test_systemone_routing.py evals/test_systemone_adapter.py
+
+      - name: Compute contract fails closed
+        run: cd "$HOME/agent-stack" && uv run pytest -q evals/test_compute_contract.py
+
+      - name: Efficiency safety and recovery
+        run: cd "$HOME/agent-stack" && uv run pytest -q evals/test_efficiency_patterns.py evals/test_r32g_modules.py evals/test_r32g_recovery.py
+
+      - name: Open-Jev closure (frozen data, fail-closed analysis, evidence archive)
+        run: |
+          cd "$HOME/agent-stack" && uv run pytest -q evals/test_openjev_opt.py
+          uv run python scripts/openjev/evidence.py verify --archive audit/openjev-v3/openjev-v3-evidence.tar.gz
+
+      - name: Hermes integration (logic + archived-skill regressions; live-Hermes tests skip when Hermes is absent)
+        run: cd "$HOME/agent-stack" && uv run pytest -q -rs evals/test_hermes_integration.py
+
+      - name: Full regression (excludes real-model smoke only)
+        run: cd "$HOME/agent-stack" && uv run pytest -q -rs --ignore=evals/test_laya_smoke.py
+
+      - name: Whitespace check on newly introduced source (generated audit/data are historical and excluded)
+        run: |
+          cd "$HOME/agent-stack"
+          git diff --check origin/main...HEAD -- . ':(exclude)audit' ':(exclude)evals/data' ':(exclude)evals/protected-manifest.json' || exit 1
