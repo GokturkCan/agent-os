@@ -64,8 +64,19 @@ jobs:
       - name: Hermes integration (logic + archived-skill regressions; live-Hermes tests skip when Hermes is absent)
         run: cd "$HOME/agent-stack" && uv run pytest -q -rs evals/test_hermes_integration.py
 
-      - name: Full regression (excludes real-model smoke only)
-        run: cd "$HOME/agent-stack" && uv run pytest -q -rs --ignore=evals/test_laya_smoke.py
+      # Exclusions are explicit and listed in docs/ci.md: the real-model smoke, and 8 tests that need the live Mac host
+      # (SecondBrain vault + claude-obsidian engine, ~/.hermes config). They are NOT hidden: run them locally before release.
+      - name: Full regression (documented host-dependent exclusions only)
+        run: |
+          cd "$HOME/agent-stack" && uv run pytest -q -rs --ignore=evals/test_laya_smoke.py \
+            --deselect evals/test_a1_knowledge.py::test_live_secondbrain_healthy_readonly \
+            --deselect evals/test_a1_knowledge.py::test_raw_evidence_preserved_and_create_only \
+            --deselect evals/test_a1_knowledge.py::test_canonical_write_requires_independent_human_approved_review \
+            --deselect evals/test_a1_knowledge.py::test_reviewed_ingest_creates_canonical_knowledge_with_provenance \
+            --deselect evals/test_a1_knowledge.py::test_no_silent_overwrite_when_target_changed_after_proposal \
+            --deselect evals/test_a1_knowledge.py::test_proposals_cannot_target_raw_or_meta \
+            --deselect evals/test_a4_msi_unavailable.py::test_control_plane_healthy_without_msi \
+            --deselect evals/test_a8_durable_lesson.py::test_run_produces_lesson_that_reaches_wiki_only_through_gate
 
       - name: Whitespace check on newly introduced source (generated audit/data are historical and excluded)
         run: |

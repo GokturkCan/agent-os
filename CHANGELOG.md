@@ -7,7 +7,17 @@ Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run
 
 ## [Unreleased]
 
-### Run 3 — CN-1 Mac-side compute-node capability contract (branch `feature/run3-r33-capability-contract`, not merged)
+### Run 3 — final integration (`integration/run3-final`, Draft PR; supersedes stacked PRs #3–#6; NOT merged)
+
+- Consolidates R3.1–R3.2H (SystemOne wiring, adapter, evaluations), CN-1 (compute contract), R3.5 (efficiency) and the Open-Jev closure into one reviewable diff against `main`.
+  **Protected-file human approval is PENDING** (`docs/run3-protected-approval-packet.md`); the manifest was regenerated mechanically from the integrated tree and is not an approval.
+- Invariants unchanged: SystemOne production backend `null`, `tiers.fastgate.model: null`, both `activation.*` allowlists empty, Laya `candidate`, MSI compute disabled, offerings/authorizations empty.
+- Compute: MSI enablement/endpoint/auth references moved from the tunable `resources.yaml` into the protected `config/compute.yaml` (`nodes:`); a `compute` block in `resources.yaml` is rejected. Track renamed **CN-1/CN-2** (R3.3 is calibration in the audit record).
+- Hermes: `hermes_bridge` ignores archived (`.archive`) skills; the direct-worker disable-list test uses synthetic active skills with a positive precondition, plus archived-skill, partial-disable and YAML-indent regressions.
+- Open-Jev closure incorporated selectively: frozen v3 data, research scripts (moved to `scripts/openjev/`, out of the production package), summaries, a fail-closed analysis loader, and a 0.7 MB checksum-verified archive instead of ~17.7 MB of per-decision JSON in history. Shipped Open-Jev NO-GO, Laya NO-GO, hybrid SHADOW-ONLY (advantage over the deterministic prefilter not established: CI crosses 0).
+- Minimal offline CI (`.github/workflows/ci.yml`, `docs/ci.md`), stale routing/efficiency documentation corrected.
+
+### Run 3 — CN-1 Mac-side compute-node capability contract (integration branch; supersedes PR #4)
 
 - `config/compute.yaml` (new, **protected**): capability types, declared offerings and human-approved
   authorizations; offerings and authorizations are empty. Node enablement, symbolic
@@ -19,7 +29,7 @@ Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run
 - `docs/compute-contract.md`: contract and CN-2 handoff. No network client, no MSI integration, no inference.
   SystemOne `null` backend, `fastgate.model: null` and empty activation allowlists are unchanged.
 
-### Run 3 — R3.5 efficiency patterns (branch `feature/run3-efficiency-patterns`, not merged)
+### Run 3 — R3.5 efficiency patterns (integration branch; supersedes PR #5)
 
 - ContextGate/ToolPruner: failure-signal protection widened (HTTP 4xx/5xx, errno/signal names, OOM/CrashLoop/segfault/certificate/refused/expired ...); ContextGate also protects identifiers
   (hashes, ticket ids, `id=`, ports, version pins, one-line JSON). On new dev/holdout fixtures essential facts lost: 7/7 and 9/9 -> 0 (reduction 80.6/78.8% -> 69.4/68.9%); v1 suites unchanged (35/35, 27/27, 50.7%/46.1%).
@@ -27,7 +37,7 @@ Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run
 - New `agentos/retrieval_select.py` (BM25 + attribution + citation verifier; embeddings not available). `agentos module-eval --suite retrieval`, `--suite-file`.
 - compat adds an additive typed `trace`. Neural paths (Laya) showed no gain. See `docs/efficiency-patterns.md`. Fixtures are model-assisted, not human-reviewed; author knew the holdout.
 
-### Run 3 — R3.1 SystemOne router wiring (branch `feature/run3-local-intelligence`, not merged)
+### Run 3 — R3.1 SystemOne router wiring (integration branch; supersedes PR #3)
 
 - The router's `fastgate` stage now runs a real SystemOne decision step: one typed question
   ("which pre-approved worker?") over options built from the same predicates the cloud stage uses, so
@@ -39,7 +49,7 @@ Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run
 - Not included (DESIGN-ONLY / DEFERRED): other decision-model backends (Ollaya, Jev, Decider, Kev),
   confidence calibration, ContextGate. `fastgate.model` stays null.
 
-### Run 3 — R3.2A/R3.2B backend adapter and Laya-MLX candidate (same branch, not merged)
+### Run 3 — R3.2A/R3.2B backend adapter and Laya-MLX candidate (same integration branch)
 
 - `agentos/systemone_adapter.py`: backend-neutral adapter layer. Compact redacted payloads, field-by-field
   reply validation (only an offered option and a raw confidence survive), every failure escalates with a
@@ -51,7 +61,7 @@ Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run
 - `agentos systemone smoke|bench` and evidence `audit/laya-mlx-r3.2-2026-10-14.md`: warm p50 ~18 ms,
   valid-choice rate 100%, reproducible across two runs. Laya is **measured (operational only)**; decision
   quality is unmeasured, and it is not a production default.
-### Run 3 — R3.2C Phase 1 semantic decision-quality evaluation (same branch, not merged)
+### Run 3 — R3.2C Phase 1 semantic decision-quality evaluation (same integration branch)
 
 - Request formulation: optional, advisory per-option metadata (`option_info`) built only from existing
   config/registry (`agentos/systemone_options.py`) and an opt-in `allow_abstain` (an escalation, never a
@@ -64,7 +74,7 @@ Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run
 - Result for Laya-MLX: operationally sound but **no semantic skill demonstrated** (it follows the label
   string; 94.6% of choices unchanged when two workers' descriptions are swapped). Recommendation: keep as a
   baseline only. Evidence: `audit/systemone-eval-r3.2c-phase1-2026-10-14.md`.
-- Still pending: R3.2C Phase 2 backend comparison (Decider/Kev/Jev/Ollaya), calibration, ContextGate.
+- Follow-ups R3.2C Phase 2 → R3.2H completed the backend comparison (see `audit/` and `docs/openjev-research.md`): no neural backend is fit for production. Calibration remains design-only.
 
 ## [1.0.0] — 2026-10-14
 

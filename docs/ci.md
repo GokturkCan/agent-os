@@ -10,6 +10,7 @@ the Hermes integration tests, the full regression, and a whitespace check limite
 |---|---|---|
 | `evals/test_laya_smoke.py` | needs the real Laya-MLX runtime and inference (git-ignored `state/runtime/`) | run locally; result recorded in the R3.2 audit |
 | Live-Hermes tests (`needs_hermes` / `AGENTOS_LIVE=1`) | need `~/.hermes` on the Mac; they SKIP (visibly, `-rs`) when Hermes is absent | the logic tests, the synthetic-skill disable-list test and the archived-skill regressions run without Hermes |
+| 8 host-dependent tests: `test_a1_knowledge.py` (live SecondBrain + the claude-obsidian engine: 1 failing + 5 fixture errors), `test_a4_msi_unavailable.py::test_control_plane_healthy_without_msi` and `test_a8_durable_lesson.py::test_run_produces_lesson_that_reaches_wiki_only_through_gate` (run `agentos health` / the knowledge gate against the real host: `~/.hermes/config.yaml`, vault, engine) | they pass on the Mac (full local regression) and fail on a clean runner for host reasons, not repo reasons | deselected by node id in the workflow; run locally before release |
 | `agentos health` | probes the live host (installed worker CLIs, Hermes config, MCP auth, MSI reachability) | run locally before release; its WARN lines (e.g. GitHub MCP 401, no fallback model) are host state, not repo state |
 | Real-model benchmarks / Open-Jev reruns | no weights, no inference, by policy | frozen results + archive verification |
 
