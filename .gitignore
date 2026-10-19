@@ -86,3 +86,9 @@ state/*
 audit/**/raw/
 audit/**/*.session*
 audit/**/*.transcript*
+
+# Open-Jev v3 per-decision results: retained as a checksum-verified archive (audit/openjev-v3/EVIDENCE-RETENTION.md), not in Git history
+audit/openjev-v3/cal/
+audit/openjev-v3/opt/
+audit/openjev-v3/final/
+audit/openjev-v3/dev/
