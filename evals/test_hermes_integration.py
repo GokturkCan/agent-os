@@ -40,17 +40,59 @@ def test_without_the_key_hermes_does_not_see_agentos():
     assert not set(hb.AGENT_OS_SKILLS) & set(r["listed"])   # the key is what wires it
 
 
+def _synthetic_skills(root: Path, names=hb.DIRECT_WORKER_SKILLS, category="autonomous-ai-agents") -> Path:
+    """Active, loadable stand-ins for the bundled direct-worker skills (independent of the live Hermes home)."""
+    for n in names:
+        d = root / category / n
+        d.mkdir(parents=True)
+        (d / "SKILL.md").write_text(f"---\nname: {n}\ndescription: synthetic stand-in for the {n} worker skill.\n"
+                                    f"version: 1.0.0\n---\n\n# {n}\n\nSynthetic test fixture.\n")
+    return root
+
+
 @needs_hermes
-def test_proposed_disable_list_blocks_direct_worker_skills():
-    seeded = tuple(n for n in hb.DIRECT_WORKER_SKILLS
-                   if list((hb.HERMES_HOME / "skills").glob(f"*/{n}/SKILL.md")))
-    if not seeded:
-        pytest.skip("no bundled direct-worker skills installed")
-    before = hb.probe(seed_skills=seeded)
-    assert all(before["seeded"].values())                     # today: Hermes can load them
-    after = hb.probe(hb.sandbox_config({"disabled": list(hb.DIRECT_WORKER_SKILLS)}), seed_skills=seeded)
+def test_proposed_disable_list_blocks_direct_worker_skills(tmp_path):
+    root = _synthetic_skills(tmp_path / "fixture-skills")
+    before = hb.probe(seed_skills=hb.DIRECT_WORKER_SKILLS, seed_root=root)
+    assert set(before["seeded"]) == set(hb.DIRECT_WORKER_SKILLS)
+    assert all(before["seeded"].values())                     # positive precondition: Hermes can load them today
+    after = hb.probe(hb.sandbox_config({"disabled": list(hb.DIRECT_WORKER_SKILLS)}),
+                     seed_skills=hb.DIRECT_WORKER_SKILLS, seed_root=root)
+    assert set(after["seeded"]) == set(hb.DIRECT_WORKER_SKILLS)
     assert not any(after["seeded"].values())                  # proposed: they no longer load
     assert hb.probe_ok(after)[0]                              # agentos skills still fine
+
+
+@needs_hermes
+def test_disable_list_blocks_only_the_listed_direct_worker_skills(tmp_path):
+    root = _synthetic_skills(tmp_path / "fixture-skills")
+    r = hb.probe(hb.sandbox_config({"disabled": ["codex"]}), seed_skills=hb.DIRECT_WORKER_SKILLS, seed_root=root)
+    assert r["seeded"] == {"claude-code": True, "codex": False, "opencode": True}
+
+
+@needs_hermes
+def test_archived_direct_worker_skills_are_not_seeded_or_loadable(tmp_path):
+    # Hermes parks retired bundled skills under ~/.hermes/skills/.archive and never loads them.
+    root = _synthetic_skills(tmp_path / "fixture-skills", category=".archive")
+    assert all(not hb.installed_skill_dirs(n, root) for n in hb.DIRECT_WORKER_SKILLS)
+    r = hb.probe(seed_skills=hb.DIRECT_WORKER_SKILLS, seed_root=root)
+    assert r["seeded"] == {n: False for n in hb.DIRECT_WORKER_SKILLS}   # nothing was copied, nothing loads
+
+
+@needs_hermes
+def test_live_active_direct_worker_skills_are_blocked_by_the_disable_list():
+    live = tuple(n for n in hb.DIRECT_WORKER_SKILLS if hb.installed_skill_dirs(n))
+    if not live:
+        pytest.skip("no ACTIVE bundled direct-worker skills in the live Hermes home (archived ones do not count)")
+    after = hb.probe(hb.sandbox_config({"disabled": list(hb.DIRECT_WORKER_SKILLS)}), seed_skills=live)
+    assert not any(after["seeded"].values())
+
+
+def test_installed_skill_dirs_ignores_dot_directories(tmp_path):
+    _synthetic_skills(tmp_path, names=("codex",))
+    _synthetic_skills(tmp_path, names=("codex", "opencode"), category=".archive")
+    assert [p.parent.name for p in hb.installed_skill_dirs("codex", tmp_path)] == ["autonomous-ai-agents"]
+    assert hb.installed_skill_dirs("opencode", tmp_path) == []
 
 
 @needs_hermes
@@ -71,6 +113,20 @@ def test_wiring_and_bypass_detection_logic(tmp_path, monkeypatch):
     assert hb.is_wired({"skills": {"external_dirs": ["~/agent-stack/skills"]}})
     assert hb.direct_worker_skills_enabled({}) == ["claude-code", "codex"]
     assert hb.direct_worker_skills_enabled({"skills": {"disabled": ["claude-code", "codex"]}}) == []
+
+
+def test_archived_skills_do_not_count_as_enabled_bypasses(tmp_path, monkeypatch):
+    monkeypatch.setattr(hb, "HERMES_HOME", tmp_path)
+    for n in hb.DIRECT_WORKER_SKILLS:
+        d = tmp_path / "skills" / ".archive" / n
+        d.mkdir(parents=True)
+        (d / "SKILL.md").write_text("---\nname: x\n---\n")
+    assert hb.direct_worker_skills_enabled({}) == []                # archived = not loadable = not a bypass
+    d = tmp_path / "skills" / "autonomous-ai-agents" / "codex"
+    d.mkdir(parents=True)
+    (d / "SKILL.md").write_text("---\nname: x\n---\n")
+    assert hb.direct_worker_skills_enabled({}) == ["codex"]         # an ACTIVE copy still is, and fails closed
+    assert hb.direct_worker_skills_enabled({"skills": {"disabled": ["codex"]}}) == []
 
 
 # ------------------------------------------------------- entry point
@@ -216,21 +272,32 @@ WIRING_KEYS = ("external_dirs", "disabled")
 def _pre_wiring_text(text: str) -> str:
     """Live config text with skills.external_dirs/disabled (and their list items)
     removed — an explicit pre-wiring fixture, valid whether or not the real
-    ~/.hermes/config.yaml has already been wired."""
+    ~/.hermes/config.yaml has already been wired, and whether the YAML emitter indents list items
+    under their key (`    - x`) or flush with it (`  - x`, as Hermes re-serialises the file)."""
     out, in_skills, skipping = [], False, False
     for line in text.splitlines(keepends=True):
         bare = line.rstrip("\n")
         if bare and not bare.startswith((" ", "#")):
             in_skills, skipping = bare == "skills:", False
+        elif in_skills and skipping and (bare.startswith("    ") or bare.startswith("  - ")):
+            pass                                             # list item of a removed key (either indentation style)
         elif in_skills and bare.startswith("  ") and not bare.startswith("   "):
             skipping = bare.strip().split(":")[0] in WIRING_KEYS
-        elif in_skills and skipping and bare.startswith("    "):
-            pass                                             # list item of a removed key
         else:
             skipping = False
         if not (in_skills and skipping):
             out.append(line)
     return "".join(out)
+
+
+@pytest.mark.parametrize("indent", ["    ", "  "])
+def test_pre_wiring_fixture_handles_both_yaml_list_indent_styles(indent):
+    import yaml
+    text = (f"memory:\n  memory_enabled: false\nskills:\n  external_dirs:\n{indent}- ~/agent-stack/skills\n"
+            f"  disabled:\n{indent}- codex\n{indent}- opencode\n  creation_nudge_interval: 15\napprovals:\n  mode: smart\n")
+    assert yaml.safe_load(_pre_wiring_text(text)) == {"memory": {"memory_enabled": False},
+                                                      "skills": {"creation_nudge_interval": 15},
+                                                      "approvals": {"mode": "smart"}}
 
 
 @needs_hermes
