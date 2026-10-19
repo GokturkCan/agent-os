@@ -1,0 +1,417 @@
+{
+ "review_status": "PENDING \u2014 human approval NOT recorded. Hashes were regenerated mechanically (agentos manifest --write); that is not approval.",
+ "base": "origin/main fffc3a1",
+ "head": "integration/run3-final (see git rev-parse; this file is generated from the tree before its own commit)",
+ "manifest_file": {
+  "path": "evals/protected-manifest.json",
+  "note": "not self-listed; 39 -> 77 entries",
+  "old_sha256": "910b35bee5053c5815be815b675c1e873ae0c34b6fc221cdd65391993f52e222"
+ },
+ "summary": {
+  "added": 38,
+  "modified": 2,
+  "removed": 0
+ },
+ "files": [
+  {
+   "path": "agentos/permissions.py",
+   "status": "M",
+   "old_sha256": "92b214644de0774723904390c8f48541727e688f3ccd444cf06e7229fd9b507c",
+   "new_sha256": "79a2ee98cffd580078b1ae580decf8553eb670c68de279fad961414c3a038017",
+   "bytes": 5086,
+   "purpose": "Defines PROTECTED_POLICY_PATHS (what no candidate/worker may edit).",
+   "security_effect": "Adds exactly two entries: config/systemone.yaml, config/compute.yaml. Nothing removed or loosened. Widens protection only.",
+   "class": "narrowing"
+  },
+  {
+   "path": "config/compute.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "912979050971d494dd5c8312711bbe5bae64eb988ed55a3c97b80bb7073869bd",
+   "bytes": 5307,
+   "purpose": "Compute-node enablement, endpoint/auth REFERENCES, capability types, offerings and the ONLY authorization of a remote node/model.",
+   "security_effect": "MSI enabled:false, refs null, offerings {}, authorizations []. A human edit here is the sole way to enable remote compute.",
+   "class": "fail-closed"
+  },
+  {
+   "path": "config/systemone.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "ad4fc175189373dfef2c0f92c748a2ac096251a0e7c755d75eae4b2206416fb0",
+   "bytes": 7268,
+   "purpose": "Defines SystemOne adapter backends (argv executables) and the activation allowlists.",
+   "security_effect": "Both activation lists EMPTY; 5 backends defined but unreachable from routing. Defining an executable is the sensitive part, hence protected.",
+   "class": "fail-closed"
+  },
+  {
+   "path": "evals/data/author_retrieval_suite.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "9691d3ed94e8d9bf31045554aeb7d0ccfa318c2f8edb3663798a6759957809e7",
+   "bytes": 7777,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/modules/author_context_suites.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "05cc3248d65e66c6b1d93afa9e0757aa7fbaaab77ebfe4f2f82df919d31a1ed2",
+   "bytes": 14286,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/modules/author_efficiency_suites.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "ec7fe5fcb4d86b35945d5da7d1e627f12a009c81bbbb407404eeef86336e7159",
+   "bytes": 16489,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/modules/author_wakegate_suite.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "5f6e46a01aa04e15d9ed5ec02526841dbef6a62ebad356ccdb195e4c610d87fa",
+   "bytes": 8724,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/modules/contextgate-suite-v1.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "7dda050b0e0bafdfe8a69b1ba73f1ec91b663170edb35f6c82e6c81ebd758eb0",
+   "bytes": 217089,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/modules/contextgate-suite-v2-dev.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "36003ee999fe33ca9dc4907aa7b16f1349def6f99ae9412a586ede8d321bd3d0",
+   "bytes": 38586,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/modules/contextgate-suite-v2-holdout.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "8e74f4777d4c611ec4e77e13036b68342384c7b2d2b331b77f8b87e1bb95b8d6",
+   "bytes": 50943,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/modules/toolpruner-suite-v1.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "72ebb1df2b00245f7423e3408c1294461790a8515e9443597be93e7664207b9f",
+   "bytes": 335545,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/modules/toolpruner-suite-v2-dev.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "e775e74e54dc7ef42c360d01f50872f3e6875ee4858ef982a198750cd91b3925",
+   "bytes": 70376,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/modules/toolpruner-suite-v2-holdout.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "41aec3e022c79cf856bdfe0b3e5077f733aa283fe4ddeb33531df04a34bddf07",
+   "bytes": 103535,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/modules/wakegate-suite-v1.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "c505146d237a30a3651190e95e9ac144f23083a770c74e0f42dd8411157b9b75",
+   "bytes": 13596,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/modules/wakegate-suite-v2-dev.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "18d4b6a5c98bba32ffcf9b8f662c3a07e66f82d47d28873e509eb3237207e3f3",
+   "bytes": 3538,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/modules/wakegate-suite-v2-holdout.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "976691333df68fe7026db28b22657873784bde1453315e11a4d89a632f080e93",
+   "bytes": 4859,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/openjev-v3-cal.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "a5aa118fd7f6b05b81c86fda94058fd3deaf3c3ccb9109679bb4405d199225d5",
+   "bytes": 146524,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/openjev-v3-final.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "c707921a14c50cb9d20d9c1503d67961be8bcf9294ec6fe1036c5cfa7a538a41",
+   "bytes": 190201,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/openjev-v3-opt.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "c6318e69561473cd04fef7e7f9cff28d7e5e969e64a69f45dcccc16c7251cef8",
+   "bytes": 137211,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/retrieval-suite-v1.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "79314892c26f06dac1acb6309b76d1e2bd108864f2939b4ad7421addd13fad71",
+   "bytes": 9645,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/systemone-decisions-v1.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "30e211a6ea922d6ad0ae7f1a5a65a5719a8c213efb8168f48fc991d4e7412396",
+   "bytes": 45146,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/systemone-heldout-v1.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "3affe3b44a1734357f32a5675540f9dedf9d6802715385f6607c7c781b2e6253",
+   "bytes": 55169,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/data/systemone-heldout-v2.yaml",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "c35d90cd91c1c855102fa05f9ad0054c6d8086e40bed40a77472871e5e2026cc",
+   "bytes": 141597,
+   "purpose": "Frozen evaluation dataset / authoring script (gate evidence).",
+   "security_effect": "Data only; changing it would silently move a gate, hence protected. Labels are model-assisted, no human review (disclosed).",
+   "class": "data-only"
+  },
+  {
+   "path": "evals/test_compute_contract.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "747a0fefce6e981734ea8e65421bf034c0cae9a9597c2cd0c1a6fdc210d3ef78",
+   "bytes": 20461,
+   "purpose": "Protected test for Run 3 behavior.",
+   "security_effect": "Test-only; no runtime effect. Protected so a candidate cannot weaken it.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_efficiency_patterns.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "9491451bb33b4a501c19f2c702d9720df4395f72654fea900d139287616a2c03",
+   "bytes": 10090,
+   "purpose": "Protected test for Run 3 behavior.",
+   "security_effect": "Test-only; no runtime effect. Protected so a candidate cannot weaken it.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_hermes_integration.py",
+   "status": "M",
+   "old_sha256": "8df503be8fb98c299602bb641fdb44877d500fec52dc56ba1acd87671559427b",
+   "new_sha256": "8091a47d9982e5d6feae55bc76d6c8a35e156dadb4f59e13a8140db14de5641e",
+   "bytes": 16593,
+   "purpose": "Hermes<->agentos integration tests.",
+   "security_effect": "Test-only. Direct-worker disable-list test now uses synthetic ACTIVE skills (real positive precondition + negative assertion), adds archived-skill, partial-disable, live-active and YAML-indent regressions. No assertion removed or weakened; no skip/xfail added except the live-home variant when no ACTIVE live skills exist.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_laya_smoke.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "347c60d6a49bc97c8ad62c36ed8cc27a9d47a42b8caceaaa29b44aeb7e7d2273",
+   "bytes": 6250,
+   "purpose": "Protected test for Run 3 behavior.",
+   "security_effect": "Test-only; no runtime effect. Protected so a candidate cannot weaken it.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_openjev_opt.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "62fb94f7d86d0ea96916d2596c05f56bafd3230b231a2e5aaa24e871b8add570",
+   "bytes": 12959,
+   "purpose": "Protected test for Run 3 behavior.",
+   "security_effect": "Test-only; no runtime effect. Protected so a candidate cannot weaken it.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_r32g_modules.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "506dfacf6b2113992c8e75147f3579cbbcb3887ddb3974550f34a986045aa139",
+   "bytes": 8506,
+   "purpose": "Protected test for Run 3 behavior.",
+   "security_effect": "Test-only; no runtime effect. Protected so a candidate cannot weaken it.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_r32g_recovery.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "194d8735e51d9721d39143e4f4295158df9258eaa552c91c2e63c4de964d3ade",
+   "bytes": 5471,
+   "purpose": "Protected test for Run 3 behavior.",
+   "security_effect": "Test-only; no runtime effect. Protected so a candidate cannot weaken it.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_run3_invariants.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "8461d05348421b65ca9fe4389a6aa84016518950526fcfeab326c084dbe159eb",
+   "bytes": 5279,
+   "purpose": "Pins the shipped posture (null SystemOne, empty allowlists, compute disabled, research code out of package, opt-in modules unwired).",
+   "security_effect": "Test-only; adds guard tests.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_systemone_activation.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "aab9be2cc10153a575b56ad990c917c6fee3bef880ca9daa6fe21843454bab33",
+   "bytes": 7273,
+   "purpose": "Protected test for Run 3 behavior.",
+   "security_effect": "Test-only; no runtime effect. Protected so a candidate cannot weaken it.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_systemone_adapter.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "856ac3073401c38f11b07461c9c92133f3ba4fd86d40399bf0182f384efcf006",
+   "bytes": 20937,
+   "purpose": "Protected test for Run 3 behavior.",
+   "security_effect": "Test-only; no runtime effect. Protected so a candidate cannot weaken it.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_systemone_bench.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "8eda241f5ca1bee2cceccb4a800e055298b288221d71caddedb7e5d26408e2a0",
+   "bytes": 5862,
+   "purpose": "Protected test for Run 3 behavior.",
+   "security_effect": "Test-only; no runtime effect. Protected so a candidate cannot weaken it.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_systemone_eval.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "a358791becac8bfd412f472529feb8107938c2cb8ed33b31555b227f933cc052",
+   "bytes": 26718,
+   "purpose": "Protected test for Run 3 behavior.",
+   "security_effect": "Test-only; no runtime effect. Protected so a candidate cannot weaken it.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_systemone_heldout.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "c189a0397156588b8c5b8be9573580a6e562ce7c8e48d0b2878313207bc13c90",
+   "bytes": 5781,
+   "purpose": "Protected test for Run 3 behavior.",
+   "security_effect": "Test-only; no runtime effect. Protected so a candidate cannot weaken it.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_systemone_heldout_v2.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "dbfaaf84f7335cdc48986bb8155279ba179883101ee59fdb8f39c6ff55f5fa69",
+   "bytes": 1999,
+   "purpose": "Protected test for Run 3 behavior.",
+   "security_effect": "Test-only; no runtime effect. Protected so a candidate cannot weaken it.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_systemone_options.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "5b627e6f9d0872ec18925de251b99b60f4a15eb7ba620e94f923873edb743a4b",
+   "bytes": 17529,
+   "purpose": "Protected test for Run 3 behavior.",
+   "security_effect": "Test-only; no runtime effect. Protected so a candidate cannot weaken it.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_systemone_pipeline.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "1a231480ac7ffcb56641348f75bcd591cc218e00fc25bb00bd3b08134d646010",
+   "bytes": 6828,
+   "purpose": "Protected test for Run 3 behavior.",
+   "security_effect": "Test-only; no runtime effect. Protected so a candidate cannot weaken it.",
+   "class": "test-only"
+  },
+  {
+   "path": "evals/test_systemone_routing.py",
+   "status": "A",
+   "old_sha256": null,
+   "new_sha256": "6e2016626e5f13cd5475930f5ab82faa5a5f05d6f668793affe8ed6183b30fe8",
+   "bytes": 15743,
+   "purpose": "Protected test for Run 3 behavior.",
+   "security_effect": "Test-only; no runtime effect. Protected so a candidate cannot weaken it.",
+   "class": "test-only"
+  }
+ ]
+}
