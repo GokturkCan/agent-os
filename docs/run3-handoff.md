@@ -18,7 +18,7 @@ Approve (or reject) the protected-file delta in `docs/run3-protected-approval-pa
 (e.g. a signed comment on the PR), then merge. If not: nothing merges; list the files to change.
 
 ## Residual caveats
-* CI is minimal and not a security approval; 8 host-dependent tests and the real-model smoke run only locally (`docs/ci.md`). GitHub Actions has not yet run for this branch (first run happens on the PR).
+* CI is minimal and not a security approval; 8 host-dependent tests and the real-model smoke run only locally (`docs/ci.md`). GitHub Actions `offline` job passed on the PR head (first run failed on missing worker-CLI presence; fixed with documented stubs).
 * Adapter, workers and activation-guard code are unprotected (packet §C).
 * Datasets are model-assisted; 4 Open-Jev families are defective (documented).
 * The GitHub MCP token is rejected (HTTP 401; host state, unrelated); `gh` CLI worked for pushes/PRs.
