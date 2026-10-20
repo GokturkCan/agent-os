@@ -1,0 +1,418 @@
+{
+  "review_type": "blinded model-assisted, NOT human",
+  "acceptable_and_escalation_agreement": 128,
+  "forbidden_semantics_disagreements": [
+    {
+      "id": "v2-01-en-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "codex"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-01-en-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "architecture_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-01-tr-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "codex"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-01-tr-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "architecture_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-02-en-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "codex"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-02-en-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "architecture_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-02-tr-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "codex"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-02-tr-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "architecture_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-03-en-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-03-en-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-03-tr-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-03-tr-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-04-en-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-04-en-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-04-tr-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-04-tr-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-05-en-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-05-en-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-05-tr-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-05-tr-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-06-en-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "codex"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-06-en-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "architecture_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-06-tr-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "codex"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-06-tr-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "architecture_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-20-en-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-20-en-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-20-tr-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-20-tr-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-21-en-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-21-en-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-21-tr-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-21-tr-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-22-en-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-22-en-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-22-tr-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-22-tr-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-23-en-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-23-en-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-23-tr-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-23-tr-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-24-en-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-24-en-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-24-tr-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-24-tr-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-30-en-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-30-en-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-30-tr-real",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    },
+    {
+      "id": "v2-30-tr-misleading",
+      "author_forbidden": [],
+      "reviewer_forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "resolution": "retain author: preference exclusion is not policy-forbidden; escalate-gold already penalizes every selected option"
+    }
+  ],
+  "gold_changed": false,
+  "e2e_corrections": {
+    "v2-e2e-0": {
+      "before": "success",
+      "after": null
+    },
+    "v2-e2e-1": {
+      "before": "needs_human_approval",
+      "after": "human_handoff"
+    }
+  },
+  "basis": "agentos/systemone_eval.py classify distinguishes preference errors from forbidden selections; router exit_state contract; config roles do not prohibit other eligible workers"
+}

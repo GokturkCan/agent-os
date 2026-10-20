@@ -24,6 +24,8 @@ nodes:
       probe_timeout_seconds: 3
     status: unreachable_unconfigured
     exclusive_gpu_profiles: true
+    # Compute enablement / endpoint_ref / auth_ref for this node live in the PROTECTED config/compute.yaml
+    # (`nodes.msi`); a `compute` block here is rejected by config.validate.
 
   rtx3080:
     role: future

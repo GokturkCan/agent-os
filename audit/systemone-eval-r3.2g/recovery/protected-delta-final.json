@@ -1,0 +1,19 @@
+{
+ "review_status": "PENDING HUMAN REVIEW BEFORE MERGE (mechanical refresh is NOT approval)",
+ "base": "e2b1967",
+ "config_files_changed": [],
+ "added": {
+  "evals/data/modules/author_context_suites.py": "05cc3248d65e66c6b1d93afa9e0757aa7fbaaab77ebfe4f2f82df919d31a1ed2",
+  "evals/data/modules/author_wakegate_suite.py": "5f6e46a01aa04e15d9ed5ec02526841dbef6a62ebad356ccdb195e4c610d87fa",
+  "evals/data/modules/contextgate-suite-v1.yaml": "7dda050b0e0bafdfe8a69b1ba73f1ec91b663170edb35f6c82e6c81ebd758eb0",
+  "evals/data/modules/toolpruner-suite-v1.yaml": "72ebb1df2b00245f7423e3408c1294461790a8515e9443597be93e7664207b9f",
+  "evals/data/modules/wakegate-suite-v1.yaml": "c505146d237a30a3651190e95e9ac144f23083a770c74e0f42dd8411157b9b75",
+  "evals/data/systemone-heldout-v2.yaml": "c35d90cd91c1c855102fa05f9ad0054c6d8086e40bed40a77472871e5e2026cc",
+  "evals/test_r32g_modules.py": "506dfacf6b2113992c8e75147f3579cbbcb3887ddb3974550f34a986045aa139",
+  "evals/test_r32g_recovery.py": "194d8735e51d9721d39143e4f4295158df9258eaa552c91c2e63c4de964d3ade",
+  "evals/test_systemone_heldout_v2.py": "dbfaaf84f7335cdc48986bb8155279ba179883101ee59fdb8f39c6ff55f5fa69",
+  "evals/test_systemone_pipeline.py": "1a231480ac7ffcb56641348f75bcd591cc218e00fc25bb00bd3b08134d646010"
+ },
+ "modified": {},
+ "removed": []
+}

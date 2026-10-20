@@ -87,11 +87,20 @@ def is_wired(cfg: dict | None = None) -> bool:
     return any(_expand(str(e)) == SKILLS_DIR.resolve() for e in (skills.get("external_dirs") or []))
 
 
+def installed_skill_dirs(name: str, skills_root: Path | None = None) -> list[Path]:
+    """ACTIVE copies of a Hermes skill: <root>/<category>/<name>/SKILL.md.
+
+    Hermes never loads skills under dot-directories (e.g. `.archive/`, where retired bundled skills
+    are parked), so those copies are not "present" and must not be seeded or counted as bypasses."""
+    root = skills_root if skills_root is not None else HERMES_HOME / "skills"
+    return sorted(p.parent for p in root.glob(f"*/{name}/SKILL.md")
+                  if not p.parent.parent.name.startswith("."))
+
+
 def direct_worker_skills_enabled(cfg: dict | None = None) -> list[str]:
     cfg = cfg if cfg is not None else live_config()
     disabled = set((cfg.get("skills") or {}).get("disabled") or [])
-    present = [n for n in DIRECT_WORKER_SKILLS
-               if list((HERMES_HOME / "skills").glob(f"*/{n}/SKILL.md"))]
+    present = [n for n in DIRECT_WORKER_SKILLS if installed_skill_dirs(n)]
     return [n for n in present if n not in disabled]
 
 
@@ -125,16 +134,17 @@ def sandbox_config(extra_skills_cfg: dict | None = None) -> dict:
 
 
 def probe(hermes_config: dict | None = None, names=AGENT_OS_SKILLS, timeout: int = 60,
-          seed_skills: tuple = ()) -> dict:
+          seed_skills: tuple = (), seed_root: Path | None = None) -> dict:
     """Run Hermes' skill discovery/linter/guard in a throwaway HERMES_HOME.
-    `seed_skills` copies those installed Hermes skills into the sandbox so
-    their loadability under the given config can be checked."""
+    `seed_skills` copies those ACTIVE skills (from `seed_root`, default the live Hermes skills dir;
+    archived/dot-directory copies are ignored) into the sandbox so their loadability under the given
+    config can be checked. Tests pass a synthetic `seed_root` so they do not depend on the live home."""
     if not available():
         return {"error": f"Hermes venv not found at {HERMES_PY}"}
     with tempfile.TemporaryDirectory(prefix="agentos-hermes-home-") as home:
         (Path(home) / "skills").mkdir()
         for n in seed_skills:
-            for src in (HERMES_HOME / "skills").glob(f"*/{n}"):
+            for src in installed_skill_dirs(n, seed_root):
                 shutil.copytree(src, Path(home) / "skills" / src.parent.name / n)
         (Path(home) / "config.yaml").write_text(yaml.safe_dump(hermes_config or sandbox_config()))
         env = {k: v for k, v in os.environ.items() if not k.endswith("_API_KEY")}

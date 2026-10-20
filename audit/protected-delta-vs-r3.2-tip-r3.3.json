@@ -1,0 +1,22 @@
+{
+ "review_status": "PENDING HUMAN REVIEW BEFORE MERGE (manifest refreshes were mechanical, NOT approval)",
+ "base": "feature/run3-local-intelligence 2f9b498",
+ "head": "R3.3 working tree (see git log of feature/run3-r33-capability-contract)",
+ "scope": "Every file matching agentos.permissions.PROTECTED_POLICY_PATHS (including evals/protected-manifest.json itself) that differs between the PR #3 tip (2f9b498) and the working tree. sha256 of file bytes.",
+ "supersedes": null,
+ "added": {
+  "config/compute.yaml": "4579792bc6297fe5d8a34eab2362f60fe2a5eff3db480d2229d3f6d84aa18bca",
+  "evals/test_compute_contract.py": "b066a51b2aec9b7921aa7304af6cdb609b2464240bb5de23de2f2c7d9d0b8990"
+ },
+ "modified": {
+  "agentos/permissions.py": {
+   "before": "adecea0f24b0a8bf1e9c1045966d0e36b1036fbaf064000474ceb4dfa7bfd75b",
+   "after": "3f1c0bdc47b84262601901df5d2c90feeabadbf030ca73d08245288d1b2d50e3"
+  },
+  "evals/protected-manifest.json": {
+   "before": "288d2870ecb174c9d32e6fceee4890e35de1386b90a26462244168d15020dc2e",
+   "after": "f8aa9c93d609b335b38bc592cfc3933302bd5b34956ae3220835f928b4f1467e"
+  }
+ },
+ "removed": []
+}

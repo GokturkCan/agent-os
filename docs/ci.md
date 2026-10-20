@@ -1,0 +1,20 @@
+# Continuous integration (minimal, offline)
+
+`.github/workflows/ci.yml` runs on every pull request and on pushes to `main`. It needs no secrets and performs no network access after the
+locked dependency install (`uv sync --extra test --frozen`). It runs, in order: `agentos manifest`, `agentos validate`, the activation/security
+tests, the compute fail-closed tests, the efficiency safety/recovery tests, the Open-Jev closure tests + evidence-archive verification,
+the Hermes integration tests, the full regression, and a whitespace check limited to newly introduced source.
+
+The runner has no worker CLIs, so the workflow installs presence-only stubs (`claude codex opencode dsh`, exit 97) because dispatch/routing tests check `shutil.which` while injecting a fake runner. A stub is never executed by a passing test.
+
+## Deliberately NOT run in CI (and why)
+| Not run | Reason | How it is covered instead |
+|---|---|---|
+| `evals/test_laya_smoke.py` | needs the real Laya-MLX runtime and inference (git-ignored `state/runtime/`) | run locally; result recorded in the R3.2 audit |
+| Live-Hermes tests (`needs_hermes` / `AGENTOS_LIVE=1`) | need `~/.hermes` on the Mac; they SKIP (visibly, `-rs`) when Hermes is absent | the logic tests, the synthetic-skill disable-list test and the archived-skill regressions run without Hermes |
+| 8 host-dependent tests: `test_a1_knowledge.py` (live SecondBrain + the claude-obsidian engine: 1 failing + 5 fixture errors), `test_a4_msi_unavailable.py::test_control_plane_healthy_without_msi` and `test_a8_durable_lesson.py::test_run_produces_lesson_that_reaches_wiki_only_through_gate` (run `agentos health` / the knowledge gate against the real host: `~/.hermes/config.yaml`, vault, engine) | they pass on the Mac (full local regression) and fail on a clean runner for host reasons, not repo reasons | deselected by node id in the workflow; run locally before release |
+| `agentos health` | probes the live host (installed worker CLIs, Hermes config, MCP auth, MSI reachability) | run locally before release; its WARN lines (e.g. GitHub MCP 401, no fallback model) are host state, not repo state |
+| Real-model benchmarks / Open-Jev reruns | no weights, no inference, by policy | frozen results + archive verification |
+
+A green CI run is **necessary, not sufficient**: it is not a security approval. Changes to protected files (`agentos manifest` lists them) still
+require the human approval recorded outside the manifest; a manifest refresh is mechanical only.

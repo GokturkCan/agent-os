@@ -14,7 +14,7 @@ import yaml
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CONFIG_FILES = ("models", "providers", "routing", "workers", "capabilities",
-                "resources", "mcp", "skills", "knowledge", "permissions")
+                "resources", "mcp", "skills", "knowledge", "permissions", "systemone", "compute")
 # Security-relevant routing policy that is not file-protected (routing.yaml is the tunable
 # surface for self-improvement candidates) and is therefore enforced by validate() instead.
 REQUIRED_RISK_MARKERS = {"credential_change", "permission_change", "external_publish",
@@ -50,6 +50,18 @@ def load(root: str | os.PathLike | None = None) -> Config:
         with open(root / "config" / f"{name}.yaml", encoding="utf-8") as fh:
             data[name] = yaml.safe_load(fh) or {}
     return Config(root=root, data=data)
+
+
+def activation_allowlists(cfg: "Config") -> tuple[list, list]:
+    """(production_backends, fastgate_models) from the PROTECTED config/systemone.yaml `activation`.
+    Malformed or missing -> empty lists (fail closed). Shared by validate() and the router's runtime guard."""
+    act = (cfg.data.get("systemone") or {}).get("activation")
+    act = act if isinstance(act, dict) else {}
+    lists = []
+    for key in ("production_backends", "fastgate_models"):
+        v = act.get(key)
+        lists.append([x for x in v if isinstance(x, str)] if isinstance(v, list) else [])
+    return lists[0], lists[1]
 
 
 def validate(cfg: Config) -> list[str]:
@@ -114,6 +126,30 @@ def validate(cfg: Config) -> list[str]:
                 errors.append(f"routing.{cname}: unknown worker {wk}")
     if set(routing.get("exit_states", [])) != EXIT_STATES:
         errors.append("routing.exit_states must equal the canonical exit-state set")
+    from . import systemone   # deferred: keeps config import light
+    from . import systemone_adapter
+    defined = systemone_adapter.definitions(cfg)
+    for bname, conf in defined.items():
+        errors.extend(systemone_adapter.validate_definition(bname, conf))
+        if bname in systemone.BACKENDS:
+            errors.append(f"systemone.backends.{bname}: name collides with a built-in backend")
+    backend = (routing.get("systemone") or {}).get("backend", "null")
+    if backend not in systemone.BACKENDS and backend not in defined:
+        errors.append(f"routing.systemone.backend {backend!r} is not a registered or configured backend "
+                      f"({sorted(systemone.BACKENDS)} + {sorted(defined)})")
+    # Activation boundary. routing.yaml / models.yaml are the tunable (unprotected) surface, so a
+    # self-improvement candidate could otherwise activate a model-backed backend or fastgate model with a
+    # one-line edit. Activating either needs a name in config/systemone.yaml `activation` (a PROTECTED file).
+    allowed_backends, allowed_models = activation_allowlists(cfg)
+    if backend not in systemone.BACKENDS and backend in defined and backend not in allowed_backends:
+        errors.append(f"routing.systemone.backend {backend!r} is a benchmark-only adapter backend; activating it "
+                      f"requires listing it in config/systemone.yaml activation.production_backends (protected)")
+    fg_model = (cfg.models.get("tiers", {}).get("fastgate") or {}).get("model")
+    if fg_model and fg_model not in allowed_models:
+        errors.append(f"models.tiers.fastgate.model {fg_model!r} is set but not listed in "
+                      f"config/systemone.yaml activation.fastgate_models (protected)")
+    if fg_model and (cfg.models.get("models", {}).get(fg_model) or {}).get("status") not in USABLE:
+        errors.append(f"models.tiers.fastgate.model {fg_model!r} does not have a usable status")
     risk = routing.get("risk") or {}
     if risk.get("high_requires_human_approval") is not True:
         errors.append("routing.risk.high_requires_human_approval must be true")
@@ -143,4 +179,6 @@ def validate(cfg: Config) -> list[str]:
 
     from . import capability_registry   # imports this module; deferred to avoid a cycle
     errors.extend(capability_registry.validate(cfg))
+    from . import compute
+    errors.extend(compute.validate(cfg))
     return errors

@@ -40,9 +40,16 @@ Evidence: 403 passed / 2 skipped (333 at Run 2 closure, before pre-release harde
 
 | Item | State |
 |---|---|
-| SystemOne fast local tier (FastGate/Laya) | Contract IMPLEMENTED in Run 2 (`agentos/systemone.py`); backends + calibration DESIGN-ONLY (router skips tier) |
+| R3.1 Router/SystemOne wiring (`fastgate` stage asks the configured backend one typed worker question over policy-eligible options) | IMPLEMENTED, VERIFIED by tests (null backend by default; escalation keeps routing identical to v1.0.0, 900/900 differential cases) |
+| R3.2A Backend adapter layer (`systemone_adapter`: typed payload/reply validation, scrubbed-environment subprocess runtime (not an OS/network sandbox), timeout kill, cool-down; definitions in protected `config/systemone.yaml`) | IMPLEMENTED, VERIFIED by tests (fail-closed to escalation on every failure mode; mutation-checked) |
+| R3.2B Laya-MLX as the first local backend candidate (`agentos systemone smoke|bench`) | IMPLEMENTED; Laya research candidate, status `candidate` (operationally measured: latency, validity, reproducibility); decision quality evaluated in R3.2C Phase 1 (no semantic skill demonstrated); benchmark candidate only, not a default (`systemone.backend` stays `"null"`, `fastgate.model` stays null) |
+| R3.2C Phase 1 Semantic decision-quality evaluation (`agentos systemone-eval`: 66 grounded labeled cases, 3 formulations, 3 separate metric layers, baselines, description-swap and abstention probes; authoritative option metadata in the request) | IMPLEMENTED, VERIFIED (reproducible). Result: Laya follows labels, not descriptions; keep as a baseline, do not promote |
+| R3.2C Phase 2 – R3.2H Backend comparison and optimisation (Laya, Decider, Kev, Open-Jev, masked variants; independent v2 and v3 frozen sets) | **COMPLETE.** No neural backend is fit for production: shipped Open-Jev NO-GO, Laya NO-GO. The optimised Open-Jev hybrid is a SHADOW-ONLY research candidate (not approved, not started); its advantage over the deterministic prefilter is not statistically established (CI crosses 0). Deterministic policy first. See `docs/openjev-research.md`, `audit/openjev-v3-closure-2026-10-18.md` |
+| Deterministic prefilter facts in router eligibility (reviewer ≠ author, failed-worker hand-off, interactive vs background, capability-missing, high-risk-without-approval) | NEXT (no model needed; highest-value follow-up from R3.2H) |
+| Confidence calibration, R3.3 (accuracy, ECE, Platt, isotonic, per-workload thresholds) | DESIGN-ONLY (analysis tooling exists; no backend earned calibration) |
+| ContextGate runtime | DESIGN-ONLY at runtime; **R3.5: deterministic prototype hardened** (opt-in library + `module-eval`, not wired into Hermes) — `docs/efficiency-patterns.md` |
 | Local models (Qwen3.6, Bonsai 2) | DESIGN-ONLY (benchmark candidates, nothing installed) |
-| Secondary compute node (resource state machine) | PARTIAL (state machine verified; node not connected) |
+| Secondary compute node (resource state machine) | PARTIAL (state machine verified; node not connected). **CN-1 Mac-side compute-node/capability/job contract IMPLEMENTED (mock-tested; `docs/compute-contract.md`)**: no node connected, nothing installed/benchmarked, offerings and authorizations empty. Confidence calibration remains DESIGN-ONLY; this is not a calibration milestone. |
 
 ## Run 4 — Research / web plane
 

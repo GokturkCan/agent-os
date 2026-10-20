@@ -36,7 +36,9 @@ from typing import Mapping, Protocol, runtime_checkable
 CONFIDENCE_KINDS = ("none", "raw", "calibrated")
 QUESTION_KINDS = ("choose", "yes_no")
 REASON_CODES = ("backend-choice", "policy-order", "no-backend", "no-eligible-options", "ineligible-choice",
-                "backend-error", "low-confidence", "uncalibrated-confidence", "unanswered-question")
+                "backend-error", "low-confidence", "uncalibrated-confidence", "unanswered-question",
+                "unroutable-choice", "backend-timeout", "backend-unavailable", "malformed-output",
+                "unsupported-question", "state-too-large", "backend-abstained")
 
 
 @dataclass(frozen=True)
@@ -83,6 +85,14 @@ class SystemOneRequest:
     risk: str = "low"
     cost_profile: str | None = None
     resource_state: Mapping = field(default_factory=dict)
+    # R3.2C. Both are optional, so existing callers and backends are unaffected.
+    # option_info: option id -> compact metadata taken from authoritative config/registry (roles,
+    #   access, latency, capabilities the option cannot satisfy ...). It describes options for the
+    #   backend's benefit and carries NO authority: only `eligible_options` defines what is legal,
+    #   and metadata for an id outside that set is ignored (it can never introduce an option).
+    # allow_abstain: the backend may answer "none of these fits"; that is an escalation, never a choice.
+    option_info: Mapping = field(default_factory=dict)
+    allow_abstain: bool = False
 
 
 @dataclass(frozen=True)
@@ -131,6 +141,34 @@ class PolicyOrderBackend:
                 opts = [o for o in (q.options or request.eligible_options) if o in request.eligible_options]
                 answers.append(Answer(q.id, opts[0] if opts else None, Confidence(), "policy-order"))
         return SystemOneResponse(tuple(answers), False, "policy-order", self.name)
+
+
+# Backend resolution (R3.1). Only backends that need no model runtime are registered; a real
+# decision backend would be added here later behind the same SystemOneBackend protocol.
+BACKENDS = {"null": NullBackend, "policy-order": PolicyOrderBackend}
+
+
+def resolve_backend(spec=None, cfg=None) -> SystemOneBackend:
+    """None or "null" -> NullBackend (the default: always escalates); a registered name -> a new
+    instance; a name defined in config/systemone.yaml (needs `cfg`) -> its adapter backend, cached
+    per process; an object implementing SystemOneBackend -> itself (tests / explicit wiring).
+    An unknown name raises ValueError so callers can fall back to the null backend."""
+    if spec is None:
+        return NullBackend()
+    if isinstance(spec, str):
+        if spec in BACKENDS:
+            return BACKENDS[spec]()
+        configured: list[str] = []
+        if cfg is not None:
+            from . import systemone_adapter          # deferred: the adapter imports this module
+            configured = sorted(systemone_adapter.definitions(cfg))
+            if spec in configured:
+                return systemone_adapter.backend_for(spec, cfg)
+        raise ValueError(f"unknown SystemOne backend {spec!r} (registered: {sorted(BACKENDS)}, "
+                         f"configured: {configured})")
+    if isinstance(spec, SystemOneBackend):
+        return spec
+    raise ValueError(f"not a SystemOne backend: {type(spec).__name__}")
 
 
 def _escalate(code: str, backend: str, answers=()) -> SystemOneResponse:

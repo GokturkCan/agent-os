@@ -1,0 +1,163 @@
+{
+  "suite": "toolpruner-suite-v1",
+  "backend": "none",
+  "outputs": 12,
+  "essential_lines": 27,
+  "essential_lost": 0,
+  "essential_loss_rate": 0.0,
+  "recovery_exact_all": true,
+  "tokens_before": 75204,
+  "tokens_after": 40568,
+  "token_reduction": 0.4606,
+  "model_calls": 0,
+  "latency_ms": {
+    "p50": 9.7,
+    "max": 27.7
+  },
+  "records": [
+    {
+      "id": "tp-001",
+      "lang": "en",
+      "tokens_before": 8288,
+      "tokens_after": 89,
+      "reduction": 0.9893,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 17.7
+    },
+    {
+      "id": "tp-002",
+      "lang": "en",
+      "tokens_before": 7514,
+      "tokens_after": 7514,
+      "reduction": 0.0,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 8.7
+    },
+    {
+      "id": "tp-003",
+      "lang": "en",
+      "tokens_before": 14534,
+      "tokens_after": 14534,
+      "reduction": 0.0,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 27.7
+    },
+    {
+      "id": "tp-004",
+      "lang": "en",
+      "tokens_before": 7656,
+      "tokens_after": 44,
+      "reduction": 0.9943,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 11.5
+    },
+    {
+      "id": "tp-005",
+      "lang": "tr",
+      "tokens_before": 7001,
+      "tokens_after": 71,
+      "reduction": 0.9899,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 14.5
+    },
+    {
+      "id": "tp-006",
+      "lang": "en",
+      "tokens_before": 4661,
+      "tokens_after": 4661,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.2
+    },
+    {
+      "id": "tp-007",
+      "lang": "en",
+      "tokens_before": 2234,
+      "tokens_after": 2234,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    },
+    {
+      "id": "tp-008",
+      "lang": "en",
+      "tokens_before": 4333,
+      "tokens_after": 4333,
+      "reduction": 0.0,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 3.6
+    },
+    {
+      "id": "tp-009",
+      "lang": "tr",
+      "tokens_before": 6983,
+      "tokens_after": 6983,
+      "reduction": 0.0,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 7.7
+    },
+    {
+      "id": "tp-010",
+      "lang": "en",
+      "tokens_before": 3,
+      "tokens_after": 3,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    },
+    {
+      "id": "tp-011",
+      "lang": "en",
+      "tokens_before": 5620,
+      "tokens_after": 63,
+      "reduction": 0.9888,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 13.6
+    },
+    {
+      "id": "tp-012",
+      "lang": "en",
+      "tokens_before": 6377,
+      "tokens_after": 39,
+      "reduction": 0.9939,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 9.7
+    }
+  ]
+}

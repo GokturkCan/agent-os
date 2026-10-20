@@ -1,0 +1,22 @@
+{
+ "schema": 1,
+ "note": "Differential of the released v1.0.0 router against the current working-tree router. systemone summary and 'fastgate: systemone' trace lines are ignored (added in R3.1); every other field of Decision.to_dict() is compared.",
+ "released_tag": "v1.0.0",
+ "released_commit": "fffc3a18f3de34014de0521a851903d85e5d4294",
+ "compared_against": "working tree on top of 6031a15 (R3.2C Phase 1 candidate)",
+ "cases": 1000,
+ "identical": 1000,
+ "differ": 0,
+ "differing_cases": [],
+ "classification_cases_exercising_the_systemone_step": 100,
+ "matrix": {
+  "task_types": 10,
+  "health_states": 10,
+  "event_variants": 10
+ },
+ "old_results_sha256": "c8db51432fd2c0c6fa04f818efdebf299cb902c433096573b98f6cc389951cf8",
+ "new_results_sha256": "c8db51432fd2c0c6fa04f818efdebf299cb902c433096573b98f6cc389951cf8",
+ "script_sha256": "0e9a85c5c6b64916439d32e8f5b75e2c7d9dd94509d2c79bf4959b34f2e700a8",
+ "reproduce": "git archive v1.0.0 | tar -x -C <dir>; run the script below once with PYTHONPATH=<dir> from <dir> (old) and once from the repo (new); compare",
+ "script": "import itertools, json, sys\nfrom agentos import config as C, router\ncfg = C.load()\ntypes = [\"classification\", \"coding\", \"review\", \"summarization\", \"research\", \"knowledge_ingest\", \"background_coding_escalation\", \"gpu_workload\", \"exit_code_check\", \"nonexistent\"]\nhealths = [{}, {\"providers\": {\"claude_subscription\": False}}, {\"providers\": {\"codex_subscription\": False}}, {\"providers\": {\"claude_subscription\": False, \"codex_subscription\": False}},\n           {\"workers\": {\"claude_code\": False}}, {\"workers\": {\"codex\": False}}, {\"workers\": {\"claude_code\": False, \"codex\": False}}, {\"nodes\": {\"msi\": False, \"mac\": True}}, {\"nodes\": {\"msi\": True, \"mac\": True}}, {\"providers\": {\"nvidia_nim\": False}}]\nevents = [{}, {\"risk\": \"high\"}, {\"risk\": \"high\", \"human_approval_ref\": \"h:1\"}, {\"markers\": [\"payment\"]}, {\"eligible_workers\": [\"codex\"]}, {\"eligible_workers\": [\"claude_code\"]}, {\"eligible_workers\": []}, {\"already_classified\": True}, {\"task_class\": \"coding\"}, {\"required_capabilities\": [\"code.references\"], \"eligible_workers\": [\"claude_code\"]}]\nout = []\nfor t, h, e in itertools.product(types, healths, events):\n    d = router.route(cfg, {\"type\": t, **e}, h).to_dict(); d.pop(\"systemone\", None)\n    d[\"trace\"] = [x for x in d[\"trace\"] if not x.startswith(\"fastgate: systemone\")]\n    out.append([t, h, e, d])\njson.dump(out, open(sys.argv[1], \"w\"), sort_keys=True); print(len(out), \"cases\")\n"
+}

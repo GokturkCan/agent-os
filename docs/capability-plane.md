@@ -49,8 +49,9 @@ task is context7 + serena + playwright. The acceptance runs left artifact commit
 Repository state: private `origin` (`GokturkCan/agent-os`) exists; `feature/run2-capability-plane`
 is pushed to it and was merged into `agent-os-v1` via PR #2 (2026-10-13 UTC), then into `main` via PR #1 (2026-10-14 local time); pushing/merging/tagging stays a human step.
 
-Run 3 boundary: only the SystemOne **contract** exists. Laya, Ollaya, Jev, Decider, Kev backends,
-confidence calibration and ContextGate remain future Run 3 work.
+Run 3 boundary: at Run 2 closure only the SystemOne **contract** existed (R3.1 has since wired it
+into the router, see "Router wiring" below). Laya, Ollaya, Jev, Decider, Kev backends, confidence
+calibration and ContextGate remain future Run 3 work.
 
 ## What the CapabilityRegistry is — and is not
 
@@ -245,7 +246,7 @@ to Claude Code only. REA integration is `unknown` for every executor, so an RE t
 blocked until one is declared. Codex skill loading is `unknown`. Not a parity claim:
 anything undeclared stays unknown.
 
-## SystemOne / FastGate contract (R2.10)
+## SystemOne / FastGate contract (R2.10) and router wiring (R3.1)
 
 `agentos/systemone.py` is a **typed, backend-neutral contract only**. FastGate is the
 abstraction, not Laya, Jev or Ollaya.
@@ -274,6 +275,59 @@ accepts **only** calibrated confidence from that calibrator, so
 `if confidence > 0.92: execute` on a raw score is unrepresentable. Run 3 will measure
 accuracy and ECE, then fit Platt/isotonic calibrators and workload-specific thresholds.
 Nothing in Run 2 calibrates.
+
+### Router wiring (R3.1, IMPLEMENTED)
+
+The router's `fastgate` stage (task classes that list it, today `classification`) is a real
+SystemOne decision step:
+
+```
+event -> risk gate (human approval) -> task class -> options = workers the cloud stage could pick now
+      -> SystemOneRequest(question "worker", eligible_options) -> resolve_backend() -> system_one()
+      -> valid choice: narrow the cloud-stage worker pick | escalate: continue the deterministic chain
+```
+
+- **Options are policy output.** They come from the same predicate `_pick_worker` uses
+  (`_worker_block`: provider health, worker status, launch enforcement, capability
+  eligibility from the capability plane, runtime health), so SystemOne can only narrow.
+  Out-of-set choices are rejected by `system_one()` and re-checked by the router.
+- **Backends** (`systemone.BACKENDS`, `config/routing.yaml` `systemone.backend`): `null` (the
+  default; always escalates) and `policy-order` (reference/test: first eligible option). Unknown
+  names are rejected by `agentos validate` and ignored at runtime (null backend). No decision
+  model is registered.
+- **Null backend = identical routing.** A differential run of the v1.0.0 router against this one
+  over 900 event/health combinations produced identical routes (only the added `systemone`
+  summary and trace lines differ). A backend error or a malformed answer escalates; if a narrowed
+  route were ever `blocked` it is recomputed without narrowing (`unroutable-choice`).
+- **Never** generates plans or prose, mutates task state, calls tools or executes workers, and
+  never runs before the risk gate. Telemetry (additive, simple values):
+  `systemone_backend`, `systemone_choice`, `systemone_reason`, `systemone_escalate` on the
+  TraceRecord, plus a typed `Decision.systemone` summary and trace lines.
+- **Adapter backends (R3.2).** `agentos/systemone_adapter.py` lets a real local decision backend sit
+  behind the contract without coupling `router.py`/`systemone.py` to a model. The payload is compact
+  operational state only (allowlisted, redacted, size-capped); the reply is parsed field by field and
+  only a `choice` that is one of the offered options plus a RAW confidence survives (free text and
+  model-supplied reason strings are dropped). Every failure (timeout, crash, unavailable, malformed,
+  unknown option, missing answer, oversized state, unsupported question) is an escalation with a
+  specific reason code, so routing continues exactly as before. The subprocess runtime uses a
+  from-scratch environment (no inherited secrets; `HF_HUB_OFFLINE=1`), kills the process group on a missed
+  deadline and applies a failure cool-down. Backend *definitions* (which executable to run) are in the
+  protected `config/systemone.yaml`; `routing.yaml` only selects, and `agentos validate` rejects selecting an adapter backend (or setting `tiers.fastgate.model`) unless the name is listed under `activation` in the protected `config/systemone.yaml` (both lists empty). **Isolation guarantee, stated exactly:** the worker is an ordinary child process with a from-scratch environment (no inherited secrets), `HF_HUB_OFFLINE=1`, a hard deadline with process-group kill and a cool-down. This is NOT an OS or network sandbox: it runs with the user's privileges and `HOME`, with no filesystem or network confinement, so "offline" holds by convention (pre-installed weights, env flag), not by enforcement. Laya-MLX is the first definition
+  (isolated runtime, pinned weights); it is a **research candidate** (`models.yaml` status `candidate`, operationally measured; deliberately not `measured`/USABLE), selectable
+  explicitly for benchmarking, and **not a default**. Evidence: `audit/laya-mlx-r3.2-2026-10-14.md`.
+- **R3.2C Phase 1 (IMPLEMENTED).** The request can carry advisory per-option metadata
+  (`option_info`: roles, access, latency, cost, locality, `interactive`, and the required capabilities an
+  option cannot satisfy), built only from existing config/registry (`agentos/systemone_options.py`), and
+  an opt-in `allow_abstain` (abstaining is an escalation, never a choice). The adapter validates it:
+  allowlisted fields, ids outside the offered options dropped, unknown/oversized/secret-looking values
+  rejected. `agentos systemone-eval` scores a backend against 66 grounded labeled cases in three separate
+  layers (decision quality, protocol compliance, end-to-end policy-valid routing) with baselines, an
+  option-order sweep, and a counterfactual description-swap probe. **Finding: Laya follows the label, not
+  the description** (see `audit/systemone-eval-r3.2c-phase1-2026-10-14.md`). Small synthetic set: no
+  statistical generalization.
+- **Still DESIGN-ONLY / DEFERRED:** other backends (Ollaya, Jev, Decider, Kev) and the R3.2C Phase 2
+  comparison, confidence calibration, ContextGate, and any change to `fastgate.model` (null) or the
+  `"null"` default backend.
 
 ## ContextGate (DESIGN-ONLY)
 

@@ -1,0 +1,2835 @@
+{
+  "version": 1,
+  "dataset": "systemone-heldout-v2",
+  "review_type": "fresh-context blinded model-assisted annotation",
+  "human_review": false,
+  "scope": {
+    "semantic_cases": 128,
+    "e2e_cases": 3,
+    "blinded_input": "audit/systemone-eval-r3.2g/v2-blinded.json",
+    "gold_labels_read": false,
+    "previous_outputs_read": false,
+    "inference_or_benchmarks_run": false
+  },
+  "label_semantics": {
+    "acceptable": "Preferred acceptable choices under the cited scenario facts and documented role preferences.",
+    "forbidden": "Offered options excluded from this case annotation; for role-only cases this is preference exclusion, not a claim of runtime illegality. All choices outside eligible_options are always prohibited.",
+    "escalate": "No acceptable worker choice under scenario facts; policy-gated cases may terminate before SystemOne instead of eliciting backend abstention.",
+    "ambiguity": "Multiple equally acceptable answers remain; escalation is not mandatory."
+  },
+  "labels": {
+    "v2-01-en-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "Designing ownership boundaries before implementation matches the documented architecture role.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker."
+      ]
+    },
+    "v2-01-en-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "Designing ownership boundaries before implementation matches the documented architecture role.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-01-tr-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "Designing ownership boundaries before implementation matches the documented architecture role.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker."
+      ]
+    },
+    "v2-01-tr-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "Designing ownership boundaries before implementation matches the documented architecture role.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-02-en-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "An unknown nondeterministic cross-service deadlock matches hard_debugging.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker."
+      ]
+    },
+    "v2-02-en-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "An unknown nondeterministic cross-service deadlock matches hard_debugging.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-02-tr-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "An unknown nondeterministic cross-service deadlock matches hard_debugging.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker."
+      ]
+    },
+    "v2-02-tr-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "An unknown nondeterministic cross-service deadlock matches hard_debugging.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-03-en-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "Implementing a fixed interface and design matches implementation.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker."
+      ]
+    },
+    "v2-03-en-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "Implementing a fixed interface and design matches implementation.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-03-tr-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "Implementing a fixed interface and design matches implementation.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker."
+      ]
+    },
+    "v2-03-tr-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "Implementing a fixed interface and design matches implementation.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-04-en-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "Authoring unit tests without redesign matches tests.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker."
+      ]
+    },
+    "v2-04-en-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "Authoring unit tests without redesign matches tests.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-04-tr-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "Authoring unit tests without redesign matches tests.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker."
+      ]
+    },
+    "v2-04-tr-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "Authoring unit tests without redesign matches tests.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-05-en-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "Repairing an already isolated off-by-one defect matches routine_debugging.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker."
+      ]
+    },
+    "v2-05-en-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "Repairing an already isolated off-by-one defect matches routine_debugging.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-05-tr-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "Repairing an already isolated off-by-one defect matches routine_debugging.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker."
+      ]
+    },
+    "v2-05-tr-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "Repairing an already isolated off-by-one defect matches routine_debugging.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-06-en-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "Choosing a shared-identity architecture matches architecture.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker."
+      ]
+    },
+    "v2-06-en-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "Choosing a shared-identity architecture matches architecture.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-06-tr-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "Choosing a shared-identity architecture matches architecture.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker."
+      ]
+    },
+    "v2-06-tr-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "Choosing a shared-identity architecture matches architecture.",
+      "cited_facts": [
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-07-en-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "web.browser_test is provided by adopted Playwright; only the first worker has a declared supported integration or an explicit empty missing list.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-07-en-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "web.browser_test is provided by adopted Playwright; only the first worker has a declared supported integration or an explicit empty missing list.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-07-tr-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "web.browser_test is provided by adopted Playwright; only the first worker has a declared supported integration or an explicit empty missing list.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-07-tr-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "web.browser_test is provided by adopted Playwright; only the first worker has a declared supported integration or an explicit empty missing list.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-08-en-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "web.docs_lookup is provided by adopted Context7; only the first worker supports it or has explicit no-missing metadata.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-08-en-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "web.docs_lookup is provided by adopted Context7; only the first worker supports it or has explicit no-missing metadata.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-08-tr-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "web.docs_lookup is provided by adopted Context7; only the first worker supports it or has explicit no-missing metadata.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-08-tr-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "web.docs_lookup is provided by adopted Context7; only the first worker supports it or has explicit no-missing metadata.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-09-en-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "code.diagnostics is provided by adopted Serena; the second worker has unsupported integration or explicit missing metadata.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-09-en-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "code.diagnostics is provided by adopted Serena; the second worker has unsupported integration or explicit missing metadata.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-09-tr-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "code.diagnostics is provided by adopted Serena; the second worker has unsupported integration or explicit missing metadata.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-09-tr-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "code.diagnostics is provided by adopted Serena; the second worker has unsupported integration or explicit missing metadata.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-10-en-real": {
+      "acceptable": [
+        "claude_code",
+        "codex"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "Both workers support code.test and the request explicitly permits either for running existing tests.",
+      "cited_facts": [
+        "capabilities",
+        "contract"
+      ],
+      "sources": [
+        "config/capability_registry.yaml",
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-10-en-misleading": {
+      "acceptable": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "Both workers support code.test and the request explicitly permits either for running existing tests.",
+      "cited_facts": [
+        "capabilities",
+        "contract"
+      ],
+      "sources": [
+        "config/capability_registry.yaml",
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-10-tr-real": {
+      "acceptable": [
+        "claude_code",
+        "codex"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "Both workers support code.test and the request explicitly permits either for running existing tests.",
+      "cited_facts": [
+        "capabilities",
+        "contract"
+      ],
+      "sources": [
+        "config/capability_registry.yaml",
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-10-tr-misleading": {
+      "acceptable": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "Both workers support code.test and the request explicitly permits either for running existing tests.",
+      "cited_facts": [
+        "capabilities",
+        "contract"
+      ],
+      "sources": [
+        "config/capability_registry.yaml",
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-11-en-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "Independent review must use a worker different from the recorded first-worker primary.",
+      "cited_facts": [
+        "review"
+      ],
+      "sources": [
+        "config/routing.yaml roles.reviewer"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-11-en-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "Independent review must use a worker different from the recorded first-worker primary.",
+      "cited_facts": [
+        "review"
+      ],
+      "sources": [
+        "config/routing.yaml roles.reviewer"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-11-tr-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "Independent review must use a worker different from the recorded first-worker primary.",
+      "cited_facts": [
+        "review"
+      ],
+      "sources": [
+        "config/routing.yaml roles.reviewer"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-11-tr-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "Independent review must use a worker different from the recorded first-worker primary.",
+      "cited_facts": [
+        "review"
+      ],
+      "sources": [
+        "config/routing.yaml roles.reviewer"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-12-en-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "Independent review must use a worker different from the recorded second-worker primary.",
+      "cited_facts": [
+        "review"
+      ],
+      "sources": [
+        "config/routing.yaml roles.reviewer"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-12-en-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "Independent review must use a worker different from the recorded second-worker primary.",
+      "cited_facts": [
+        "review"
+      ],
+      "sources": [
+        "config/routing.yaml roles.reviewer"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-12-tr-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "Independent review must use a worker different from the recorded second-worker primary.",
+      "cited_facts": [
+        "review"
+      ],
+      "sources": [
+        "config/routing.yaml roles.reviewer"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-12-tr-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "Independent review must use a worker different from the recorded second-worker primary.",
+      "cited_facts": [
+        "review"
+      ],
+      "sources": [
+        "config/routing.yaml roles.reviewer"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-13-en-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "The first worker timed out twice and the request explicitly requires switching to the other available worker.",
+      "cited_facts": [
+        "fallback"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-13-en-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "The first worker timed out twice and the request explicitly requires switching to the other available worker.",
+      "cited_facts": [
+        "fallback"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-13-tr-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "The first worker timed out twice and the request explicitly requires switching to the other available worker.",
+      "cited_facts": [
+        "fallback"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-13-tr-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "The first worker timed out twice and the request explicitly requires switching to the other available worker.",
+      "cited_facts": [
+        "fallback"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-14-en-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "The second worker returned invalid output twice and the request explicitly requires switching to the other worker.",
+      "cited_facts": [
+        "fallback"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-14-en-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "The second worker returned invalid output twice and the request explicitly requires switching to the other worker.",
+      "cited_facts": [
+        "fallback"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-14-tr-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "The second worker returned invalid output twice and the request explicitly requires switching to the other worker.",
+      "cited_facts": [
+        "fallback"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-14-tr-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "The second worker returned invalid output twice and the request explicitly requires switching to the other worker.",
+      "cited_facts": [
+        "fallback"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-15-en-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "The first worker is explicitly unavailable; the second is available and matches implementation.",
+      "cited_facts": [
+        "fallback",
+        "roles"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "An explicitly unavailable worker remains in synthetic eligible_options; real runtime health filtering should exclude it before SystemOne."
+      ]
+    },
+    "v2-15-en-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "The first worker is explicitly unavailable; the second is available and matches implementation.",
+      "cited_facts": [
+        "fallback",
+        "roles"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "An explicitly unavailable worker remains in synthetic eligible_options; real runtime health filtering should exclude it before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-15-tr-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "The first worker is explicitly unavailable; the second is available and matches implementation.",
+      "cited_facts": [
+        "fallback",
+        "roles"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "An explicitly unavailable worker remains in synthetic eligible_options; real runtime health filtering should exclude it before SystemOne."
+      ]
+    },
+    "v2-15-tr-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "The first worker is explicitly unavailable; the second is available and matches implementation.",
+      "cited_facts": [
+        "fallback",
+        "roles"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "An explicitly unavailable worker remains in synthetic eligible_options; real runtime health filtering should exclude it before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-16-en-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "The second worker is explicitly unavailable; use the available first worker.",
+      "cited_facts": [
+        "fallback"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "An explicitly unavailable worker remains in synthetic eligible_options; real runtime health filtering should exclude it before SystemOne."
+      ]
+    },
+    "v2-16-en-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "The second worker is explicitly unavailable; use the available first worker.",
+      "cited_facts": [
+        "fallback"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "An explicitly unavailable worker remains in synthetic eligible_options; real runtime health filtering should exclude it before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-16-tr-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "The second worker is explicitly unavailable; use the available first worker.",
+      "cited_facts": [
+        "fallback"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "An explicitly unavailable worker remains in synthetic eligible_options; real runtime health filtering should exclude it before SystemOne."
+      ]
+    },
+    "v2-16-tr-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "The second worker is explicitly unavailable; use the available first worker.",
+      "cited_facts": [
+        "fallback"
+      ],
+      "sources": [
+        "config/routing.yaml cloud chains; agentos/router.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "An explicitly unavailable worker remains in synthetic eligible_options; real runtime health filtering should exclude it before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-17-en-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "Scenario missing facts say only the second worker currently supplies required code.test; those override static capability availability.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-17-en-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "Scenario missing facts say only the second worker currently supplies required code.test; those override static capability availability.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-17-tr-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "Scenario missing facts say only the second worker currently supplies required code.test; those override static capability availability.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-17-tr-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "Scenario missing facts say only the second worker currently supplies required code.test; those override static capability availability.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-18-en-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "Scenario missing facts say only the first worker currently supplies required code.edit; those override implementation-role preference.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-18-en-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "Scenario missing facts say only the first worker currently supplies required code.edit; those override implementation-role preference.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-18-tr-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "Scenario missing facts say only the first worker currently supplies required code.edit; those override implementation-role preference.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-18-tr-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "Scenario missing facts say only the first worker currently supplies required code.edit; those override implementation-role preference.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-19-en-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "deepseek_harness"
+      ],
+      "escalate": false,
+      "rationale": "The request requires interactive work and the background worker explicitly has interactive=false.",
+      "cited_facts": [
+        "background"
+      ],
+      "sources": [
+        "config/workers.yaml; config/routing.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-19-en-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "interactive_expert"
+      ],
+      "escalate": false,
+      "rationale": "The request requires interactive work and the background worker explicitly has interactive=false.",
+      "cited_facts": [
+        "background"
+      ],
+      "sources": [
+        "config/workers.yaml; config/routing.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-19-tr-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "deepseek_harness"
+      ],
+      "escalate": false,
+      "rationale": "The request requires interactive work and the background worker explicitly has interactive=false.",
+      "cited_facts": [
+        "background"
+      ],
+      "sources": [
+        "config/workers.yaml; config/routing.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-19-tr-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "interactive_expert"
+      ],
+      "escalate": false,
+      "rationale": "The request requires interactive work and the background worker explicitly has interactive=false.",
+      "cited_facts": [
+        "background"
+      ],
+      "sources": [
+        "config/workers.yaml; config/routing.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-20-en-real": {
+      "acceptable": [
+        "deepseek_harness"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "The request specifically asks for the designated noninteractive background escalation, matching background_coding_escalation.",
+      "cited_facts": [
+        "background",
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml; config/routing.yaml",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-20-en-misleading": {
+      "acceptable": [
+        "interactive_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "The request specifically asks for the designated noninteractive background escalation, matching background_coding_escalation.",
+      "cited_facts": [
+        "background",
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml; config/routing.yaml",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-20-tr-real": {
+      "acceptable": [
+        "deepseek_harness"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "The request specifically asks for the designated noninteractive background escalation, matching background_coding_escalation.",
+      "cited_facts": [
+        "background",
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml; config/routing.yaml",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-20-tr-misleading": {
+      "acceptable": [
+        "interactive_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "The request specifically asks for the designated noninteractive background escalation, matching background_coding_escalation.",
+      "cited_facts": [
+        "background",
+        "roles"
+      ],
+      "sources": [
+        "config/workers.yaml; config/routing.yaml",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-21-en-real": {
+      "acceptable": [],
+      "forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "escalate": true,
+      "rationale": "Neither offered worker supports required knowledge.retrieve; no documented supported path supplies it. Escalate.",
+      "cited_facts": [
+        "capabilities",
+        "contract"
+      ],
+      "sources": [
+        "config/capability_registry.yaml",
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-21-en-misleading": {
+      "acceptable": [],
+      "forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "escalate": true,
+      "rationale": "Neither offered worker supports required knowledge.retrieve; no documented supported path supplies it. Escalate.",
+      "cited_facts": [
+        "capabilities",
+        "contract"
+      ],
+      "sources": [
+        "config/capability_registry.yaml",
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-21-tr-real": {
+      "acceptable": [],
+      "forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "escalate": true,
+      "rationale": "Neither offered worker supports required knowledge.retrieve; no documented supported path supplies it. Escalate.",
+      "cited_facts": [
+        "capabilities",
+        "contract"
+      ],
+      "sources": [
+        "config/capability_registry.yaml",
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-21-tr-misleading": {
+      "acceptable": [],
+      "forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "escalate": true,
+      "rationale": "Neither offered worker supports required knowledge.retrieve; no documented supported path supplies it. Escalate.",
+      "cited_facts": [
+        "capabilities",
+        "contract"
+      ],
+      "sources": [
+        "config/capability_registry.yaml",
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-22-en-real": {
+      "acceptable": [],
+      "forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "escalate": true,
+      "rationale": "Neither offered worker has a declared supported provider for required web.crawl. web.browse is not the declared web.crawl capability. Escalate.",
+      "cited_facts": [
+        "capabilities",
+        "contract"
+      ],
+      "sources": [
+        "config/capability_registry.yaml",
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-22-en-misleading": {
+      "acceptable": [],
+      "forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "escalate": true,
+      "rationale": "Neither offered worker has a declared supported provider for required web.crawl. web.browse is not the declared web.crawl capability. Escalate.",
+      "cited_facts": [
+        "capabilities",
+        "contract"
+      ],
+      "sources": [
+        "config/capability_registry.yaml",
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-22-tr-real": {
+      "acceptable": [],
+      "forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "escalate": true,
+      "rationale": "Neither offered worker has a declared supported provider for required web.crawl. web.browse is not the declared web.crawl capability. Escalate.",
+      "cited_facts": [
+        "capabilities",
+        "contract"
+      ],
+      "sources": [
+        "config/capability_registry.yaml",
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-22-tr-misleading": {
+      "acceptable": [],
+      "forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "escalate": true,
+      "rationale": "Neither offered worker has a declared supported provider for required web.crawl. web.browse is not the declared web.crawl capability. Escalate.",
+      "cited_facts": [
+        "capabilities",
+        "contract"
+      ],
+      "sources": [
+        "config/capability_registry.yaml",
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-23-en-real": {
+      "acceptable": [],
+      "forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "escalate": true,
+      "rationale": "High risk with explicit absence of human approval requires handoff before model inference or worker selection.",
+      "cited_facts": [
+        "risk"
+      ],
+      "sources": [
+        "config/routing.yaml risk"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "This is a policy gate label. The real router returns human_handoff before SystemOne; the standalone SystemOne contract does not itself implement this risk gate."
+      ]
+    },
+    "v2-23-en-misleading": {
+      "acceptable": [],
+      "forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "escalate": true,
+      "rationale": "High risk with explicit absence of human approval requires handoff before model inference or worker selection.",
+      "cited_facts": [
+        "risk"
+      ],
+      "sources": [
+        "config/routing.yaml risk"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "This is a policy gate label. The real router returns human_handoff before SystemOne; the standalone SystemOne contract does not itself implement this risk gate.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-23-tr-real": {
+      "acceptable": [],
+      "forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "escalate": true,
+      "rationale": "High risk with explicit absence of human approval requires handoff before model inference or worker selection.",
+      "cited_facts": [
+        "risk"
+      ],
+      "sources": [
+        "config/routing.yaml risk"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "This is a policy gate label. The real router returns human_handoff before SystemOne; the standalone SystemOne contract does not itself implement this risk gate."
+      ]
+    },
+    "v2-23-tr-misleading": {
+      "acceptable": [],
+      "forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "escalate": true,
+      "rationale": "High risk with explicit absence of human approval requires handoff before model inference or worker selection.",
+      "cited_facts": [
+        "risk"
+      ],
+      "sources": [
+        "config/routing.yaml risk"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "This is a policy gate label. The real router returns human_handoff before SystemOne; the standalone SystemOne contract does not itself implement this risk gate.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-24-en-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "Scenario facts state human approval is already recorded; high risk alone does not require another handoff. Implementation role is the requested fit.",
+      "cited_facts": [
+        "risk",
+        "roles"
+      ],
+      "sources": [
+        "config/routing.yaml risk",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [
+        "approval_representation_differs_from_router"
+      ],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "The scenario uses state.human_approval=true; the real router requires a nonempty top-level event.human_approval_ref. Labels accept the stated scenario approval, not that boolean as a real event credential."
+      ]
+    },
+    "v2-24-en-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "Scenario facts state human approval is already recorded; high risk alone does not require another handoff. Implementation role is the requested fit.",
+      "cited_facts": [
+        "risk",
+        "roles"
+      ],
+      "sources": [
+        "config/routing.yaml risk",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [
+        "approval_representation_differs_from_router"
+      ],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "The scenario uses state.human_approval=true; the real router requires a nonempty top-level event.human_approval_ref. Labels accept the stated scenario approval, not that boolean as a real event credential.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-24-tr-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [
+        "claude_code"
+      ],
+      "escalate": false,
+      "rationale": "Scenario facts state human approval is already recorded; high risk alone does not require another handoff. Implementation role is the requested fit.",
+      "cited_facts": [
+        "risk",
+        "roles"
+      ],
+      "sources": [
+        "config/routing.yaml risk",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [
+        "approval_representation_differs_from_router"
+      ],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "The scenario uses state.human_approval=true; the real router requires a nonempty top-level event.human_approval_ref. Labels accept the stated scenario approval, not that boolean as a real event credential."
+      ]
+    },
+    "v2-24-tr-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [
+        "test_expert"
+      ],
+      "escalate": false,
+      "rationale": "Scenario facts state human approval is already recorded; high risk alone does not require another handoff. Implementation role is the requested fit.",
+      "cited_facts": [
+        "risk",
+        "roles"
+      ],
+      "sources": [
+        "config/routing.yaml risk",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [
+        "approval_representation_differs_from_router"
+      ],
+      "limitations": [
+        "Unique label expresses the documented role preference, not proven capability superiority or runtime illegality of the other eligible worker.",
+        "The scenario uses state.human_approval=true; the real router requires a nonempty top-level event.human_approval_ref. Labels accept the stated scenario approval, not that boolean as a real event credential.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-25-en-real": {
+      "acceptable": [
+        "claude_code",
+        "codex"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "No role or capability preference is given; both coding workers are acceptable and missing preference does not mandate escalation.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": true,
+      "flags": [
+        "answerable_tie_accept_either"
+      ],
+      "limitations": []
+    },
+    "v2-25-en-misleading": {
+      "acceptable": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "No role or capability preference is given; both coding workers are acceptable and missing preference does not mandate escalation.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": true,
+      "flags": [
+        "answerable_tie_accept_either"
+      ],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-25-tr-real": {
+      "acceptable": [
+        "claude_code",
+        "codex"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "No role or capability preference is given; both coding workers are acceptable and missing preference does not mandate escalation.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": true,
+      "flags": [
+        "answerable_tie_accept_either"
+      ],
+      "limitations": []
+    },
+    "v2-25-tr-misleading": {
+      "acceptable": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "No role or capability preference is given; both coding workers are acceptable and missing preference does not mandate escalation.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": true,
+      "flags": [
+        "answerable_tie_accept_either"
+      ],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-26-en-real": {
+      "acceptable": [
+        "claude_code",
+        "codex"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "Architecture and unit tests have equal stated priority and the request explicitly permits either documented specialist.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": true,
+      "flags": [
+        "answerable_tie_accept_either"
+      ],
+      "limitations": []
+    },
+    "v2-26-en-misleading": {
+      "acceptable": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "Architecture and unit tests have equal stated priority and the request explicitly permits either documented specialist.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": true,
+      "flags": [
+        "answerable_tie_accept_either"
+      ],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-26-tr-real": {
+      "acceptable": [
+        "claude_code",
+        "codex"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "Architecture and unit tests have equal stated priority and the request explicitly permits either documented specialist.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": true,
+      "flags": [
+        "answerable_tie_accept_either"
+      ],
+      "limitations": []
+    },
+    "v2-26-tr-misleading": {
+      "acceptable": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "Architecture and unit tests have equal stated priority and the request explicitly permits either documented specialist.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": true,
+      "flags": [
+        "answerable_tie_accept_either"
+      ],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-27-en-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "The sole eligible worker supports routine implementation; no unmet constraint requires escalation.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-27-en-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "The sole eligible worker supports routine implementation; no unmet constraint requires escalation.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-27-tr-real": {
+      "acceptable": [
+        "codex"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "The sole eligible worker supports routine implementation; no unmet constraint requires escalation.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-27-tr-misleading": {
+      "acceptable": [
+        "architecture_expert"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "The sole eligible worker supports routine implementation; no unmet constraint requires escalation.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-28-en-real": {
+      "acceptable": [],
+      "forbidden": [],
+      "escalate": true,
+      "rationale": "An empty eligible option set mandates escalation before consulting a backend.",
+      "cited_facts": [
+        "contract"
+      ],
+      "sources": [
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "forbidden lists offered options only and is empty because none are offered; every out-of-set choice is prohibited by the global contract."
+      ]
+    },
+    "v2-28-en-misleading": {
+      "acceptable": [],
+      "forbidden": [],
+      "escalate": true,
+      "rationale": "An empty eligible option set mandates escalation before consulting a backend.",
+      "cited_facts": [
+        "contract"
+      ],
+      "sources": [
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "forbidden lists offered options only and is empty because none are offered; every out-of-set choice is prohibited by the global contract.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-28-tr-real": {
+      "acceptable": [],
+      "forbidden": [],
+      "escalate": true,
+      "rationale": "An empty eligible option set mandates escalation before consulting a backend.",
+      "cited_facts": [
+        "contract"
+      ],
+      "sources": [
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "forbidden lists offered options only and is empty because none are offered; every out-of-set choice is prohibited by the global contract."
+      ]
+    },
+    "v2-28-tr-misleading": {
+      "acceptable": [],
+      "forbidden": [],
+      "escalate": true,
+      "rationale": "An empty eligible option set mandates escalation before consulting a backend.",
+      "cited_facts": [
+        "contract"
+      ],
+      "sources": [
+        "agentos/systemone.py"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "forbidden lists offered options only and is empty because none are offered; every out-of-set choice is prohibited by the global contract.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-29-en-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "deepseek_harness"
+      ],
+      "escalate": false,
+      "rationale": "The request explicitly requires existing-subscription review and excludes the API-backed background worker; the first-role worker supplies review through harness access.",
+      "cited_facts": [
+        "cost",
+        "roles",
+        "background"
+      ],
+      "sources": [
+        "config/providers.yaml",
+        "config/workers.yaml",
+        "config/workers.yaml; config/routing.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-29-en-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "interactive_expert"
+      ],
+      "escalate": false,
+      "rationale": "The request explicitly requires existing-subscription review and excludes the API-backed background worker; the first-role worker supplies review through harness access.",
+      "cited_facts": [
+        "cost",
+        "roles",
+        "background"
+      ],
+      "sources": [
+        "config/providers.yaml",
+        "config/workers.yaml",
+        "config/workers.yaml; config/routing.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-29-tr-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "deepseek_harness"
+      ],
+      "escalate": false,
+      "rationale": "The request explicitly requires existing-subscription review and excludes the API-backed background worker; the first-role worker supplies review through harness access.",
+      "cited_facts": [
+        "cost",
+        "roles",
+        "background"
+      ],
+      "sources": [
+        "config/providers.yaml",
+        "config/workers.yaml",
+        "config/workers.yaml; config/routing.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-29-tr-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "interactive_expert"
+      ],
+      "escalate": false,
+      "rationale": "The request explicitly requires existing-subscription review and excludes the API-backed background worker; the first-role worker supplies review through harness access.",
+      "cited_facts": [
+        "cost",
+        "roles",
+        "background"
+      ],
+      "sources": [
+        "config/providers.yaml",
+        "config/workers.yaml",
+        "config/workers.yaml; config/routing.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-30-en-real": {
+      "acceptable": [],
+      "forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "escalate": true,
+      "rationale": "The GPU-only task requires MSI, which is offline. A cloud coding worker cannot substitute for the required resource.",
+      "cited_facts": [
+        "background"
+      ],
+      "sources": [
+        "config/workers.yaml; config/routing.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "The real router returns blocked before any model stage for unavailable MSI; semantic escalation is not a SystemOne consultation outcome."
+      ]
+    },
+    "v2-30-en-misleading": {
+      "acceptable": [],
+      "forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "escalate": true,
+      "rationale": "The GPU-only task requires MSI, which is offline. A cloud coding worker cannot substitute for the required resource.",
+      "cited_facts": [
+        "background"
+      ],
+      "sources": [
+        "config/workers.yaml; config/routing.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "The real router returns blocked before any model stage for unavailable MSI; semantic escalation is not a SystemOne consultation outcome.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-30-tr-real": {
+      "acceptable": [],
+      "forbidden": [
+        "claude_code",
+        "codex"
+      ],
+      "escalate": true,
+      "rationale": "The GPU-only task requires MSI, which is offline. A cloud coding worker cannot substitute for the required resource.",
+      "cited_facts": [
+        "background"
+      ],
+      "sources": [
+        "config/workers.yaml; config/routing.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "The real router returns blocked before any model stage for unavailable MSI; semantic escalation is not a SystemOne consultation outcome."
+      ]
+    },
+    "v2-30-tr-misleading": {
+      "acceptable": [],
+      "forbidden": [
+        "test_expert",
+        "architecture_expert"
+      ],
+      "escalate": true,
+      "rationale": "The GPU-only task requires MSI, which is offline. A cloud coding worker cannot substitute for the required resource.",
+      "cited_facts": [
+        "background"
+      ],
+      "sources": [
+        "config/workers.yaml; config/routing.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "The real router returns blocked before any model stage for unavailable MSI; semantic escalation is not a SystemOne consultation outcome.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-31-en-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "The sole eligible worker has the architecture role required by the task.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-31-en-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "The sole eligible worker has the architecture role required by the task.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-31-tr-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "The sole eligible worker has the architecture role required by the task.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": []
+    },
+    "v2-31-tr-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [],
+      "escalate": false,
+      "rationale": "The sole eligible worker has the architecture role required by the task.",
+      "cited_facts": [
+        "contract",
+        "roles"
+      ],
+      "sources": [
+        "agentos/systemone.py",
+        "config/workers.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-32-en-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "Required code.symbol_lookup is supplied by Serena; only the first worker has supported integration or explicit no-missing metadata.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-32-en-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "Required code.symbol_lookup is supplied by Serena; only the first worker has supported integration or explicit no-missing metadata.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    },
+    "v2-32-tr-real": {
+      "acceptable": [
+        "claude_code"
+      ],
+      "forbidden": [
+        "codex"
+      ],
+      "escalate": false,
+      "rationale": "Required code.symbol_lookup is supplied by Serena; only the first worker has supported integration or explicit no-missing metadata.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne."
+      ]
+    },
+    "v2-32-tr-misleading": {
+      "acceptable": [
+        "test_expert"
+      ],
+      "forbidden": [
+        "architecture_expert"
+      ],
+      "escalate": false,
+      "rationale": "Required code.symbol_lookup is supplied by Serena; only the first worker has supported integration or explicit no-missing metadata.",
+      "cited_facts": [
+        "capabilities"
+      ],
+      "sources": [
+        "config/capability_registry.yaml"
+      ],
+      "ambiguity": false,
+      "flags": [],
+      "limitations": [
+        "Synthetic eligible_options contains workers lacking required capabilities; normal capability filtering should remove those options before SystemOne.",
+        "Uses the explicitly supplied option_info_extra scenario facts, not suggestive option names; these aliases are not configured runtime worker IDs."
+      ]
+    }
+  },
+  "e2e_review": {
+    "v2-e2e-0": {
+      "correct": false,
+      "issues": [
+        "exit_state=success is not a raw router outcome for this deterministic event."
+      ],
+      "corrected_expect": {
+        "exit_state": null,
+        "consulted": false,
+        "worker_in": null
+      },
+      "rationale": "agentos/router.py _route sets handler=deterministic and stage=C0 and returns without setting exit_state. No executor completion occurs within route.",
+      "sources": [
+        "agentos/router.py:_route",
+        "config/routing.yaml:deterministic_rules"
+      ]
+    },
+    "v2-e2e-1": {
+      "correct": false,
+      "issues": [
+        "needs_human_approval is not the configured or implemented exit state."
+      ],
+      "corrected_expect": {
+        "exit_state": "human_handoff",
+        "consulted": false,
+        "worker_in": null
+      },
+      "rationale": "The pre-stage risk gate sets requires_human_approval=true and, without human_approval_ref, exit_state=human_handoff.",
+      "sources": [
+        "agentos/router.py:_route",
+        "config/routing.yaml:risk",
+        "config/routing.yaml:exit_states"
+      ]
+    },
+    "v2-e2e-2": {
+      "correct": true,
+      "issues": [],
+      "corrected_expect": {
+        "exit_state": null,
+        "consulted": true,
+        "worker_in": [
+          "claude_code",
+          "codex"
+        ]
+      },
+      "rationale": "classification includes fastgate and a cloud chain with both available subscription workers. Null or abstaining SystemOne still counts as consulted and routing continues.",
+      "limitations": [
+        "Conditional on a routable cloud path and no usable earlier local reasoning stage intercepting execution. Model configuration is outside the allowed review files, so that condition is not independently verified."
+      ],
+      "sources": [
+        "agentos/router.py:_systemone_step",
+        "agentos/router.py:_route",
+        "config/routing.yaml:task_classes.classification",
+        "config/providers.yaml",
+        "config/workers.yaml"
+      ]
+    }
+  },
+  "limitations": [
+    "This is model-assisted review, never independent human review. It establishes no measured worker ability.",
+    "Only the blinded JSON and the seven explicitly allowed configuration/source files were read. No gold dataset, author script, previous model outputs, runtime probes, or benchmarks were used.",
+    "128 cases comprise 32 scenario families with English/Turkish and real/misleading-label variants; they are not 128 independent tasks. Each request and its scenario metadata was inspected; equivalent variants share rationale.",
+    "The blinded input cites all eight fact classes for every case; this review cites only the fact classes directly supporting each judgment.",
+    "Role-only distinctions are preferences; both configured coding workers have broad native coding capability. A forbidden label must not be reported as proof of inability or a hard safety violation.",
+    "Synthetic state.stage=fastgate does not establish production invocation. Current coding, review, and background routes use cloud directly; the router constructs SystemOne state with task_class and stage only, omitting summary, primary_worker, failed_attempts, interactive state and approval facts. Synthetic semantic performance therefore cannot establish production routing impact.",
+    "Declared integration support is not a live availability, authentication, permission, or health probe. Case facts govern the annotations; no tool execution occurred.",
+    "English and Turkish requests were reviewed as equivalent in intended routing constraints. No independently qualified translation review was performed.",
+    "E2E corrections refer to the raw route Decision API. A separate wrapper could map states, but no such wrapper was among the permitted files."
+  ]
+}

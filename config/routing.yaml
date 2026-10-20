@@ -94,6 +94,22 @@ tool_routing:
   repo_packing:          {prefer: repomix,    fallback: [ripgrep]}
   web_search:            {prefer: web_search, fallback: []}
 
+# ------------------------------------------------- fastgate / SystemOne (R3.1)
+# The `fastgate` stage asks the configured backend ONE typed question over options that
+# deterministic policy already approved (eligible workers); it can only narrow the choice.
+# Built-in backends (agentos/systemone.py): "null" (default; always escalates, so routing is
+# unchanged) and "policy-order" (reference/test backend: picks the first eligible option).
+# Adapter backends (e.g. "laya-mlx") are DEFINED in the protected config/systemone.yaml. Selecting
+# one here does NOT activate it: the router (runtime guard) and `agentos validate` accept an adapter
+# backend only if it is listed in the protected `activation.production_backends` (empty by default),
+# and a fastgate model only if listed in `activation.fastgate_models` AND usable. An unlisted
+# selection is rejected by validate and falls back to the null backend at runtime. Editing this
+# file therefore cannot enable a backend. Research/benchmark runs pass an explicit backend by
+# name (human-invoked CLI/tests), never through this key. If a listed backend is unavailable, slow
+# or invalid, SystemOne escalates and routing continues unchanged.
+systemone:
+  backend: "null"
+
 # ---------------------------------------------------------------- budgets
 # Numeric loop bounds (closes the gap recorded in
 # docs/loop-graph-engineering.md appendix). Exceeding them forces an exit

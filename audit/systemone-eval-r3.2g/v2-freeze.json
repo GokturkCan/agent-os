@@ -1,0 +1,19 @@
+{
+  "path": "evals/data/systemone-heldout-v2.yaml",
+  "sha256": "c35d90cd91c1c855102fa05f9ad0054c6d8086e40bed40a77472871e5e2026cc",
+  "freeze_utc": "2026-10-14T16:15:49.838993+00:00",
+  "selected_pipeline": "pipeline:laya-mlx:raw:per-option",
+  "review": "fresh-context blinded model-assisted; NOT independent human review",
+  "cases": 128,
+  "scenario_families": 32,
+  "en": 64,
+  "tr": 64,
+  "freeze_point": "the local commit containing this file and dataset, recorded by v2/inference-start.json before model calls",
+  "evidence_hashes": {
+    "v2-blinded.json": "203ef6bb514035a0c736fa983218148bc9ef33b3c999cb397544a442209d9f71",
+    "v2-blinded-review.json": "da5f88e3d5c18bd9e3c7553797ce6a56eb045aade25eb38ed4d571a46481e349",
+    "v2-adjudication.json": "885a061b09ef40a9c5b7012736ffe25e7194d3372ea0ea695e5ae931c5ae7023",
+    "candidate-selection.json": "c155abf01bc10a0c3df1175e32807294ea1b5226b0ad0896b6da3e8be56dec15"
+  },
+  "rule": "No dataset/prompt/threshold/model tuning after scoring. All orders and original G1-G7. No production activation."
+}

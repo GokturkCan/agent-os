@@ -1,0 +1,516 @@
+version: 1
+suite: wakegate-suite-v1
+authored: '2026-10-14'
+provenance: Authored by the R3.2G session before any WakeGate run (this script). Labels follow explicit rules and the relevance of the event to waiting_for. No human review.
+cases:
+- id: wg-rule-001
+  lang: en
+  family: rule_user
+  waiting_for: Code review comments on pull request 482
+  event:
+    kind: message
+    summary: Please stop the deploy, I changed my mind
+    from_user: true
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rule-002
+  lang: tr
+  family: rule_user
+  waiting_for: 482 numaralı çekme isteğine kod inceleme yorumları
+  event:
+    kind: message
+    summary: Lütfen dağıtımı durdur, fikrimi değiştirdim
+    from_user: true
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rule-003
+  lang: en
+  family: rule_failure
+  waiting_for: The nightly integration test run to finish
+  event:
+    kind: ci
+    summary: 'Nightly integration run FAILED: 3 tests failed in payments'
+    source: ci
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rule-004
+  lang: tr
+  family: rule_failure
+  waiting_for: Gece entegrasyon test çalışmasının bitmesi
+  event:
+    kind: ci
+    summary: 'Gece entegrasyon çalışması başarısız: ödemelerde 3 test hata verdi'
+    source: ci
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rule-005
+  lang: en
+  family: rule_security
+  waiting_for: Code review comments on pull request 482
+  event:
+    kind: alert
+    summary: Leaked API key detected in commit a1b2c3
+    source: secret-scanner
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rule-006
+  lang: tr
+  family: rule_security
+  waiting_for: 482 numaralı çekme isteğine kod inceleme yorumları
+  event:
+    kind: alert
+    summary: a1b2c3 commitinde sızdırılmış parola tespit edildi
+    source: tarayıcı
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rule-007
+  lang: en
+  family: rule_approval
+  waiting_for: Code review comments on pull request 482
+  event:
+    kind: webhook
+    summary: Production database migration awaiting sign-off
+    markers:
+    - approval
+    requires_approval: true
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rule-008
+  lang: tr
+  family: rule_approval
+  waiting_for: 482 numaralı çekme isteğine kod inceleme yorumları
+  event:
+    kind: webhook
+    summary: Üretim veritabanı geçişi onay bekliyor
+    markers:
+    - onay
+    requires_approval: true
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rule-009
+  lang: en
+  family: rule_risk
+  waiting_for: The laptop price to drop below 1000 USD
+  event:
+    kind: webhook
+    summary: Payment method change requested for the shared account
+    risk: high
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rule-010
+  lang: tr
+  family: rule_risk
+  waiting_for: Dizüstü bilgisayar fiyatının 1000 USD'nin altına düşmesi
+  event:
+    kind: webhook
+    summary: Ortak hesap için ödeme yöntemi değişikliği istendi
+    risk: high
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rule-011
+  lang: en
+  family: rule_deadline
+  waiting_for: A reply from Dana (HR) about scheduling my second-round interview
+  event:
+    kind: calendar
+    summary: Interview prep reminder
+    deadline_minutes: 30
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rule-012
+  lang: tr
+  family: rule_deadline
+  waiting_for: İK'dan Dana'nın ikinci tur mülakat planlamasıyla ilgili yanıtı
+  event:
+    kind: calendar
+    summary: Mülakat hazırlık hatırlatması
+    deadline_minutes: 20
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rule-013
+  lang: en
+  family: rule_failure
+  waiting_for: The nightly integration test run to finish
+  event:
+    kind: alert
+    summary: Build agent disk full, job crashed
+    source: monitor
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rule-014
+  lang: tr
+  family: rule_failure
+  waiting_for: Gece entegrasyon test çalışmasının bitmesi
+  event:
+    kind: alert
+    summary: Derleme ajanının diski doldu, iş çöktü
+    source: izleme
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-nochange-001
+  lang: en
+  family: rule_no_change
+  waiting_for: The laptop price to drop below 1000 USD
+  event:
+    kind: timer
+    observation: &id001
+      price_usd: 1249
+  previous_observation: *id001
+  skipped: 0
+  gold: should_defer
+- id: wg-nochange-002
+  lang: tr
+  family: rule_no_change
+  waiting_for: Dizüstü bilgisayar fiyatının 1000 USD'nin altına düşmesi
+  event:
+    kind: timer
+    observation: *id001
+  previous_observation: *id001
+  skipped: 0
+  gold: should_defer
+- id: wg-nochange-003
+  lang: en
+  family: rule_no_change
+  waiting_for: The nightly integration test run to finish
+  event:
+    kind: timer
+    observation: &id002
+      status: running
+      done: 41
+  previous_observation: *id002
+  skipped: 0
+  gold: should_defer
+- id: wg-nochange-004
+  lang: tr
+  family: rule_no_change
+  waiting_for: Gece entegrasyon test çalışmasının bitmesi
+  event:
+    kind: timer
+    observation: &id003
+      status: running
+      done: 41
+  previous_observation: *id003
+  skipped: 0
+  gold: should_defer
+- id: wg-skip-001
+  lang: en
+  family: skip_limit
+  waiting_for: A reply from Dana (HR) about scheduling my second-round interview
+  event:
+    kind: email
+    summary: 'Weekly newsletter: 7 stories about AI'
+    source: news@medium.com
+  previous_observation: null
+  skipped: 10
+  gold: wake_ok
+- id: wg-skip-002
+  lang: tr
+  family: skip_limit
+  waiting_for: İK'dan Dana'nın ikinci tur mülakat planlamasıyla ilgili yanıtı
+  event:
+    kind: email
+    summary: 'Haftalık bülten: yapay zekâ hakkında 7 yazı'
+    source: bulten@ornek.com
+  previous_observation: null
+  skipped: 10
+  gold: wake_ok
+- id: wg-rel-001
+  lang: en
+  family: model_relevant
+  waiting_for: A reply from Dana (HR) about scheduling my second-round interview
+  event:
+    kind: email
+    summary: 'Re: second-round interview, are you free Thursday at 14:00?'
+    source: dana@acme.com
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rel-002
+  lang: tr
+  family: model_relevant
+  waiting_for: İK'dan Dana'nın ikinci tur mülakat planlamasıyla ilgili yanıtı
+  event:
+    kind: email
+    summary: 'Ynt: ikinci tur mülakat, perşembe 14:00 uygun musunuz?'
+    source: dana@acme.com
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rel-003
+  lang: en
+  family: model_relevant
+  waiting_for: The laptop price to drop below 1000 USD
+  event:
+    kind: timer
+    observation:
+      price_usd: 949
+  previous_observation: *id001
+  skipped: 0
+  gold: must_wake
+- id: wg-rel-004
+  lang: tr
+  family: model_relevant
+  waiting_for: Dizüstü bilgisayar fiyatının 1000 USD'nin altına düşmesi
+  event:
+    kind: timer
+    observation:
+      price_usd: 949
+  previous_observation: *id001
+  skipped: 0
+  gold: must_wake
+- id: wg-rel-005
+  lang: en
+  family: model_relevant
+  waiting_for: The nightly integration test run to finish
+  event:
+    kind: webhook
+    summary: 'Nightly integration run finished: all 812 tests passed'
+    source: ci
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rel-006
+  lang: tr
+  family: model_relevant
+  waiting_for: Gece entegrasyon test çalışmasının bitmesi
+  event:
+    kind: webhook
+    summary: 'Gece entegrasyon çalışması bitti: 812 testin tamamı geçti'
+    source: ci
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rel-007
+  lang: en
+  family: model_relevant
+  waiting_for: Code review comments on pull request 482
+  event:
+    kind: email
+    summary: 'New review comments on PR 482: please rename the parser module'
+    source: github
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rel-008
+  lang: tr
+  family: model_relevant
+  waiting_for: 482 numaralı çekme isteğine kod inceleme yorumları
+  event:
+    kind: email
+    summary: '482 numaralı PR''a yeni inceleme yorumları: ayrıştırıcı modülünü yeniden adlandırın'
+    source: github
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rel-009
+  lang: en
+  family: model_relevant
+  waiting_for: A reply from Dana (HR) about scheduling my second-round interview
+  event:
+    kind: message
+    summary: Dana from HR left you a voicemail about the interview slot
+    source: phone
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rel-010
+  lang: tr
+  family: model_relevant
+  waiting_for: İK'dan Dana'nın ikinci tur mülakat planlamasıyla ilgili yanıtı
+  event:
+    kind: message
+    summary: İK'dan Dana mülakat saati hakkında sesli mesaj bıraktı
+    source: telefon
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rel-011
+  lang: en
+  family: model_relevant
+  waiting_for: The laptop price to drop below 1000 USD
+  event:
+    kind: email
+    summary: 'Price alert: the laptop on your list is now 899 USD'
+    source: shop
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-rel-012
+  lang: tr
+  family: model_relevant
+  waiting_for: Dizüstü bilgisayar fiyatının 1000 USD'nin altına düşmesi
+  event:
+    kind: email
+    summary: 'Fiyat uyarısı: listendeki dizüstü bilgisayar artık 899 USD'
+    source: magaza
+  previous_observation: null
+  skipped: 0
+  gold: must_wake
+- id: wg-irr-001
+  lang: en
+  family: model_irrelevant
+  waiting_for: A reply from Dana (HR) about scheduling my second-round interview
+  event:
+    kind: email
+    summary: 'Your daily digest: 7 stories about productivity'
+    source: noreply@medium.com
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg-irr-002
+  lang: tr
+  family: model_irrelevant
+  waiting_for: İK'dan Dana'nın ikinci tur mülakat planlamasıyla ilgili yanıtı
+  event:
+    kind: email
+    summary: 'Günlük özetiniz: verimlilik hakkında 7 hikâye'
+    source: noreply@medium.com
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg-irr-003
+  lang: en
+  family: model_irrelevant
+  waiting_for: The laptop price to drop below 1000 USD
+  event:
+    kind: timer
+    observation:
+      price_usd: 1239
+  previous_observation: *id001
+  skipped: 0
+  gold: should_defer
+- id: wg-irr-004
+  lang: tr
+  family: model_irrelevant
+  waiting_for: Dizüstü bilgisayar fiyatının 1000 USD'nin altına düşmesi
+  event:
+    kind: timer
+    observation:
+      price_usd: 1239
+  previous_observation: *id001
+  skipped: 0
+  gold: should_defer
+- id: wg-irr-005
+  lang: en
+  family: model_irrelevant
+  waiting_for: The nightly integration test run to finish
+  event:
+    kind: webhook
+    summary: 'Nightly run progress: 420 of 812 tests done'
+    source: ci
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg-irr-006
+  lang: tr
+  family: model_irrelevant
+  waiting_for: Gece entegrasyon test çalışmasının bitmesi
+  event:
+    kind: webhook
+    summary: 'Gece çalışması ilerleme: 812 testin 420''si tamamlandı'
+    source: ci
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg-irr-007
+  lang: en
+  family: model_irrelevant
+  waiting_for: Code review comments on pull request 482
+  event:
+    kind: email
+    summary: 'GitHub: someone starred your repository'
+    source: github
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg-irr-008
+  lang: tr
+  family: model_irrelevant
+  waiting_for: 482 numaralı çekme isteğine kod inceleme yorumları
+  event:
+    kind: email
+    summary: 'GitHub: biri deponuza yıldız verdi'
+    source: github
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg-irr-009
+  lang: en
+  family: model_irrelevant
+  waiting_for: A reply from Dana (HR) about scheduling my second-round interview
+  event:
+    kind: email
+    summary: 'Promotion: 20% off conference tickets this week'
+    source: events@ticketing.com
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg-irr-010
+  lang: tr
+  family: model_irrelevant
+  waiting_for: İK'dan Dana'nın ikinci tur mülakat planlamasıyla ilgili yanıtı
+  event:
+    kind: email
+    summary: 'Kampanya: bu hafta konferans biletlerinde %20 indirim'
+    source: etkinlik@bilet.com
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg-irr-011
+  lang: en
+  family: model_irrelevant
+  waiting_for: The laptop price to drop below 1000 USD
+  event:
+    kind: email
+    summary: 'Shop newsletter: new phone cases in stock'
+    source: shop
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg-irr-012
+  lang: tr
+  family: model_irrelevant
+  waiting_for: Dizüstü bilgisayar fiyatının 1000 USD'nin altına düşmesi
+  event:
+    kind: email
+    summary: 'Mağaza bülteni: yeni telefon kılıfları stokta'
+    source: magaza
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg-irr-013
+  lang: en
+  family: model_irrelevant
+  waiting_for: The nightly integration test run to finish
+  event:
+    kind: webhook
+    summary: Dependency bot opened a PR to bump a dev dependency
+    source: bot
+  previous_observation: null
+  skipped: 0
+  gold: should_defer
+- id: wg-irr-014
+  lang: tr
+  family: model_irrelevant
+  waiting_for: Gece entegrasyon test çalışmasının bitmesi
+  event:
+    kind: webhook
+    summary: Bağımlılık botu bir geliştirme bağımlılığını güncellemek için PR açtı
+    source: bot
+  previous_observation: null
+  skipped: 0
+  gold: should_defer

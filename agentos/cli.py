@@ -14,6 +14,13 @@
                                          write a lesson candidate to ~/SecondBrain/inbox/lessons
   agentos capabilities list|show|match|matrix|check ...
                                          capability registry inspection (read-only; see capability_cli)
+  agentos systemone smoke|bench --backend NAME ...
+                                         smoke-test / benchmark a configured SystemOne backend
+  agentos systemone-eval --backend NAME|baseline:KIND|pipeline:SPEC [--variants ...] [--out F]
+  agentos systemone-calibration --fit DEV.json [--apply X.json ...]   offline raw-confidence analysis
+  agentos systemone-compat [--eligible a,b] < request.json            TypeSafe-shaped request -> SystemOne (opt-in)
+  agentos module-eval --suite wakegate|contextgate|toolpruner|rulecache [--backend laya-mlx|none]
+                                         labeled decision-quality evaluation (R3.2C)
 """
 from __future__ import annotations
 
@@ -21,7 +28,7 @@ import argparse
 import json
 import sys
 
-from . import capability_cli
+from . import capability_cli, module_eval, systemone_bench, systemone_calibration, systemone_compat, systemone_eval
 from . import config as C
 from . import health, router, telemetry
 from .permissions import WorkerSession
@@ -99,6 +106,11 @@ def main(argv=None) -> int:
     ls.add_argument("--text", required=True)
     ls.add_argument("--evidence", action="append", default=[])
     capability_cli.add_parser(sub)
+    systemone_bench.add_parser(sub)
+    systemone_eval.add_parser(sub)
+    systemone_calibration.add_parser(sub)
+    systemone_compat.add_parser(sub)
+    module_eval.add_parser(sub)
     m = sub.add_parser("manifest")
     m.add_argument("--write", action="store_true",
                    help="HUMAN-ONLY: record the reviewed hashes of protected files")
@@ -119,7 +131,8 @@ def main(argv=None) -> int:
         d = router.route(cfg, {"type": a.type, "risk": a.risk}, h)
         if a.record:
             telemetry.record(task_type=a.type, route=d.stage, provider=d.provider, worker=d.worker,
-                             exit_state=d.exit_state, fallbacks=d.fallbacks, failures=d.failures)
+                             exit_state=d.exit_state, fallbacks=d.fallbacks, failures=d.failures,
+                             **d.systemone_fields())
         print(json.dumps(d.to_dict(), indent=2))
         return 0 if d.exit_state is None else 2
     if a.cmd == "tool":
@@ -187,6 +200,16 @@ def main(argv=None) -> int:
         return 0 if res["exit_state"] in (None, "success") else 2
     if a.cmd == "capabilities":
         return capability_cli.run(cfg, a)
+    if a.cmd == "systemone":
+        return systemone_bench.run(cfg, a)
+    if a.cmd == "systemone-eval":
+        return systemone_eval.run(cfg, a)
+    if a.cmd == "systemone-calibration":
+        return systemone_calibration.run(cfg, a)
+    if a.cmd == "systemone-compat":
+        return systemone_compat.run(cfg, a)
+    if a.cmd == "module-eval":
+        return module_eval.run(cfg, a)
     if a.cmd == "intent":
         from .intent import decide
         d = decide(cfg, a.text)

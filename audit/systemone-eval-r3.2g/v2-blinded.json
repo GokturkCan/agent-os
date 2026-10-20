@@ -1,0 +1,6969 @@
+{
+  "version": 1,
+  "dataset": "systemone-heldout-v2",
+  "authored": "2026-10-14",
+  "facts": {
+    "roles": {
+      "source": "config/workers.yaml",
+      "rule": "Configured roles determine intent preferences; they are not measured model ability."
+    },
+    "capabilities": {
+      "source": "config/capability_registry.yaml",
+      "rule": "Required capabilities must be available via declared supported integrations; explicit scenario missing facts override static availability."
+    },
+    "review": {
+      "source": "config/routing.yaml roles.reviewer",
+      "rule": "Reviewer differs from primary worker."
+    },
+    "fallback": {
+      "source": "config/routing.yaml cloud chains; agentos/router.py",
+      "rule": "Use the other available worker on recorded failure/unavailability."
+    },
+    "risk": {
+      "source": "config/routing.yaml risk",
+      "rule": "High risk without human approval blocks before inference."
+    },
+    "background": {
+      "source": "config/workers.yaml; config/routing.yaml",
+      "rule": "deepseek_harness is background escalation only, interactive false; GPU-only workload requires MSI."
+    },
+    "cost": {
+      "source": "config/providers.yaml",
+      "rule": "Prefer existing subscription access when requested; deepseek uses API access."
+    },
+    "contract": {
+      "source": "agentos/systemone.py",
+      "rule": "Only eligible options may be selected. No options escalates. Ambiguous answerable cases accept either, not mandatory abstention."
+    }
+  },
+  "cases": [
+    {
+      "id": "v2-01-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "coding_testing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-01-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Design ownership boundaries for a new audit-log service before implementation."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-01-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "label_bias",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-01-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Design ownership boundaries for a new audit-log service before implementation."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-01-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "coding_testing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-01-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Uygulamadan önce yeni denetim günlüğü servisinin sahiplik sınırlarını tasarla."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-01-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "label_bias",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-01-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Uygulamadan önce yeni denetim günlüğü servisinin sahiplik sınırlarını tasarla."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-02-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "coding_testing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-02-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Investigate a nondeterministic deadlock across three services; the cause is unknown."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-02-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "label_bias",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-02-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Investigate a nondeterministic deadlock across three services; the cause is unknown."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-02-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "coding_testing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-02-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Üç servis arasındaki belirlenemeyen kilitlenmenin bilinmeyen nedenini araştır."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-02-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "label_bias",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-02-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Üç servis arasındaki belirlenemeyen kilitlenmenin bilinmeyen nedenini araştır."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-03-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "coding_testing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-03-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Implement the specified pagination helper; its interface and design are already fixed."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-03-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "label_bias",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-03-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Implement the specified pagination helper; its interface and design are already fixed."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-03-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "coding_testing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-03-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Arayüzü ve tasarımı belirlenmiş sayfalama yardımcısını uygula."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-03-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "label_bias",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-03-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Arayüzü ve tasarımı belirlenmiş sayfalama yardımcısını uygula."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-04-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "coding_testing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-04-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Write unit tests for rounding of currency amounts; do not redesign the module."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-04-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "label_bias",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-04-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Write unit tests for rounding of currency amounts; do not redesign the module."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-04-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "coding_testing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-04-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Modülü yeniden tasarlamadan para tutarlarının yuvarlanması için birim testleri yaz."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-04-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "label_bias",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-04-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Modülü yeniden tasarlamadan para tutarlarının yuvarlanması için birim testleri yaz."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-05-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "coding_testing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-05-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Repair a routine off-by-one error in the already isolated array loop."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-05-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "label_bias",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-05-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Repair a routine off-by-one error in the already isolated array loop."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-05-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "coding_testing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-05-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Yeri belirlenmiş dizi döngüsündeki sıradan bir eksik sayma hatasını düzelt."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-05-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "label_bias",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-05-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Yeri belirlenmiş dizi döngüsündeki sıradan bir eksik sayma hatasını düzelt."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-06-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "coding_testing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-06-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Decide the architecture for shared identity across the new services."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-06-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "label_bias",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-06-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Decide the architecture for shared identity across the new services."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-06-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "coding_testing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-06-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Yeni servisler arasında ortak kimlik için mimariyi belirle."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-06-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "label_bias",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-06-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Yeni servisler arasında ortak kimlik için mimariyi belirle."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-07-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-07-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "web.browser_test"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Use browser automation to verify keyboard navigation in the new dialog."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-07-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-07-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "web.browser_test"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Use browser automation to verify keyboard navigation in the new dialog."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "web.browser_test"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-07-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-07-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "web.browser_test"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Yeni iletişim kutusunda klavye gezinmesini tarayıcı otomasyonuyla doğrula."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-07-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-07-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "web.browser_test"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Yeni iletişim kutusunda klavye gezinmesini tarayıcı otomasyonuyla doğrula."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "web.browser_test"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-08-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-08-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "web.docs_lookup"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Look up the current SDK documentation before replacing its obsolete method."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-08-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-08-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "web.docs_lookup"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Look up the current SDK documentation before replacing its obsolete method."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "web.docs_lookup"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-08-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-08-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "web.docs_lookup"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Eski yöntemi değiştirmeden önce SDK belgelerinin güncel haline bak."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-08-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-08-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "web.docs_lookup"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Eski yöntemi değiştirmeden önce SDK belgelerinin güncel haline bak."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "web.docs_lookup"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-09-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-09-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "code.diagnostics"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Use language-server diagnostics to locate type errors in the event dispatcher."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-09-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-09-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "code.diagnostics"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Use language-server diagnostics to locate type errors in the event dispatcher."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "code.diagnostics"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-09-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-09-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "code.diagnostics"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Olay dağıtıcısındaki tür hatalarını dil sunucusu tanılarıyla bul."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-09-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-09-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "code.diagnostics"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Olay dağıtıcısındaki tür hatalarını dil sunucusu tanılarıyla bul."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "code.diagnostics"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-10-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "equally_acceptable",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-10-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "code.test"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Run the existing tests and list their exit status; either configured worker is suitable."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-10-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "equally_acceptable",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-10-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "code.test"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Run the existing tests and list their exit status; either configured worker is suitable."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-10-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "equally_acceptable",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-10-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "code.test"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Mevcut testleri çalıştır ve çıkış durumlarını listele; yapılandırılmış iki çalışan da uygundur."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-10-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "equally_acceptable",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-10-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "code.test"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Mevcut testleri çalıştır ve çıkış durumlarını listele; yapılandırılmış iki çalışan da uygundur."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-11-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "review_independence",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-11-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "review",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "review",
+          "stage": "fastgate",
+          "summary": "Independently review the patch written by claude_code.",
+          "primary_worker": "claude_code"
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-11-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "review_independence",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-11-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "review",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "review",
+          "stage": "fastgate",
+          "summary": "Independently review the patch written by test_expert.",
+          "primary_worker": "test_expert"
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-11-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "review_independence",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-11-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "review",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "review",
+          "stage": "fastgate",
+          "summary": "claude_code tarafından yazılan yamayı bağımsız olarak incele.",
+          "primary_worker": "claude_code"
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-11-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "review_independence",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-11-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "review",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "review",
+          "stage": "fastgate",
+          "summary": "test_expert tarafından yazılan yamayı bağımsız olarak incele.",
+          "primary_worker": "test_expert"
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-12-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "review_independence",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-12-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "review",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "review",
+          "stage": "fastgate",
+          "summary": "Independently review the patch written by codex.",
+          "primary_worker": "codex"
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-12-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "review_independence",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-12-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "review",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "review",
+          "stage": "fastgate",
+          "summary": "Independently review the patch written by architecture_expert.",
+          "primary_worker": "architecture_expert"
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-12-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "review_independence",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-12-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "review",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "review",
+          "stage": "fastgate",
+          "summary": "codex tarafından yazılan yamayı bağımsız olarak incele.",
+          "primary_worker": "codex"
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-12-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "review_independence",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-12-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "review",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "review",
+          "stage": "fastgate",
+          "summary": "architecture_expert tarafından yazılan yamayı bağımsız olarak incele.",
+          "primary_worker": "architecture_expert"
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-13-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "worker_failure",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-13-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "claude_code timed out twice. Use the other available worker for this retry.",
+          "previous_worker": "claude_code",
+          "failed_attempts": 2
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-13-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "worker_failure",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-13-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "test_expert timed out twice. Use the other available worker for this retry.",
+          "previous_worker": "test_expert",
+          "failed_attempts": 2
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-13-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "worker_failure",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-13-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "claude_code iki kez zaman aşımına uğradı. Bu denemede diğer kullanılabilir çalışanı kullan.",
+          "previous_worker": "claude_code",
+          "failed_attempts": 2
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-13-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "worker_failure",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-13-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "test_expert iki kez zaman aşımına uğradı. Bu denemede diğer kullanılabilir çalışanı kullan.",
+          "previous_worker": "test_expert",
+          "failed_attempts": 2
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-14-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "worker_failure",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-14-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "codex returned invalid output twice. Switch to the other available worker.",
+          "previous_worker": "codex",
+          "failed_attempts": 2
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-14-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "worker_failure",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-14-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "architecture_expert returned invalid output twice. Switch to the other available worker.",
+          "previous_worker": "architecture_expert",
+          "failed_attempts": 2
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-14-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "worker_failure",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-14-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "codex iki kez geçersiz çıktı döndürdü. Diğer kullanılabilir çalışana geç.",
+          "previous_worker": "codex",
+          "failed_attempts": 2
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-14-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "worker_failure",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-14-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "architecture_expert iki kez geçersiz çıktı döndürdü. Diğer kullanılabilir çalışana geç.",
+          "previous_worker": "architecture_expert",
+          "failed_attempts": 2
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-15-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "unavailable_worker",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-15-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "claude_code is temporarily unavailable. Implement the agreed formatter using an available worker."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "claude_code": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "status": "unavailable"
+          },
+          "codex": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-15-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "unavailable_worker",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-15-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "test_expert is temporarily unavailable. Implement the agreed formatter using an available worker."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "status": "unavailable"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-15-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "unavailable_worker",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-15-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "claude_code geçici olarak kullanılamıyor. Kararlaştırılmış biçimleyiciyi kullanılabilir çalışanla uygula."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "claude_code": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "status": "unavailable"
+          },
+          "codex": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-15-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "unavailable_worker",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-15-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "test_expert geçici olarak kullanılamıyor. Kararlaştırılmış biçimleyiciyi kullanılabilir çalışanla uygula."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "status": "unavailable"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-16-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "unavailable_worker",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-16-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "codex is temporarily unavailable. Investigate the parser issue using an available worker."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "claude_code": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "codex": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "status": "unavailable"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-16-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "unavailable_worker",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-16-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "architecture_expert is temporarily unavailable. Investigate the parser issue using an available worker."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "status": "unavailable"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-16-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "unavailable_worker",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-16-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "codex geçici olarak kullanılamıyor. Ayrıştırıcı sorununu kullanılabilir çalışanla araştır."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "claude_code": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "codex": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "status": "unavailable"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-16-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "unavailable_worker",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-16-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "architecture_expert geçici olarak kullanılamıyor. Ayrıştırıcı sorununu kullanılabilir çalışanla araştır."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "status": "unavailable"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-17-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-17-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "code.test"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Only codex currently has the required code.test tool. Add the regression tests."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "claude_code": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "code.test"
+            ]
+          },
+          "codex": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-17-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-17-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "code.test"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Only architecture_expert currently has the required code.test tool. Add the regression tests."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "code.test"
+            ]
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-17-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-17-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "code.test"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Gerekli code.test aracına şu anda yalnızca codex sahip. Regresyon testlerini ekle."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "claude_code": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "code.test"
+            ]
+          },
+          "codex": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-17-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-17-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "code.test"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Gerekli code.test aracına şu anda yalnızca architecture_expert sahip. Regresyon testlerini ekle."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "code.test"
+            ]
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-18-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-18-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "code.edit"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Only claude_code currently has the required code.edit tool. Apply the prepared small patch."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "claude_code": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          },
+          "codex": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "code.edit"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-18-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-18-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "code.edit"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Only test_expert currently has the required code.edit tool. Apply the prepared small patch."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "code.edit"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-18-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-18-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "code.edit"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Gerekli code.edit aracına şu anda yalnızca claude_code sahip. Hazır küçük yamayı uygula."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "claude_code": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          },
+          "codex": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "code.edit"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-18-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "dynamic_capability",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-18-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "code.edit"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Gerekli code.edit aracına şu anda yalnızca test_expert sahip. Hazır küçük yamayı uygula."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "code.edit"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-19-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "interactive_constraint",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-19-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "deepseek_harness",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Work with me interactively on this patch; I will answer questions immediately.",
+          "interactive": true
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-19-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "interactive_constraint",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-19-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "interactive_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Work with me interactively on this patch; I will answer questions immediately.",
+          "interactive": true
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "interactive_expert": {
+            "roles": [
+              "background_coding_escalation"
+            ],
+            "access": "api",
+            "locality": "cloud",
+            "latency": "slow_variable",
+            "interactive": false
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-19-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "interactive_constraint",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-19-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "deepseek_harness",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Bu yama üzerinde benimle etkileşimli çalış; soruları hemen yanıtlayacağım.",
+          "interactive": true
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-19-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "interactive_constraint",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-19-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "interactive_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Bu yama üzerinde benimle etkileşimli çalış; soruları hemen yanıtlayacağım.",
+          "interactive": true
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "interactive_expert": {
+            "roles": [
+              "background_coding_escalation"
+            ],
+            "access": "api",
+            "locality": "cloud",
+            "latency": "slow_variable",
+            "interactive": false
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-20-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "background_escalation",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-20-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "background_coding_escalation",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "deepseek_harness"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "background_coding_escalation",
+          "stage": "fastgate",
+          "summary": "Two ordinary attempts failed; run the designated noninteractive background escalation.",
+          "interactive": false,
+          "failed_attempts": 2
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-20-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "background_escalation",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-20-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "background_coding_escalation",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "interactive_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "background_coding_escalation",
+          "stage": "fastgate",
+          "summary": "Two ordinary attempts failed; run the designated noninteractive background escalation.",
+          "interactive": false,
+          "failed_attempts": 2
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "interactive_expert": {
+            "roles": [
+              "background_coding_escalation"
+            ],
+            "access": "api",
+            "locality": "cloud",
+            "latency": "slow_variable",
+            "interactive": false
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-20-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "background_escalation",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-20-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "background_coding_escalation",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "deepseek_harness"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "background_coding_escalation",
+          "stage": "fastgate",
+          "summary": "İki normal deneme başarısız oldu; belirlenmiş etkileşimsiz arka plan yükseltmesini çalıştır.",
+          "interactive": false,
+          "failed_attempts": 2
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-20-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "background_escalation",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-20-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "background_coding_escalation",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "interactive_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "background_coding_escalation",
+          "stage": "fastgate",
+          "summary": "İki normal deneme başarısız oldu; belirlenmiş etkileşimsiz arka plan yükseltmesini çalıştır.",
+          "interactive": false,
+          "failed_attempts": 2
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "interactive_expert": {
+            "roles": [
+              "background_coding_escalation"
+            ],
+            "access": "api",
+            "locality": "cloud",
+            "latency": "slow_variable",
+            "interactive": false
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-21-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "escalation",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-21-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "knowledge.retrieve"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Retrieve canonical knowledge through knowledge.retrieve; neither offered executor supports it."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-21-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "escalation",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-21-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "knowledge.retrieve"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Retrieve canonical knowledge through knowledge.retrieve; neither offered executor supports it."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "knowledge.retrieve"
+            ]
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "knowledge.retrieve"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-21-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "escalation",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-21-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "knowledge.retrieve"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Kanonik bilgiyi knowledge.retrieve ile getir; sunulan yürütücülerin hiçbiri bunu desteklemiyor."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-21-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "escalation",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-21-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "knowledge.retrieve"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Kanonik bilgiyi knowledge.retrieve ile getir; sunulan yürütücülerin hiçbiri bunu desteklemiyor."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "knowledge.retrieve"
+            ]
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "knowledge.retrieve"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-22-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "escalation",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-22-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "web.crawl"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Crawl the entire documentation site using web.crawl; a capable executor is required."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-22-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "escalation",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-22-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "web.crawl"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Crawl the entire documentation site using web.crawl; a capable executor is required."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "web.crawl"
+            ]
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "web.crawl"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-22-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "escalation",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-22-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "web.crawl"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Tüm belge sitesini web.crawl ile tara; bu yeteneğe sahip bir yürütücü gerekiyor."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-22-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "escalation",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-22-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "web.crawl"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Tüm belge sitesini web.crawl ile tara; bu yeteneğe sahip bir yürütücü gerekiyor."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "web.crawl"
+            ]
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "web.crawl"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-23-en-real",
+      "lang": "en",
+      "kind": "policy",
+      "category": "risk_routing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-23-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "high",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Apply the high-risk access-control migration; human approval has not been granted.",
+          "human_approval": false
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-23-en-misleading",
+      "lang": "en",
+      "kind": "policy",
+      "category": "risk_routing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-23-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "high",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Apply the high-risk access-control migration; human approval has not been granted.",
+          "human_approval": false
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-23-tr-real",
+      "lang": "tr",
+      "kind": "policy",
+      "category": "risk_routing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-23-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "high",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Yüksek riskli erişim denetimi geçişini uygula; insan onayı verilmedi.",
+          "human_approval": false
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-23-tr-misleading",
+      "lang": "tr",
+      "kind": "policy",
+      "category": "risk_routing",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-23-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "high",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Yüksek riskli erişim denetimi geçişini uygula; insan onayı verilmedi.",
+          "human_approval": false
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-24-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "approval_boundary",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-24-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "high",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Implement the high-risk patch whose human approval is already recorded.",
+          "human_approval": true
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-24-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "label_bias",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-24-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "high",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Implement the high-risk patch whose human approval is already recorded.",
+          "human_approval": true
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-24-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "approval_boundary",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-24-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "high",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "İnsan onayı kaydedilmiş yüksek riskli yamayı uygula.",
+          "human_approval": true
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-24-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "label_bias",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-24-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "high",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "İnsan onayı kaydedilmiş yüksek riskli yamayı uygula.",
+          "human_approval": true
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-25-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "insufficient_info",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-25-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "A small maintenance task is waiting; no role or capability preference is provided."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-25-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "insufficient_info",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-25-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "A small maintenance task is waiting; no role or capability preference is provided."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-25-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "insufficient_info",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-25-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Küçük bir bakım işi bekliyor; rol veya yetenek tercihi belirtilmedi."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-25-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "insufficient_info",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-25-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Küçük bir bakım işi bekliyor; rol veya yetenek tercihi belirtilmedi."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-26-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "conflicting_info",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-26-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Both architecture and unit tests are requested without a priority; either documented specialist is acceptable."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-26-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "conflicting_info",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-26-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Both architecture and unit tests are requested without a priority; either documented specialist is acceptable."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-26-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "conflicting_info",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-26-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Öncelik verilmeden hem mimari hem birim testleri isteniyor; belgelenmiş iki uzman da kabul edilir."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-26-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "conflicting_info",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-26-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Öncelik verilmeden hem mimari hem birim testleri isteniyor; belgelenmiş iki uzman da kabul edilir."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-27-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "single_option",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-27-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Only codex is eligible for this routine implementation ticket."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-27-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "single_option",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-27-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Only architecture_expert is eligible for this routine implementation ticket."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-27-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "single_option",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-27-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Bu sıradan uygulama bileti için yalnızca codex uygun."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-27-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "single_option",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-27-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Bu sıradan uygulama bileti için yalnızca architecture_expert uygun."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-28-en-real",
+      "lang": "en",
+      "kind": "policy",
+      "category": "invalid_options",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-28-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "No eligible executor remains after the capability filter; escalate safely."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-28-en-misleading",
+      "lang": "en",
+      "kind": "policy",
+      "category": "invalid_options",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-28-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "No eligible executor remains after the capability filter; escalate safely."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {}
+      }
+    },
+    {
+      "id": "v2-28-tr-real",
+      "lang": "tr",
+      "kind": "policy",
+      "category": "invalid_options",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-28-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Yetenek filtresinden sonra uygun yürütücü kalmadı; güvenli biçimde yükselt."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-28-tr-misleading",
+      "lang": "tr",
+      "kind": "policy",
+      "category": "invalid_options",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-28-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Yetenek filtresinden sonra uygun yürütücü kalmadı; güvenli biçimde yükselt."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {}
+      }
+    },
+    {
+      "id": "v2-29-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "locality_cost",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-29-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "review",
+        "risk": "low",
+        "eligible_options": [
+          "deepseek_harness",
+          "claude_code"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "review",
+          "stage": "fastgate",
+          "summary": "Use an existing subscription worker for this review; avoid the API-backed background worker."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "cost_profile": "subscription_first"
+      }
+    },
+    {
+      "id": "v2-29-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "locality_cost",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-29-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "review",
+        "risk": "low",
+        "eligible_options": [
+          "interactive_expert",
+          "test_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "review",
+          "stage": "fastgate",
+          "summary": "Use an existing subscription worker for this review; avoid the API-backed background worker."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "interactive_expert": {
+            "roles": [
+              "background_coding_escalation"
+            ],
+            "access": "api",
+            "locality": "cloud",
+            "latency": "slow_variable",
+            "interactive": false
+          },
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        },
+        "cost_profile": "subscription_first"
+      }
+    },
+    {
+      "id": "v2-29-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "locality_cost",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-29-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "review",
+        "risk": "low",
+        "eligible_options": [
+          "deepseek_harness",
+          "claude_code"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "review",
+          "stage": "fastgate",
+          "summary": "Bu incelemede mevcut abonelik çalışanını kullan; API tabanlı arka plan çalışanından kaçın."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "cost_profile": "subscription_first"
+      }
+    },
+    {
+      "id": "v2-29-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "locality_cost",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-29-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "review",
+        "risk": "low",
+        "eligible_options": [
+          "interactive_expert",
+          "test_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "review",
+          "stage": "fastgate",
+          "summary": "Bu incelemede mevcut abonelik çalışanını kullan; API tabanlı arka plan çalışanından kaçın."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "interactive_expert": {
+            "roles": [
+              "background_coding_escalation"
+            ],
+            "access": "api",
+            "locality": "cloud",
+            "latency": "slow_variable",
+            "interactive": false
+          },
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        },
+        "cost_profile": "subscription_first"
+      }
+    },
+    {
+      "id": "v2-30-en-real",
+      "lang": "en",
+      "kind": "policy",
+      "category": "resource_constrained",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-30-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "gpu_workload",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "gpu_workload",
+          "stage": "fastgate",
+          "summary": "The MSI GPU is offline; this GPU-only job must wait instead of selecting a CPU worker."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-30-en-misleading",
+      "lang": "en",
+      "kind": "policy",
+      "category": "resource_constrained",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-30-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "gpu_workload",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "gpu_workload",
+          "stage": "fastgate",
+          "summary": "The MSI GPU is offline; this GPU-only job must wait instead of selecting a CPU worker."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-30-tr-real",
+      "lang": "tr",
+      "kind": "policy",
+      "category": "resource_constrained",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-30-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "gpu_workload",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "gpu_workload",
+          "stage": "fastgate",
+          "summary": "MSI GPU çevrimdışı; yalnızca GPU ile çalışan bu iş CPU çalışanı seçmek yerine beklemeli."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-30-tr-misleading",
+      "lang": "tr",
+      "kind": "policy",
+      "category": "resource_constrained",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-30-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "gpu_workload",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "gpu_workload",
+          "stage": "fastgate",
+          "summary": "MSI GPU çevrimdışı; yalnızca GPU ile çalışan bu iş CPU çalışanı seçmek yerine beklemeli."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-31-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "single_option",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-31-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Only claude_code is eligible for this architecture task."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-31-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "single_option",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-31-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Only test_expert is eligible for this architecture task."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-31-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "single_option",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-31-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Bu mimari görevi için yalnızca claude_code uygun."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-31-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "single_option",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-31-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert"
+        ],
+        "required_capabilities": [],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Bu mimari görevi için yalnızca test_expert uygun."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network"
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-32-en-real",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "research_docs",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-32-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "code.symbol_lookup"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Find symbol definitions through code.symbol_lookup before investigating call sites."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-32-en-misleading",
+      "lang": "en",
+      "kind": "semantic",
+      "category": "research_docs",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-32-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "code.symbol_lookup"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Find symbol definitions through code.symbol_lookup before investigating call sites."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "code.symbol_lookup"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "v2-32-tr-real",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "research_docs",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-32-real",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "claude_code",
+          "codex"
+        ],
+        "required_capabilities": [
+          "code.symbol_lookup"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Çağrı yerlerini araştırmadan önce code.symbol_lookup ile sembol tanımlarını bul."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        }
+      }
+    },
+    {
+      "id": "v2-32-tr-misleading",
+      "lang": "tr",
+      "kind": "semantic",
+      "category": "research_docs",
+      "facts": [
+        "roles",
+        "capabilities",
+        "review",
+        "fallback",
+        "risk",
+        "background",
+        "cost",
+        "contract"
+      ],
+      "group": {
+        "id": "v2-32-misleading",
+        "type": "invariant"
+      },
+      "request": {
+        "task_type": "coding",
+        "risk": "low",
+        "eligible_options": [
+          "test_expert",
+          "architecture_expert"
+        ],
+        "required_capabilities": [
+          "code.symbol_lookup"
+        ],
+        "state": {
+          "task_class": "coding",
+          "stage": "fastgate",
+          "summary": "Çağrı yerlerini araştırmadan önce code.symbol_lookup ile sembol tanımlarını bul."
+        },
+        "resource_state": {
+          "mac": true,
+          "msi": false
+        },
+        "option_info_extra": {
+          "test_expert": {
+            "roles": [
+              "coding_primary",
+              "architecture",
+              "hard_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": []
+          },
+          "architecture_expert": {
+            "roles": [
+              "coding_primary",
+              "implementation",
+              "tests",
+              "routine_debugging",
+              "review"
+            ],
+            "access": "harness",
+            "cost": "existing_subscription",
+            "locality": "cloud",
+            "latency": "network",
+            "missing": [
+              "code.symbol_lookup"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "e2e_cases": [
+    {
+      "id": "v2-e2e-0",
+      "event": {
+        "type": "exit_code_check"
+      },
+      "expect": {
+        "exit_state": "success",
+        "consulted": false,
+        "worker_in": null
+      }
+    },
+    {
+      "id": "v2-e2e-1",
+      "event": {
+        "type": "coding",
+        "risk": "high"
+      },
+      "expect": {
+        "exit_state": "needs_human_approval",
+        "consulted": false,
+        "worker_in": null
+      }
+    },
+    {
+      "id": "v2-e2e-2",
+      "event": {
+        "type": "classification"
+      },
+      "expect": {
+        "exit_state": null,
+        "consulted": true,
+        "worker_in": [
+          "claude_code",
+          "codex"
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "Synthetic config-derived cases; 32 scenario families with EN/TR and label twins, not 128 independent tasks.",
+    "Fresh-context blinded model review, NOT independent human review. Author has seen prior dev and v1 evidence.",
+    "Worker failure/timeout cases are state scenarios. Actual adapter fault injection is measured separately by regression tests."
+  ]
+}

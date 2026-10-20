@@ -1,0 +1,298 @@
+version: 1
+dataset: systemone-decisions-v1
+authored: 2026-10-14
+
+# HAND-AUTHORED labeled decisions for SystemOne worker choice (R3.2C Phase 1).
+# Gold labels were derived from repository config and are independent of every model output; no label
+# was ever chosen or changed to fit a model. One correction is on record (revision_log): an automated
+# check of the labels against the capability registry showed cap-005 was wrong, after an exploratory run
+# had already been made; it was fixed from the registry's own facts, and all committed evidence was
+# produced from the corrected set. This file lives under evals/, so it is a protected judge:
+# changing a label requires a reviewed manifest refresh.
+revision_log:
+  - {case: cap-005, when: "2026-10-14, after an exploratory run, found by evals/test_systemone_eval.py::test_capability_labels_match_the_registry", change: "gold changed from {claude_code only, codex forbidden} to {claude_code, codex}", reason: "devops.github is also provided by gh-cli, which requires only devops.shell (native to both executors), so codex is not missing it. Source: config/capability_registry.yaml. Not derived from any model output."}
+#
+# gold.strength says how firm a label is:
+#   strict  - follows from a hard config fact (capability support, interactive=false, risk gate,
+#             sole eligible option). A violation is a policy violation, not just a miss.
+#   rule    - follows from an explicit config rule (reviewer independence, escalation target,
+#             subscription vs API access).
+#   intent  - follows from the documented `roles` lists only. This encodes configured INTENT, not
+#             measured performance; claude_code and codex are both capable of most tasks.
+# gold.acceptable = the choices that count as correct; gold.forbidden = choices that violate a
+# strict/rule fact (counted as policy violations); any other offered option is "wrong but allowed".
+# gold.escalate = no choice is acceptable (a requirement cannot be met, or the risk gate applies).
+#
+# request.state.need is an evaluation-assumed upstream signal (the primary need of the task). The
+# production router does not populate it today; these cases measure what a backend does when such a
+# signal exists. Layer-3 e2e_cases below use only what the real router produces.
+limitations:
+  - 'Small synthetic set, hand-authored by the same team that wrote the config; no statistical generalization.'
+  - '"intent" labels encode documented roles, which are routing hints, not measured quality differences.'
+  - 'Capability-difference cases are defense-in-depth probes: in production the capability plane removes a worker that lacks a capability BEFORE SystemOne runs, so such an option normally never reaches a backend.'
+  - 'Only workers that exist in config/workers.yaml appear as options; no capability difference is invented.'
+
+facts:
+  F-ROLES-CLAUDE:  {source: "config/workers.yaml workers.claude_code.roles", statement: "claude_code roles: coding_primary, architecture, hard_debugging, review"}
+  F-ROLES-CODEX:   {source: "config/workers.yaml workers.codex.roles", statement: "codex roles: coding_primary, implementation, tests, routine_debugging, review"}
+  F-DEEPSEEK-BG:   {source: "config/workers.yaml workers.deepseek_harness", statement: "deepseek_harness roles: background_coding_escalation only; interactive: false"}
+  F-GH-CLI:        {source: "config/capability_registry.yaml providers gh-cli", statement: "devops.github is also provided by gh-cli, a CLI that requires only devops.shell, which both claude-code and codex have natively; so codex is NOT missing devops.github"}
+  F-INTEG:         {source: "config/capability_registry.yaml providers claude-code, codex integrations", statement: "claude-code supports serena, context7, playwright, github-mcp; codex has all four unsupported"}
+  F-REA-UNKNOWN:   {source: "config/capability_registry.yaml providers claude-code, codex integrations.rea", statement: "no executor declares an rea integration (unknown), so reverse_engineering.* is satisfiable by neither"}
+  F-REVIEW-RULE:   {source: "config/routing.yaml roles.reviewer.rule", statement: "Prefer a different model or harness than the primary worker"}
+  F-ESCALATION:    {source: "config/routing.yaml escalation (no_progress)", statement: "no_progress -> escalate_model_or_specialist; the coding escalation target may be background_coding_escalation (DeepSeek Harness)"}
+  F-BG-CLASS:      {source: "config/routing.yaml task_classes.background_coding_escalation", statement: "workers: [deepseek_harness], interactive: false"}
+  F-ACCESS:        {source: "config/providers.yaml claude_subscription, codex_subscription, nvidia_nim", statement: "claude/codex are reached through their subscription harness (access: harness); deepseek_harness uses nvidia_nim (access: api, latency_class: slow_variable)"}
+  F-RISK-GATE:     {source: "config/routing.yaml risk, escalation high_risk_change", statement: "high risk requires human approval before any stage; high_risk_change -> human_review"}
+  F-NO-GPU-WORKER: {source: "config/routing.yaml task_classes.gpu_workload", statement: "gpu_workload has no execution workers (requires_resource: msi); none of the cloud workers can run it"}
+  F-NO-LOCAL:      {source: "config/workers.yaml local_qwen, local_bonsai; config/resources.yaml", statement: "no local worker is selectable (candidates only; MSI unreachable), so a local preference cannot be honored"}
+  F-CLOUD-ALL:     {source: "config/providers.yaml locality", statement: "all three selectable workers are cloud; msi/mac availability does not change which cloud worker is better"}
+  F-SOLE-OPTION:   {source: "agentos/systemone.py system_one()", statement: "only eligible_options are legal; with one option there is nothing to choose"}
+  F-EMPTY:         {source: "agentos/systemone.py system_one()", statement: "no eligible options -> escalate (no-eligible-options) without calling the backend"}
+  F-UNAVAILABLE:   {source: "agentos/router.py _worker_block", statement: "an unavailable worker is removed from eligible_options before SystemOne runs; the choice is among the remaining ones"}
+
+cases:
+  # ----------------------------------------------------------------- capability differences (strict)
+  - {id: cap-001, category: capability_difference, kind: semantic, facts: [F-INTEG], group: {id: G-cap-vs-tests, type: discriminate}, rationale: "code.references needs serena; only claude_code supports it. Defense-in-depth probe (policy normally filters codex first).",
+     request: {task_type: coding, risk: low, required_capabilities: [code.references], state: {task_class: coding, stage: fastgate, need: coding_primary}, resource_state: {msi: false, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: strict, acceptable: [claude_code], forbidden: [codex]}}
+  - {id: cap-002, category: capability_difference, kind: semantic, facts: [F-INTEG], rationale: "code.semantic_navigation is serena-backed; codex does not support serena.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.semantic_navigation, code.edit], state: {task_class: coding, stage: fastgate, need: coding_primary}, resource_state: {msi: false, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: strict, acceptable: [claude_code], forbidden: [codex]}}
+  - {id: cap-003, category: capability_difference, kind: semantic, facts: [F-INTEG], rationale: "web.docs_lookup needs context7; codex does not support it.",
+     request: {task_type: research, risk: low, required_capabilities: [web.docs_lookup], state: {task_class: research, stage: fastgate, need: documentation}, resource_state: {msi: false, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: strict, acceptable: [claude_code], forbidden: [codex]}}
+  - {id: cap-004, category: capability_difference, kind: semantic, facts: [F-INTEG], rationale: "web.interact needs playwright; codex does not support it.",
+     request: {task_type: coding, risk: medium, required_capabilities: [web.interact], state: {task_class: coding, stage: fastgate, need: coding_primary}, resource_state: {msi: false, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: strict, acceptable: [claude_code], forbidden: [codex]}}
+  - {id: cap-005, category: capability_difference, kind: semantic, facts: [F-INTEG, F-GH-CLI], rationale: "CONTROL: devops.github needs github-mcp (claude-code only) OR gh-cli (needs just devops.shell, native to both), so neither worker is missing it. A backend that avoids codex here is following a label, not the capability facts.",
+     request: {task_type: coding, risk: low, required_capabilities: [devops.github], state: {task_class: coding, stage: fastgate, need: coding_primary}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: strict, acceptable: [claude_code, codex]}}
+  - {id: cap-006, category: capability_difference, kind: semantic, facts: [F-INTEG], rationale: "web.browser_test needs playwright (claude-code only) even though code.test is native to both.",
+     request: {task_type: coding, risk: low, required_capabilities: [web.browser_test, code.test], state: {task_class: coding, stage: fastgate, need: tests}, resource_state: {msi: false, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: strict, acceptable: [claude_code], forbidden: [codex]}}
+  - {id: cap-007, category: capability_difference, kind: semantic, facts: [F-INTEG, F-DEEPSEEK-BG], rationale: "Three options: code.references still needs serena; codex lacks it and deepseek_harness is background-only and not a registered executor.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.references], state: {task_class: coding, stage: fastgate, need: coding_primary, interactive: true}, resource_state: {msi: false, mac: true}, eligible_options: [codex, deepseek_harness, claude_code]},
+     gold: {strength: strict, acceptable: [claude_code], forbidden: [codex, deepseek_harness]}}
+  - {id: cap-008, category: capability_difference, kind: semantic, facts: [F-INTEG, F-DEEPSEEK-BG], rationale: "Three options, interactive documentation lookup: context7 is claude-code only; deepseek_harness is non-interactive.",
+     request: {task_type: research, risk: low, required_capabilities: [web.docs_lookup], state: {task_class: research, stage: fastgate, need: documentation, interactive: true}, resource_state: {msi: false, mac: true}, eligible_options: [deepseek_harness, claude_code, codex]},
+     gold: {strength: strict, acceptable: [claude_code], forbidden: [codex, deepseek_harness]}}
+
+  # ----------------------------------------------------------------- review independence (rule)
+  - {id: rev-001, category: review_independence, kind: semantic, facts: [F-REVIEW-RULE], group: {id: G-review-independence, type: discriminate}, rationale: "The change was written by claude_code; the reviewer should be a different harness.",
+     request: {task_type: review, risk: low, required_capabilities: [], state: {task_class: review, stage: fastgate, need: review, primary_worker: claude_code}, resource_state: {msi: false, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: rule, acceptable: [codex]}}
+  - {id: rev-002, category: review_independence, kind: semantic, facts: [F-REVIEW-RULE], group: {id: G-review-independence, type: discriminate}, rationale: "The change was written by codex; the reviewer should be claude_code.",
+     request: {task_type: review, risk: low, required_capabilities: [], state: {task_class: review, stage: fastgate, need: review, primary_worker: codex}, resource_state: {msi: false, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: rule, acceptable: [claude_code]}}
+  - {id: rev-003, category: review_independence, kind: semantic, facts: [F-REVIEW-RULE], rationale: "As rev-001 at medium risk.",
+     request: {task_type: review, risk: medium, required_capabilities: [], state: {task_class: review, stage: fastgate, need: review, primary_worker: claude_code}, resource_state: {msi: false, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: rule, acceptable: [codex]}}
+  - {id: rev-004, category: review_independence, kind: semantic, facts: [F-REVIEW-RULE], rationale: "As rev-002 at medium risk.",
+     request: {task_type: review, risk: medium, required_capabilities: [], state: {task_class: review, stage: fastgate, need: review, primary_worker: codex}, resource_state: {msi: false, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: rule, acceptable: [claude_code]}}
+
+  # ----------------------------------------------------------------- interactive constraint (strict)
+  - {id: int-001, category: interactive_constraint, kind: semantic, facts: [F-DEEPSEEK-BG, F-ROLES-CLAUDE, F-ROLES-CODEX], rationale: "Interactive coding task; deepseek_harness is non-interactive/background-only. claude_code and codex both list coding_primary.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.edit], state: {task_class: coding, stage: fastgate, need: coding_primary, interactive: true}, resource_state: {msi: false, mac: true}, eligible_options: [deepseek_harness, claude_code, codex]},
+     gold: {strength: strict, acceptable: [claude_code, codex], forbidden: [deepseek_harness]}}
+  - {id: int-002, category: interactive_constraint, kind: semantic, facts: [F-DEEPSEEK-BG], rationale: "Interactive research task; deepseek_harness cannot serve interactive work. No role distinguishes claude_code from codex for research.",
+     request: {task_type: research, risk: low, required_capabilities: [], state: {task_class: research, stage: fastgate, need: literature_review, interactive: true}, resource_state: {msi: false, mac: true}, eligible_options: [claude_code, deepseek_harness, codex]},
+     gold: {strength: strict, acceptable: [claude_code, codex], forbidden: [deepseek_harness]}}
+  - {id: int-003, category: interactive_constraint, kind: semantic, facts: [F-DEEPSEEK-BG, F-REVIEW-RULE], rationale: "Interactive review without a recorded primary worker: deepseek_harness is excluded, either of the others is fine.",
+     request: {task_type: review, risk: low, required_capabilities: [], state: {task_class: review, stage: fastgate, need: review, interactive: true}, resource_state: {msi: false, mac: true}, eligible_options: [codex, claude_code, deepseek_harness]},
+     gold: {strength: strict, acceptable: [claude_code, codex], forbidden: [deepseek_harness]}}
+
+  # ----------------------------------------------------------------- background escalation (rule / intent)
+  - {id: bg-001, category: background_escalation, kind: semantic, facts: [F-BG-CLASS, F-DEEPSEEK-BG, F-ESCALATION], rationale: "A background coding escalation task after repeated failure: the configured class worker is deepseek_harness.",
+     request: {task_type: background_coding_escalation, risk: low, required_capabilities: [], state: {task_class: background_coding_escalation, stage: fastgate, need: background_coding_escalation, attempt: 3, interactive: false}, resource_state: {msi: false, mac: true}, eligible_options: [claude_code, codex, deepseek_harness]},
+     gold: {strength: rule, acceptable: [deepseek_harness]}}
+  - {id: bg-002, category: adversarial_order, kind: semantic, facts: [F-BG-CLASS, F-DEEPSEEK-BG], rationale: "As bg-001 with the correct answer listed first among two clearly-worse options after it; permutations move it.",
+     request: {task_type: background_coding_escalation, risk: low, required_capabilities: [], state: {task_class: background_coding_escalation, stage: fastgate, need: background_coding_escalation, attempt: 2, interactive: false}, resource_state: {msi: true, mac: true}, eligible_options: [deepseek_harness, codex, claude_code]},
+     gold: {strength: rule, acceptable: [deepseek_harness]}}
+  - {id: bg-003, category: background_escalation, kind: semantic, facts: [F-ESCALATION, F-ROLES-CLAUDE, F-ROLES-CODEX], rationale: "Third failed attempt on a hard bug: escalate to a stronger model or specialist. claude_code lists hard_debugging, deepseek_harness is the escalation target; codex lists only routine_debugging.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.debug], state: {task_class: coding, stage: fastgate, need: hard_debugging, attempt: 3, no_progress: true, interactive: false}, resource_state: {msi: false, mac: true}, eligible_options: [codex, deepseek_harness, claude_code]},
+     gold: {strength: intent, acceptable: [claude_code, deepseek_harness]}}
+
+  # ----------------------------------------------------------------- cost / access and locality
+  - {id: cost-001, category: locality_cost, kind: semantic, facts: [F-ACCESS], rationale: "Subscription cost profile on a non-interactive task: claude/codex ride existing subscriptions, deepseek_harness is API-key access.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.edit], cost_profile: existing_subscription, state: {task_class: coding, stage: fastgate, need: coding_primary, interactive: false}, resource_state: {msi: false, mac: true}, eligible_options: [codex, deepseek_harness, claude_code]},
+     gold: {strength: rule, acceptable: [claude_code, codex]}}
+  - {id: cost-002, category: locality_cost, kind: semantic, facts: [F-ACCESS, F-ROLES-CODEX], rationale: "Subscription cost profile and a routine-debugging need: codex lists routine_debugging; deepseek_harness is API-billed.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.debug], cost_profile: existing_subscription, state: {task_class: coding, stage: fastgate, need: routine_debugging, interactive: false}, resource_state: {msi: false, mac: true}, eligible_options: [deepseek_harness, claude_code, codex]},
+     gold: {strength: intent, acceptable: [codex]}}
+  - {id: loc-001, category: locality_cost, kind: semantic, facts: [F-NO-LOCAL, F-CLOUD-ALL], rationale: "A local-first preference cannot be honored (no local worker is selectable); it is a soft preference, so either cloud worker is acceptable.",
+     request: {task_type: summarization, risk: low, required_capabilities: [], state: {task_class: summarization, stage: fastgate, need: documentation, locality_preference: local}, resource_state: {msi: false, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: intent, acceptable: [claude_code, codex]}}
+  - {id: loc-002, category: locality_cost, kind: semantic, facts: [F-NO-LOCAL, F-DEEPSEEK-BG], rationale: "Local preference with three cloud options; interactive, so deepseek_harness stays excluded.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.edit], state: {task_class: coding, stage: fastgate, need: coding_primary, locality_preference: local, interactive: true}, resource_state: {msi: false, mac: true}, eligible_options: [claude_code, deepseek_harness, codex]},
+     gold: {strength: strict, acceptable: [claude_code, codex], forbidden: [deepseek_harness]}}
+
+  # ----------------------------------------------------------------- role intent: tests / implementation / routine debugging (codex)
+  - {id: role-tests-001, category: coding_testing, kind: semantic, facts: [F-ROLES-CODEX, F-ROLES-CLAUDE], group: [{id: G-tests-vs-architecture, type: discriminate}, {id: G-res-tests, type: invariant}, {id: G-cap-vs-tests, type: discriminate}], rationale: "A tests task: codex lists `tests`; claude_code does not.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.test], state: {task_class: coding, stage: fastgate, need: tests}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: intent, acceptable: [codex]}}
+  - {id: role-tests-002, category: coding_testing, kind: semantic, facts: [F-ROLES-CODEX], rationale: "As role-tests-001 at medium risk.",
+     request: {task_type: coding, risk: medium, required_capabilities: [code.test], state: {task_class: coding, stage: fastgate, need: tests}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: intent, acceptable: [codex]}}
+  - {id: role-impl-001, category: coding_testing, kind: semantic, facts: [F-ROLES-CODEX], group: {id: G-impl-vs-hard-debug, type: discriminate}, rationale: "An implementation task: codex lists `implementation`.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.edit], state: {task_class: coding, stage: fastgate, need: implementation}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: intent, acceptable: [codex]}}
+  - {id: role-impl-002, category: coding_testing, kind: semantic, facts: [F-ROLES-CODEX], rationale: "As role-impl-001, refactor flavored.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.refactor], state: {task_class: coding, stage: fastgate, need: implementation}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: intent, acceptable: [codex]}}
+  - {id: role-routine-001, category: coding_testing, kind: semantic, facts: [F-ROLES-CODEX], rationale: "Routine debugging: codex lists routine_debugging.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.debug], state: {task_class: coding, stage: fastgate, need: routine_debugging, attempt: 1}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: intent, acceptable: [codex]}}
+  - {id: role-routine-002, category: coding_testing, kind: semantic, facts: [F-ROLES-CODEX], rationale: "As role-routine-001 at medium risk.",
+     request: {task_type: coding, risk: medium, required_capabilities: [code.debug], state: {task_class: coding, stage: fastgate, need: routine_debugging, attempt: 1}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: intent, acceptable: [codex]}}
+
+  # ----------------------------------------------------------------- role intent: architecture / hard debugging (claude_code)
+  - {id: role-arch-001, category: coding_testing, kind: semantic, facts: [F-ROLES-CLAUDE, F-ROLES-CODEX], group: [{id: G-tests-vs-architecture, type: discriminate}, {id: G-res-arch, type: invariant}], rationale: "An architecture task: claude_code lists `architecture`; codex does not.",
+     request: {task_type: coding, risk: low, required_capabilities: [], state: {task_class: coding, stage: fastgate, need: architecture}, resource_state: {msi: true, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: intent, acceptable: [claude_code]}}
+  - {id: role-arch-002, category: risk_routing, kind: semantic, facts: [F-ROLES-CLAUDE], rationale: "Architecture at medium risk.",
+     request: {task_type: coding, risk: medium, required_capabilities: [], state: {task_class: coding, stage: fastgate, need: architecture}, resource_state: {msi: true, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: intent, acceptable: [claude_code]}}
+  - {id: role-hard-001, category: coding_testing, kind: semantic, facts: [F-ROLES-CLAUDE], group: {id: G-impl-vs-hard-debug, type: discriminate}, rationale: "Hard debugging: claude_code lists hard_debugging; codex lists only routine_debugging.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.debug], state: {task_class: coding, stage: fastgate, need: hard_debugging, attempt: 2}, resource_state: {msi: true, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: intent, acceptable: [claude_code]}}
+  - {id: role-hard-002, category: risk_routing, kind: semantic, facts: [F-ROLES-CLAUDE], rationale: "Hard debugging at medium risk.",
+     request: {task_type: coding, risk: medium, required_capabilities: [code.debug], state: {task_class: coding, stage: fastgate, need: hard_debugging, attempt: 2}, resource_state: {msi: true, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: intent, acceptable: [claude_code]}}
+
+  # ----------------------------------------------------------------- approved high risk
+  - {id: risk-approved-001, category: risk_routing, kind: semantic, facts: [F-RISK-GATE, F-ROLES-CLAUDE], rationale: "High risk WITH a recorded human approval: the gate is satisfied, the architecture need then favors claude_code.",
+     request: {task_type: coding, risk: high, required_capabilities: [], state: {task_class: coding, stage: fastgate, need: architecture, human_approval: true}, resource_state: {msi: true, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: intent, acceptable: [claude_code]}}
+
+  # ----------------------------------------------------------------- resource-constrained (invariance to a distractor)
+  - {id: res-001, category: resource_constrained, kind: semantic, facts: [F-CLOUD-ALL, F-ROLES-CODEX], group: {id: G-res-tests, type: invariant}, rationale: "Same as role-tests-001 with the MSI down: both workers are cloud, so resource state must not change the choice.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.test], state: {task_class: coding, stage: fastgate, need: tests}, resource_state: {msi: false, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: intent, acceptable: [codex]}}
+  - {id: res-002, category: resource_constrained, kind: semantic, facts: [F-CLOUD-ALL, F-ROLES-CLAUDE], group: {id: G-res-arch, type: invariant}, rationale: "Same as role-arch-001 with the MSI down.",
+     request: {task_type: coding, risk: low, required_capabilities: [], state: {task_class: coding, stage: fastgate, need: architecture}, resource_state: {msi: false, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: intent, acceptable: [claude_code]}}
+  - {id: res-003, category: resource_constrained, kind: semantic, facts: [F-CLOUD-ALL, F-ROLES-CLAUDE], group: {id: G-res-arch, type: invariant}, rationale: "Same as role-arch-001 with an additional, irrelevant resource flag.",
+     request: {task_type: coding, risk: low, required_capabilities: [], state: {task_class: coding, stage: fastgate, need: architecture}, resource_state: {msi: false, mac: true, disk_low: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: intent, acceptable: [claude_code]}}
+
+  # ----------------------------------------------------------------- equally acceptable / research & documentation
+  - {id: eq-001, category: equally_acceptable, kind: semantic, facts: [F-ROLES-CLAUDE, F-ROLES-CODEX], rationale: "Both list coding_primary; no other signal.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.edit], state: {task_class: coding, stage: fastgate, need: coding_primary}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: intent, acceptable: [claude_code, codex]}}
+  - {id: eq-002, category: equally_acceptable, kind: semantic, facts: [F-ROLES-CLAUDE, F-ROLES-CODEX], rationale: "Review without a recorded primary worker: both list review.",
+     request: {task_type: review, risk: low, required_capabilities: [], state: {task_class: review, stage: fastgate, need: review}, resource_state: {msi: true, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: intent, acceptable: [claude_code, codex]}}
+  - {id: eq-003, category: research_docs, kind: semantic, facts: [F-ROLES-CLAUDE, F-ROLES-CODEX], rationale: "Literature review: no role distinguishes the workers; routing sends research to both.",
+     request: {task_type: research, risk: low, required_capabilities: [], state: {task_class: research, stage: fastgate, need: literature_review}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: intent, acceptable: [claude_code, codex]}}
+  - {id: eq-004, category: research_docs, kind: semantic, facts: [F-ROLES-CLAUDE, F-ROLES-CODEX], rationale: "Summarization/documentation: both are listed for the summarization class.",
+     request: {task_type: summarization, risk: low, required_capabilities: [], state: {task_class: summarization, stage: fastgate, need: documentation}, resource_state: {msi: true, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: intent, acceptable: [claude_code, codex]}}
+  - {id: eq-005, category: research_docs, kind: semantic, facts: [F-ROLES-CLAUDE, F-ROLES-CODEX], rationale: "Documentation at medium risk: still no distinguishing fact.",
+     request: {task_type: summarization, risk: medium, required_capabilities: [], state: {task_class: summarization, stage: fastgate, need: documentation}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: intent, acceptable: [claude_code, codex]}}
+  - {id: ins-001, category: conflicting_info, kind: semantic, facts: [F-ROLES-CLAUDE, F-ROLES-CODEX], rationale: "Insufficient information (no need, no capabilities): nothing favors either worker, so either is acceptable.",
+     request: {task_type: coding, risk: low, required_capabilities: [], state: {task_class: coding, stage: fastgate}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: intent, acceptable: [claude_code, codex]}}
+  - {id: ins-002, category: conflicting_info, kind: semantic, facts: [F-ROLES-CLAUDE, F-ROLES-CODEX], rationale: "Unknown task type and no other signal.",
+     request: {task_type: misc, risk: low, required_capabilities: [], state: {task_class: misc, stage: fastgate}, resource_state: {msi: true, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: intent, acceptable: [claude_code, codex]}}
+
+  # ----------------------------------------------------------------- conflicting information (a hard fact must beat a softer one)
+  - {id: conf-001, category: conflicting_info, kind: semantic, facts: [F-INTEG, F-ROLES-CODEX], rationale: "Conflict: a tests need favors codex (intent) but code.references needs serena (strict, claude only). The hard capability wins.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.references, code.test], state: {task_class: coding, stage: fastgate, need: tests}, resource_state: {msi: false, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: strict, acceptable: [claude_code], forbidden: [codex]}}
+  - {id: conf-002, category: conflicting_info, kind: semantic, facts: [F-INTEG, F-ROLES-CODEX], group: {id: G-impl-docs-conflict, type: discriminate}, rationale: "Conflict: an implementation need favors codex (intent) but web.docs_lookup needs context7 (strict, claude only).",
+     request: {task_type: coding, risk: low, required_capabilities: [web.docs_lookup, code.edit], state: {task_class: coding, stage: fastgate, need: implementation}, resource_state: {msi: false, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: strict, acceptable: [claude_code], forbidden: [codex]}}
+  - {id: conf-003, category: conflicting_info, kind: semantic, facts: [F-INTEG, F-REVIEW-RULE], rationale: "Conflict: reviewer independence says pick codex (the primary is claude_code) but the review needs code.references, which codex cannot satisfy. The hard capability wins.",
+     request: {task_type: review, risk: low, required_capabilities: [code.references], state: {task_class: review, stage: fastgate, need: review, primary_worker: claude_code}, resource_state: {msi: false, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: strict, acceptable: [claude_code], forbidden: [codex]}}
+  - {id: conf-004, category: conflicting_info, kind: semantic, facts: [F-INTEG, F-ROLES-CODEX], group: {id: G-impl-docs-conflict, type: discriminate}, rationale: "Control for conf-002: the same implementation need WITHOUT the context7 requirement goes back to codex.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.edit], state: {task_class: coding, stage: fastgate, need: implementation}, resource_state: {msi: false, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: intent, acceptable: [codex]}}
+
+  # ----------------------------------------------------------------- unavailable workers => a reduced option set
+  - {id: una-001, category: unavailable_worker, kind: semantic, facts: [F-UNAVAILABLE, F-ROLES-CLAUDE], rationale: "claude_code is unavailable so it is not offered; an architecture need cannot pull it back. The only legal choice is codex.",
+     request: {task_type: coding, risk: low, required_capabilities: [], state: {task_class: coding, stage: fastgate, need: architecture}, resource_state: {msi: true, mac: true}, eligible_options: [codex]},
+     gold: {strength: strict, acceptable: [codex]}}
+  - {id: una-002, category: unavailable_worker, kind: semantic, facts: [F-UNAVAILABLE, F-ROLES-CODEX], rationale: "codex is unavailable; a tests need cannot pull it back.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.test], state: {task_class: coding, stage: fastgate, need: tests}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code]},
+     gold: {strength: strict, acceptable: [claude_code]}}
+  - {id: una-003, category: unavailable_worker, kind: semantic, facts: [F-UNAVAILABLE, F-DEEPSEEK-BG], rationale: "codex unavailable, interactive tests need: of claude_code and deepseek_harness only claude_code may serve interactive work.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.test], state: {task_class: coding, stage: fastgate, need: tests, interactive: true}, resource_state: {msi: true, mac: true}, eligible_options: [deepseek_harness, claude_code]},
+     gold: {strength: strict, acceptable: [claude_code], forbidden: [deepseek_harness]}}
+
+  # ----------------------------------------------------------------- adversarial order (the correct answer deliberately last)
+  - {id: adv-001, category: adversarial_order, kind: semantic, facts: [F-ROLES-CODEX], rationale: "Tests need with the correct worker listed last of three.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.test], state: {task_class: coding, stage: fastgate, need: tests, interactive: true}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, deepseek_harness, codex]},
+     gold: {strength: intent, acceptable: [codex], forbidden: [deepseek_harness]}}
+  - {id: adv-002, category: adversarial_order, kind: semantic, facts: [F-ROLES-CLAUDE, F-INTEG], rationale: "Architecture need needing serena with the correct worker listed last.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.semantic_navigation], state: {task_class: coding, stage: fastgate, need: architecture, interactive: true}, resource_state: {msi: true, mac: true}, eligible_options: [deepseek_harness, codex, claude_code]},
+     gold: {strength: strict, acceptable: [claude_code], forbidden: [codex, deepseek_harness]}}
+
+  # ----------------------------------------------------------------- explicit escalation: no acceptable choice
+  - {id: esc-risk-001, category: escalation, kind: semantic, facts: [F-RISK-GATE], rationale: "High risk with no recorded human approval: the risk gate must stop this before any worker choice; a backend that picks a worker has made an unsafe selection.",
+     request: {task_type: coding, risk: high, required_capabilities: [], state: {task_class: coding, stage: fastgate, need: tests, human_approval: false}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: strict, escalate: true}}
+  - {id: esc-risk-002, category: escalation, kind: semantic, facts: [F-RISK-GATE], rationale: "High risk, architecture need, no approval.",
+     request: {task_type: coding, risk: high, required_capabilities: [], state: {task_class: coding, stage: fastgate, need: architecture, human_approval: false}, resource_state: {msi: true, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: strict, escalate: true}}
+  - {id: esc-risk-003, category: escalation, kind: semantic, facts: [F-RISK-GATE], rationale: "High-risk marker (production deploy) with no approval.",
+     request: {task_type: coding, risk: high, required_capabilities: [devops.git], state: {task_class: coding, stage: fastgate, need: implementation, marker: production_deploy, human_approval: false}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, codex, deepseek_harness]},
+     gold: {strength: strict, escalate: true}}
+  - {id: esc-cap-001, category: escalation, kind: semantic, facts: [F-REA-UNKNOWN], rationale: "reverse_engineering.static_analysis is satisfiable by neither executor (rea integration unknown for both): no offered worker can do the task.",
+     request: {task_type: coding, risk: medium, required_capabilities: [reverse_engineering.static_analysis], state: {task_class: coding, stage: fastgate, need: coding_primary}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: strict, escalate: true}}
+  - {id: esc-cap-002, category: escalation, kind: semantic, facts: [F-REA-UNKNOWN], rationale: "A capability that is not in the catalog at all can be provided by nobody.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.telepathy], state: {task_class: coding, stage: fastgate, need: coding_primary}, resource_state: {msi: true, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: strict, escalate: true}}
+  - {id: esc-conf-001, category: escalation, kind: semantic, facts: [F-INTEG], rationale: "Requirements unmet by the only offered worker: web.interact needs playwright and codex does not support it. Selecting codex would claim a capability it lacks.",
+     request: {task_type: coding, risk: low, required_capabilities: [web.interact], state: {task_class: coding, stage: fastgate, need: coding_primary}, resource_state: {msi: true, mac: true}, eligible_options: [codex]},
+     gold: {strength: strict, escalate: true}}
+  - {id: esc-conf-002, category: escalation, kind: semantic, facts: [F-INTEG], rationale: "code.references is unmet by codex (needs serena); devops.github alone would be fine via gh-cli, so one capability is unmet, which is enough.",
+     request: {task_type: coding, risk: low, required_capabilities: [code.references, devops.github], state: {task_class: coding, stage: fastgate, need: coding_primary}, resource_state: {msi: true, mac: true}, eligible_options: [codex]},
+     gold: {strength: strict, escalate: true}}
+  - {id: esc-gpu-001, category: escalation, kind: semantic, facts: [F-NO-GPU-WORKER], rationale: "A GPU workload with the MSI down: none of the cloud workers can run it.",
+     request: {task_type: gpu_workload, risk: low, required_capabilities: [], state: {task_class: gpu_workload, stage: fastgate, need: gpu_workload}, resource_state: {msi: false, mac: true}, eligible_options: [claude_code, codex]},
+     gold: {strength: strict, escalate: true}}
+  - {id: esc-gpu-002, category: escalation, kind: semantic, facts: [F-NO-GPU-WORKER], rationale: "A GPU workload even with the MSI up: still not a cloud-worker task.",
+     request: {task_type: gpu_workload, risk: low, required_capabilities: [], state: {task_class: gpu_workload, stage: fastgate, need: gpu_workload}, resource_state: {msi: true, mac: true}, eligible_options: [codex, claude_code]},
+     gold: {strength: strict, escalate: true}}
+
+  # ----------------------------------------------------------------- deterministic policy / contract cases (not model quality)
+  - {id: pol-single-001, category: single_option, kind: policy, facts: [F-SOLE-OPTION], rationale: "One eligible option: the only legal answer is that option; nothing may be added.",
+     request: {task_type: coding, risk: low, required_capabilities: [], state: {task_class: coding, stage: fastgate, need: architecture}, resource_state: {msi: true, mac: true}, eligible_options: [codex]},
+     gold: {strength: strict, acceptable: [codex], forbidden: [claude_code, deepseek_harness, opencode]}}
+  - {id: pol-single-002, category: single_option, kind: policy, facts: [F-SOLE-OPTION], rationale: "As pol-single-001 for claude_code.",
+     request: {task_type: coding, risk: low, required_capabilities: [], state: {task_class: coding, stage: fastgate, need: tests}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code]},
+     gold: {strength: strict, acceptable: [claude_code], forbidden: [codex, deepseek_harness, opencode]}}
+  - {id: pol-single-003, category: single_option, kind: policy, facts: [F-SOLE-OPTION], rationale: "As pol-single-001 for deepseek_harness.",
+     request: {task_type: background_coding_escalation, risk: low, required_capabilities: [], state: {task_class: background_coding_escalation, stage: fastgate, need: background_coding_escalation, interactive: false}, resource_state: {msi: true, mac: true}, eligible_options: [deepseek_harness]},
+     gold: {strength: strict, acceptable: [deepseek_harness], forbidden: [claude_code, codex, opencode]}}
+  - {id: pol-empty-001, category: single_option, kind: policy, facts: [F-EMPTY], rationale: "No eligible options: SystemOne must escalate (no-eligible-options) and must not call the backend.",
+     request: {task_type: coding, risk: low, required_capabilities: [], state: {task_class: coding, stage: fastgate, need: tests}, resource_state: {msi: true, mac: true}, eligible_options: []},
+     gold: {strength: strict, escalate: true, reason: no-eligible-options}}
+  - {id: pol-meta-001, category: single_option, kind: policy, facts: [F-SOLE-OPTION, F-UNAVAILABLE], rationale: "Metadata that names a disabled worker (opencode) must never make it a choice: only eligible_options are legal.",
+     request: {task_type: coding, risk: low, required_capabilities: [], state: {task_class: coding, stage: fastgate, need: implementation}, resource_state: {msi: true, mac: true}, eligible_options: [claude_code, codex],
+               option_info_extra: {opencode: {roles: [overflow, utility], access: harness}}},
+     gold: {strength: strict, acceptable: [claude_code, codex], forbidden: [opencode]}}
+
+# Layer 3: the REAL router, with only what it produces today. Expectations are about policy validity,
+# not optimality. `consulted` says whether the SystemOne backend may/must have been asked.
+e2e_cases:
+  - {id: e2e-001, rationale: "High risk, no approval: the gate stops routing before any stage; the backend must not be consulted.", event: {type: classification, risk: high}, expect: {exit_state: human_handoff, consulted: false, worker_in: null}}
+  - {id: e2e-002, rationale: "High risk, WITH approval: routing proceeds under policy.", event: {type: classification, risk: high, human_approval_ref: "human:test-approval"}, expect: {exit_state: null, consulted: true, worker_in: [claude_code, codex]}}
+  - {id: e2e-003, rationale: "Capability plane allows only codex.", event: {type: classification, eligible_workers: [codex]}, expect: {exit_state: null, consulted: true, worker_in: [codex]}}
+  - {id: e2e-004, rationale: "Capability plane allows only claude_code.", event: {type: classification, eligible_workers: [claude_code], required_capabilities: [code.references]}, expect: {exit_state: null, consulted: true, worker_in: [claude_code]}}
+  - {id: e2e-005, rationale: "claude_code unhealthy: it must never be chosen.", event: {type: classification}, health: {workers: {claude_code: false}}, expect: {exit_state: null, consulted: true, worker_in: [codex]}}
+  - {id: e2e-006, rationale: "codex unhealthy: it must never be chosen.", event: {type: classification}, health: {workers: {codex: false}}, expect: {exit_state: null, consulted: true, worker_in: [claude_code]}}
+  - {id: e2e-007, rationale: "Both workers unhealthy: blocked, nothing to ask the backend.", event: {type: classification}, health: {workers: {claude_code: false, codex: false}}, expect: {exit_state: blocked, consulted: false, worker_in: null}}
+  - {id: e2e-008, rationale: "Claude subscription down: fall to codex.", event: {type: classification}, health: {providers: {claude_subscription: false}}, expect: {exit_state: null, consulted: true, worker_in: [codex]}}
+  - {id: e2e-009, rationale: "Empty capability eligibility: nothing legal.", event: {type: classification, eligible_workers: []}, expect: {exit_state: blocked, consulted: false, worker_in: null}}
+  - {id: e2e-010, rationale: "Ordinary request: any policy-valid worker.", event: {type: classification}, expect: {exit_state: null, consulted: true, worker_in: [claude_code, codex]}}
+  - {id: e2e-011, rationale: "Marker-based high risk without approval.", event: {type: classification, markers: [production_deploy]}, expect: {exit_state: human_handoff, consulted: false, worker_in: null}}
+  - {id: e2e-012, rationale: "Non-fastgate class: SystemOne is not part of the route and routing is unchanged.", event: {type: coding}, expect: {exit_state: null, consulted: false, worker_in: [claude_code, codex]}}

@@ -1,0 +1,41 @@
+{
+ "review_status": "PENDING HUMAN REVIEW BEFORE MERGE (manifest refreshes were mechanical, NOT approval)",
+ "base": "origin/main fffc3a1",
+ "head": "fdced85 + PR #3 remediation commit (this file is regenerated from the main-relative diff of the working tree)",
+ "scope": "Every file matching agentos.permissions.PROTECTED_POLICY_PATHS (including evals/protected-manifest.json itself) that differs between main and the working tree. sha256 of file bytes.",
+ "supersedes": "listing at head 84e928e (20 added + 1 modified; omitted the manifest itself)",
+ "added": {
+  "config/systemone.yaml": "ad4fc175189373dfef2c0f92c748a2ac096251a0e7c755d75eae4b2206416fb0",
+  "evals/data/modules/author_context_suites.py": "05cc3248d65e66c6b1d93afa9e0757aa7fbaaab77ebfe4f2f82df919d31a1ed2",
+  "evals/data/modules/author_wakegate_suite.py": "5f6e46a01aa04e15d9ed5ec02526841dbef6a62ebad356ccdb195e4c610d87fa",
+  "evals/data/modules/contextgate-suite-v1.yaml": "7dda050b0e0bafdfe8a69b1ba73f1ec91b663170edb35f6c82e6c81ebd758eb0",
+  "evals/data/modules/toolpruner-suite-v1.yaml": "72ebb1df2b00245f7423e3408c1294461790a8515e9443597be93e7664207b9f",
+  "evals/data/modules/wakegate-suite-v1.yaml": "c505146d237a30a3651190e95e9ac144f23083a770c74e0f42dd8411157b9b75",
+  "evals/data/systemone-decisions-v1.yaml": "30e211a6ea922d6ad0ae7f1a5a65a5719a8c213efb8168f48fc991d4e7412396",
+  "evals/data/systemone-heldout-v1.yaml": "3affe3b44a1734357f32a5675540f9dedf9d6802715385f6607c7c781b2e6253",
+  "evals/data/systemone-heldout-v2.yaml": "c35d90cd91c1c855102fa05f9ad0054c6d8086e40bed40a77472871e5e2026cc",
+  "evals/test_laya_smoke.py": "347c60d6a49bc97c8ad62c36ed8cc27a9d47a42b8caceaaa29b44aeb7e7d2273",
+  "evals/test_r32g_modules.py": "506dfacf6b2113992c8e75147f3579cbbcb3887ddb3974550f34a986045aa139",
+  "evals/test_r32g_recovery.py": "194d8735e51d9721d39143e4f4295158df9258eaa552c91c2e63c4de964d3ade",
+  "evals/test_systemone_activation.py": "aab9be2cc10153a575b56ad990c917c6fee3bef880ca9daa6fe21843454bab33",
+  "evals/test_systemone_adapter.py": "856ac3073401c38f11b07461c9c92133f3ba4fd86d40399bf0182f384efcf006",
+  "evals/test_systemone_bench.py": "8eda241f5ca1bee2cceccb4a800e055298b288221d71caddedb7e5d26408e2a0",
+  "evals/test_systemone_eval.py": "a358791becac8bfd412f472529feb8107938c2cb8ed33b31555b227f933cc052",
+  "evals/test_systemone_heldout.py": "c189a0397156588b8c5b8be9573580a6e562ce7c8e48d0b2878313207bc13c90",
+  "evals/test_systemone_heldout_v2.py": "dbfaaf84f7335cdc48986bb8155279ba179883101ee59fdb8f39c6ff55f5fa69",
+  "evals/test_systemone_options.py": "5b627e6f9d0872ec18925de251b99b60f4a15eb7ba620e94f923873edb743a4b",
+  "evals/test_systemone_pipeline.py": "1a231480ac7ffcb56641348f75bcd591cc218e00fc25bb00bd3b08134d646010",
+  "evals/test_systemone_routing.py": "6e2016626e5f13cd5475930f5ab82faa5a5f05d6f668793affe8ed6183b30fe8"
+ },
+ "modified": {
+  "agentos/permissions.py": {
+   "before": "92b214644de0774723904390c8f48541727e688f3ccd444cf06e7229fd9b507c",
+   "after": "adecea0f24b0a8bf1e9c1045966d0e36b1036fbaf064000474ceb4dfa7bfd75b"
+  },
+  "evals/protected-manifest.json": {
+   "before": "910b35bee5053c5815be815b675c1e873ae0c34b6fc221cdd65391993f52e222",
+   "after": "288d2870ecb174c9d32e6fceee4890e35de1386b90a26462244168d15020dc2e"
+  }
+ },
+ "removed": []
+}

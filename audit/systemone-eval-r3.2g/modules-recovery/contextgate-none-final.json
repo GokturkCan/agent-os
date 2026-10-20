@@ -1,0 +1,213 @@
+{
+  "suite": "contextgate-suite-v1",
+  "backend": "none",
+  "transcripts": 12,
+  "essential_facts": 35,
+  "false_drops": 0,
+  "false_drop_rate": 0.0,
+  "recovery_exact_all": true,
+  "tokens_before": 45871,
+  "tokens_after": 22608,
+  "token_reduction": 0.5071,
+  "model_calls": 0,
+  "latency_ms_per_transcript": {
+    "p50": 4.2,
+    "max": 6.2
+  },
+  "records": [
+    {
+      "id": "cg-001",
+      "lang": "en",
+      "tokens_before": 3431,
+      "tokens_after": 817,
+      "reduction": 0.7619,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 5.3,
+      "actions": {
+        "keep_verbatim": 12,
+        "truncate_head": 5,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-002",
+      "lang": "tr",
+      "tokens_before": 3947,
+      "tokens_after": 2746,
+      "reduction": 0.3043,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 3.6,
+      "actions": {
+        "keep_verbatim": 11,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-003",
+      "lang": "en",
+      "tokens_before": 3802,
+      "tokens_after": 1377,
+      "reduction": 0.6378,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 4.5,
+      "actions": {
+        "keep_verbatim": 12,
+        "truncate_head": 5,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-004",
+      "lang": "en",
+      "tokens_before": 2907,
+      "tokens_after": 1282,
+      "reduction": 0.559,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 3.5,
+      "actions": {
+        "keep_verbatim": 13,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-005",
+      "lang": "tr",
+      "tokens_before": 3574,
+      "tokens_after": 2375,
+      "reduction": 0.3355,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 3.9,
+      "actions": {
+        "keep_verbatim": 11,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-006",
+      "lang": "en",
+      "tokens_before": 5959,
+      "tokens_after": 4303,
+      "reduction": 0.2779,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 6.2,
+      "actions": {
+        "keep_verbatim": 13,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-007",
+      "lang": "en",
+      "tokens_before": 3475,
+      "tokens_after": 1441,
+      "reduction": 0.5853,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 4.2,
+      "actions": {
+        "keep_verbatim": 14,
+        "truncate_head": 5,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-008",
+      "lang": "tr",
+      "tokens_before": 2849,
+      "tokens_after": 1243,
+      "reduction": 0.5637,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 3.4,
+      "actions": {
+        "keep_verbatim": 13,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-009",
+      "lang": "en",
+      "tokens_before": 2855,
+      "tokens_after": 1251,
+      "reduction": 0.5618,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 3.4,
+      "actions": {
+        "keep_verbatim": 13,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-010",
+      "lang": "en",
+      "tokens_before": 4997,
+      "tokens_after": 2863,
+      "reduction": 0.4271,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 5.4,
+      "actions": {
+        "keep_verbatim": 11,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-011",
+      "lang": "tr",
+      "tokens_before": 3502,
+      "tokens_after": 1216,
+      "reduction": 0.6528,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 4.1,
+      "actions": {
+        "keep_verbatim": 11,
+        "truncate_head": 4,
+        "drop_result": 0
+      }
+    },
+    {
+      "id": "cg-012",
+      "lang": "en",
+      "tokens_before": 4573,
+      "tokens_after": 1694,
+      "reduction": 0.6296,
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 5.5,
+      "actions": {
+        "keep_verbatim": 14,
+        "truncate_head": 7,
+        "drop_result": 0
+      }
+    }
+  ],
+  "acceptance_pass": true,
+  "token_measurement": "ceil(chars/4) estimate, not tokenizer-measured"
+}

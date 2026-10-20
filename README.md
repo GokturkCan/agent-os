@@ -130,7 +130,7 @@ Expected sibling paths (override with env vars, see `.env.example`):
 ## Current limitations
 
 - Single machine (Mac mini). The secondary compute node is not connected.
-- No local inference (Laya / Qwen / Bonsai are benchmark candidates only).
+- Local inference is benchmark-only: Laya-MLX runs as an explicitly selected SystemOne candidate (operationally measured; its decision quality was evaluated in R3.2C Phase 1 and no semantic skill was demonstrated; never the default); Qwen / Bonsai are candidates only.
 - Hermes' primary provider has a low account rate limit (8,000 TPM measured),
   so default-toolset Hermes requests can fail before reaching Agent OS;
   see `audit/hermes-groq-milestone-2026-10-01.md`.
@@ -142,8 +142,8 @@ Expected sibling paths (override with env vars, see `.env.example`):
 ## Project status
 
 **Agent OS v1.0.0** (`pyproject.toml` / `agentos.__version__` = `1.0.0`), released on `main`:
-V1 core: **implemented and acceptance-tested**; latest full suite `403 passed, 2 skipped`
-(2 live-only). See [CURRENT_STATE.md](CURRENT_STATE.md) and [CHANGELOG.md](CHANGELOG.md).
+V1 core: **implemented and acceptance-tested**; latest full suite `403 passed, 2 skipped` at the v1.0.0 release
+(2 live-only; `658 passed` on the unmerged Run 3 branch). See [CURRENT_STATE.md](CURRENT_STATE.md) and [CHANGELOG.md](CHANGELOG.md).
 Run 1 and Run 2 are both included in v1.0.0: Run 2 (capability plane) is closed and verified,
 including real worker and browser acceptance. PR #2 merged it into `agent-os-v1` (2026-10-13 UTC) and
 PR #1 merged `agent-os-v1` into `main` on 2026-10-14 (local time; 2026-10-13 21:41 UTC). The
@@ -155,7 +155,7 @@ PR #1 merged `agent-os-v1` into `main` on 2026-10-14 (local time; 2026-10-13 21:
 |---|---|---|
 | 1 | Core Agent OS | Done (V1); timeout/resume real acceptance pending |
 | 2 | Capability plane | Closed, verified (registry, probes, selection, telemetry, SystemOne contract); backends deferred to Run 3 |
-| 3 | Local intelligence plane | Not started (candidates only) |
+| 3 | Local intelligence plane | In progress: R3.1 router wiring and R3.2 backend adapter + Laya-MLX benchmark candidate implemented (default stays the null backend); backend comparison, calibration and ContextGate not started |
 | 4 | Research / web plane | Design only |
 
 Full detail: [docs/roadmap.md](docs/roadmap.md).

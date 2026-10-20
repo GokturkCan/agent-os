@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "note": "Reproducibility of the committed Laya evaluation: two independent processes, plus the R3.2B operational benchmark re-run with the final worker.",
+  "dataset_sha256": "30e211a6ea922d6ad0ae7f1a5a65a5719a8c213efb8168f48fc991d4e7412396",
+  "eval_runs": {
+    "bare": {
+      "run1": "68eb47ce8cb08363a46b53af747aa7cfc0039789ddd2556e02816f7f0a85810d",
+      "run2": "68eb47ce8cb08363a46b53af747aa7cfc0039789ddd2556e02816f7f0a85810d",
+      "identical": true
+    },
+    "described": {
+      "run1": "b039706071d11ba814d77a1c5411e53ba580bac724730332fd7a7843ee809769",
+      "run2": "b039706071d11ba814d77a1c5411e53ba580bac724730332fd7a7843ee809769",
+      "identical": true
+    },
+    "described+abstain": {
+      "run1": "6144d242d2e1e2e187145209cdd2dc9e7f578bec81628ae2e46fafcdefeb540a",
+      "run2": "6144d242d2e1e2e187145209cdd2dc9e7f578bec81628ae2e46fafcdefeb540a",
+      "identical": true
+    }
+  },
+  "description_swap_identical": true,
+  "abstention_probe_identical": true,
+  "e2e_identical": true,
+  "r32b_operational_benchmark": {
+    "committed_run1_decision_sequence_sha256": "8cfe3aff326c81621ba1d7312a8d1e42fdbf947e8ee1058ec0c714e231d341c2",
+    "rerun_decision_sequence_sha256": "8cfe3aff326c81621ba1d7312a8d1e42fdbf947e8ee1058ec0c714e231d341c2",
+    "identical": true,
+    "note": "committed audit/laya-mlx-r3.2/* files were not modified"
+  }
+}

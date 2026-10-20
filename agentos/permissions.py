@@ -33,6 +33,11 @@ PROTECTED_POLICY_PATHS = (
     "config/capability_registry.yaml",
     "agentos/workers.py",
     "agentos/githooks/**",
+    # SystemOne backend definitions name executables the control plane will run (argv); they
+    # must not be editable by a candidate. routing.yaml only SELECTS among them.
+    "config/systemone.yaml",
+    # Compute-node offerings and the ONLY authorization of a remote node/model (CN-1).
+    "config/compute.yaml",
 )
 
 

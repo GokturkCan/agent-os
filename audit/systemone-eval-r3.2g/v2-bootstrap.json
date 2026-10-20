@@ -1,0 +1,53 @@
+{
+ "A": {
+  "families": 32,
+  "acceptable_ci95": [
+   0.418,
+   0.632
+  ],
+  "G5_delta_ci95": [
+   -0.152,
+   0.062
+  ],
+  "G5_delta_gt_0.05_share": 0.042,
+  "G3_counter_prior_ci95": [
+   0.398,
+   0.601
+  ],
+  "G3_ge_0.60_share": 0.026
+ },
+ "C": {
+  "families": 32,
+  "acceptable_ci95": [
+   0.5,
+   0.694
+  ],
+  "G5_delta_ci95": [
+   -0.089,
+   0.134
+  ],
+  "G5_delta_gt_0.05_share": 0.337,
+  "G3_counter_prior_ci95": [
+   0.452,
+   0.667
+  ],
+  "G3_ge_0.60_share": 0.242
+ },
+ "D": {
+  "families": 32,
+  "acceptable_ci95": [
+   0.534,
+   0.811
+  ],
+  "G5_delta_ci95": [
+   -0.009,
+   0.21
+  ],
+  "G5_delta_gt_0.05_share": 0.803,
+  "G3_counter_prior_ci95": [
+   0.5,
+   0.805
+  ],
+  "G3_ge_0.60_share": 0.723
+ }
+}

@@ -1,0 +1,13 @@
+{
+  "suite": "rulecache-behaviour-v1",
+  "backend": "n/a",
+  "proposed_rules": 45,
+  "hits_before_approval": 0,
+  "non_human_approval_refused": true,
+  "approved_rule_hits": true,
+  "config_change_invalidates": true,
+  "rule_never_adds_option": true,
+  "store_reviewable_roundtrip": true,
+  "revoked_stops_applying": true,
+  "all_pass": true
+}

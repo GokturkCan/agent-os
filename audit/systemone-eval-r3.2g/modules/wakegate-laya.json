@@ -1,0 +1,642 @@
+{
+  "suite": "wakegate-suite-v1",
+  "backend": "laya-mlx",
+  "cases": 46,
+  "false_negatives": 1,
+  "false_negative_rate": 0.0385,
+  "unnecessary_wakes": 12,
+  "unnecessary_wake_rate": 0.6667,
+  "deferred_total": 7,
+  "avoided_reasoning_turns_vs_always_wake": 7,
+  "model_calls": 26,
+  "model_latency_ms": {
+    "p50": 19.288,
+    "p95": 23.08
+  },
+  "by_family": {
+    "rule_user": {
+      "n": 2,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "rule_failure": {
+      "n": 4,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "rule_security": {
+      "n": 2,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "rule_approval": {
+      "n": 2,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "rule_risk": {
+      "n": 2,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "rule_deadline": {
+      "n": 2,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "rule_no_change": {
+      "n": 4,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 4
+    },
+    "skip_limit": {
+      "n": 2,
+      "fn": 0,
+      "unnecessary": 0,
+      "deferred": 0
+    },
+    "model_relevant": {
+      "n": 12,
+      "fn": 1,
+      "unnecessary": 0,
+      "deferred": 1
+    },
+    "model_irrelevant": {
+      "n": 14,
+      "fn": 0,
+      "unnecessary": 12,
+      "deferred": 2
+    }
+  },
+  "by_lang": {
+    "en": {
+      "fn": 1,
+      "unnecessary": 5
+    },
+    "tr": {
+      "fn": 0,
+      "unnecessary": 7
+    }
+  },
+  "records": [
+    {
+      "id": "wg-rule-001",
+      "lang": "en",
+      "family": "rule_user",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:user-message",
+      "model_called": false,
+      "latency_ms": 0.006,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rule-002",
+      "lang": "tr",
+      "family": "rule_user",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:user-message",
+      "model_called": false,
+      "latency_ms": 0.006,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rule-003",
+      "lang": "en",
+      "family": "rule_failure",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.007,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rule-004",
+      "lang": "tr",
+      "family": "rule_failure",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.009,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rule-005",
+      "lang": "en",
+      "family": "rule_security",
+      "gold": "must_wake",
+      "action": "wake_cloud_candidate",
+      "reason": "rule:security",
+      "model_called": false,
+      "latency_ms": 0.001,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rule-006",
+      "lang": "tr",
+      "family": "rule_security",
+      "gold": "must_wake",
+      "action": "wake_cloud_candidate",
+      "reason": "rule:security",
+      "model_called": false,
+      "latency_ms": 0.004,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rule-007",
+      "lang": "en",
+      "family": "rule_approval",
+      "gold": "must_wake",
+      "action": "wake_cloud_candidate",
+      "reason": "rule:approval",
+      "model_called": false,
+      "latency_ms": 0.001,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rule-008",
+      "lang": "tr",
+      "family": "rule_approval",
+      "gold": "must_wake",
+      "action": "wake_cloud_candidate",
+      "reason": "rule:approval",
+      "model_called": false,
+      "latency_ms": 0.002,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rule-009",
+      "lang": "en",
+      "family": "rule_risk",
+      "gold": "must_wake",
+      "action": "wake_cloud_candidate",
+      "reason": "rule:high-risk",
+      "model_called": false,
+      "latency_ms": 0.001,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rule-010",
+      "lang": "tr",
+      "family": "rule_risk",
+      "gold": "must_wake",
+      "action": "wake_cloud_candidate",
+      "reason": "rule:high-risk",
+      "model_called": false,
+      "latency_ms": 0.001,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rule-011",
+      "lang": "en",
+      "family": "rule_deadline",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:deadline",
+      "model_called": false,
+      "latency_ms": 0.003,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rule-012",
+      "lang": "tr",
+      "family": "rule_deadline",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:deadline",
+      "model_called": false,
+      "latency_ms": 0.004,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rule-013",
+      "lang": "en",
+      "family": "rule_failure",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.005,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rule-014",
+      "lang": "tr",
+      "family": "rule_failure",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "rule:failure",
+      "model_called": false,
+      "latency_ms": 0.007,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-nochange-001",
+      "lang": "en",
+      "family": "rule_no_change",
+      "gold": "should_defer",
+      "action": "defer_no_change",
+      "reason": "rule:no-change",
+      "model_called": false,
+      "latency_ms": 0.006,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-nochange-002",
+      "lang": "tr",
+      "family": "rule_no_change",
+      "gold": "should_defer",
+      "action": "defer_no_change",
+      "reason": "rule:no-change",
+      "model_called": false,
+      "latency_ms": 0.004,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-nochange-003",
+      "lang": "en",
+      "family": "rule_no_change",
+      "gold": "should_defer",
+      "action": "defer_no_change",
+      "reason": "rule:no-change",
+      "model_called": false,
+      "latency_ms": 0.005,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-nochange-004",
+      "lang": "tr",
+      "family": "rule_no_change",
+      "gold": "should_defer",
+      "action": "defer_no_change",
+      "reason": "rule:no-change",
+      "model_called": false,
+      "latency_ms": 0.003,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-skip-001",
+      "lang": "en",
+      "family": "skip_limit",
+      "gold": "wake_ok",
+      "action": "wake_local_reasoning",
+      "reason": "skip-limit",
+      "model_called": false,
+      "latency_ms": 0.004,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-skip-002",
+      "lang": "tr",
+      "family": "skip_limit",
+      "gold": "wake_ok",
+      "action": "wake_local_reasoning",
+      "reason": "skip-limit",
+      "model_called": false,
+      "latency_ms": 0.006,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rel-001",
+      "lang": "en",
+      "family": "model_relevant",
+      "gold": "must_wake",
+      "action": "wake_cloud_candidate",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 785.815,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rel-002",
+      "lang": "tr",
+      "family": "model_relevant",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 23.08,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rel-003",
+      "lang": "en",
+      "family": "model_relevant",
+      "gold": "must_wake",
+      "action": "defer_no_change",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 17.008,
+      "false_negative": true,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rel-004",
+      "lang": "tr",
+      "family": "model_relevant",
+      "gold": "must_wake",
+      "action": "wake_cloud_candidate",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 17.085,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rel-005",
+      "lang": "en",
+      "family": "model_relevant",
+      "gold": "must_wake",
+      "action": "wake_cloud_candidate",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 16.814,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rel-006",
+      "lang": "tr",
+      "family": "model_relevant",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 21.046,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rel-007",
+      "lang": "en",
+      "family": "model_relevant",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 15.517,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rel-008",
+      "lang": "tr",
+      "family": "model_relevant",
+      "gold": "must_wake",
+      "action": "wake_cloud_candidate",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 20.0,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rel-009",
+      "lang": "en",
+      "family": "model_relevant",
+      "gold": "must_wake",
+      "action": "wake_cloud_candidate",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 16.438,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rel-010",
+      "lang": "tr",
+      "family": "model_relevant",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 20.193,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rel-011",
+      "lang": "en",
+      "family": "model_relevant",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 15.755,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-rel-012",
+      "lang": "tr",
+      "family": "model_relevant",
+      "gold": "must_wake",
+      "action": "wake_local_reasoning",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 19.621,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-irr-001",
+      "lang": "en",
+      "family": "model_irrelevant",
+      "gold": "should_defer",
+      "action": "wake_cloud_candidate",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 16.141,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg-irr-002",
+      "lang": "tr",
+      "family": "model_irrelevant",
+      "gold": "should_defer",
+      "action": "wake_local_reasoning",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 19.828,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg-irr-003",
+      "lang": "en",
+      "family": "model_irrelevant",
+      "gold": "should_defer",
+      "action": "defer_no_change",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 16.923,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-irr-004",
+      "lang": "tr",
+      "family": "model_irrelevant",
+      "gold": "should_defer",
+      "action": "wake_cloud_candidate",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 17.901,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg-irr-005",
+      "lang": "en",
+      "family": "model_irrelevant",
+      "gold": "should_defer",
+      "action": "wake_local_reasoning",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 17.365,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg-irr-006",
+      "lang": "tr",
+      "family": "model_irrelevant",
+      "gold": "should_defer",
+      "action": "wake_cloud_candidate",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 20.691,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg-irr-007",
+      "lang": "en",
+      "family": "model_irrelevant",
+      "gold": "should_defer",
+      "action": "wake_local_reasoning",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 17.41,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg-irr-008",
+      "lang": "tr",
+      "family": "model_irrelevant",
+      "gold": "should_defer",
+      "action": "wake_local_reasoning",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 17.684,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg-irr-009",
+      "lang": "en",
+      "family": "model_irrelevant",
+      "gold": "should_defer",
+      "action": "wake_cloud_candidate",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 20.73,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg-irr-010",
+      "lang": "tr",
+      "family": "model_irrelevant",
+      "gold": "should_defer",
+      "action": "wake_cloud_candidate",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 21.633,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg-irr-011",
+      "lang": "en",
+      "family": "model_irrelevant",
+      "gold": "should_defer",
+      "action": "wake_cloud_candidate",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 19.288,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg-irr-012",
+      "lang": "tr",
+      "family": "model_irrelevant",
+      "gold": "should_defer",
+      "action": "wake_cloud_candidate",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 20.968,
+      "false_negative": false,
+      "unnecessary_wake": true
+    },
+    {
+      "id": "wg-irr-013",
+      "lang": "en",
+      "family": "model_irrelevant",
+      "gold": "should_defer",
+      "action": "defer_no_change",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 16.797,
+      "false_negative": false,
+      "unnecessary_wake": false
+    },
+    {
+      "id": "wg-irr-014",
+      "lang": "tr",
+      "family": "model_irrelevant",
+      "gold": "should_defer",
+      "action": "wake_cloud_candidate",
+      "reason": "model",
+      "model_called": true,
+      "latency_ms": 21.688,
+      "false_negative": false,
+      "unnecessary_wake": true
+    }
+  ]
+}

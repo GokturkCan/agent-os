@@ -1,0 +1,24 @@
+{
+ "cal": {
+  "request_sets": 384,
+  "missing_from_cache": 0,
+  "max_abs_prob_diff_across_orders": {
+   "max": 0.0,
+   "p95": 0.0,
+   "mean": 0.0
+  },
+  "argmax_flips_across_orders": 0,
+  "near_ties_lt_1e-6": 0
+ },
+ "opt": {
+  "request_sets": 360,
+  "missing_from_cache": 0,
+  "max_abs_prob_diff_across_orders": {
+   "max": 0.0,
+   "p95": 0.0,
+   "mean": 0.0
+  },
+  "argmax_flips_across_orders": 0,
+  "near_ties_lt_1e-6": 0
+ }
+}

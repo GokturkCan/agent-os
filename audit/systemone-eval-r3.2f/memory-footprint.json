@@ -1,0 +1,4 @@
+{"method": "macOS `footprint -p <worker pid>` (includes MPS/unified-memory GPU buffers; RSS undercounts them) idle after load and every 10 of 60 requests; `memory_pressure -Q` free % system-wide before/after load",
+ "openjev-2b": {"mem_free_pct_before": 73, "mem_free_pct_loaded": 45, "footprint_idle_bytes": 6108497216, "footprint_during_bytes_max": 6596626136, "note": "6.14 GiB peak; grew ~6 MB per 10 requests over 60 requests (not a proven leak)"},
+ "openjev-masked": {"mem_free_pct_before": 73, "mem_free_pct_loaded": 65, "footprint_idle_bytes": 1778992400, "footprint_during_bytes_max": 1850754464},
+ "bench_sampled_worker_rss_mib_peak": {"openjev-2b": 618.4, "openjev-masked": 722.0, "caveat": "RSS excludes GPU buffers; use footprint for G6"}}

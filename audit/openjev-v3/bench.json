@@ -1,0 +1,86 @@
+{
+ "host": "Apple M4",
+ "ram_bytes": 17179869184,
+ "requests": 56,
+ "free_percent_before": 70,
+ "cold_start_first_decision_s": 11.28,
+ "worker_ready": {
+  "torch": "2.8.0",
+  "transformers": "5.10.2",
+  "python": "3.13.11",
+  "device": "mps",
+  "load_s": "9.192",
+  "warmup_s": "0.637",
+  "temperature": "1.518796342858676"
+ },
+ "startup_seconds_runtime": 10.551,
+ "memory_after_first": {
+  "rss_mib": 417.4,
+  "footprint": "6087 MB",
+  "footprint_peak": "6087 MB",
+  "system_free_percent": 40,
+  "raw_footprint_head": "======================================================================\nPython [15465]: 64-bit    Footprint: 6087 MB (16384 bytes per page)\n======================================================================\n\n  Dirty      Clean  Reclaimable    Regions    Category\n    ---        ---          ---        ---    ---\n5286 MB        0 B          0 B         40    Owned physical footprint (unmapped) (graphics)\n 316 MB        0 B          0 B         84    Malloc Small\n 180 MB        0 B          0 B        193    Untagged\n 173 MB        0 B       112 KB       3351    IOAccelerator (graphics)\n 118 M"
+ },
+ "warm_baseline_ms": {
+  "n": 55,
+  "p50": 586.0,
+  "p95": 657.2,
+  "p99": 676.5,
+  "max": 676.5,
+  "mean": 597.2,
+  "worker_ms_p50": 585.7
+ },
+ "memory_after_warm": {
+  "rss_mib": 796.3,
+  "footprint": "6480 MB",
+  "footprint_peak": "6480 MB",
+  "system_free_percent": 41,
+  "raw_footprint_head": "======================================================================\nPython [15465]: 64-bit    Footprint: 6480 MB (16384 bytes per page)\n======================================================================\n\n  Dirty      Clean  Reclaimable    Regions    Category\n    ---        ---          ---        ---    ---\n5286 MB        0 B          0 B         40    Owned physical footprint (unmapped) (graphics)\n 673 MB        0 B          0 B        174    Malloc Small\n 207 MB        0 B       112 KB       3403    IOAccelerator (graphics)\n 180 MB        0 B          0 B        193    Untagged\n 118 M"
+ },
+ "warm_ensemble_ms": {
+  "n": 40,
+  "p50": 1142.3,
+  "p95": 1284.8,
+  "note": "alias call is uncached here; canonical call may hit the in-process cache"
+ },
+ "determinism": {
+  "requests": 30,
+  "max_abs_prob_diff": 0.0,
+  "decision_changes": 0
+ },
+ "perturbation_robustness": {
+  "trailing_space": {
+   "n": 40,
+   "decision_flips": 1
+  },
+  "uppercase": {
+   "n": 40,
+   "decision_flips": 8
+  },
+  "thanks_suffix": {
+   "n": 40,
+   "decision_flips": 3
+  },
+  "no_period": {
+   "n": 40,
+   "decision_flips": 0
+  }
+ },
+ "memory_final": {
+  "rss_mib": 503.5,
+  "footprint": "6868 MB",
+  "footprint_peak": "6868 MB",
+  "system_free_percent": 30,
+  "raw_footprint_head": "======================================================================\nPython [15465]: 64-bit    Footprint: 6868 MB (16384 bytes per page)\n======================================================================\n\n  Dirty      Clean  Reclaimable    Regions    Category\n    ---        ---          ---        ---    ---\n5286 MB        0 B          0 B         40    Owned physical footprint (unmapped) (graphics)\n1027 MB        0 B          0 B        264    Malloc Small\n 239 MB        0 B          0 B       3442    IOAccelerator (graphics)\n 180 MB        0 B          0 B        193    Untagged\n 118 M"
+ },
+ "client_calls": 308,
+ "lazy_lifecycle": {
+  "idle_exit_seconds": 6,
+  "first_decision_s": 12.49,
+  "process_exited_when_idle": true,
+  "system_free_percent_while_idle": 75,
+  "restart_decision_s": 0.0,
+  "same_decision_after_restart": true
+ },
+ "free_percent_after": 75
+}

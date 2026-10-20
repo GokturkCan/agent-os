@@ -135,6 +135,7 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
             return _result(task_id=task_id, status="not_dispatched", exit_state="blocked",
                            trace=plan.explain(), next_step=plan.next_step, run_id=rec["run_id"], **cap)
         event["eligible_workers"] = plan.eligible_workers
+        event["required_capabilities"] = list(plan.required)
     d = router.route(cfg, event, health)
     extra_mcp = capability_policy.selected_mcp(cfg, registry, plan, d.worker) if plan else ()
     if cap:
@@ -145,7 +146,7 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
         events.emit("task_failed", task_id=task_id, exit_state=exit_state, status="not_dispatched",
                     detail="routing stopped before execution")
         rec = events.safe_record(task_id=task_id, task_type=task_type, route=d.stage, exit_state=exit_state,
-                               fallbacks=d.fallbacks, failures=d.failures, **cap,
+                               fallbacks=d.fallbacks, failures=d.failures, **cap, **d.systemone_fields(),
                                notes="routing stopped before execution")
         return _result(task_id=task_id, status="not_dispatched", exit_state=exit_state,
                        trace=d.trace + ([] if d.worker else ["no execution worker for route"]),
@@ -297,7 +298,7 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
                            provider=d.provider, exit_state=exit_state, success=exit_state == "success",
                            fallbacks=d.fallbacks, failures=d.failures,
                            latency_ms=run.get("latency_ms"), artifacts=[commit] if commit else [],
-                           retries=task.state["attempts"], **cap,
+                           retries=task.state["attempts"], **cap, **d.systemone_fields(),
                            notes="; ".join(n for n in (
                                "timeout" if timed_out else None,
                                f"human_approval_ref={human_approval_ref}" if human_approval_ref else None) if n) or None)

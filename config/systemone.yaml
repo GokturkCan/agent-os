@@ -1,0 +1,133 @@
+version: 1
+
+# SystemOne backend DEFINITIONS (R3.2). PROTECTED POLICY FILE (agentos.permissions): an entry
+# names an executable the control plane will run, so a candidate must not be able to edit it.
+# config/routing.yaml `systemone.backend` only SELECTS one of these (or a built-in: "null",
+# "policy-order"); the default stays "null". Backends here are benchmark/test candidates:
+# nothing in this file makes any of them a production default.
+#
+# adapter `subprocess_json`: argv is run as a long-lived worker speaking one JSON object per line
+# (agentos/systemone_adapter.py). Placeholders: {repo} = repository root, {runtime} = runtime_dir.
+# The worker gets a scrubbed environment (no inherited secrets) and HF_HUB_OFFLINE=1. That is NOT a
+# sandbox: it is an ordinary child process with the user's privileges, the user's HOME and no OS-level
+# network or filesystem confinement, so "offline" holds by convention (weights pre-installed, env flag)
+# and not by enforcement. Trust therefore rests on the argv below being protected and on pinned weights.
+#
+# ACTIVATION BOUNDARY (enforced by agentos.config.validate; this file is protected, routing.yaml and
+# models.yaml are not). Selecting an adapter backend in routing.yaml, or setting tiers.fastgate.model in
+# models.yaml, is a validation error unless the name is listed here. Both lists are empty on purpose:
+# adding an entry is an activation decision that needs explicit human review.
+activation:
+  production_backends: []   # adapter backends allowed as routing.systemone.backend
+  fastgate_models: []       # model names allowed as tiers.fastgate.model
+
+backends:
+
+  laya-mlx:
+    adapter: subprocess_json
+    # Isolated, git-ignored runtime: a dedicated venv + pinned weights. Not an agentos dependency.
+    runtime_dir: state/runtime/laya-mlx
+    argv:
+      - "{runtime}/venv/bin/python"
+      - "{repo}/agentos/systemone_workers/laya_worker.py"
+      - "--model"
+      - "{runtime}/models/laya-multilingual-mlx"
+    timeout_seconds: 2.0            # per decision; the worker process is killed on expiry
+    startup_timeout_seconds: 60.0   # model load + warm-up
+    cooldown_seconds: 30.0          # after any failure, escalate immediately for this long
+    # Informational provenance (what was installed/benchmarked; see audit/laya-mlx-r3.2-*.md).
+    model:
+      id: aac6fef/laya-multilingual-mlx
+      revision: f2b4faf51023039425946074e2cf1361d2db11d5
+      sha256: 7fc5834af4d8fdfb268d272a9d1a66e5819a0daac98241651c4c888cc43adff1
+      upstream: convaiinnovations/laya-multilingual
+    package: {name: laya-mlx, version: "0.4.0", wheel_sha256: f8f92dd6959ce22d7dc6c334ce68740b47aee607d1fa8271c010ce3d4f5857da}
+
+  decider-mlx:
+    adapter: subprocess_json
+    # R3.2C candidate (benchmark/test only, NOT a default). Isolated, git-ignored runtime; the LoRA
+    # checkpoint and the pinned base model live in runtime_dir/hf-home (sha256-verified, offline).
+    runtime_dir: state/runtime/decider-mlx
+    argv:
+      - "{runtime}/venv/bin/python"
+      - "{repo}/agentos/systemone_workers/decider_worker.py"
+      - "--model"
+      - "{runtime}/hf-home/hub/models--StrandsAgents--strands-decider-2B-qwen3.5-v1-2610/snapshots/216d1ccb46a9e9b036eb9187b248db98480f77d4"
+      - "--hf-home"
+      - "{runtime}/hf-home"
+    timeout_seconds: 2.0
+    startup_timeout_seconds: 90.0
+    cooldown_seconds: 30.0
+    model:
+      id: StrandsAgents/strands-decider-2B-qwen3.5-v1-2610
+      revision: 216d1ccb46a9e9b036eb9187b248db98480f77d4
+      sha256: ae1d0cd1ac3edec6df0a519a3ad18f1c382099032d493f8f98c96a80cfebb4c7   # lora/adapter_model.safetensors
+      upstream: strands-labs/strands-decider
+      base: {id: Qwen/Qwen3.5-2B-Base, revision: b1485b2fa6dfa1287294f269f5fb618e03d52d7c, sha256: 928acbf11878c32185bbd863514d191769285065ab9ea14fbfe431303f5fdf2d}
+    package: {name: strands-decider, version: "0.0.0+8b6faa5", source: "strands-labs/strands-decider@8b6faa55"}
+
+  kev-mlx:
+    adapter: subprocess_json
+    # R3.2C candidate (benchmark/test only, NOT a default). Isolated, git-ignored runtime (py3.13). head.pt is a
+    # torch pickle: the worker forces every torch.load to weights_only=True (statically inspected beforehand).
+    runtime_dir: state/runtime/kev-mlx
+    argv:
+      - "{runtime}/venv/bin/python"
+      - "{repo}/agentos/systemone_workers/kev_worker.py"
+      - "--model"
+      - "{runtime}/hf-home/hub/models--jaredpalmer--kev-0.8b/snapshots/788ddbdd65715bb03a56788c822f6c632c9a551d"
+      - "--hf-home"
+      - "{runtime}/hf-home"
+    timeout_seconds: 2.0
+    startup_timeout_seconds: 90.0
+    cooldown_seconds: 30.0
+    model:
+      id: jaredpalmer/kev-0.8b
+      revision: 788ddbdd65715bb03a56788c822f6c632c9a551d   # tag v1.0; weights identical to main (bf75a6a8, card-only change)
+      sha256: 9b908623acb162118575f4e7a94524f9c139c335be4bfb74d6cfceca01e1885a   # adapter_model.safetensors (head.pt f400bd12…)
+      upstream: jaredpalmer/kev
+      base: {id: Qwen/Qwen3.5-0.8B-Base, revision: dc7cdfe2ee4154fa7e30f5b51ca41bfa40174e68, sha256: c2b1e5a17d9c1e27685d92ed9b382911ebb99955ecd89052d1721241adfbab6c}
+    package: {name: kev, version: "0.1.0", source: "jaredpalmer/kev@6b719c3c (tag kev-1.0)"}
+
+  openjev-2b:
+    adapter: subprocess_json
+    # R3.2F candidate (benchmark/test only, NOT a default). Isolated runtime; trained decision model
+    # (LoRA + scalar head) on the post-trained Qwen3.5-2B, bfloat16 on MPS, offline.
+    runtime_dir: state/runtime/openjev2b
+    argv:
+      - "{runtime}/venv/bin/python"
+      - "{repo}/agentos/systemone_workers/openjev2b_worker.py"
+      - "--model"
+      - "{runtime}/hf-home/hub/models--ZefanCai--Open-Jev-2B/snapshots/0c7aa498b1627be8da4acf34c863ff0ee0a92785/package/checkpoint"
+      - "--hf-home"
+      - "{runtime}/hf-home"
+    timeout_seconds: 2.0
+    startup_timeout_seconds: 120.0
+    cooldown_seconds: 30.0
+    model:
+      id: ZefanCai/Open-Jev-2B
+      revision: 0c7aa498b1627be8da4acf34c863ff0ee0a92785
+      sha256: 2d23935b1a7380db444abac572c04646918ba794e59002d1588236182a3ca18f   # adapter_model.safetensors (head.pt 3532cd57…)
+      upstream: Zefan-Cai/Open-Jev
+      base: {id: Qwen/Qwen3.5-2B, revision: 15852e8c16360a2fea060d615a32b45270f8a8fc, sha256: aa33250c4fc64891ddfaba3a314fd9542ea371843c387178b425fbcc5ed680b1}
+    package: {name: open-jev, version: "0.1.0.dev0", source: "Zefan-Cai/Open-Jev@bd411882"}
+
+  openjev-masked:
+    adapter: subprocess_json
+    # R3.2F candidate (benchmark/test only, NOT a default). Training-free masked-logit softmax over
+    # letter tokens (lookski/openjev) on Qwen3-0.6B; raw softmax, never calibrated.
+    runtime_dir: state/runtime/openjev-masked
+    argv:
+      - "{runtime}/venv/bin/python"
+      - "{repo}/agentos/systemone_workers/openjev_masked_worker.py"
+      - "--model"
+      - "{runtime}/hf-home/hub/models--Qwen--Qwen3-0.6B/snapshots/c1899de289a04d12100db370d81485cdf75e47ca"
+    timeout_seconds: 2.0
+    startup_timeout_seconds: 90.0
+    cooldown_seconds: 30.0
+    model:
+      id: Qwen/Qwen3-0.6B
+      revision: c1899de289a04d12100db370d81485cdf75e47ca
+      sha256: f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b
+      upstream: lookski/openjev
+    package: {name: openjev, version: "0.1.0", source: "lookski/openjev@49eb1382"}

@@ -1,0 +1,37 @@
+{
+  "review_status": "PENDING HUMAN REVIEW BEFORE MERGE",
+  "changes": {
+    "evals/data/modules/author_context_suites.py": {
+      "before": null,
+      "after": "05cc3248d65e66c6b1d93afa9e0757aa7fbaaab77ebfe4f2f82df919d31a1ed2"
+    },
+    "evals/data/modules/author_wakegate_suite.py": {
+      "before": null,
+      "after": "5f6e46a01aa04e15d9ed5ec02526841dbef6a62ebad356ccdb195e4c610d87fa"
+    },
+    "evals/data/modules/contextgate-suite-v1.yaml": {
+      "before": null,
+      "after": "7dda050b0e0bafdfe8a69b1ba73f1ec91b663170edb35f6c82e6c81ebd758eb0"
+    },
+    "evals/data/modules/toolpruner-suite-v1.yaml": {
+      "before": null,
+      "after": "72ebb1df2b00245f7423e3408c1294461790a8515e9443597be93e7664207b9f"
+    },
+    "evals/data/modules/wakegate-suite-v1.yaml": {
+      "before": null,
+      "after": "c505146d237a30a3651190e95e9ac144f23083a770c74e0f42dd8411157b9b75"
+    },
+    "evals/test_r32g_modules.py": {
+      "before": null,
+      "after": "506dfacf6b2113992c8e75147f3579cbbcb3887ddb3974550f34a986045aa139"
+    },
+    "evals/test_r32g_recovery.py": {
+      "before": null,
+      "after": "c7fd0cebcf5218b69f4ddbb669aaba3a8d5bbaa1bdaf9fc89023509eee88ce4c"
+    },
+    "evals/test_systemone_pipeline.py": {
+      "before": null,
+      "after": "1a231480ac7ffcb56641348f75bcd591cc218e00fc25bb00bd3b08134d646010"
+    }
+  }
+}

@@ -1,0 +1,1253 @@
+{
+ "schema": 1,
+ "note": "Reference baselines for context, not backends. Summaries only: per-decision records and failure lists are omitted; regenerate any entry with the command it records.",
+ "baselines": {
+  "first": {
+   "schema": 1,
+   "backend": "baseline:first",
+   "seed": 1337,
+   "command": "agentos systemone-eval --backend baseline:first",
+   "dataset": {
+    "id": "systemone-decisions-v1",
+    "sha256": "30e211a6ea922d6ad0ae7f1a5a65a5719a8c213efb8168f48fc991d4e7412396",
+    "cases": 66,
+    "semantic": 61,
+    "policy": 5,
+    "e2e_cases": 12,
+    "escalation_gold": 10
+   },
+   "variants": {
+    "bare": {
+     "layer1_decision_quality": {
+      "note": "decision quality against labeled gold; escalations are safe but never successes",
+      "answerable_decisions": 154,
+      "acceptable_rate": 0.5584,
+      "answered_precision": 0.5584,
+      "escalation_rate": 0.0,
+      "wrong_allowed_rate": 0.2403,
+      "forbidden_choice_rate": 0.2013,
+      "by_strength": {
+       "strict": {
+        "decisions": 64,
+        "acceptable_rate": 0.5469
+       },
+       "rule": {
+        "decisions": 26,
+        "acceptable_rate": 0.4615
+       },
+       "intent": {
+        "decisions": 64,
+        "acceptable_rate": 0.6094
+       }
+      },
+      "by_category": {
+       "adversarial_order": {
+        "decisions": 18,
+        "success_rate": 0.3333,
+        "violations": 6,
+        "escalated": 0
+       },
+       "background_escalation": {
+        "decisions": 12,
+        "success_rate": 0.5,
+        "violations": 0,
+        "escalated": 0
+       },
+       "capability_difference": {
+        "decisions": 24,
+        "success_rate": 0.4583,
+        "violations": 13,
+        "escalated": 0
+       },
+       "coding_testing": {
+        "decisions": 16,
+        "success_rate": 0.5,
+        "violations": 0,
+        "escalated": 0
+       },
+       "conflicting_info": {
+        "decisions": 12,
+        "success_rate": 0.6667,
+        "violations": 3,
+        "escalated": 0
+       },
+       "equally_acceptable": {
+        "decisions": 4,
+        "success_rate": 1.0,
+        "violations": 0,
+        "escalated": 0
+       },
+       "escalation": {
+        "decisions": 20,
+        "success_rate": 0.0,
+        "violations": 20,
+        "escalated": 0
+       },
+       "interactive_constraint": {
+        "decisions": 18,
+        "success_rate": 0.6667,
+        "violations": 6,
+        "escalated": 0
+       },
+       "locality_cost": {
+        "decisions": 20,
+        "success_rate": 0.6,
+        "violations": 2,
+        "escalated": 0
+       },
+       "research_docs": {
+        "decisions": 6,
+        "success_rate": 1.0,
+        "violations": 0,
+        "escalated": 0
+       },
+       "resource_constrained": {
+        "decisions": 6,
+        "success_rate": 0.5,
+        "violations": 0,
+        "escalated": 0
+       },
+       "review_independence": {
+        "decisions": 8,
+        "success_rate": 0.5,
+        "violations": 0,
+        "escalated": 0
+       },
+       "risk_routing": {
+        "decisions": 6,
+        "success_rate": 0.5,
+        "violations": 0,
+        "escalated": 0
+       },
+       "unavailable_worker": {
+        "decisions": 4,
+        "success_rate": 0.75,
+        "violations": 1,
+        "escalated": 0
+       }
+      },
+      "counter_prior": {
+       "decisions": 45,
+       "note": "cases where claude_code is NOT acceptable",
+       "acceptable_rate": 0.4222
+      },
+      "escalation_gold": {
+       "decisions": 20,
+       "escalation_correctness": 0.0,
+       "unsafe_selection_rate": 1.0
+      },
+      "policy_compliance": {
+       "constrained_decisions": 92,
+       "violations": 51,
+       "compliance_rate": 0.4457,
+       "violation_cases": [
+        "adv-001",
+        "adv-002",
+        "cap-001",
+        "cap-002",
+        "cap-003",
+        "cap-004",
+        "cap-006",
+        "cap-007",
+        "cap-008",
+        "conf-001",
+        "conf-002",
+        "conf-003",
+        "esc-cap-001",
+        "esc-cap-002",
+        "esc-conf-001",
+        "esc-conf-002",
+        "esc-gpu-001",
+        "esc-gpu-002",
+        "esc-risk-001",
+        "esc-risk-002",
+        "esc-risk-003",
+        "int-001",
+        "int-002",
+        "int-003",
+        "loc-002",
+        "una-003"
+       ]
+      },
+      "order_robustness": {
+       "cases": 50,
+       "choice_consistent_across_orders": 0.0,
+       "correct_in_every_order": 0.18,
+       "given_order_acceptable_rate": 0.38,
+       "all_orders_acceptable_rate": 0.5526,
+       "first_listed_share": 1.0
+      },
+      "semantic_sensitivity": {
+       "discriminate": {
+        "checks": 10,
+        "passed": 0,
+        "pass_rate": 0.0
+       },
+       "invariant": {
+        "checks": 4,
+        "passed": 4,
+        "pass_rate": 1.0
+       },
+       "groups": {
+        "G-cap-vs-tests": {
+         "type": "discriminate",
+         "members": [
+          "cap-001",
+          "role-tests-001"
+         ],
+         "checks": 2,
+         "passed": 0
+        },
+        "G-impl-docs-conflict": {
+         "type": "discriminate",
+         "members": [
+          "conf-002",
+          "conf-004"
+         ],
+         "checks": 2,
+         "passed": 0
+        },
+        "G-impl-vs-hard-debug": {
+         "type": "discriminate",
+         "members": [
+          "role-impl-001",
+          "role-hard-001"
+         ],
+         "checks": 2,
+         "passed": 0
+        },
+        "G-res-arch": {
+         "type": "invariant",
+         "members": [
+          "role-arch-001",
+          "res-002",
+          "res-003"
+         ],
+         "checks": 2,
+         "passed": 2
+        },
+        "G-res-tests": {
+         "type": "invariant",
+         "members": [
+          "role-tests-001",
+          "res-001"
+         ],
+         "checks": 2,
+         "passed": 2
+        },
+        "G-review-independence": {
+         "type": "discriminate",
+         "members": [
+          "rev-001",
+          "rev-002"
+         ],
+         "checks": 2,
+         "passed": 0
+        },
+        "G-tests-vs-architecture": {
+         "type": "discriminate",
+         "members": [
+          "role-tests-001",
+          "role-arch-001"
+         ],
+         "checks": 2,
+         "passed": 0
+        }
+       }
+      },
+      "label_preference": {
+       "two_worker_decisions": 72,
+       "claude_code_share": 0.5,
+       "claude_code_share_when_gold_is_codex": 0.5,
+       "codex_share_when_gold_is_claude_code": 0.5,
+       "prior_r32b_operational": "claude_code chosen 109/109 two-worker decisions (no gold)"
+      },
+      "confidence_raw_descriptive": {
+       "kinds": [],
+       "all": {
+        "n": 0
+       },
+       "when_correct": {
+        "n": 0
+       },
+       "when_wrong": {
+        "n": 0
+       },
+       "note": "descriptive only: raw, uncalibrated, never used as a threshold"
+      },
+      "outcomes": {
+       "correct": 86,
+       "forbidden_choice": 31,
+       "wrong_allowed": 37
+      }
+     },
+     "policy_suite": {
+      "note": "deterministic contract cases (single/empty options, metadata cannot widen); not model quality",
+      "cases": 5,
+      "passed": 5,
+      "pass_rate": 1.0,
+      "safe_degradations": 0,
+      "failures": []
+     },
+     "layer2_protocol_compliance": {
+      "note": "adapter/protocol compliance; independent of whether choices were good",
+      "decisions": 180,
+      "compliant": 180,
+      "compliance_rate": 1.0,
+      "violations": [],
+      "escalation_reasons": {
+       "no-eligible-options": 1
+      }
+     },
+     "operational": {
+      "decisions": 180,
+      "latency_ms": {
+       "p50": 0.001,
+       "p95": 0.002,
+       "max": 0.066
+      }
+     },
+     "decision_sequence_sha256": "5ac409ac97f1d9a29521cb4c4e371a029e909c79710f72a719005a26444f5c73"
+    }
+   },
+   "claims": "Small synthetic set: results describe THIS set only and are not a statistical estimate of production accuracy.",
+   "probes": {},
+   "layer3_end_to_end_routing": {
+    "n": 12,
+    "passed": 12,
+    "policy_valid_rate": 1.0,
+    "note": "policy validity of the final route, not decision optimality"
+   }
+  },
+  "last": {
+   "schema": 1,
+   "backend": "baseline:last",
+   "seed": 1337,
+   "command": "agentos systemone-eval --backend baseline:last",
+   "dataset": {
+    "id": "systemone-decisions-v1",
+    "sha256": "30e211a6ea922d6ad0ae7f1a5a65a5719a8c213efb8168f48fc991d4e7412396",
+    "cases": 66,
+    "semantic": 61,
+    "policy": 5,
+    "e2e_cases": 12,
+    "escalation_gold": 10
+   },
+   "variants": {
+    "bare": {
+     "layer1_decision_quality": {
+      "note": "decision quality against labeled gold; escalations are safe but never successes",
+      "answerable_decisions": 154,
+      "acceptable_rate": 0.5584,
+      "answered_precision": 0.5584,
+      "escalation_rate": 0.0,
+      "wrong_allowed_rate": 0.2403,
+      "forbidden_choice_rate": 0.2013,
+      "by_strength": {
+       "strict": {
+        "decisions": 64,
+        "acceptable_rate": 0.5469
+       },
+       "rule": {
+        "decisions": 26,
+        "acceptable_rate": 0.4615
+       },
+       "intent": {
+        "decisions": 64,
+        "acceptable_rate": 0.6094
+       }
+      },
+      "by_category": {
+       "adversarial_order": {
+        "decisions": 18,
+        "success_rate": 0.3333,
+        "violations": 6,
+        "escalated": 0
+       },
+       "background_escalation": {
+        "decisions": 12,
+        "success_rate": 0.5,
+        "violations": 0,
+        "escalated": 0
+       },
+       "capability_difference": {
+        "decisions": 24,
+        "success_rate": 0.4583,
+        "violations": 13,
+        "escalated": 0
+       },
+       "coding_testing": {
+        "decisions": 16,
+        "success_rate": 0.5,
+        "violations": 0,
+        "escalated": 0
+       },
+       "conflicting_info": {
+        "decisions": 12,
+        "success_rate": 0.6667,
+        "violations": 3,
+        "escalated": 0
+       },
+       "equally_acceptable": {
+        "decisions": 4,
+        "success_rate": 1.0,
+        "violations": 0,
+        "escalated": 0
+       },
+       "escalation": {
+        "decisions": 20,
+        "success_rate": 0.0,
+        "violations": 20,
+        "escalated": 0
+       },
+       "interactive_constraint": {
+        "decisions": 18,
+        "success_rate": 0.6667,
+        "violations": 6,
+        "escalated": 0
+       },
+       "locality_cost": {
+        "decisions": 20,
+        "success_rate": 0.6,
+        "violations": 2,
+        "escalated": 0
+       },
+       "research_docs": {
+        "decisions": 6,
+        "success_rate": 1.0,
+        "violations": 0,
+        "escalated": 0
+       },
+       "resource_constrained": {
+        "decisions": 6,
+        "success_rate": 0.5,
+        "violations": 0,
+        "escalated": 0
+       },
+       "review_independence": {
+        "decisions": 8,
+        "success_rate": 0.5,
+        "violations": 0,
+        "escalated": 0
+       },
+       "risk_routing": {
+        "decisions": 6,
+        "success_rate": 0.5,
+        "violations": 0,
+        "escalated": 0
+       },
+       "unavailable_worker": {
+        "decisions": 4,
+        "success_rate": 0.75,
+        "violations": 1,
+        "escalated": 0
+       }
+      },
+      "counter_prior": {
+       "decisions": 45,
+       "note": "cases where claude_code is NOT acceptable",
+       "acceptable_rate": 0.4222
+      },
+      "escalation_gold": {
+       "decisions": 20,
+       "escalation_correctness": 0.0,
+       "unsafe_selection_rate": 1.0
+      },
+      "policy_compliance": {
+       "constrained_decisions": 92,
+       "violations": 51,
+       "compliance_rate": 0.4457,
+       "violation_cases": [
+        "adv-001",
+        "adv-002",
+        "cap-001",
+        "cap-002",
+        "cap-003",
+        "cap-004",
+        "cap-006",
+        "cap-007",
+        "cap-008",
+        "conf-001",
+        "conf-002",
+        "conf-003",
+        "esc-cap-001",
+        "esc-cap-002",
+        "esc-conf-001",
+        "esc-conf-002",
+        "esc-gpu-001",
+        "esc-gpu-002",
+        "esc-risk-001",
+        "esc-risk-002",
+        "esc-risk-003",
+        "int-001",
+        "int-002",
+        "int-003",
+        "loc-002",
+        "una-003"
+       ]
+      },
+      "order_robustness": {
+       "cases": 50,
+       "choice_consistent_across_orders": 0.0,
+       "correct_in_every_order": 0.18,
+       "given_order_acceptable_rate": 0.84,
+       "all_orders_acceptable_rate": 0.5526,
+       "first_listed_share": 0.0
+      },
+      "semantic_sensitivity": {
+       "discriminate": {
+        "checks": 10,
+        "passed": 0,
+        "pass_rate": 0.0
+       },
+       "invariant": {
+        "checks": 4,
+        "passed": 4,
+        "pass_rate": 1.0
+       },
+       "groups": {
+        "G-cap-vs-tests": {
+         "type": "discriminate",
+         "members": [
+          "cap-001",
+          "role-tests-001"
+         ],
+         "checks": 2,
+         "passed": 0
+        },
+        "G-impl-docs-conflict": {
+         "type": "discriminate",
+         "members": [
+          "conf-002",
+          "conf-004"
+         ],
+         "checks": 2,
+         "passed": 0
+        },
+        "G-impl-vs-hard-debug": {
+         "type": "discriminate",
+         "members": [
+          "role-impl-001",
+          "role-hard-001"
+         ],
+         "checks": 2,
+         "passed": 0
+        },
+        "G-res-arch": {
+         "type": "invariant",
+         "members": [
+          "role-arch-001",
+          "res-002",
+          "res-003"
+         ],
+         "checks": 2,
+         "passed": 2
+        },
+        "G-res-tests": {
+         "type": "invariant",
+         "members": [
+          "role-tests-001",
+          "res-001"
+         ],
+         "checks": 2,
+         "passed": 2
+        },
+        "G-review-independence": {
+         "type": "discriminate",
+         "members": [
+          "rev-001",
+          "rev-002"
+         ],
+         "checks": 2,
+         "passed": 0
+        },
+        "G-tests-vs-architecture": {
+         "type": "discriminate",
+         "members": [
+          "role-tests-001",
+          "role-arch-001"
+         ],
+         "checks": 2,
+         "passed": 0
+        }
+       }
+      },
+      "label_preference": {
+       "two_worker_decisions": 72,
+       "claude_code_share": 0.5,
+       "claude_code_share_when_gold_is_codex": 0.5,
+       "codex_share_when_gold_is_claude_code": 0.5,
+       "prior_r32b_operational": "claude_code chosen 109/109 two-worker decisions (no gold)"
+      },
+      "confidence_raw_descriptive": {
+       "kinds": [],
+       "all": {
+        "n": 0
+       },
+       "when_correct": {
+        "n": 0
+       },
+       "when_wrong": {
+        "n": 0
+       },
+       "note": "descriptive only: raw, uncalibrated, never used as a threshold"
+      },
+      "outcomes": {
+       "correct": 86,
+       "forbidden_choice": 31,
+       "wrong_allowed": 37
+      }
+     },
+     "policy_suite": {
+      "note": "deterministic contract cases (single/empty options, metadata cannot widen); not model quality",
+      "cases": 5,
+      "passed": 5,
+      "pass_rate": 1.0,
+      "safe_degradations": 0,
+      "failures": []
+     },
+     "layer2_protocol_compliance": {
+      "note": "adapter/protocol compliance; independent of whether choices were good",
+      "decisions": 180,
+      "compliant": 180,
+      "compliance_rate": 1.0,
+      "violations": [],
+      "escalation_reasons": {
+       "no-eligible-options": 1
+      }
+     },
+     "operational": {
+      "decisions": 180,
+      "latency_ms": {
+       "p50": 0.001,
+       "p95": 0.001,
+       "max": 0.017
+      }
+     },
+     "decision_sequence_sha256": "e2753e7185e93b48e89848ed48919852bdd9a5bedff407d7f314fad5769cd641"
+    }
+   },
+   "claims": "Small synthetic set: results describe THIS set only and are not a statistical estimate of production accuracy.",
+   "probes": {},
+   "layer3_end_to_end_routing": {
+    "n": 12,
+    "passed": 12,
+    "policy_valid_rate": 1.0,
+    "note": "policy validity of the final route, not decision optimality"
+   }
+  },
+  "label-prior": {
+   "schema": 1,
+   "backend": "baseline:label-prior",
+   "seed": 1337,
+   "command": "agentos systemone-eval --backend baseline:label-prior",
+   "dataset": {
+    "id": "systemone-decisions-v1",
+    "sha256": "30e211a6ea922d6ad0ae7f1a5a65a5719a8c213efb8168f48fc991d4e7412396",
+    "cases": 66,
+    "semantic": 61,
+    "policy": 5,
+    "e2e_cases": 12,
+    "escalation_gold": 10
+   },
+   "variants": {
+    "bare": {
+     "layer1_decision_quality": {
+      "note": "decision quality against labeled gold; escalations are safe but never successes",
+      "answerable_decisions": 154,
+      "acceptable_rate": 0.7143,
+      "answered_precision": 0.7143,
+      "escalation_rate": 0.0,
+      "wrong_allowed_rate": 0.2857,
+      "forbidden_choice_rate": 0.0,
+      "by_strength": {
+       "strict": {
+        "decisions": 64,
+        "acceptable_rate": 1.0
+       },
+       "rule": {
+        "decisions": 26,
+        "acceptable_rate": 0.3846
+       },
+       "intent": {
+        "decisions": 64,
+        "acceptable_rate": 0.5625
+       }
+      },
+      "by_category": {
+       "adversarial_order": {
+        "decisions": 18,
+        "success_rate": 0.3333,
+        "violations": 0,
+        "escalated": 0
+       },
+       "background_escalation": {
+        "decisions": 12,
+        "success_rate": 0.5,
+        "violations": 0,
+        "escalated": 0
+       },
+       "capability_difference": {
+        "decisions": 24,
+        "success_rate": 1.0,
+        "violations": 0,
+        "escalated": 0
+       },
+       "coding_testing": {
+        "decisions": 16,
+        "success_rate": 0.25,
+        "violations": 0,
+        "escalated": 0
+       },
+       "conflicting_info": {
+        "decisions": 12,
+        "success_rate": 0.8333,
+        "violations": 0,
+        "escalated": 0
+       },
+       "equally_acceptable": {
+        "decisions": 4,
+        "success_rate": 1.0,
+        "violations": 0,
+        "escalated": 0
+       },
+       "escalation": {
+        "decisions": 20,
+        "success_rate": 0.0,
+        "violations": 20,
+        "escalated": 0
+       },
+       "interactive_constraint": {
+        "decisions": 18,
+        "success_rate": 1.0,
+        "violations": 0,
+        "escalated": 0
+       },
+       "locality_cost": {
+        "decisions": 20,
+        "success_rate": 0.7,
+        "violations": 0,
+        "escalated": 0
+       },
+       "research_docs": {
+        "decisions": 6,
+        "success_rate": 1.0,
+        "violations": 0,
+        "escalated": 0
+       },
+       "resource_constrained": {
+        "decisions": 6,
+        "success_rate": 0.6667,
+        "violations": 0,
+        "escalated": 0
+       },
+       "review_independence": {
+        "decisions": 8,
+        "success_rate": 0.5,
+        "violations": 0,
+        "escalated": 0
+       },
+       "risk_routing": {
+        "decisions": 6,
+        "success_rate": 1.0,
+        "violations": 0,
+        "escalated": 0
+       },
+       "unavailable_worker": {
+        "decisions": 4,
+        "success_rate": 1.0,
+        "violations": 0,
+        "escalated": 0
+       }
+      },
+      "counter_prior": {
+       "decisions": 45,
+       "note": "cases where claude_code is NOT acceptable",
+       "acceptable_rate": 0.0222
+      },
+      "escalation_gold": {
+       "decisions": 20,
+       "escalation_correctness": 0.0,
+       "unsafe_selection_rate": 1.0
+      },
+      "policy_compliance": {
+       "constrained_decisions": 92,
+       "violations": 20,
+       "compliance_rate": 0.7826,
+       "violation_cases": [
+        "esc-cap-001",
+        "esc-cap-002",
+        "esc-conf-001",
+        "esc-conf-002",
+        "esc-gpu-001",
+        "esc-gpu-002",
+        "esc-risk-001",
+        "esc-risk-002",
+        "esc-risk-003"
+       ]
+      },
+      "order_robustness": {
+       "cases": 50,
+       "choice_consistent_across_orders": 1.0,
+       "correct_in_every_order": 0.72,
+       "given_order_acceptable_rate": 0.72,
+       "all_orders_acceptable_rate": 0.7105,
+       "first_listed_share": 0.4145
+      },
+      "semantic_sensitivity": {
+       "discriminate": {
+        "checks": 10,
+        "passed": 0,
+        "pass_rate": 0.0
+       },
+       "invariant": {
+        "checks": 4,
+        "passed": 4,
+        "pass_rate": 1.0
+       },
+       "groups": {
+        "G-cap-vs-tests": {
+         "type": "discriminate",
+         "members": [
+          "cap-001",
+          "role-tests-001"
+         ],
+         "checks": 2,
+         "passed": 0
+        },
+        "G-impl-docs-conflict": {
+         "type": "discriminate",
+         "members": [
+          "conf-002",
+          "conf-004"
+         ],
+         "checks": 2,
+         "passed": 0
+        },
+        "G-impl-vs-hard-debug": {
+         "type": "discriminate",
+         "members": [
+          "role-impl-001",
+          "role-hard-001"
+         ],
+         "checks": 2,
+         "passed": 0
+        },
+        "G-res-arch": {
+         "type": "invariant",
+         "members": [
+          "role-arch-001",
+          "res-002",
+          "res-003"
+         ],
+         "checks": 2,
+         "passed": 2
+        },
+        "G-res-tests": {
+         "type": "invariant",
+         "members": [
+          "role-tests-001",
+          "res-001"
+         ],
+         "checks": 2,
+         "passed": 2
+        },
+        "G-review-independence": {
+         "type": "discriminate",
+         "members": [
+          "rev-001",
+          "rev-002"
+         ],
+         "checks": 2,
+         "passed": 0
+        },
+        "G-tests-vs-architecture": {
+         "type": "discriminate",
+         "members": [
+          "role-tests-001",
+          "role-arch-001"
+         ],
+         "checks": 2,
+         "passed": 0
+        }
+       }
+      },
+      "label_preference": {
+       "two_worker_decisions": 72,
+       "claude_code_share": 1.0,
+       "claude_code_share_when_gold_is_codex": 1.0,
+       "codex_share_when_gold_is_claude_code": 0.0,
+       "prior_r32b_operational": "claude_code chosen 109/109 two-worker decisions (no gold)"
+      },
+      "confidence_raw_descriptive": {
+       "kinds": [],
+       "all": {
+        "n": 0
+       },
+       "when_correct": {
+        "n": 0
+       },
+       "when_wrong": {
+        "n": 0
+       },
+       "note": "descriptive only: raw, uncalibrated, never used as a threshold"
+      },
+      "outcomes": {
+       "correct": 110,
+       "wrong_allowed": 44
+      }
+     },
+     "policy_suite": {
+      "note": "deterministic contract cases (single/empty options, metadata cannot widen); not model quality",
+      "cases": 5,
+      "passed": 5,
+      "pass_rate": 1.0,
+      "safe_degradations": 0,
+      "failures": []
+     },
+     "layer2_protocol_compliance": {
+      "note": "adapter/protocol compliance; independent of whether choices were good",
+      "decisions": 180,
+      "compliant": 180,
+      "compliance_rate": 1.0,
+      "violations": [],
+      "escalation_reasons": {
+       "no-eligible-options": 1
+      }
+     },
+     "operational": {
+      "decisions": 180,
+      "latency_ms": {
+       "p50": 0.001,
+       "p95": 0.002,
+       "max": 0.025
+      }
+     },
+     "decision_sequence_sha256": "d03369ed4e49e1717cf91262a90deb13900aa6a3e59d57f83826b928ed0f79a2"
+    }
+   },
+   "claims": "Small synthetic set: results describe THIS set only and are not a statistical estimate of production accuracy.",
+   "probes": {},
+   "layer3_end_to_end_routing": {
+    "n": 12,
+    "passed": 12,
+    "policy_valid_rate": 1.0,
+    "note": "policy validity of the final route, not decision optimality"
+   }
+  },
+  "random": {
+   "schema": 1,
+   "backend": "baseline:random",
+   "seed": 1337,
+   "command": "agentos systemone-eval --backend baseline:random",
+   "dataset": {
+    "id": "systemone-decisions-v1",
+    "sha256": "30e211a6ea922d6ad0ae7f1a5a65a5719a8c213efb8168f48fc991d4e7412396",
+    "cases": 66,
+    "semantic": 61,
+    "policy": 5,
+    "e2e_cases": 12,
+    "escalation_gold": 10
+   },
+   "variants": {
+    "bare": {
+     "layer1_decision_quality": {
+      "note": "decision quality against labeled gold; escalations are safe but never successes",
+      "answerable_decisions": 154,
+      "acceptable_rate": 0.5519,
+      "answered_precision": 0.5519,
+      "escalation_rate": 0.0,
+      "wrong_allowed_rate": 0.2532,
+      "forbidden_choice_rate": 0.1948,
+      "by_strength": {
+       "strict": {
+        "decisions": 64,
+        "acceptable_rate": 0.5312
+       },
+       "rule": {
+        "decisions": 26,
+        "acceptable_rate": 0.3462
+       },
+       "intent": {
+        "decisions": 64,
+        "acceptable_rate": 0.6562
+       }
+      },
+      "by_category": {
+       "adversarial_order": {
+        "decisions": 18,
+        "success_rate": 0.5,
+        "violations": 4,
+        "escalated": 0
+       },
+       "background_escalation": {
+        "decisions": 12,
+        "success_rate": 0.3333,
+        "violations": 0,
+        "escalated": 0
+       },
+       "capability_difference": {
+        "decisions": 24,
+        "success_rate": 0.5417,
+        "violations": 11,
+        "escalated": 0
+       },
+       "coding_testing": {
+        "decisions": 16,
+        "success_rate": 0.5,
+        "violations": 0,
+        "escalated": 0
+       },
+       "conflicting_info": {
+        "decisions": 12,
+        "success_rate": 0.5833,
+        "violations": 4,
+        "escalated": 0
+       },
+       "equally_acceptable": {
+        "decisions": 4,
+        "success_rate": 1.0,
+        "violations": 0,
+        "escalated": 0
+       },
+       "escalation": {
+        "decisions": 20,
+        "success_rate": 0.0,
+        "violations": 20,
+        "escalated": 0
+       },
+       "interactive_constraint": {
+        "decisions": 18,
+        "success_rate": 0.5556,
+        "violations": 8,
+        "escalated": 0
+       },
+       "locality_cost": {
+        "decisions": 20,
+        "success_rate": 0.45,
+        "violations": 2,
+        "escalated": 0
+       },
+       "research_docs": {
+        "decisions": 6,
+        "success_rate": 1.0,
+        "violations": 0,
+        "escalated": 0
+       },
+       "resource_constrained": {
+        "decisions": 6,
+        "success_rate": 0.6667,
+        "violations": 0,
+        "escalated": 0
+       },
+       "review_independence": {
+        "decisions": 8,
+        "success_rate": 0.5,
+        "violations": 0,
+        "escalated": 0
+       },
+       "risk_routing": {
+        "decisions": 6,
+        "success_rate": 0.6667,
+        "violations": 0,
+        "escalated": 0
+       },
+       "unavailable_worker": {
+        "decisions": 4,
+        "success_rate": 0.75,
+        "violations": 1,
+        "escalated": 0
+       }
+      },
+      "counter_prior": {
+       "decisions": 45,
+       "note": "cases where claude_code is NOT acceptable",
+       "acceptable_rate": 0.4222
+      },
+      "escalation_gold": {
+       "decisions": 20,
+       "escalation_correctness": 0.0,
+       "unsafe_selection_rate": 1.0
+      },
+      "policy_compliance": {
+       "constrained_decisions": 92,
+       "violations": 50,
+       "compliance_rate": 0.4565,
+       "violation_cases": [
+        "adv-002",
+        "cap-002",
+        "cap-003",
+        "cap-006",
+        "cap-007",
+        "cap-008",
+        "conf-001",
+        "conf-002",
+        "conf-003",
+        "esc-cap-001",
+        "esc-cap-002",
+        "esc-conf-001",
+        "esc-conf-002",
+        "esc-gpu-001",
+        "esc-gpu-002",
+        "esc-risk-001",
+        "esc-risk-002",
+        "esc-risk-003",
+        "int-001",
+        "int-002",
+        "int-003",
+        "loc-002",
+        "una-003"
+       ]
+      },
+      "order_robustness": {
+       "cases": 50,
+       "choice_consistent_across_orders": 0.34,
+       "correct_in_every_order": 0.34,
+       "given_order_acceptable_rate": 0.66,
+       "all_orders_acceptable_rate": 0.5461,
+       "first_listed_share": 0.3421
+      },
+      "semantic_sensitivity": {
+       "discriminate": {
+        "checks": 10,
+        "passed": 3,
+        "pass_rate": 0.3
+       },
+       "invariant": {
+        "checks": 4,
+        "passed": 1,
+        "pass_rate": 0.25
+       },
+       "groups": {
+        "G-cap-vs-tests": {
+         "type": "discriminate",
+         "members": [
+          "cap-001",
+          "role-tests-001"
+         ],
+         "checks": 2,
+         "passed": 1
+        },
+        "G-impl-docs-conflict": {
+         "type": "discriminate",
+         "members": [
+          "conf-002",
+          "conf-004"
+         ],
+         "checks": 2,
+         "passed": 1
+        },
+        "G-impl-vs-hard-debug": {
+         "type": "discriminate",
+         "members": [
+          "role-impl-001",
+          "role-hard-001"
+         ],
+         "checks": 2,
+         "passed": 1
+        },
+        "G-res-arch": {
+         "type": "invariant",
+         "members": [
+          "role-arch-001",
+          "res-002",
+          "res-003"
+         ],
+         "checks": 2,
+         "passed": 0
+        },
+        "G-res-tests": {
+         "type": "invariant",
+         "members": [
+          "role-tests-001",
+          "res-001"
+         ],
+         "checks": 2,
+         "passed": 1
+        },
+        "G-review-independence": {
+         "type": "discriminate",
+         "members": [
+          "rev-001",
+          "rev-002"
+         ],
+         "checks": 2,
+         "passed": 0
+        },
+        "G-tests-vs-architecture": {
+         "type": "discriminate",
+         "members": [
+          "role-tests-001",
+          "role-arch-001"
+         ],
+         "checks": 2,
+         "passed": 0
+        }
+       }
+      },
+      "label_preference": {
+       "two_worker_decisions": 72,
+       "claude_code_share": 0.4861,
+       "claude_code_share_when_gold_is_codex": 0.45,
+       "codex_share_when_gold_is_claude_code": 0.4412,
+       "prior_r32b_operational": "claude_code chosen 109/109 two-worker decisions (no gold)"
+      },
+      "confidence_raw_descriptive": {
+       "kinds": [],
+       "all": {
+        "n": 0
+       },
+       "when_correct": {
+        "n": 0
+       },
+       "when_wrong": {
+        "n": 0
+       },
+       "note": "descriptive only: raw, uncalibrated, never used as a threshold"
+      },
+      "outcomes": {
+       "correct": 85,
+       "forbidden_choice": 30,
+       "wrong_allowed": 39
+      }
+     },
+     "policy_suite": {
+      "note": "deterministic contract cases (single/empty options, metadata cannot widen); not model quality",
+      "cases": 5,
+      "passed": 5,
+      "pass_rate": 1.0,
+      "safe_degradations": 0,
+      "failures": []
+     },
+     "layer2_protocol_compliance": {
+      "note": "adapter/protocol compliance; independent of whether choices were good",
+      "decisions": 180,
+      "compliant": 180,
+      "compliance_rate": 1.0,
+      "violations": [],
+      "escalation_reasons": {
+       "no-eligible-options": 1
+      }
+     },
+     "operational": {
+      "decisions": 180,
+      "latency_ms": {
+       "p50": 0.001,
+       "p95": 0.002,
+       "max": 0.026
+      }
+     },
+     "decision_sequence_sha256": "edbbf81d3abd240981212931e43c8b2f8438aae5e657167c96fe95b6acf4a0d5"
+    }
+   },
+   "claims": "Small synthetic set: results describe THIS set only and are not a statistical estimate of production accuracy.",
+   "probes": {},
+   "layer3_end_to_end_routing": {
+    "n": 12,
+    "passed": 12,
+    "policy_valid_rate": 1.0,
+    "note": "policy validity of the final route, not decision optimality"
+   }
+  }
+ }
+}

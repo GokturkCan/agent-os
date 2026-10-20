@@ -1,0 +1,84 @@
+version: 1
+
+# Compute-node CAPABILITY and AUTHORIZATION contract (CN-1). PROTECTED POLICY FILE: it is the only place
+# that can authorize a remote node to run a capability, so a self-improvement candidate must not edit it.
+# Parsed/validated by agentos/compute.py (config.validate); enforced at runtime by agentos/compute_jobs.py.
+#
+# Node IDENTITY, role and reachability probing stay in config/resources.yaml (tunable). Everything that decides
+# whether a node may be USED for remote work (enablement, endpoint selection, auth reference) lives HERE, in the
+# protected file, under `nodes:` - config/resources.yaml may not carry a `compute` block (config.validate rejects
+# it). No secrets, no addresses: only symbolic endpoint/auth refs.
+#
+# Five distinct facts, never inferred from one another (agentos.compute.evaluate):
+#   configured  - the offering is declared below                       (this file)
+#   installed   - the node ADVERTISES it at GET /capabilities           (runtime, untrusted, discovered)
+#   healthy     - node and offering report healthy at probe time        (runtime)
+#   benchmarked - benchmark.state == benchmarked with evidence files    (this file)
+#   authorized  - listed under `authorizations` with a human approval   (this file, protected)
+#   ACTIVE      = all of the above AND node enabled AND node reachable. A node's self-advertised
+#                 capabilities or status can never authorize or activate anything.
+#
+# Defaults are non-operational and fail closed: no offerings, no authorizations, MSI disabled. The Mac runs
+# normally with every node powered off.
+
+# Per-node enablement and connection REFERENCES. Fail closed: disabled, no endpoint, no auth. A human flips
+# `enabled` (a protected-file change) and must also authorize offerings below; nothing here is ever discovered.
+#   enabled        false by default; true requires endpoint_ref and auth_ref
+#   endpoint_ref   symbolic private reference (e.g. "msi-private"); never a URL, IP or credential
+#   auth_ref       "env:NAME" or "keychain:NAME"; the secret itself is never tracked
+#   declared_resources  expectation only; a node's GET /resources is untrusted discovery
+nodes:
+  msi:
+    enabled: false
+    endpoint_ref: null
+    auth_ref: null
+    declared_resources: {vram_mb: 8192, ram_mb: 32768}
+
+# Capability TYPES (backend- and model-neutral). `operations` bounds what a job may ask for.
+capability_types:
+  llm.chat:             {modality: text,       operations: [generate, chat]}
+  llm.agentic:          {modality: text,       operations: [generate, chat, tool_call]}
+  llm.frontier_experimental: {modality: text,  operations: [generate, chat], experimental: true}
+  vlm.image_understanding: {modality: image,   operations: [describe, answer]}
+  ocr.document:         {modality: document,   operations: [extract_text, extract_layout]}
+  embed.text:           {modality: text,       operations: [embed]}
+  embed.code:           {modality: code,       operations: [embed]}
+  embed.multimodal:     {modality: multimodal, operations: [embed]}
+  rerank:               {modality: text,       operations: [rerank]}
+  stt:                  {modality: audio,      operations: [transcribe]}
+  tts:                  {modality: audio,      operations: [synthesize]}
+  image.generate:       {modality: image,      operations: [generate]}
+  image.edit:           {modality: image,      operations: [edit]}
+  video.understand:     {modality: video,      operations: [describe, answer]}
+  video.generate:       {modality: video,      operations: [generate]}
+
+# Data sensitivity ladder (low -> high). A job's data_class may not exceed its authorization's max_data_class.
+data_classes: [public, internal, private, secret]
+
+# Ceilings the job contract enforces regardless of any node.
+job_limits:
+  max_deadline_seconds: 3600
+  max_params_bytes: 8192
+  max_inputs: 16
+
+# Declared offerings: one model/runtime on one node serving one capability type. EMPTY on purpose - nothing is
+# measured or installed yet, and no data may be invented. Shape (all validated; see docs/compute-contract.md):
+#
+#   msi-qwen-chat:
+#     node: msi                       # must exist in resources.yaml
+#     capability: llm.chat            # must be in capability_types
+#     model: {id: <checkpoint id>, revision: <pinned revision>, quantization: <e.g. exl3-4.0bpw>, license: <spdx|text>}
+#     runtime: <e.g. exllamav3-openai>      # informational; the contract is runtime-neutral
+#     operations: [generate, chat]          # subset of the capability type's operations
+#     limits: {context_tokens: 32768, max_input_bytes: 1000000}
+#     hardware: {vram_mb: 7000, ram_mb: 8000, exclusive_gpu: true}
+#     features: {streaming: true, tool_calling: false}
+#     benchmark: {state: unbenchmarked | benchmarked, evidence: [audit/....md]}   # benchmarked REQUIRES evidence
+offerings: {}
+
+# Authorizations: the ONLY grant. Each names an offering, the exact pinned revision, the highest data class it
+# may see, and a human approval reference. A different revision is a different, unauthorized model.
+# An authorization is invalid unless its offering exists, is benchmarked, and its node is declared.
+#
+#   - {offering: msi-qwen-chat, revision: <same as offering>, max_data_class: internal, approval_ref: <ticket/ref>}
+authorizations: []
