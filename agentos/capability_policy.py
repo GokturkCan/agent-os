@@ -26,6 +26,7 @@ A future SystemOne/FastGate (agentos/systemone.py) may only choose among the
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
+from pathlib import Path
 
 from .capability_registry import (COST, LATENCY, LOCALITY, REJECTION_REASONS, RISK,
                                   SELECTION_REASONS, HOSTS, Provider, Registry)
@@ -234,7 +235,10 @@ def integration_state(executor: Provider, tool: Provider) -> str:
 
 
 # ------------------------------------------------------------ planning
-def plan(registry: Registry, request: CapabilityRequest, probes: dict) -> CapabilityPlan:
+def plan(registry: Registry, request: CapabilityRequest, probes: dict, deliverable=None) -> CapabilityPlan:
+    """`deliverable(executor, tool) -> bool` (optional) answers whether the Agent OS launcher can actually put `tool`
+    into a dispatched `executor` worker. A tool the harness supports but the launcher cannot deliver is treated as
+    `integration-undeliverable` (fail closed). None keeps the pure registry semantics."""
     policy = registry.policy
     required = sorted(set(request.required))
     out = CapabilityPlan(required=required, status="blocked", task_id=request.task_id)
@@ -279,6 +283,8 @@ def plan(registry: Registry, request: CapabilityRequest, probes: dict) -> Capabi
                 if t.is_executor:
                     continue
                 state = integration_state(e, t)
+                if state == "supported" and deliverable is not None and not deliverable(e, t):
+                    state = "undeliverable"
                 if state == "supported":
                     options.append(tid)
                 else:
@@ -444,6 +450,27 @@ def selected_mcp(cfg, registry: Registry, plan: CapabilityPlan, worker: str | No
     return tuple(names)
 
 
+def worker_deliverable(cfg):
+    """Predicate for plan(): can a dispatched worker really use this tool?
+    * MCP providers need a `launch` in config/mcp.yaml (workers.mcp_servers_for drops the rest silently);
+    * a CLI whose executable is withheld from all workers (workers.yaml `withheld_executables`) or denied to this
+      executor's worker (`Bash(<exe>:*)` in always_disallowed) is not deliverable.
+    Derived from config, so planning cannot drift from what the launcher and deny list actually do."""
+    def check(executor, tool) -> bool:
+        if tool.kind == "mcp":
+            ref = tool.config_ref or ""
+            spec = cfg.mcp["tools"].get(ref.split(".", 1)[1]) if ref.startswith("mcp.") else None
+            return bool(spec and "launch" in spec)
+        denied = set()
+        for pat in (cfg.workers["workers"].get(executor.worker_name or "", {}).get("always_disallowed") or []):
+            if pat.startswith("Bash(") and pat.endswith(":*)"):
+                denied.add(pat[len("Bash("):-len(":*)")].split("/")[-1])
+        denied |= set(cfg.workers.get("withheld_executables") or [])
+        exes = {Path(str(s.get("target", ""))).name for s in tool.probe if s.get("type") == "executable"}
+        return not (exes & denied)
+    return check
+
+
 def plan_for(cfg, required=(), *, task_id: str | None = None, task_type: str | None = None,
              contract: dict | None = None, overrides: dict | None = None, probes: dict | None = None,
              deep: bool = False, registry: Registry | None = None, **constraints) -> CapabilityPlan:
@@ -454,4 +481,4 @@ def plan_for(cfg, required=(), *, task_id: str | None = None, task_type: str | N
     if probes is None:
         probes = capability_probes.probe_all(reg, capability_probes.ProbeContext(cfg=cfg, deep=deep), overrides)
     return plan(reg, CapabilityRequest(required=caps, task_id=task_id, task_type=task_type, **constraints),
-                probes)
+                probes, deliverable=worker_deliverable(cfg))

@@ -1,14 +1,14 @@
 # CURRENT_STATE — Agent OS V1
 
-**As of:** 2026-10-19 (Run 3 integration candidate on branch `integration/run3-final`, Draft PR; **not merged**; protected-file human approval **PENDING**) · V1 facts below dated 2026-10-14 · **Release:** Agent OS **v1.0.0 is released on `main`** (merge commit `91b08aa`; product version `1.0.0` in `pyproject.toml` and `agentos.__version__`; the `version:` fields in `config/*.yaml` are file-format versions, unrelated). Run 1 and Run 2 are both included in Agent OS v1.0.0; Run 3 is future work. PR #2 (Run 2 + hardening) merged into `agent-os-v1` on 2026-10-13 (UTC); PR #1 (`agent-os-v1` → `main`) merged on 2026-10-14 (local time; 2026-10-13 21:41 UTC). **The `v1.0.0` git tag and GitHub Release have not been created yet.** Private remote `origin` → `GokturkCan/agent-os`. Agents never push, change remotes, merge or tag; that stays a human act. ·
+**As of:** 2026-10-24 (branch `feature/capability-rollout`) · **Run 3 is merged**: PR #7 (`integration/run3-final` → `main`, merge commit `a2c0897`); the Run 3 section below keeps its 2026-10-19 wording as historical record. **Release:** Agent OS **v1.0.0 is released on `main`** (merge commit `91b08aa`; product version `1.0.0` in `pyproject.toml` and `agentos.__version__`; the `version:` fields in `config/*.yaml` are file-format versions, unrelated). Run 1 and Run 2 are both included in Agent OS v1.0.0. PR #2 (Run 2 + hardening) merged into `agent-os-v1` on 2026-10-13 (UTC); PR #1 (`agent-os-v1` → `main`) merged on 2026-10-14 (local time; 2026-10-13 21:41 UTC). **The `v1.0.0` git tag and GitHub Release have not been created yet.** Remote `origin` → `GokturkCan/agent-os` is **intentionally PUBLIC** (earlier wording "private" was wrong; visibility is a human decision and must not be changed by agents). Agents never push, change remotes, merge or tag; that stays a human act. ·
 **Safety tag:** `pre-agent-os-v1-mac-2026-09-30` (`b2262ec`)
 
 Quick checks: `./scripts/health-check.sh` · `./scripts/run-evals.sh`
 
 ## Machine (audited 2026-10-01)
 
-Mac mini M4 16 GB, macOS 27.0.1, ~65 GiB free. Claude Code 2.1.280 (OAuth),
-Codex 0.154.0 (ChatGPT login), OpenCode 2.0.20, Hermes 0.21.3, DeepSeek
+Mac mini M4 16 GB, macOS 27.0.1, ~65 GiB free (51 GiB on 2026-10-24). Claude Code 2.1.308 (OAuth; 2.1.280 on 2026-10-01),
+Codex 0.164.0 (ChatGPT login; 0.154.0 on 2026-10-01), OpenCode 2.0.20, Hermes 0.21.3 (upstream v0.22.5), DeepSeek
 Harness venv (`~/dsh-venv`), uv 0.8.4, Python 3.14. Docker installed, daemon
 not running (not required). No local LLM runtime (ollama/llama.cpp/mlx).
 MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
@@ -48,6 +48,7 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 | CI | `.github/workflows/ci.yml` (offline, minimal; `docs/ci.md` lists the explicit exclusions) | necessary, not sufficient; not a security approval |
 | Local inference (Qwen3.6, Bonsai 2) | DEFERRED (benchmark candidates) | nothing installed |
 | Research plane | DESIGN-ONLY | contract in `workflows/research-question.md` |
+| Pre-Run 4 capability rollout (`docs/capability-rollout.md`) | **APPLIED, VERIFIED; not yet committed** (branch `feature/capability-rollout`) | DONE: GitHub MCP repaired; Serena v2.1.0 / Context7 4.4.4 pinned in the user MCP config; MarkItDown 0.1.9 and Repomix 1.18.1 installed in isolated `state/runtime/*` with wrappers `bin/markitdown`, `bin/repomix`; Ponytail (2 skills, v5.3.2) vendored under `skills/`; `skills/orchestra-index` (91 skills, one standing description). Protected packet APPROVED by the owner and APPLIED 2026-10-25 (record, diffs and hashes: `audit/capability-rollout/`; manifest 77 → 78): worker-launch pins, registry corrections, `gh`/`security` denial and GitHub credential isolation for dispatched workers (defense in depth, **not a sandbox**), and fail-closed GitHub task routing (human handoff, no `gh-cli` fallback). Router: `github_structured`→`github_mcp`, `file_to_markdown`→`markitdown`, `repo_packing`→`repomix`. Dormant, untouched: OpenSpec, OmniRoute, clawdbot, SuperClaude |
 | Self-improvement | IMPLEMENTED (gate mechanism only) | no autonomous candidate generation, by design |
 
 ## Conflicts found — need your decision (not changed by agents)
@@ -59,8 +60,8 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
    catalog/policy files (`models.yaml`, `providers.yaml`) record what was measured or approved, not
    what Hermes currently runs. Groq `openai/gpt-oss-120b` was the primary on 2026-10-01 (connectivity
    measured; the account had an 8,000 TPM ceiling); see `audit/hermes-groq-milestone-2026-10-01.md`.
-2. **GitHub MCP 401** (stale static Authorization header). Postman/Stitch need auth.
-3. **Plaintext z.ai token** in `~/.claude/settings.json.glm-backup` and `settings.jsonN` (from the 2026-09-15 audit).
+2. ~~**GitHub MCP 401**~~ **REPAIRED 2026-10-24** (5/5 acceptance PASS). The 401 came from a dead PAT exported in the shell environment. Now a user-scope `github` server: Keychain-backed `headersHelper`, server-side read-only (`X-MCP-Readonly`, 22 read tools), expires 2027-01-21 (renew the Keychain item; no config change). Interactive/Hermes use only, never launched into workers. `config/mcp.yaml` now records it healthy (2026-10-25). Postman/Stitch still need auth.
+3. **Plaintext z.ai token** in `~/.claude/settings.json.glm-backup` and `settings.jsonN` (from the 2026-09-15 audit). Re-checked 2026-10-24: those files are no longer present at that path (not searched elsewhere); rotate the token anyway if it was ever live.
 4. **Account connectors** (Gmail/Slack/Drive/Lovable/Higgsfield/…) are exposed to *interactive*
    Claude sessions. Agent OS worker runs exclude them via `--strict-mcp-config`.
 5. Overlapping planning frameworks installed: SuperClaude (`sc:*`), OpenCode GSD. Marked disabled for Agent OS; not uninstalled.
@@ -78,10 +79,10 @@ MSI: no SSH alias → unreachable from the Mac (by design non-blocking).
 
 1. Run a real worker-timeout → resume acceptance (not yet executed).
 2. Human release step: tag `v1.0.0` on `main` and publish the GitHub Release (neither exists yet). Do not merge the local `agentos/run2-real-*` acceptance-artifact branches.
-3. Re-auth GitHub MCP; rotate/delete the dormant z.ai token outside this repo.
+3. ~~Re-auth GitHub MCP~~ (done 2026-10-24); rotate/delete the dormant z.ai token outside this repo.
 4. Connect MSI (SSH alias `msi`), then benchmark Qwen3.6 → set status `measured`.
 5. SystemOne: the neural-backend comparison is COMPLETE (R3.2C–R3.2H) and found no backend fit for production. Highest-value follow-up needs no model: implement the deterministic prefilter facts (reviewer ≠ author, failed-worker hand-off, interactive vs background, capability-missing, high-risk-without-approval) in the router's eligibility layer and measure them. Any shadow run first needs human-reviewed labels (v4 fixing the 4 defective families). Calibration (R3.3) only after a backend shows semantic skill.
-6. Run 3 release gate: the single human decision is in `docs/run3-handoff.md` (protected-file approval packet: `docs/run3-protected-approval-packet.md`). Then Run 4 per `docs/roadmap.md`.
+6. ~~Run 3 release gate~~ (merged via PR #7). Next: finish the pre-Run 4 capability rollout (`docs/capability-rollout.md`, protected packet pending), then Run 4 per `docs/roadmap.md`.
 
 ## Hermes milestone (2026-10-01, historical)
 

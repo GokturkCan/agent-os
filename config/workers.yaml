@@ -14,7 +14,7 @@ workers:
   claude_code:
     status: available
     binary: claude
-    version_seen: "2.1.280"
+    version_seen: "2.1.308"
     provider: claude_subscription
     roles: [coding_primary, architecture, hard_debugging, review]
     default_profile: coder
@@ -38,13 +38,22 @@ workers:
     # `sh -c 'git push'` and `git --no-pager push` bypassed them; the wildcard forms below stopped
     # all 12 push/remote-rewrite spellings tried. Over-blocking (e.g. a path containing "github"
     # next to "push") is intentional: fail closed. `*git*remote*` also covers `git config remote.*`.
+    # 2026-10-24: GitHub CLI credential protection for AUTOMATICALLY DISPATCHED workers only. These deny
+    # patterns are command-text matching (defense in depth), NOT a sandbox: a Bash-enabled worker is not a hard
+    # secrets boundary. They are passed per launch (--disallowedTools); interactive Claude Code is unaffected.
+    # Only forms verified against a real worker are listed (`Bash(*/gh:*)` did not match absolute paths).
     always_disallowed: ["Bash(git push:*)", "Bash(git remote:*)", "Bash(*git*push*)", "Bash(*git*remote*)",
-                        "Bash(rm -rf:*)", "Bash(sudo:*)"]
+                        "Bash(rm -rf:*)", "Bash(sudo:*)",
+                        "Bash(gh:*)", "Bash(env gh:*)", "Bash(/opt/homebrew/bin/gh:*)",
+                        "Bash(*gh auth*)", "Bash(*gh api*)",
+                        "Bash(security:*)", "Bash(/usr/bin/security:*)", "Bash(env security:*)",
+                        "Bash(*security find-*)", "Bash(*security dump-*)", "Bash(*security export*)",
+                        "Bash(*security add-*)", "Bash(*security delete-*)", "Bash(*security list-*)"]
 
   codex:
     status: available
     binary: codex
-    version_seen: "0.154.0"
+    version_seen: "0.164.0"
     provider: codex_subscription
     roles: [coding_primary, implementation, tests, routine_debugging, review]
     default_profile: coder
@@ -120,6 +129,11 @@ workers:
     status: deferred
   antigravity:
     status: deferred
+
+# Executables withheld from EVERY automatically dispatched worker (2026-10-24). Claude workers are also denied by pattern
+# (always_disallowed); every worker launch isolates GitHub credentials (agentos/workers.py). Capability planning reads
+# this so a tool that needs one of these is never planned for a worker. Interactive sessions are not affected.
+withheld_executables: [gh]
 
 isolation:
   mode: git_worktree

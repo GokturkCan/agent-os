@@ -85,7 +85,7 @@ def test_d_plan_selecting_playwright_reaches_strict_mcp_config(cfg, fixture_repo
     assert res["capabilities"]["tools"]["web.interact"] == "playwright"
     assert res["capabilities"]["extra_mcp"] == ["playwright"]
     assert sorted(seen[0]["mcp"]) == ["context7", "playwright", "serena"]       # generated strict config
-    assert seen[0]["mcp"]["playwright"] == {"command": "npx", "args": ["@playwright/mcp@latest"]}
+    assert seen[0]["mcp"]["playwright"] == {"command": "npx", "args": ["@playwright/mcp@0.0.83"]}
     allowed = seen[0]["argv"][seen[0]["argv"].index("--allowedTools") + 1]
     assert "mcp__playwright" in allowed and "--strict-mcp-config" in seen[0]["argv"]
 
@@ -110,11 +110,12 @@ def test_e_cli_native_and_launchless_providers_are_never_mcp(cfg, fixture_repo, 
                required_capabilities=("code.snapshot",))
     assert snap["capabilities"]["tools"]["code.snapshot"] == "repomix"      # a CLI provider ...
     assert snap["capabilities"]["extra_mcp"] == []                          # ... is not an MCP
+    # 2026-10-25: a healthy GitHub MCP that cannot be launched into a worker must FAIL CLOSED, not be planned.
     gh = _go(cfg, fixture_repo, tmp_path, None, task_id="wire-g", dry_run=True,
              required_capabilities=("devops.github",),
              capability_overrides={**OVERRIDES, "github-mcp": dict(OK)})
-    assert gh["capabilities"]["tools"]["devops.github"] == "github-mcp"     # selected MCP, but no launch
-    assert gh["capabilities"]["extra_mcp"] == [] and "github_mcp" not in gh["mcp_servers"]
+    assert (gh["status"], gh["exit_state"]) == ("not_dispatched", "blocked")
+    assert gh["capabilities"]["status"] == "blocked" and gh["next_step"].startswith("human handoff")
 
 
 def test_e_selected_mcp_maps_only_the_routed_workers_tools(cfg):

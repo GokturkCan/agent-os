@@ -23,8 +23,8 @@ tools:
     status: configured
     health: ok
     kind: mcp
-    source: "~/.claude.json user mcpServers (npx -y @upstash/context7-mcp)"
-    launch: {command: npx, args: [-y, "@upstash/context7-mcp"]}
+    source: "~/.claude.json user mcpServers (npx -y @upstash/context7-mcp@4.4.4; pinned 2026-10-24)"
+    launch: {command: npx, args: [-y, "@upstash/context7-mcp@4.4.4"]}
     write_capable: false
     capability: mcp_context7
     purpose: "Developer/library documentation."
@@ -33,8 +33,8 @@ tools:
     status: configured
     health: ok
     kind: mcp
-    source: "~/.claude.json user mcpServers (uvx serena, context ide-assistant)"
-    launch: {command: uvx, args: [--from, "git+https://github.com/oraios/serena", serena, start-mcp-server, --context, ide-assistant, --enable-web-dashboard, "false", --enable-gui-log-window, "false"]}
+    source: "~/.claude.json user mcpServers (uvx serena v2.1.0, context ide-assistant; pinned 2026-10-24)"
+    launch: {command: uvx, args: [--from, "git+https://github.com/oraios/serena@v2.1.0", serena, start-mcp-server, --context, ide-assistant, --enable-web-dashboard, "false", --enable-gui-log-window, "false"]}
     write_capable: true     # has symbol-edit tools; only granted with fs_write_worktree via coder profile
     capability: mcp_serena
     purpose: "Symbol-level code navigation/editing. Per-project index lives in <worktree>/.serena."
@@ -43,8 +43,8 @@ tools:
     status: configured
     health: ok
     kind: mcp
-    source: "Claude plugin playwright@claude-plugins-official"
-    launch: {command: npx, args: ["@playwright/mcp@latest"]}
+    source: "Claude plugin playwright@claude-plugins-official (the interactive plugin entry still runs @latest: plugin-managed, not pinned)"
+    launch: {command: npx, args: ["@playwright/mcp@0.0.83"]}   # Agent OS worker launch is pinned
     write_capable: false
     capability: mcp_playwright
     purpose: "Deterministic browser interaction/testing."
@@ -59,14 +59,18 @@ tools:
 
   github_mcp:
     status: configured
-    health: failing
+    health: ok
     kind: mcp
-    source: "Claude plugin github@claude-plugins-official (HTTP api.githubcopilot.com)"
-    write_capable: true
+    source: "~/.claude.json user-scope server `github` (HTTP api.githubcopilot.com; replaces the plugin entry of the same URL)"
+    write_capable: false     # server-enforced: X-MCP-Readonly=true exposes 22 read tools only (verified 2026-10-24)
     capability: mcp_github_read
-    restricted_toolsets: [repos, issues, pull_requests]   # read-only use in Agent OS
+    restricted_toolsets: [repos, issues, pull_requests]   # sent as X-MCP-Toolsets
     purpose: "GitHub structured data."
-    note: "HTTP 401 — static Authorization header rejected (2026-10-01). Needs human re-auth (credential change, not done by agents). Fallback: gh CLI read-only."
+    auth: "macOS Keychain item github-mcp-pat read at connect time by headersHelper ~/.claude/bin/github-mcp-headers; fine-grained read-only PAT, expires 2027-01-21 (renew the Keychain item; no config change). No credential value lives in any repo or config file."
+    note: >
+      Repaired 2026-10-24 (the earlier HTTP 401 came from a dead PAT exported in the shell environment).
+      Interactive / Hermes-side use. There is deliberately no `launch` here: the worker launcher supports
+      command/args servers only, so this is never exposed to Agent OS workers.
 
   notion:
     status: configured
@@ -102,13 +106,23 @@ tools:
     kind: library
     note: "Not installed. Adopt only on a real local/private crawl need."
   repomix:
-    status: candidate
+    status: configured
+    health: ok
     kind: cli
-    note: "Not installed globally; can run on demand via `npx repomix` — no standing install needed."
+    version: "1.18.1"
+    binary: "~/agent-stack/bin/repomix"
+    runtime: "state/runtime/repomix (npm ci --ignore-scripts from scripts/runtime/repomix/)"
+    write_capable: false
+    note: "Installed 2026-10-24, pinned, isolated, on demand through the wrapper; no MCP, no global install, no standing context."
   markitdown:
-    status: candidate
-    kind: library
-    note: "Not installed. Current fallback: claude-obsidian capture (text/md/pdf adapters)."
+    status: configured
+    health: ok
+    kind: cli
+    version: "0.1.9"
+    binary: "~/agent-stack/bin/markitdown"
+    runtime: "state/runtime/markitdown (Python 3.11.13 venv; hash-locked scripts/runtime/markitdown.lock; extras pdf,docx,pptx,xlsx)"
+    write_capable: false
+    note: "Installed 2026-10-24, on demand through the wrapper; local files only by convention, plugins off, no global install. claude-obsidian capture remains the SecondBrain ingestion path."
   codebase_memory_mcp:
     status: candidate
     kind: mcp
@@ -143,7 +157,10 @@ tools:
   gh_cli_readonly:
     status: available
     kind: cli
-    note: "gh present; authentication state not verified by agents."
+    note: >
+      gh present; authentication state not verified by agents. Human/interactive use only: automatically
+      dispatched Agent OS workers are denied `gh` (workers.yaml always_disallowed) and do not receive the
+      user's gh identity (launch env isolation).
   ripgrep:
     status: available
     kind: cli

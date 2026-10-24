@@ -3,11 +3,25 @@
 Product versions follow [Semantic Versioning](https://semver.org/). The `version:` fields in
 `config/*.yaml` are file-format versions and are unrelated to the product version.
 
-Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run 3 is not.
+Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run 3 was merged to `main` after V1 (PR #7, `a2c0897`).
 
 ## [Unreleased]
 
-### Run 3 — final integration (`integration/run3-final`, Draft PR; supersedes stacked PRs #3–#6; NOT merged)
+### Pre-Run 4 capability rollout (branch `feature/capability-rollout`; PR #8; protected packet APPROVED and APPLIED 2026-10-25)
+
+- Security hardening (PR #8 follow-up): `bin/repomix` no longer executes repo-local configuration (confirmed exploitable before the fix) and is an allowlist wrapper with a fixed external config; `bin/markitdown` is local-files-only (no URI/stdin/Azure/plugin modes); `gen_orchestra_index.py` validates and sanitises untrusted skill frontmatter. Behavior tests: `scripts/runtime/test_wrappers.py` (90).
+
+- GitHub MCP repaired: user-scope server, macOS-Keychain `headersHelper`, server-side read-only (`X-MCP-Readonly`, 22 read tools); no credential in any repo/config file.
+- Installed (isolated, pinned, on demand): MarkItDown 0.1.9 (`state/runtime/markitdown`, hash-locked), Repomix 1.18.1 (`state/runtime/repomix`, `--ignore-scripts`), wrappers `bin/markitdown`, `bin/repomix`.
+- Vendored Ponytail v5.3.2 (`16352ac`): `skills/ponytail`, `skills/ponytail-review` only (no plugin wrapper/hooks/ledger/webhook).
+- `skills/orchestra-index` + `scripts/gen_orchestra_index.py`: progressive exposure of the 91 Orchestra skills; interactive skill directories untouched.
+- Serena v2.1.0 and Context7 4.4.4 pinned in the user MCP config (identical 50-tool set verified).
+- Docs: Run 3 merged, remote intentionally public.
+- Protected packet (approved by the owner 2026-10-25; record + hashes in `audit/capability-rollout/`): worker-launch pins in `mcp.yaml`; registry corrections; `gh` and macOS `security` denied to dispatched Claude workers; GitHub credential isolation in every dispatched worker launch env (`agentos/workers.py`); `withheld_executables: [gh]`; protected manifest 77 → 78 entries.
+- `capability_policy.plan_for` / `capabilities match` now fail closed: a tool the launcher cannot deliver to a worker (GitHub MCP has no launch) or that is withheld (`gh`) is `integration-undeliverable`; GitHub tasks become a human handoff and never fall back to `gh-cli`. Registry integration facts and frozen SystemOne datasets are unchanged.
+- Router: `github_structured` → `github_mcp`, `file_to_markdown` → `markitdown`, `repo_packing` → `repomix`.
+
+### Run 3 — final integration (`integration/run3-final`; merged to `main` via PR #7, `a2c0897`; supersedes stacked PRs #3–#6)
 
 - Consolidates R3.1–R3.2H (SystemOne wiring, adapter, evaluations), CN-1 (compute contract), R3.5 (efficiency) and the Open-Jev closure into one reviewable diff against `main`.
   **Protected-file human approval is PENDING** (`docs/run3-protected-approval-packet.md`); the manifest was regenerated mechanically from the integrated tree and is not an approval.

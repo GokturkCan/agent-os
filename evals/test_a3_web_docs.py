@@ -13,13 +13,13 @@ def test_developer_docs_route_to_context7_not_browser(cfg):
 
 
 @pytest.mark.parametrize("need,expected", [
-    ("github_structured", "gh_cli_readonly"),      # github MCP failing (401) -> read-only CLI
+    ("github_structured", "github_mcp"),           # repaired 2026-10-24 (Keychain, server-side read-only)
     ("deterministic_browser", "playwright"),
     ("open_ended_browser", "playwright"),          # browser-use deferred -> narrower tool
-    ("file_to_markdown", "claude_obsidian_capture"),
+    ("file_to_markdown", "markitdown"),            # installed 2026-10-24 (isolated runtime)
     ("public_web_scrape", "web_fetch"),            # firecrawl not installed
     ("code_navigation", "serena"),
-    ("repo_packing", "ripgrep"),                   # repomix candidate only
+    ("repo_packing", "repomix"),                   # installed 2026-10-24 (isolated runtime, on demand)
 ])
 def test_tool_routing_uses_only_usable_tools(cfg, need, expected):
     assert router.route_tool(cfg, need)["tool"] == expected

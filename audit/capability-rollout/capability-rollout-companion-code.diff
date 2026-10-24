@@ -1,0 +1,87 @@
+--- a/agentos/capability_policy.py
++++ b/agentos/capability_policy.py
+@@ -26,6 +26,7 @@
+ from __future__ import annotations
+ 
+ from dataclasses import asdict, dataclass, field
++from pathlib import Path
+ 
+ from .capability_registry import (COST, LATENCY, LOCALITY, REJECTION_REASONS, RISK,
+                                   SELECTION_REASONS, HOSTS, Provider, Registry)
+@@ -234,7 +235,10 @@
+ 
+ 
+ # ------------------------------------------------------------ planning
+-def plan(registry: Registry, request: CapabilityRequest, probes: dict) -> CapabilityPlan:
++def plan(registry: Registry, request: CapabilityRequest, probes: dict, deliverable=None) -> CapabilityPlan:
++    """`deliverable(executor, tool) -> bool` (optional) answers whether the Agent OS launcher can actually put `tool`
++    into a dispatched `executor` worker. A tool the harness supports but the launcher cannot deliver is treated as
++    `integration-undeliverable` (fail closed). None keeps the pure registry semantics."""
+     policy = registry.policy
+     required = sorted(set(request.required))
+     out = CapabilityPlan(required=required, status="blocked", task_id=request.task_id)
+@@ -279,6 +283,8 @@
+                 if t.is_executor:
+                     continue
+                 state = integration_state(e, t)
++                if state == "supported" and deliverable is not None and not deliverable(e, t):
++                    state = "undeliverable"
+                 if state == "supported":
+                     options.append(tid)
+                 else:
+@@ -444,6 +450,27 @@
+     return tuple(names)
+ 
+ 
++def worker_deliverable(cfg):
++    """Predicate for plan(): can a dispatched worker really use this tool?
++    * MCP providers need a `launch` in config/mcp.yaml (workers.mcp_servers_for drops the rest silently);
++    * a CLI whose executable is withheld from all workers (workers.yaml `withheld_executables`) or denied to this
++      executor's worker (`Bash(<exe>:*)` in always_disallowed) is not deliverable.
++    Derived from config, so planning cannot drift from what the launcher and deny list actually do."""
++    def check(executor, tool) -> bool:
++        if tool.kind == "mcp":
++            ref = tool.config_ref or ""
++            spec = cfg.mcp["tools"].get(ref.split(".", 1)[1]) if ref.startswith("mcp.") else None
++            return bool(spec and "launch" in spec)
++        denied = set()
++        for pat in (cfg.workers["workers"].get(executor.worker_name or "", {}).get("always_disallowed") or []):
++            if pat.startswith("Bash(") and pat.endswith(":*)"):
++                denied.add(pat[len("Bash("):-len(":*)")].split("/")[-1])
++        denied |= set(cfg.workers.get("withheld_executables") or [])
++        exes = {Path(str(s.get("target", ""))).name for s in tool.probe if s.get("type") == "executable"}
++        return not (exes & denied)
++    return check
++
++
+ def plan_for(cfg, required=(), *, task_id: str | None = None, task_type: str | None = None,
+              contract: dict | None = None, overrides: dict | None = None, probes: dict | None = None,
+              deep: bool = False, registry: Registry | None = None, **constraints) -> CapabilityPlan:
+@@ -454,4 +481,4 @@
+     if probes is None:
+         probes = capability_probes.probe_all(reg, capability_probes.ProbeContext(cfg=cfg, deep=deep), overrides)
+     return plan(reg, CapabilityRequest(required=caps, task_id=task_id, task_type=task_type, **constraints),
+-                probes)
++                probes, deliverable=worker_deliverable(cfg))
+--- a/agentos/capability_registry.py
++++ b/agentos/capability_registry.py
+@@ -46,7 +46,7 @@
+ REJECTION_REASONS = ("capability-missing", "unknown-capability", "provider-unavailable",
+                      "availability-unknown", "provider-unhealthy", "health-unknown", "auth-missing",
+                      "auth-unknown", "host-mismatch", "policy-blocked", "integration-unsupported",
+-                     "integration-unknown", "no-eligible-provider")
++                     "integration-unknown", "integration-undeliverable", "no-eligible-provider")
+ SELECTION_REASONS = ("only-eligible-candidate", "capability-preferred", "verified-state-preferred",
+                      "cost-preferred", "local-preferred", "latency-preferred", "preference-order",
+                      "id-tiebreak", "semantic-navigation-required", "browser-deterministic",
+--- a/agentos/capability_cli.py
++++ b/agentos/capability_cli.py
+@@ -113,7 +113,7 @@
+         plan = CP.plan(reg, CP.CapabilityRequest(
+             required=caps, task_id=a.task_id, task_type=a.task_type, hosts=tuple(a.host),
+             localities=tuple(a.locality), max_cost=a.max_cost, max_risk=a.max_risk, deny=tuple(a.deny),
+-            strict=a.strict), probes)
++            strict=a.strict), probes, deliverable=CP.worker_deliverable(ctx.cfg))
+         if a.record:
+             CP.emit_decision(plan, a.task_id)
+         _out(plan.to_dict(), a.json, plan.explain())

@@ -1,0 +1,3 @@
+# MarkItDown 0.1.9 (github.com/microsoft/markitdown) with the approved office/PDF extras only.
+# Lock: uv pip compile --generate-hashes --python-version 3.11 scripts/runtime/markitdown.in -o scripts/runtime/markitdown.lock
+markitdown[pdf,docx,pptx,xlsx]==0.1.9

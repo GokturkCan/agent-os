@@ -64,7 +64,7 @@
 
 ## Git / remote safety
 
-A private `origin` (`GokturkCan/agent-os`) exists; agents never push, change remotes or merge.
+The `origin` remote (`GokturkCan/agent-os`) exists and is **intentionally public**: everything tracked is world-readable, so never commit secrets or host-identifying details; visibility is a human decision. Agents never push, change remotes or merge.
 Push and remote rewriting are denied in two independent layers:
 
 1. **Claude Code deny list** (`config/workers.yaml` `always_disallowed`): wildcard `Bash(*git*push*)`

@@ -1,5 +1,7 @@
 # Run 3 release candidate — handoff and the single decision
 
+> **Historical record.** PR #7 was merged into `main` (merge commit `a2c0897`). The text below is preserved as written at hand-off time ("Draft PR", "single decision"). The protected-file approval was later recorded as a PR #7 comment (https://github.com/GokturkCan/agent-os/pull/7#issuecomment-6295350672, 2026-10-20), scoped to commit `d77d6b0`; it does not cover any later protected change.
+
 **Branch:** `integration/run3-final` → Draft PR to `main`. **Supersedes** stacked PRs #3 (SystemOne/R3.1–R3.2G), #4 (compute contract CN-1),
 #5 (efficiency R3.5) and #6 (Open-Jev R3.2H); those branches and their history are untouched and still reproduce each stage independently.
 (#4–#6 are stacked on #3's earlier head; merging this PR makes them redundant — close them afterwards, do not merge them.)

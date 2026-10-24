@@ -1,0 +1,139 @@
+{
+  "base": "main a2c0897",
+  "head": "feature/capability-rollout (uncommitted working tree at approval time)",
+  "manifest_file": "evals/protected-manifest.json",
+  "summary": {
+    "added": 1,
+    "modified": 8,
+    "removed": 0,
+    "manifest_entries_before": 77,
+    "manifest_entries_after": 78
+  },
+  "review_status": "APPROVED by the repository owner (GokturkCan) via explicit instruction to the agent on 2026-10-25 (~01:18 +03). Recorded by the agent from that instruction; not a cryptographic signature. Does NOT carry over to any later protected change.",
+  "approval": {
+    "date": "2026-10-25",
+    "scope": "Protected Packet Revision 2 + companion unprotected code, exactly the artifacts below; nothing else.",
+    "approved_artifacts": {
+      "protected_packet_diff": {
+        "file": "audit/capability-rollout/capability-rollout-protected-packet.diff",
+        "sha256": "4394aca527d8899ff58938f2b3fa58ba34d3075310d5cfe2806daf10988ffc5b"
+      },
+      "companion_code_diff": {
+        "file": "audit/capability-rollout/capability-rollout-companion-code.diff",
+        "sha256": "0345f1dfd23226d13154a53b95c5d4cd7dd0dc3b2689526e85e1782cc704acab"
+      }
+    },
+    "decisions": {
+      "D1": "YES apply exactly the approved packet and companion code",
+      "D2": "YES agentos/workers.py GitHub credential isolation",
+      "D3": "YES security CLI deny, dispatched Claude workers only",
+      "D4": "YES GitHub-dependent tasks fail closed (integration-undeliverable, human handoff); no gh-cli fallback; interactive GitHub MCP stays healthy",
+      "D5": "YES rea stays adopted; frozen Open-Jev/FastGate/SystemOne data and decisions untouched",
+      "D6": "record this approval in the repo and refresh the manifest via the established workflow; Run 3 approval (PR #7 issuecomment-6295350672) preserved and NOT authorization for this packet",
+      "D7": "YES remove only the exact stale temp-dir project-trust entry created by the agent's Codex sandbox test"
+    },
+    "not_authorised": [
+      "commit",
+      "push",
+      "PR creation",
+      "merge",
+      "Wave C1",
+      "Run 4",
+      "new infrastructure"
+    ]
+  },
+  "files": [
+    {
+      "path": "config/mcp.yaml",
+      "status": "M",
+      "old_sha256": "59a1b3522ca1e68158e9e9f6143b892dd97bc30f60f010028ef358405b81535d",
+      "new_sha256": "79316139638e7041a4800551c17e9dfb159daed7153e5f8a57a86151c1c0ef81",
+      "bytes": 7003,
+      "purpose": "Worker-launch MCP pins (Serena v2.1.0, Context7 4.4.4, Playwright 0.0.83); GitHub MCP recorded repaired/read-only/interactive-only; repomix+markitdown configured."
+    },
+    {
+      "path": "config/capability_registry.yaml",
+      "status": "M",
+      "old_sha256": "bf55b2296fd45374b8fdb3b59912e8203498ae660d16894538045e850de91414",
+      "new_sha256": "d094a61ceeba2db2f4d1d43aaa7aaf7f0b7d57dc1f7467d2d09bc4a915ebb822",
+      "bytes": 24633,
+      "purpose": "Truthful adoption states; new markitdown/orchestra-research/openspec records; disabled records for superclaude/omniroute/clawdbot; Repomix probe -> real wrapper; Context7 optional-auth probe removed."
+    },
+    {
+      "path": "config/workers.yaml",
+      "status": "M",
+      "old_sha256": "a758dd43e5c7eaeeb37319031d1aee30df2a1801e51cceb4d8667f480996b05b",
+      "new_sha256": "2d6704cb8a723f7252e8412d8500a4d229f3eb07403cdbbb45c68c499128b3ce",
+      "bytes": 6235,
+      "purpose": "gh deny patterns + macOS security deny for dispatched Claude workers; withheld_executables [gh]; version_seen."
+    },
+    {
+      "path": "agentos/workers.py",
+      "status": "M",
+      "old_sha256": "8dcac3c16fb8af254212ba311465056b073b41ff55bdaa7ac37a094af1484517",
+      "new_sha256": "9165c3a6b00efab6c7e313c35caf1a8fbf1e106518166cd49ba010444778ea17",
+      "bytes": 9554,
+      "purpose": "gh_isolation_env(): empty GH_CONFIG_DIR and blanked GitHub token vars in every dispatched worker launch env."
+    },
+    {
+      "path": "evals/test_a3_web_docs.py",
+      "status": "M",
+      "old_sha256": "ab658d933d0c2561b2741ccca5bcd1598e24ac11e4b12daeffee55acf6651408",
+      "new_sha256": "513b9f0ea434237ca249e2a231ecb74f748b5587012c89d5cbb77a1f44df30e9",
+      "bytes": 2137,
+      "purpose": "Router outcomes: github_structured->github_mcp, file_to_markdown->markitdown, repo_packing->repomix."
+    },
+    {
+      "path": "evals/test_capability_probes.py",
+      "status": "M",
+      "old_sha256": "ba1b54843551d5c7fa893b43c91dd5a7914d4edad2db81bfbbb4a16f4ebac7ec",
+      "new_sha256": "e37dde88b02e21d4ae58c6f847edfb976d8d3cba74b6962bf9a781e08367b46c",
+      "bytes": 6908,
+      "purpose": "GitHub MCP probe healthy; old failing->unhealthy mapping kept via synthetic config."
+    },
+    {
+      "path": "evals/test_capability_registry.py",
+      "status": "M",
+      "old_sha256": "a7bc648dc559d0750b3e90ffbbfd8111206a9796ba229cc48559d84fdc270f9a",
+      "new_sha256": "05c01ca150ea30caab78eb7dffea8329861f9bfc8635ca7f06a78c4d0f2b616f",
+      "bytes": 10435,
+      "purpose": "Provider/adoption inventory for the rollout."
+    },
+    {
+      "path": "evals/test_capability_wiring.py",
+      "status": "M",
+      "old_sha256": "e744cc8ab6cb99212278fabe19aaa686539a51857432a0281b8aad7fc7a43152",
+      "new_sha256": "8c92f21b41adf146d80537b2cac2484fdf6bc55dd1da602901776b46c803e33f",
+      "bytes": 8321,
+      "purpose": "Playwright pin reaches worker launch; GitHub task is NOT dispatched (fail closed)."
+    },
+    {
+      "path": "evals/test_capability_rollout.py",
+      "status": "A",
+      "old_sha256": null,
+      "new_sha256": "ad022ad93b47a79516540b97480a8629141d76153939bb4df05379bee7746602",
+      "bytes": 13932,
+      "purpose": "New: pins, registry honesty, Codex parity, gh/security denial, credential isolation, fail-closed GitHub, Orchestra index, Ponytail integrity, lock integrity."
+    }
+  ],
+  "companion_unprotected_files": [
+    {
+      "path": "agentos/capability_policy.py",
+      "old_sha256": "e7c1a87f1073c09da73e715f21a0f056e75c6f249e25bf9ae4675d7a7e474678",
+      "new_sha256": "31e6d2349e3f11b66db779d2b22f74e2fb9950bf19b07c2d587d4a1412f300fc",
+      "protected": false
+    },
+    {
+      "path": "agentos/capability_registry.py",
+      "old_sha256": "5788ba422021d4afbc0834b757b74279dee3bdd07a00dcae0c13df4dbf11c786",
+      "new_sha256": "e53996ef4e083b1f7982e02ee428aef9053654b233876eb426738b689bfbfa68",
+      "protected": false
+    },
+    {
+      "path": "agentos/capability_cli.py",
+      "old_sha256": "1ab7c7dd01a2a23c3e00c855b15e8ab7ee38e77239d96805122e3825301611a6",
+      "new_sha256": "9e8c1dc156a319d0b7685b5491d5dbea72e3d4a0bd6ad7e8cf8ffa3391324929",
+      "protected": false
+    }
+  ]
+}

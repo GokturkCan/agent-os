@@ -46,7 +46,7 @@ PROBE_TYPES = ("executable", "claude_plugin", "path", "env_auth", "config_health
 REJECTION_REASONS = ("capability-missing", "unknown-capability", "provider-unavailable",
                      "availability-unknown", "provider-unhealthy", "health-unknown", "auth-missing",
                      "auth-unknown", "host-mismatch", "policy-blocked", "integration-unsupported",
-                     "integration-unknown", "no-eligible-provider")
+                     "integration-unknown", "integration-undeliverable", "no-eligible-provider")
 SELECTION_REASONS = ("only-eligible-candidate", "capability-preferred", "verified-state-preferred",
                      "cost-preferred", "local-preferred", "latency-preferred", "preference-order",
                      "id-tiebreak", "semantic-navigation-required", "browser-deterministic",
