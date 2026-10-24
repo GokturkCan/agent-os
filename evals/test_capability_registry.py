@@ -42,11 +42,20 @@ WAVE_A = {"claude-code", "codex", "opencode", "serena", "repomix", "context7", "
 
 def test_wave_a_inventory_registered_and_adopted(reg):
     assert WAVE_A <= set(reg.providers)
-    assert all(reg.get(p).adoption == "adopted" for p in WAVE_A - {"opencode"})
+    # 2026-10-24 rollout: records that are not installed/sourced were corrected (registration != adoption).
+    CATALOG_ONLY = {"spec-kit", "karpathy-skills"}
+    FUTURE = {"anti-slop", "last30days", "scientific-agent-skills", "archify", "design-md", "21st-dev",
+              "refero-styles", "omni-macos"}
+    assert all(reg.get(p).adoption == "adopted" for p in WAVE_A - {"opencode"} - CATALOG_ONLY - FUTURE)
+    assert all(reg.get(p).adoption == "catalog" for p in CATALOG_ONLY)
+    assert all(reg.get(p).adoption == "future" for p in FUTURE)
     # OpenCode stays registered but disabled: its launch cannot enforce a capability profile.
     assert reg.get("opencode").adoption == "disabled" and "fail closed" in reg.get("opencode").reason
-    # Beyond Wave A only: Run 1's existing github fallback and one future browser fallback.
-    assert set(reg.providers) - WAVE_A == {"gh-cli", "browser-use"}
+    # Beyond Wave A: Run 1's github CLI, one future browser fallback, and the 2026-10-24 rollout records.
+    assert set(reg.providers) - WAVE_A == {"gh-cli", "browser-use", "markitdown", "orchestra-research",
+                                           "openspec", "superclaude", "omniroute", "clawdbot"}
+    assert reg.get("openspec").adoption == "benchmark"
+    assert all(reg.get(p).adoption == "disabled" and reg.get(p).reason for p in ("superclaude", "omniroute", "clawdbot"))
     assert reg.get("browser-use").adoption == "future"
     assert {p.id for p in reg.executors()} == {"claude-code", "codex", "opencode"}
 

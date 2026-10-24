@@ -44,6 +44,7 @@ capabilities:
   web.crawl:                   "Multi-page crawling"
   web.extract:                 "Structured extraction from web pages"
   web.docs_lookup:             "Current library/framework documentation"
+  docs.convert:                "Convert office/PDF/HTML documents to Markdown (local files)"
   devops.shell:                "Run shell commands in the task worktree"
   devops.git:                  "Local git operations"
   devops.github:               "GitHub structured data (repos, issues, PRs)"
@@ -77,6 +78,8 @@ capabilities:
   engineering.simplicity:      "Simplicity / anti-overengineering policy"
   visualization.architecture_diagram: "Architecture diagrams"
   skills.load:                 "Executor can load SKILL.md-style skills"
+  routing.model_proxy:         "Model/provider routing proxy (inventory record only)"
+  messaging.gateway:           "Messaging-platform gateway (inventory record only)"
 
 # ------------------------------------------------------------ Wave A inventory
 providers:
@@ -99,9 +102,10 @@ providers:
       serena: supported
       context7: supported
       playwright: supported   # harness supports it; per-task exposure still needs the mcp_playwright grant
-      github-mcp: supported   # plugin wired; tool health tracked on github-mcp itself
+      github-mcp: supported   # harness supports it (interactive). NOT deliverable to dispatched workers: mcp.yaml has no launch for it, so capability_policy.plan_for fails closed (human handoff); registry facts stay unchanged
       superpowers: supported
       kepano-obsidian-skills: supported
+      orchestra-research: supported   # ambient in ~/.claude/skills today; Agent OS side uses skills/orchestra-index
       rea: unknown
       omni-macos: unknown
     probe:
@@ -129,7 +133,7 @@ providers:
       omni-macos: unknown
     probe:
       - {type: executable, target: codex, health_args: [--version]}
-    notes: "Skill loading under Agent OS launch not verified — left unknown."
+    notes: "Skill loading under Agent OS launch not verified — left unknown. Codex has no MCP under Agent OS launch (intentional asymmetry, 2026-10-24): tasks needing code.semantic_navigation / web.docs_lookup / web.browser_test never select it."
     source: "config/workers.yaml; ~/.codex/config.toml section names only"
 
   - id: opencode
@@ -188,9 +192,9 @@ providers:
     hosts: [any]
     auth: none
     probe:
-      - {type: executable, target: npx}
-    notes: "Run on demand via `npx repomix`; first use downloads the package."
-    source: "config/mcp.yaml (candidate: no standing install)"
+      - {type: executable, target: "~/agent-stack/bin/repomix", health_args: [--version]}
+    notes: "Pinned 1.18.1 in state/runtime/repomix; the probe checks the real wrapper binary (the previous npx probe reported present without any install)."
+    source: "config/mcp.yaml; scripts/runtime/repomix/"
 
   # ---- docs / dev -------------------------------------------------------------
   - id: context7
@@ -207,7 +211,7 @@ providers:
     probe:
       - {type: executable, target: npx}
       - {type: config_health, ref: mcp.context7}
-      - {type: env_auth, env: [CONTEXT7_API_KEY]}
+    notes: "Works unauthenticated (rate-limited); the optional-key probe was removed so auth is not reported missing."
     source: "config/mcp.yaml"
 
   - id: github-mcp
@@ -223,6 +227,7 @@ providers:
     auth: required
     probe:
       - {type: config_health, ref: mcp.github_mcp}
+    notes: "Repaired 2026-10-24: user-scope server, Keychain headersHelper, server-side read-only (22 read tools). Interactive/Hermes only; never launched into workers."
     source: "config/mcp.yaml"
 
   - id: gh-cli
@@ -240,7 +245,7 @@ providers:
     preference: 50
     probe:
       - {type: executable, target: gh}
-    notes: "Run 1 read-only fallback for github_structured (config/routing.yaml tool_routing)."
+    notes: "Human/interactive read-only fallback for github_structured (config/routing.yaml tool_routing). Denied to dispatched workers (workers.yaml) and not offered to executors (integrations: unsupported)."
     source: "config/mcp.yaml; config/routing.yaml"
 
   # ---- browser ---------------------------------------------------------------
@@ -292,12 +297,12 @@ providers:
     auth: none
     probe:
       - {type: declared}
-    notes: "Not installed; install location unknown — add an executable/path probe on install."
+    notes: "Not installed and not a Run 4 prerequisite (executes untrusted binaries); stays `adopted` only because Run 2 acceptance scenarios S8/dispatch-blocked encode it. Unavailable, so never selected."
 
   # ---- knowledge / file retrieval ------------------------------------------------
   - id: omni-macos
     kind: service
-    adoption: adopted
+    adoption: future
     capabilities: [files.semantic_search, knowledge.multimodal_search]
     locality: local
     cost: free
@@ -307,7 +312,7 @@ providers:
     auth: none
     probe:
       - {type: declared}
-    notes: "Not installed; add a probe on install. Read-only retrieval, never a knowledge authority (SecondBrain is)."
+    notes: "Deferred 2026-10-24. Not installed. Read-only retrieval, never a knowledge authority (SecondBrain is)."
 
   # ---- engineering skills (metadata; not executables) ------------------------------
   - id: superpowers
@@ -325,7 +330,7 @@ providers:
 
   - id: spec-kit
     kind: skill
-    adoption: adopted
+    adoption: catalog
     capabilities: [engineering.spec]
     locality: local
     cost: free
@@ -334,10 +339,11 @@ providers:
     hosts: [any]
     probe:
       - {type: executable, target: specify}
+    notes: "Catalog only (2026-10-24): OpenSpec (same class) is already installed; revisit only if the OpenSpec benchmark fails."
 
   - id: karpathy-skills
     kind: skill
-    adoption: adopted
+    adoption: catalog
     capabilities: [engineering.guidelines]
     locality: local
     cost: free
@@ -346,6 +352,7 @@ providers:
     hosts: [any]
     probe:
       - {type: path, paths: ["~/.claude/skills/*karpathy*", "~/.claude/plugins/cache/*/*karpathy*"]}
+    notes: "Catalog only (2026-10-24): a single unlicensed CLAUDE.md; its principles are covered by CLAUDE.md and Ponytail."
 
   - id: ponytail
     kind: skill
@@ -358,11 +365,12 @@ providers:
     risk: low
     hosts: [any]
     probe:
-      - {type: path, paths: ["~/.claude/skills/*ponytail*", "~/.claude/plugins/cache/*/*ponytail*"]}
+      - {type: path, paths: ["~/agent-stack/skills/ponytail/SKILL.md"]}
+    notes: "Two reviewed skills only (ponytail, ponytail-review) vendored at v5.3.2 / 16352ac under skills/ (Agent OS loading path); no plugin wrapper, hooks, ledger or webhook. See scripts/runtime/skills.lock.json."
 
   - id: anti-slop
     kind: skill
-    adoption: adopted
+    adoption: future
     capabilities: [ui.quality_filter]
     locality: local
     cost: free
@@ -371,12 +379,12 @@ providers:
     hosts: [any]
     probe:
       - {type: path, paths: ["~/.claude/skills/*anti-slop*", "~/.claude/plugins/cache/*/*anti-slop*"]}
-    notes: "A filter skill, never an orchestrator."
+    notes: "A filter skill, never an orchestrator. Not installed; no source supplied (2026-10-24) -> future."
 
   # ---- research --------------------------------------------------------------------
   - id: last30days
     kind: skill
-    adoption: adopted
+    adoption: future
     config_ref: skills.last30days
     capabilities: [research.recent_signals]
     locality: hybrid
@@ -386,10 +394,11 @@ providers:
     hosts: [any]
     probe:
       - {type: path, paths: ["~/.claude/skills/*last30days*", "~/.claude/plugins/cache/*/*last30days*"]}
+    notes: "UNVERIFIED source (no URL supplied); not installed -> future until the exact upstream is established."
 
   - id: scientific-agent-skills
     kind: skill
-    adoption: adopted
+    adoption: future
     config_ref: skills.scientific_agent_skills
     capabilities: [research.literature_search, research.paper_analysis, research.hypothesis_generation,
                    research.experiment_design, research.evaluation]
@@ -400,6 +409,7 @@ providers:
     hosts: [any]
     probe:
       - {type: path, paths: ["~/.claude/skills/*scientific*", "~/.claude/plugins/cache/*/*scientific*"]}
+    notes: "UNVERIFIED source (no URL supplied); not installed -> future. Orchestra Research Skills cover the research procedures meanwhile."
 
   # ---- knowledge skills ---------------------------------------------------------------
   - id: kepano-obsidian-skills
@@ -418,7 +428,7 @@ providers:
   # ---- visualization --------------------------------------------------------------------
   - id: archify
     kind: skill
-    adoption: adopted
+    adoption: future
     capabilities: [visualization.architecture_diagram]
     locality: local
     cost: free
@@ -427,12 +437,12 @@ providers:
     hosts: [any]
     probe:
       - {type: declared}
-    notes: "Not installed; add a probe on install."
+    notes: "Deferred 2026-10-24: no Run 4 capability depends on diagrams. Not installed."
 
   # ---- UI ---------------------------------------------------------------------------------
   - id: design-md
     kind: skill
-    adoption: adopted
+    adoption: future
     capabilities: [ui.design_system]
     locality: local
     cost: free
@@ -444,7 +454,7 @@ providers:
 
   - id: 21st-dev
     kind: mcp
-    adoption: adopted
+    adoption: future
     capabilities: [ui.component_registry]
     locality: cloud
     cost: unknown
@@ -458,7 +468,7 @@ providers:
 
   - id: refero-styles
     kind: skill
-    adoption: adopted
+    adoption: future
     capabilities: [ui.style_reference]
     locality: unknown
     cost: unknown
@@ -467,6 +477,100 @@ providers:
     hosts: [any]
     probe:
       - {type: path, paths: ["~/.claude/skills/*refero*", "~/.claude/plugins/cache/*/*refero*"]}
+
+  # ---- rollout 2026-10-24 additions ----------------------------------------------------------
+  - id: markitdown
+    kind: cli
+    adoption: adopted
+    config_ref: mcp.markitdown
+    capabilities: [docs.convert]
+    requires: [devops.shell]
+    locality: local
+    cost: free
+    latency: local_slow
+    risk: low
+    hosts: [mac]
+    auth: none
+    probe:
+      - {type: executable, target: "~/agent-stack/bin/markitdown", health_args: [--version]}
+    notes: "MarkItDown 0.1.9 (office/PDF extras) in an isolated venv; on demand via the wrapper, local files only, plugins off. Not an MCP, not a knowledge authority."
+    source: "config/mcp.yaml; scripts/runtime/markitdown.lock"
+
+  - id: orchestra-research
+    kind: skill
+    adoption: adopted
+    config_ref: skills.orchestra_research
+    capabilities: [research.hypothesis_generation, research.experiment_design, research.evaluation]
+    locality: local
+    cost: free
+    latency: local_fast
+    risk: low
+    hosts: [any]
+    auth: none
+    probe:
+      - {type: path, paths: ["~/.orchestra/skills/0-autoresearch-skill"]}
+    notes: "91 research/ML skills (read-only collection ~/.orchestra/skills). Agent OS exposes ONE index skill (skills/orchestra-index) instead of 91 descriptions; the worker reads the single SKILL.md it needs."
+    source: "config/skills.yaml"
+
+  - id: openspec
+    kind: cli
+    adoption: benchmark
+    capabilities: [engineering.spec]
+    requires: [devops.shell]
+    locality: local
+    cost: free
+    latency: local_fast
+    risk: low
+    hosts: [mac]
+    auth: none
+    probe:
+      - {type: executable, target: openspec, health_args: [--version]}
+    notes: "Installed globally (npm @fission-ai/openspec 0.17.2; upstream v1.15.0), dormant and unwired. Never run `openspec init` inside ~/agent-stack. Never selected while adoption=benchmark."
+
+  - id: superclaude
+    kind: skill
+    adoption: disabled
+    reason: "Overlapping planning/process framework with Superpowers; installed (pipx 4.1.9, 31 sc commands), deliberately not used by Agent OS tasks and not uninstalled."
+    capabilities: [engineering.workflow]
+    locality: local
+    cost: free
+    latency: local_fast
+    risk: low
+    hosts: [any]
+    auth: none
+    probe:
+      - {type: path, paths: ["~/.claude/commands/sc"]}
+    source: "config/skills.yaml"
+
+  - id: omniroute
+    kind: service
+    adoption: disabled
+    reason: "Installed (npm global omniroute 3.8.50) but never activated: not running, no listener, no launch agent. Routing and credentials belong to Agent OS, so it stays dormant and unmodified."
+    capabilities: [routing.model_proxy]
+    locality: unknown
+    cost: unknown
+    latency: unknown
+    risk: high
+    hosts: [mac]
+    auth: required
+    probe:
+      - {type: executable, target: omniroute}
+    notes: "Inventory record only."
+
+  - id: clawdbot
+    kind: cli
+    adoption: disabled
+    reason: "Package installed (npm global clawdbot 2026.1.23-1, a WhatsApp gateway CLI with an agent; its bin link is not on PATH) but never activated; external messaging side effects, outside every Agent OS workflow."
+    capabilities: [messaging.gateway]
+    locality: unknown
+    cost: unknown
+    latency: unknown
+    risk: high
+    hosts: [mac]
+    auth: required
+    probe:
+      - {type: path, paths: ["/opt/homebrew/lib/node_modules/clawdbot/package.json"]}
+    notes: "Inventory record only."
 
 # ------------------------------------------------------------ selection policy
 # Deterministic; executed by agentos/capability_policy.py. Ranking key, in
@@ -488,6 +592,7 @@ policy:
     web.browser_test: [playwright]
     web.docs_lookup: [context7]
     devops.github: [github-mcp, gh-cli]
+    docs.convert: [markitdown]
   capability_reasons:
     code.references: semantic-navigation-required
     code.semantic_navigation: semantic-navigation-required

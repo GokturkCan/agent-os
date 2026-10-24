@@ -1,4 +1,5 @@
 """Run 2 / R2.3 — availability / health / auth probes: isolated, tri-state, secret-safe, offline."""
+import copy
 import json
 import subprocess
 
@@ -98,7 +99,11 @@ def test_claude_plugin_probe(tmp_path):
 def test_config_health_maps_last_observed_state(cfg):
     gh = P.probe_provider(_p(auth="required", probe=[{"type": "config_health", "ref": "mcp.github_mcp"}]),
                           _ctx(cfg=cfg))
-    assert gh.health == "unhealthy"                                   # mcp.yaml: health=failing (401)
+    assert gh.health == "healthy"                                     # mcp.yaml: health=ok (repaired 2026-10-24)
+    down = copy.deepcopy(cfg)
+    down.mcp["tools"]["github_mcp"]["health"] = "failing"             # the old 401 state stays covered synthetically
+    assert P.probe_provider(_p(auth="required", probe=[{"type": "config_health", "ref": "mcp.github_mcp"}]),
+                            _ctx(cfg=down)).health == "unhealthy"
     pm = R.Provider(id="pm", kind="mcp", adoption="adopted", capabilities=("code.edit",), auth="required",
                     probe=({"type": "config_health", "ref": "mcp.postman"},))
     assert P.probe_provider(pm, _ctx(cfg=cfg)).auth == "missing"      # needs_auth

@@ -45,6 +45,22 @@ def git_push_guard_env(environ=None) -> dict:
             f"GIT_CONFIG_VALUE_{n}": str(GIT_GUARD_HOOKS)}
 
 
+# Variables through which a worker shell could reach the user's GitHub identity. Blanked in the worker
+# launch env; GH_CONFIG_DIR points `gh` at an empty config so it has no logged-in account. Residual risk
+# (documented, tested): `gh auth token` can still fall back to the OS keyring, so the `gh` deny patterns in
+# workers.yaml stay the primary control and this is the second layer for API/PR use via a bypassed pattern.
+GITHUB_CREDENTIAL_VARS = ("GH_TOKEN", "GITHUB_TOKEN", "GH_ENTERPRISE_TOKEN", "GITHUB_ENTERPRISE_TOKEN",
+                          "GITHUB_PERSONAL_ACCESS_TOKEN")
+
+
+def gh_isolation_env(environ=None) -> dict:
+    environ = os.environ if environ is None else environ
+    d = Path(environ.get("AGENTOS_STATE_DIR", REPO_ROOT / "state")) / "runtime" / "gh-isolated"
+    d.mkdir(parents=True, exist_ok=True)
+    d.chmod(0o700)
+    return {"GH_CONFIG_DIR": str(d), **{v: "" for v in GITHUB_CREDENTIAL_VARS}}
+
+
 def mcp_servers_for(cfg: Config, session: WorkerSession, extra: tuple[str, ...] = ()) -> dict:
     tools = cfg.mcp["tools"]
     names = list(cfg.mcp["exposure"].get(session.profile, [])) + list(extra)
@@ -70,7 +86,7 @@ def build_launch(cfg: Config, session: WorkerSession, prompt: str, worktree: Pat
                                "refusing to launch (fail closed)")
     worktree = str(Path(worktree).resolve())
     out = {"worker": session.worker, "profile": session.profile, "cwd": worktree, "files": {},
-           "env": git_push_guard_env()}
+           "env": {**git_push_guard_env(), **gh_isolation_env()}}
 
     if session.worker == "claude_code":
         tmap = spec["tool_map"]

@@ -113,7 +113,7 @@ def run(cfg, a) -> int:
         plan = CP.plan(reg, CP.CapabilityRequest(
             required=caps, task_id=a.task_id, task_type=a.task_type, hosts=tuple(a.host),
             localities=tuple(a.locality), max_cost=a.max_cost, max_risk=a.max_risk, deny=tuple(a.deny),
-            strict=a.strict), probes)
+            strict=a.strict), probes, deliverable=CP.worker_deliverable(ctx.cfg))
         if a.record:
             CP.emit_decision(plan, a.task_id)
         _out(plan.to_dict(), a.json, plan.explain())
