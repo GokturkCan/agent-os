@@ -1,9 +1,111 @@
 #!/usr/bin/env bash
-# On-demand Repomix (pinned 1.18.1) from the isolated runtime. No PATH change, no MCP.
-# Refuses to run as root.
+# On-demand Repomix (pinned 1.18.1) from the isolated runtime. No PATH change, no MCP. Refuses to run as root.
+#
+# Hardened wrapper (PR #8 follow-up). Repomix executes repository-local config files (repomix.config.cjs/.js/.ts ...)
+# found in the working directory, and offers --remote / --mcp / --stdin / --init modes. Packing an UNTRUSTED repo
+# must not run that repo's code, so this wrapper:
+#   * accepts only an ALLOWLIST of options (anything else, incl. -c/--config, --remote*, --mcp, --stdin, --init,
+#     --watch, --skill-*, --copy, --stdout, --no-security-check, --instruction-file-path, is rejected, exit 2);
+#   * always passes a fixed JSON config that lives OUTSIDE the target repo (scripts/runtime/repomix/);
+#   * runs from a neutral working directory, so a config file inside the target is never looked up;
+#   * accepts only existing local directories as inputs (no URLs), and never runs git in the target
+#     (git history sorting is disabled in the fixed config).
+# Output goes to --output, or to ./repomix-output.<ext> in the directory you ran the command from.
 set -euo pipefail
 [ "$(id -u)" -ne 0 ] || { echo "repomix: refusing to run as root" >&2; exit 1; }
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BIN="$ROOT/state/runtime/repomix/node_modules/.bin/repomix"
+CONF="$ROOT/scripts/runtime/repomix/repomix.config.json"
+WORK="$ROOT/state/runtime/repomix/work"
 [ -x "$BIN" ] || { echo "repomix: runtime missing; rebuild per docs/capability-rollout.md" >&2; exit 127; }
-exec "$BIN" "$@"
+[ -f "$CONF" ] || { echo "repomix: fixed config missing: $CONF" >&2; exit 127; }
+
+ORIG="$PWD"
+die() { echo "repomix: $*" >&2; exit 2; }
+
+absolute() {   # absolute path of an existing directory
+  [ -d "$1" ] || die "not an existing local directory: $1"
+  (cd "$1" && pwd -P)
+}
+
+args=()
+paths=()
+style="xml"
+out=""
+meta_only=0
+want_value=""     # option that is waiting for its value (separate-argument form)
+
+set_value() {     # $1 option, $2 value
+  case "$1" in
+    --style)
+      case "$2" in xml|markdown|json|plain) style="$2" ;; *) die "--style must be xml|markdown|json|plain" ;; esac
+      args+=("--style=$2") ;;
+    --output-file-path-style)
+      case "$2" in *[!a-z-]*|"") die "bad value for $1" ;; esac
+      args+=("--output-file-path-style=$2") ;;
+    --top-files-len|--token-budget)
+      case "$2" in *[!0-9]*|"") die "$1 needs a number" ;; esac
+      args+=("$1=$2") ;;
+    --token-count-encoding)
+      case "$2" in *[!A-Za-z0-9_]*|"") die "bad value for $1" ;; esac
+      args+=("--token-count-encoding=$2") ;;
+    --include)
+      [ -n "$2" ] || die "--include needs patterns"
+      args+=("--include=$2") ;;
+    -i|--ignore)
+      [ -n "$2" ] || die "--ignore needs patterns"
+      args+=("--ignore=$2") ;;
+    -o|--output)
+      [ -n "$2" ] && [ "$2" != "-" ] || die "--output needs a file path"
+      case "$2" in /*) out="$2" ;; *) out="$ORIG/$2" ;; esac ;;
+    *) die "internal: no handler for $1" ;;
+  esac
+}
+
+parse_one() {     # $1 = one argument
+  local a="$1"
+  if [ -n "$want_value" ]; then set_value "$want_value" "$a"; want_value=""; return; fi
+  case "$a" in
+    -v|--version|-h|--help) args+=("$a") ;;
+    --verbose|--quiet|--parsable-style|--compress|--output-show-line-numbers|--no-file-summary|\
+--no-directory-structure|--remove-comments|--remove-empty-lines|--truncate-base64|--include-empty-directories|\
+--include-full-directory-structure|--no-gitignore|--no-dot-ignore|--no-default-patterns)
+      args+=("$a") ;;
+    --no-files) args+=("$a"); meta_only=1 ;;
+    --style|--output-file-path-style|--top-files-len|--token-budget|--token-count-encoding|--include|-i|--ignore|-o|--output)
+      want_value="$a" ;;
+    --style=*|--output-file-path-style=*|--top-files-len=*|--token-budget=*|--token-count-encoding=*|--include=*|--ignore=*|--output=*)
+      set_value "${a%%=*}" "${a#*=}" ;;
+    -*) die "option not permitted by the Agent OS wrapper (allowlist): $a" ;;
+    *)  paths+=("$a") ;;
+  esac
+}
+
+while [ $# -gt 0 ]; do
+  a="$1"; shift
+  if [ "$a" = "--" ]; then
+    # Everything after -- is a path candidate, never an option.
+    [ -z "$want_value" ] || die "missing value for $want_value"
+    for p in "$@"; do paths+=("$p"); done
+    break
+  fi
+  parse_one "$a"
+done
+[ -z "$want_value" ] || die "missing value for $want_value"
+
+# Inputs: existing local directories only.
+resolved=()
+for p in ${paths[@]+"${paths[@]}"}; do
+  case "$p" in *"://"*|git@*|*:*@*) die "remote inputs are not permitted: $p" ;; esac
+  resolved+=("$(absolute "$p")")
+done
+[ ${#resolved[@]} -gt 0 ] || resolved=("$(absolute "$ORIG")")
+
+if [ -z "$out" ]; then
+  case "$style" in xml) ext=xml ;; markdown) ext=md ;; json) ext=json ;; plain) ext=txt ;; esac
+  out="$ORIG/repomix-output.$ext"
+fi
+
+mkdir -p "$WORK" && chmod 700 "$WORK"
+cd "$WORK"
+exec "$BIN" --config "$CONF" "--output=$out" ${args[@]+"${args[@]}"} ${resolved[@]+"${resolved[@]}"}

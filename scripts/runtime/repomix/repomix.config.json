@@ -1,0 +1,9 @@
+{
+  "$schema": "https://repomix.com/schemas/latest/schema.json",
+  "output": {
+    "fileSummary": true,
+    "directoryStructure": true,
+    "git": { "sortByChanges": false, "includeDiffs": false, "includeLogs": false }
+  },
+  "security": { "enableSecurityCheck": true }
+}

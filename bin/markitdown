@@ -1,9 +1,86 @@
 #!/usr/bin/env bash
-# On-demand MarkItDown (pinned 0.1.9, office/PDF extras) from the isolated runtime.
-# Local files only by convention; plugins stay off (no --use-plugins). Refuses to run as root.
+# On-demand MarkItDown (pinned 0.1.9, office/PDF extras) from the isolated runtime. Refuses to run as root.
+#
+# Hardened wrapper (PR #8 follow-up): LOCAL FILES ONLY. MarkItDown itself also accepts http(s):, file: and data: URIs
+# and stdin, and has Azure (Document Intelligence / Content Understanding) and plugin modes. This wrapper:
+#   * accepts only an ALLOWLIST of options (-o, -x, -m, -c, --keep-data-uris, -h, -v); the Azure, plugin and
+#     list-plugins modes are rejected (exit 2);
+#   * requires exactly one positional argument that is an EXISTING REGULAR FILE (no stdin, no directory, no device,
+#     no FIFO), rejects any URI-looking input (scheme://, data:, file:, ...), and passes the file to MarkItDown as an
+#     ABSOLUTE PATH so it can never be interpreted as a URI;
+#   * clears the Azure endpoint environment variables.
 set -euo pipefail
 [ "$(id -u)" -ne 0 ] || { echo "markitdown: refusing to run as root" >&2; exit 1; }
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BIN="$ROOT/state/runtime/markitdown/bin/markitdown"
 [ -x "$BIN" ] || { echo "markitdown: runtime missing; rebuild per docs/capability-rollout.md" >&2; exit 127; }
-exec "$BIN" "$@"
+
+ORIG="$PWD"
+die() { echo "markitdown: $*" >&2; exit 2; }
+
+args=()
+paths=()
+info_only=0
+want_value=""
+
+set_value() {     # $1 option, $2 value
+  case "$1" in
+    -o|--output)
+      [ -n "$2" ] && [ "$2" != "-" ] || die "--output needs a file path"
+      case "$2" in /*) args+=("--output=$2") ;; *) args+=("--output=$ORIG/$2") ;; esac ;;
+    -x|--extension)
+      case "$2" in *[!A-Za-z0-9.]*|"") die "bad value for $1" ;; esac
+      args+=("--extension=$2") ;;
+    -m|--mime-type)
+      case "$2" in *[!A-Za-z0-9.+/_-]*|"") die "bad value for $1" ;; esac
+      args+=("--mime-type=$2") ;;
+    -c|--charset)
+      case "$2" in *[!A-Za-z0-9_-]*|"") die "bad value for $1" ;; esac
+      args+=("--charset=$2") ;;
+    *) die "internal: no handler for $1" ;;
+  esac
+}
+
+parse_one() {
+  local a="$1"
+  if [ -n "$want_value" ]; then set_value "$want_value" "$a"; want_value=""; return; fi
+  case "$a" in
+    -h|--help|-v|--version) args+=("$a"); info_only=1 ;;
+    --keep-data-uris) args+=("$a") ;;
+    -o|--output|-x|--extension|-m|--mime-type|-c|--charset) want_value="$a" ;;
+    --output=*|--extension=*|--mime-type=*|--charset=*) set_value "${a%%=*}" "${a#*=}" ;;
+    -) die "stdin input is not permitted (local files only)" ;;
+    -*) die "option not permitted by the Agent OS wrapper (allowlist): $a" ;;
+    *)  paths+=("$a") ;;
+  esac
+}
+
+while [ $# -gt 0 ]; do
+  a="$1"; shift
+  if [ "$a" = "--" ]; then
+    [ -z "$want_value" ] || die "missing value for $want_value"
+    for p in "$@"; do paths+=("$p"); done
+    break
+  fi
+  parse_one "$a"
+done
+[ -z "$want_value" ] || die "missing value for $want_value"
+
+if [ "$info_only" -eq 1 ] && [ ${#paths[@]} -eq 0 ]; then
+  exec env -u MARKITDOWN_DOCINTEL_ENDPOINT -u MARKITDOWN_CU_ENDPOINT "$BIN" ${args[@]+"${args[@]}"}
+fi
+
+[ ${#paths[@]} -eq 1 ] || die "exactly one local input file is required (stdin and multiple inputs are not permitted)"
+p="${paths[0]}"
+lower="$(printf '%s' "$p" | tr '[:upper:]' '[:lower:]')"
+case "$lower" in
+  *"://"*|data:*|file:*|http:*|https:*|ftp:*|javascript:*) die "URL/URI inputs are not permitted (local files only): $p" ;;
+esac
+[ -e "$p" ] || die "no such local file: $p"
+[ -f "$p" ] || die "input must be a regular file (not a directory, device or pipe): $p"
+case "$p" in
+  /*) abs="$p" ;;
+  *)  abs="$(cd "$(dirname "$p")" && pwd -P)/$(basename "$p")" ;;
+esac
+
+exec env -u MARKITDOWN_DOCINTEL_ENDPOINT -u MARKITDOWN_CU_ENDPOINT "$BIN" ${args[@]+"${args[@]}"} -- "$abs"

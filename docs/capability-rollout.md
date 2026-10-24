@@ -40,8 +40,30 @@ Nothing is committed yet.
 | Repomix | 1.18.1 | `state/runtime/repomix` | `bin/repomix` | `mkdir -p state/runtime/repomix && cp scripts/runtime/repomix/package*.json state/runtime/repomix/ && (cd state/runtime/repomix && npm ci --ignore-scripts)` |
 
 Neither is global, an MCP, or part of any worker's standing context; workers call them through the existing `shell`
-capability. MarkItDown: local files only by convention, plugins off. Lock refresh:
+capability. Lock refresh:
 `uv pip compile --generate-hashes --python-version 3.11 scripts/runtime/markitdown.in -o scripts/runtime/markitdown.lock`.
+
+### Hardened wrappers (PR #8 security follow-up)
+Both wrappers enforce an **allowlist** and exit 2 on anything else; their behavior is tested against the real tools
+(`uv run python -m pytest -q scripts/runtime/test_wrappers.py`, 90 tests; it lives outside `evals/` because that directory is
+hashed by the protected manifest, and it is not part of CI because CI has no runtimes).
+* **`bin/repomix`** — Repomix 1.18.1 *executes* repo-local `repomix.config.{cjs,js,mjs,ts,mts,cts}` (confirmed with a marker
+  file), so packing an untrusted repo ran that repo's code. The wrapper runs from a neutral working directory with a fixed JSON
+  config outside the target (`scripts/runtime/repomix/repomix.config.json`), accepts only local directories, and rejects
+  `-c/--config`, `--remote*`, `--mcp`, `--stdin`, `--init`, `--watch`, `--skill-*`, `--copy`, `--stdout`, `--no-security-check`,
+  `--include-diffs/--include-logs` and every unknown option; git history sorting is off, so no git runs inside the target.
+  Output goes to `--output` or `./repomix-output.<ext>` in the caller's directory.
+* **`bin/markitdown`** — local files only: exactly one existing regular file, passed as an absolute path; URL/URI schemes
+  (`http(s):`, `file:`, `data:`, ...), stdin, directories, FIFOs and devices are rejected; the Azure (Document Intelligence /
+  Content Understanding) and plugin modes are rejected and their endpoint environment variables are cleared. A local listener
+  recorded zero requests for every URL form, while the unwrapped tool did fetch from it (control).
+* **`scripts/gen_orchestra_index.py`** treats the Orchestra tree as untrusted input: names and every path segment must match
+  `^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$`, descriptions are reduced to one plain-text sentence (control/bidi characters and markdown
+  structure removed, length capped), frontmatter is read from the first 64 KiB only, a `SKILL.md` resolving outside the tree is
+  skipped, and skipped entries are counted in the index header.
+* **Residual:** a worker can still run the raw runtime binaries by path (`state/runtime/...`); the wrappers constrain the
+  documented entry points, not a hostile shell. A local file can still be a hostile *document* (parser bugs); MarkItDown has no
+  sandbox beyond the OS user.
 
 ## 4. Skills (APPLIED)
 

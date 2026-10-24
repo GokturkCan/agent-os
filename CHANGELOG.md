@@ -7,7 +7,9 @@ Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run
 
 ## [Unreleased]
 
-### Pre-Run 4 capability rollout (branch `feature/capability-rollout`; protected packet APPROVED and APPLIED 2026-10-25; not yet committed)
+### Pre-Run 4 capability rollout (branch `feature/capability-rollout`; PR #8; protected packet APPROVED and APPLIED 2026-10-25)
+
+- Security hardening (PR #8 follow-up): `bin/repomix` no longer executes repo-local configuration (confirmed exploitable before the fix) and is an allowlist wrapper with a fixed external config; `bin/markitdown` is local-files-only (no URI/stdin/Azure/plugin modes); `gen_orchestra_index.py` validates and sanitises untrusted skill frontmatter. Behavior tests: `scripts/runtime/test_wrappers.py` (90).
 
 - GitHub MCP repaired: user-scope server, macOS-Keychain `headersHelper`, server-side read-only (`X-MCP-Readonly`, 22 read tools); no credential in any repo/config file.
 - Installed (isolated, pinned, on demand): MarkItDown 0.1.9 (`state/runtime/markitdown`, hash-locked), Repomix 1.18.1 (`state/runtime/repomix`, `--ignore-scripts`), wrappers `bin/markitdown`, `bin/repomix`.
