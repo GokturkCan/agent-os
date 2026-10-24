@@ -1,0 +1,17 @@
+{
+  "ponytail": {
+    "source": "https://github.com/dietrichgebert/ponytail",
+    "tag": "v5.3.2",
+    "commit": "16352ac229eb08a9598dcae48fe9f2b342567d86",
+    "license": "MIT",
+    "installed": [
+      "skills/ponytail/SKILL.md",
+      "skills/ponytail-review/SKILL.md"
+    ],
+    "excluded": "plugin wrapper, hooks/, band ledger, statusline, webhook, mode tracking, other skills (audit, debt, gain, help)",
+    "sha256": {
+      "skills/ponytail/SKILL.md": "9badd22a32e19cb884e46dfa8d3aae82bb81dfa5484105b8b4f0262df823a509",
+      "skills/ponytail-review/SKILL.md": "33fe4ebe22a460924e5d4a261e223df22e409cc94ab76182bee9fb91a3ef022e"
+    }
+  }
+}

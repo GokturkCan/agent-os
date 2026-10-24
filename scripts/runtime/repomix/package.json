@@ -1,0 +1,10 @@
+{
+  "name": "agentos-repomix-runtime",
+  "version": "0.0.0",
+  "description": "Pinned Repomix runtime for Agent OS",
+  "type": "commonjs",
+  "dependencies": {
+    "repomix": "1.18.1"
+  },
+  "private": true
+}

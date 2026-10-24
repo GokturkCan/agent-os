@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# On-demand MarkItDown (pinned 0.1.9, office/PDF extras) from the isolated runtime.
+# Local files only by convention; plugins stay off (no --use-plugins). Refuses to run as root.
+set -euo pipefail
+[ "$(id -u)" -ne 0 ] || { echo "markitdown: refusing to run as root" >&2; exit 1; }
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+BIN="$ROOT/state/runtime/markitdown/bin/markitdown"
+[ -x "$BIN" ] || { echo "markitdown: runtime missing; rebuild per docs/capability-rollout.md" >&2; exit 127; }
+exec "$BIN" "$@"
