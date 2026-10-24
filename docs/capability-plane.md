@@ -46,7 +46,7 @@ mapping; there is no natural-language capability inference.
 Playwright is task-specific: a normal coder launch is context7 + serena; a browser-capability
 task is context7 + serena + playwright. The acceptance runs left artifact commits on local
 `agentos/run2-real-*` task branches. They are evidence only and are **not** to be merged.
-Repository state: private `origin` (`GokturkCan/agent-os`) exists; `feature/run2-capability-plane`
+Repository state: `origin` (`GokturkCan/agent-os`, intentionally public) exists; `feature/run2-capability-plane`
 is pushed to it and was merged into `agent-os-v1` via PR #2 (2026-10-13 UTC), then into `main` via PR #1 (2026-10-14 local time); pushing/merging/tagging stays a human step.
 
 Run 3 boundary: at Run 2 closure only the SystemOne **contract** existed (R3.1 has since wired it
@@ -214,7 +214,7 @@ tools get installed.
 | serena | mcp | code.semantic_navigation/symbol_lookup/references/refactor/diagnostics | yes (uvx; last health ok) |
 | repomix | cli | code.snapshot | yes (on demand via npx) |
 | context7 | mcp | web.docs_lookup (auth optional) | yes (npx; last health ok; no key set) |
-| github-mcp | mcp | devops.github | **unhealthy** (mcp.yaml: 401) |
+| github-mcp | mcp | devops.github | **unhealthy** (mcp.yaml: 401) — *Run 2 snapshot; since 2026-10-25 healthy, read-only, interactive only, and not deliverable to dispatched workers (fail closed): see [capability-rollout.md](capability-rollout.md)* |
 | gh-cli | cli | devops.github (Run 1 read-only fallback) | yes (binary; auth unverified) |
 | playwright | mcp | web.interact, web.browser_test, web.browse | yes (npx; last health ok) |
 | rea | mcp | reverse_engineering.* (7) | unknown (not installed; no probe yet) |

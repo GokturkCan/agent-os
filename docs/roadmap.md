@@ -19,7 +19,7 @@ Only claims backed by `CURRENT_STATE.md` are marked VERIFIED.
 | Health / config validation | IMPLEMENTED, VERIFIED |
 | SecondBrain gated memory | IMPLEMENTED, VERIFIED (fixture vaults) |
 | OpenCode worker | DISABLED, fail closed (launch cannot enforce a capability profile; registered for future use) |
-| Remaining to close Run 1 | real timeout→resume run (private `origin` now exists; pushing is a human step) |
+| Remaining to close Run 1 | real timeout→resume run (`origin` exists and is intentionally public; pushing is a human step) |
 
 ## Run 2 — Capability plane — **CLOSED, VERIFIED** (2026-10-13; merged into `agent-os-v1` via PR #2; included in Agent OS v1.0.0 on `main`)
 
@@ -36,7 +36,7 @@ Only claims backed by `CURRENT_STATE.md` are marked VERIFIED.
 
 Evidence: 403 passed / 2 skipped (333 at Run 2 closure, before pre-release hardening) (live-only); see [capability-plane.md](capability-plane.md). Not in Run 2: natural-language capability inference, SystemOne backends, calibration, ContextGate (Run 3+).
 
-## Run 3 — Local intelligence plane
+## Run 3 — Local intelligence plane — **MERGED to `main`** (PR #7, `a2c0897`; no neural backend activated)
 
 | Item | State |
 |---|---|

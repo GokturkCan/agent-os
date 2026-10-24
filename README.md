@@ -4,10 +4,11 @@ A local-first control plane that turns one orchestrator (Hermes) and several
 coding CLIs (Claude Code, Codex, OpenCode) into a persistent, verifiable,
 resumable agent system.
 
-> **Status: Agent OS v1.0.0, released on `main`; private, solo-maintained.** Run 1 (core control
+> **Status: Agent OS v1.0.0, released on `main`; solo-maintained; the GitHub remote is intentionally public.** Run 1 (core control
 > plane) and Run 2 (capability plane) are both included in v1.0.0, implemented and
-> acceptance-tested on one machine. The `v1.0.0` git tag and GitHub Release have **not** been
-> created yet. Run 3 (local intelligence) and Run 4 (research / web) are future work.
+> acceptance-tested on one machine. Run 3 (local intelligence) is merged to `main` (PR #7, `a2c0897`; no neural backend activated).
+> The `v1.0.0` git tag and GitHub Release have **not** been created yet. Run 4 (research / web) is future work; a pre-Run 4
+> capability rollout is in progress ([docs/capability-rollout.md](docs/capability-rollout.md)).
 > See [Status](#project-status), [CHANGELOG.md](CHANGELOG.md) and [docs/roadmap.md](docs/roadmap.md).
 
 Hermes decides **who** orchestrates, this repo defines **how** the system
@@ -143,11 +144,11 @@ Expected sibling paths (override with env vars, see `.env.example`):
 
 **Agent OS v1.0.0** (`pyproject.toml` / `agentos.__version__` = `1.0.0`), released on `main`:
 V1 core: **implemented and acceptance-tested**; latest full suite `403 passed, 2 skipped` at the v1.0.0 release
-(2 live-only; `658 passed` on the unmerged Run 3 branch). See [CURRENT_STATE.md](CURRENT_STATE.md) and [CHANGELOG.md](CHANGELOG.md).
+(2 live-only; `878 passed` on the Run 3 branch at merge, PR #7). See [CURRENT_STATE.md](CURRENT_STATE.md) and [CHANGELOG.md](CHANGELOG.md).
 Run 1 and Run 2 are both included in v1.0.0: Run 2 (capability plane) is closed and verified,
 including real worker and browser acceptance. PR #2 merged it into `agent-os-v1` (2026-10-13 UTC) and
 PR #1 merged `agent-os-v1` into `main` on 2026-10-14 (local time; 2026-10-13 21:41 UTC). The
-`v1.0.0` git tag and GitHub Release have not been created yet. Run 3–4 are future work.
+`v1.0.0` git tag and GitHub Release have not been created yet. Run 3 is merged (PR #7); Run 4 is future work.
 
 ## Roadmap
 
