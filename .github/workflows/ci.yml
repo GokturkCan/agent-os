@@ -89,4 +89,4 @@ jobs:
       - name: Whitespace check on newly introduced source (generated audit/data are historical and excluded)
         run: |
           cd "$HOME/agent-stack"
-          git diff --check origin/main...HEAD -- . ':(exclude)audit' ':(exclude)evals/data' ':(exclude)evals/protected-manifest.json' || exit 1
+          git diff --check origin/main...HEAD -- . ':(exclude)audit' ':(exclude)evals/data' ':(exclude)evals/protected-manifest.json' ':(exclude)third_party/vercel-agent-skills' || exit 1
