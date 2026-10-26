@@ -7,6 +7,14 @@ Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run
 
 ## [Unreleased]
 
+### Run 3 — R3.5 efficiency patterns (branch `feature/run3-efficiency-patterns`, not merged)
+
+- ContextGate/ToolPruner: failure-signal protection widened (HTTP 4xx/5xx, errno/signal names, OOM/CrashLoop/segfault/certificate/refused/expired ...); ContextGate also protects identifiers
+  (hashes, ticket ids, `id=`, ports, version pins, one-line JSON). On new dev/holdout fixtures essential facts lost: 7/7 and 9/9 -> 0 (reduction 80.6/78.8% -> 69.4/68.9%); v1 suites unchanged (35/35, 27/27, 50.7%/46.1%).
+- WakeGate: must-wake rule coverage 0/5 and 1/9 -> 5/5 and 9/9 on new fixtures; a model that always says "defer" cannot suppress them. Unnecessary wakes unchanged.
+- New `agentos/retrieval_select.py` (BM25 + attribution + citation verifier; embeddings not available). `agentos module-eval --suite retrieval`, `--suite-file`.
+- compat adds an additive typed `trace`. Neural paths (Laya) showed no gain. See `docs/efficiency-patterns.md`. Fixtures are model-assisted, not human-reviewed; author knew the holdout.
+
 ### Run 3 — R3.1 SystemOne router wiring (branch `feature/run3-local-intelligence`, not merged)
 
 - The router's `fastgate` stage now runs a real SystemOne decision step: one typed question

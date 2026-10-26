@@ -1,0 +1,375 @@
+version: 1
+suite: retrieval-suite-v1
+authored: '2026-10-16'
+limitations: 'Synthetic, tiny, model-assisted labels (no human review). Vocabulary-mismatch
+  queries are included on purpose: lexical selection is expected to struggle there
+  and embeddings are not available to compare.'
+pool:
+- source_id: backup-a
+  path: notes/backup-a.md
+  text: Database backups run nightly at 02:00 and are kept for 35 days before deletion.
+- source_id: backup-b
+  path: notes/backup-b.md
+  text: The backup of the laptop photos is manual; nobody checks it on a schedule.
+- source_id: backup-c
+  path: notes/backup-c.md
+  text: Quarterly planning happens in the first week of each quarter.
+- source_id: rate-a
+  path: notes/rate-a.md
+  text: The public API allows 600 requests per minute per key; bursts above that receive
+    HTTP 429.
+- source_id: rate-b
+  path: notes/rate-b.md
+  text: Our request for a higher limit was discussed in the vendor call but never
+    filed.
+- source_id: rate-c
+  path: notes/rate-c.md
+  text: Office plants are watered on Mondays.
+- source_id: deploy-a
+  path: notes/deploy-a.md
+  text: Production deploys require a named human approver; the approver must not be
+    the author of the change.
+- source_id: deploy-b
+  path: notes/deploy-b.md
+  text: The deploy script prints the author name and the approver field for staging
+    runs.
+- source_id: deploy-c
+  path: notes/deploy-c.md
+  text: The cafeteria menu rotates every two weeks.
+- source_id: tls-a
+  path: notes/tls-a.md
+  text: TLS certificates are renewed 21 days before expiry by the platform team using
+    the shared renewal job.
+- source_id: tls-b
+  path: notes/tls-b.md
+  text: A certificate-themed team lunch happened last month.
+- source_id: tls-c
+  path: notes/tls-c.md
+  text: Parking permits are issued by facilities.
+- source_id: onboard-a
+  path: notes/onboard-a.md
+  text: New engineers get repository access on day one and production access only
+    after the security module is completed.
+- source_id: onboard-b
+  path: notes/onboard-b.md
+  text: The onboarding buddy shares the access request form for the meeting rooms.
+- source_id: onboard-c
+  path: notes/onboard-c.md
+  text: The VPN client is installed from the self-service portal.
+- source_id: interview-a
+  path: notes/interview-a.md
+  text: Interview feedback must be submitted within 24 hours using the structured
+    scorecard.
+- source_id: interview-b
+  path: notes/interview-b.md
+  text: The interview room on floor 3 has a broken projector.
+- source_id: interview-c
+  path: notes/interview-c.md
+  text: Salary bands are reviewed annually in March.
+- source_id: expense-a
+  path: notes/expense-a.md
+  text: Expenses above 250 EUR need a manager's written approval before purchase.
+- source_id: expense-b
+  path: notes/expense-b.md
+  text: The expense report template has a column for the cost center and a column
+    for the approval date.
+- source_id: expense-c
+  path: notes/expense-c.md
+  text: Team offsite dates are fixed for the second week of June.
+- source_id: postmortem-a
+  path: notes/postmortem-a.md
+  text: Every sev-1 incident gets a blameless postmortem published within five working
+    days.
+- source_id: postmortem-b
+  path: notes/postmortem-b.md
+  text: The postmortem template folder was moved to the shared drive.
+- source_id: postmortem-c
+  path: notes/postmortem-c.md
+  text: The on-call phone is charged at the front desk.
+- source_id: migrate-a
+  path: notes/migrate-a.md
+  text: Schema migrations may only run in the Tuesday and Thursday 22:00-23:00 maintenance
+    window.
+- source_id: migrate-b
+  path: notes/migrate-b.md
+  text: The migration guide for the old CRM is archived and no longer maintained.
+- source_id: migrate-c
+  path: notes/migrate-c.md
+  text: Stand-up is at 09:30 and takes fifteen minutes.
+- source_id: naming-a
+  path: notes/naming-a.md
+  text: Services are named kebab-case with the team prefix, for example pay-ledger-api.
+- source_id: naming-b
+  path: notes/naming-b.md
+  text: The team prefix list was copied from an older wiki page.
+- source_id: naming-c
+  path: notes/naming-c.md
+  text: Fridge cleaning happens on Fridays.
+- source_id: oncall-a
+  path: notes/oncall-a.md
+  text: The on-call rotation changes every Monday at 10:00 and the handover note goes
+    into the ops channel.
+- source_id: oncall-b
+  path: notes/oncall-b.md
+  text: On-call compensation is described in the HR handbook.
+- source_id: oncall-c
+  path: notes/oncall-c.md
+  text: Printer supplies are ordered by facilities.
+- source_id: retain-a
+  path: notes/retain-a.md
+  text: Customer chat logs are deleted after 90 days unless a legal hold applies.
+- source_id: retain-b
+  path: notes/retain-b.md
+  text: The legal hold template lives with the compliance team.
+- source_id: retain-c
+  path: notes/retain-c.md
+  text: Bicycle storage is in the basement.
+- source_id: yedek-a
+  path: notes/yedek-a.md
+  text: Veritabanı yedekleri her gece 02:00'de alınır ve 35 gün saklanır.
+- source_id: yedek-b
+  path: notes/yedek-b.md
+  text: Fotoğrafların yedeği elle alınır ve kimse düzenli kontrol etmez.
+- source_id: onay-a
+  path: notes/onay-a.md
+  text: Üretim dağıtımları için adı belli bir insan onaylayıcı gerekir; onaylayıcı
+    değişikliği yazan kişi olamaz.
+- source_id: onay-b
+  path: notes/onay-b.md
+  text: Dağıtım betiği hazırlık ortamında yazar adını ve onaylayıcı alanını yazdırır.
+- source_id: sertifika-a
+  path: notes/sertifika-a.md
+  text: TLS sertifikaları süresi dolmadan 21 gün önce platform ekibi tarafından yenilenir.
+- source_id: sertifika-b
+  path: notes/sertifika-b.md
+  text: Geçen ay sertifika temalı bir takım yemeği yapıldı.
+queries:
+- id: q01
+  lang: en
+  query: How long are database backups kept?
+  relevant:
+  - backup-a
+  kind: lexical
+- id: q02
+  lang: en
+  query: What happens when I exceed the API request limit?
+  relevant:
+  - rate-a
+  kind: lexical
+- id: q03
+  lang: en
+  query: Who can approve a production deploy?
+  relevant:
+  - deploy-a
+  kind: lexical
+- id: q04
+  lang: en
+  query: When are certificates renewed before they expire?
+  relevant:
+  - tls-a
+  kind: lexical
+- id: q05
+  lang: en
+  query: When do new hires get production access?
+  relevant:
+  - onboard-a
+  kind: lexical
+- id: q06
+  lang: en
+  query: How quickly must interviewers submit feedback?
+  relevant:
+  - interview-a
+  kind: lexical
+- id: q07
+  lang: en
+  query: Do I need sign-off to buy something costing 300 EUR?
+  relevant:
+  - expense-a
+  kind: vocab_mismatch
+- id: q08
+  lang: en
+  query: What is required after a severity one outage?
+  relevant:
+  - postmortem-a
+  kind: vocab_mismatch
+- id: q09
+  lang: en
+  query: When may we change the database structure in production?
+  relevant:
+  - migrate-a
+  kind: vocab_mismatch
+- id: q10
+  lang: en
+  query: How do we name a new service?
+  relevant:
+  - naming-a
+  kind: lexical
+- id: q11
+  lang: en
+  query: How long do we keep customer chat records?
+  relevant:
+  - retain-a
+  kind: vocab_mismatch
+- id: q12
+  lang: tr
+  query: Veritabanı yedekleri ne kadar süre saklanır?
+  relevant:
+  - yedek-a
+  kind: lexical
+- id: q13
+  lang: tr
+  query: Üretim dağıtımını kim onaylayabilir?
+  relevant:
+  - onay-a
+  kind: lexical
+- id: q14
+  lang: tr
+  query: Sertifikalar ne zaman yenilenir?
+  relevant:
+  - sertifika-a
+  kind: lexical
+- id: q15
+  lang: en
+  query: Who is on call this week and when does it rotate?
+  relevant:
+  - oncall-a
+  kind: lexical
+citation_cases:
+- id: c01
+  citations:
+  - source_id: backup-a
+    quote: kept for 35 days
+  expect:
+  - supported
+  selected_only:
+  - backup-a
+  - rate-a
+  - deploy-a
+  - tls-a
+  - yedek-a
+  - expense-a
+- id: c02
+  citations:
+  - source_id: backup-a
+    quote: kept for 90 days
+  expect:
+  - quote_not_in_source
+  selected_only:
+  - backup-a
+  - rate-a
+  - deploy-a
+  - tls-a
+  - yedek-a
+  - expense-a
+- id: c03
+  citations:
+  - source_id: backup-z
+    quote: kept for 35 days
+  expect:
+  - unknown_source
+  selected_only:
+  - backup-a
+  - rate-a
+  - deploy-a
+  - tls-a
+  - yedek-a
+  - expense-a
+- id: c04
+  citations:
+  - source_id: rate-a
+    quote: 600 requests per minute
+  - source_id: rate-a
+    quote: the API is limited to 600 req/min
+  expect:
+  - supported
+  - quote_not_in_source
+  selected_only:
+  - backup-a
+  - rate-a
+  - deploy-a
+  - tls-a
+  - yedek-a
+  - expense-a
+- id: c05
+  citations:
+  - source_id: deploy-a
+    quote: Production deploys require a NAMED human   approver
+  expect:
+  - supported
+  selected_only:
+  - backup-a
+  - rate-a
+  - deploy-a
+  - tls-a
+  - yedek-a
+  - expense-a
+- id: c06
+  citations:
+  - source_id: tls-c
+    quote: Parking permits are issued by facilities.
+  expect:
+  - source_not_selected
+  selected_only:
+  - backup-a
+  - rate-a
+  - deploy-a
+  - tls-a
+  - yedek-a
+  - expense-a
+- id: c07
+  citations:
+  - source_id: tls-a
+    quote: ''
+  expect:
+  - empty_quote
+  selected_only:
+  - backup-a
+  - rate-a
+  - deploy-a
+  - tls-a
+  - yedek-a
+  - expense-a
+- id: c08
+  citations:
+  - source_id: null
+    quote: x
+  - not a dict
+  expect:
+  - unknown_source
+  - unknown_source
+  selected_only:
+  - backup-a
+  - rate-a
+  - deploy-a
+  - tls-a
+  - yedek-a
+  - expense-a
+- id: c09
+  citations:
+  - source_id: yedek-a
+    quote: 35 gün saklanır
+  expect:
+  - supported
+  selected_only:
+  - backup-a
+  - rate-a
+  - deploy-a
+  - tls-a
+  - yedek-a
+  - expense-a
+- id: c10
+  citations:
+  - source_id: expense-a
+    quote: need a manager's written approval
+  - source_id: expense-b
+    quote: approval is always automatic
+  expect:
+  - supported
+  - source_not_selected
+  selected_only:
+  - backup-a
+  - rate-a
+  - deploy-a
+  - tls-a
+  - yedek-a
+  - expense-a

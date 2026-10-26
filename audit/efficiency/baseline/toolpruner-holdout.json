@@ -1,0 +1,192 @@
+{
+  "suite": "toolpruner-suite-v2-holdout",
+  "backend": "none",
+  "outputs": 14,
+  "essential_lines": 14,
+  "essential_lost": 1,
+  "essential_loss_rate": 0.0714,
+  "recovery_exact_all": true,
+  "tokens_before": 22521,
+  "tokens_after": 19414,
+  "token_reduction": 0.138,
+  "model_calls": 0,
+  "latency_ms": {
+    "p50": 0.1,
+    "max": 5.8
+  },
+  "records": [
+    {
+      "id": "tp2-holdout-001",
+      "lang": "en",
+      "tokens_before": 1309,
+      "tokens_after": 1309,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.5
+    },
+    {
+      "id": "tp2-holdout-002",
+      "lang": "en",
+      "tokens_before": 1201,
+      "tokens_after": 1201,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.3
+    },
+    {
+      "id": "tp2-holdout-003",
+      "lang": "en",
+      "tokens_before": 2861,
+      "tokens_after": 1451,
+      "reduction": 0.4928,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [
+        "worker-5c8   0/1   CrashLoopBackOff   14   31m"
+      ],
+      "recovery_exact": true,
+      "latency_ms": 5.8
+    },
+    {
+      "id": "tp2-holdout-004",
+      "lang": "en",
+      "tokens_before": 1322,
+      "tokens_after": 1322,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    },
+    {
+      "id": "tp2-holdout-005",
+      "lang": "en",
+      "tokens_before": 1426,
+      "tokens_after": 1426,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    },
+    {
+      "id": "tp2-holdout-006",
+      "lang": "en",
+      "tokens_before": 1311,
+      "tokens_after": 1311,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    },
+    {
+      "id": "tp2-holdout-007",
+      "lang": "en",
+      "tokens_before": 1409,
+      "tokens_after": 1409,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    },
+    {
+      "id": "tp2-holdout-008",
+      "lang": "en",
+      "tokens_before": 2089,
+      "tokens_after": 1615,
+      "reduction": 0.2269,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 4.3
+    },
+    {
+      "id": "tp2-holdout-009",
+      "lang": "en",
+      "tokens_before": 2188,
+      "tokens_after": 1579,
+      "reduction": 0.2783,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 4.4
+    },
+    {
+      "id": "tp2-holdout-010",
+      "lang": "tr",
+      "tokens_before": 2233,
+      "tokens_after": 1619,
+      "reduction": 0.275,
+      "path": "deterministic",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 4.4
+    },
+    {
+      "id": "tp2-holdout-011",
+      "lang": "en",
+      "tokens_before": 1192,
+      "tokens_after": 1192,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    },
+    {
+      "id": "tp2-holdout-012",
+      "lang": "en",
+      "tokens_before": 1431,
+      "tokens_after": 1431,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    },
+    {
+      "id": "tp2-holdout-013",
+      "lang": "tr",
+      "tokens_before": 1362,
+      "tokens_after": 1362,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    },
+    {
+      "id": "tp2-holdout-014",
+      "lang": "en",
+      "tokens_before": 1187,
+      "tokens_after": 1187,
+      "reduction": 0.0,
+      "path": "passthrough",
+      "model_calls": 0,
+      "missing_essential": [],
+      "recovery_exact": true,
+      "latency_ms": 0.1
+    }
+  ],
+  "acceptance_pass": false,
+  "suite_file": "evals/data/modules/toolpruner-suite-v2-holdout.yaml",
+  "token_measurement": "character-count estimate: ceil(chars/4), not tokenizer-measured"
+}

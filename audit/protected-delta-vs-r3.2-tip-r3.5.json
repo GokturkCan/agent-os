@@ -1,0 +1,26 @@
+{
+ "review_status": "PENDING HUMAN REVIEW BEFORE MERGE (manifest refreshes were mechanical, NOT approval)",
+ "base": "feature/run3-local-intelligence 2f9b498",
+ "head": "R3.5 working tree (see git log of feature/run3-efficiency-patterns)",
+ "scope": "Every file matching agentos.permissions.PROTECTED_POLICY_PATHS (including evals/protected-manifest.json itself) that differs between the PR #3 tip (2f9b498) and the working tree. sha256 of file bytes.",
+ "supersedes": null,
+ "added": {
+  "evals/data/author_retrieval_suite.py": "9691d3ed94e8d9bf31045554aeb7d0ccfa318c2f8edb3663798a6759957809e7",
+  "evals/data/modules/author_efficiency_suites.py": "ec7fe5fcb4d86b35945d5da7d1e627f12a009c81bbbb407404eeef86336e7159",
+  "evals/data/modules/contextgate-suite-v2-dev.yaml": "36003ee999fe33ca9dc4907aa7b16f1349def6f99ae9412a586ede8d321bd3d0",
+  "evals/data/modules/contextgate-suite-v2-holdout.yaml": "8e74f4777d4c611ec4e77e13036b68342384c7b2d2b331b77f8b87e1bb95b8d6",
+  "evals/data/modules/toolpruner-suite-v2-dev.yaml": "e775e74e54dc7ef42c360d01f50872f3e6875ee4858ef982a198750cd91b3925",
+  "evals/data/modules/toolpruner-suite-v2-holdout.yaml": "41aec3e022c79cf856bdfe0b3e5077f733aa283fe4ddeb33531df04a34bddf07",
+  "evals/data/modules/wakegate-suite-v2-dev.yaml": "18d4b6a5c98bba32ffcf9b8f662c3a07e66f82d47d28873e509eb3237207e3f3",
+  "evals/data/modules/wakegate-suite-v2-holdout.yaml": "976691333df68fe7026db28b22657873784bde1453315e11a4d89a632f080e93",
+  "evals/data/retrieval-suite-v1.yaml": "79314892c26f06dac1acb6309b76d1e2bd108864f2939b4ad7421addd13fad71",
+  "evals/test_efficiency_patterns.py": "9491451bb33b4a501c19f2c702d9720df4395f72654fea900d139287616a2c03"
+ },
+ "modified": {
+  "evals/protected-manifest.json": {
+   "before": "288d2870ecb174c9d32e6fceee4890e35de1386b90a26462244168d15020dc2e",
+   "after": "3b04e9cacc0f08f23bbb7b8d8acf655959e9b92eabf737579b548b0267fd8e46"
+  }
+ },
+ "removed": []
+}

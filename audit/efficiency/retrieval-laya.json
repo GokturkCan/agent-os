@@ -1,0 +1,450 @@
+{
+  "suite": "retrieval-suite-v1",
+  "backend": "laya-mlx",
+  "strategies": {
+    "naive-word-overlap": {
+      "all": {
+        "n": 15,
+        "recall@1": 0.667,
+        "recall@3": 0.733,
+        "mrr": 0.7
+      },
+      "lexical_queries": {
+        "n": 11,
+        "recall@1": 0.727,
+        "recall@3": 0.727,
+        "mrr": 0.727
+      },
+      "vocab_mismatch_queries": {
+        "n": 4,
+        "recall@1": 0.5,
+        "recall@3": 0.75,
+        "mrr": 0.625
+      },
+      "ms_total": 0.5,
+      "records": [
+        {
+          "id": "q01",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q02",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": null
+        },
+        {
+          "id": "q03",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q04",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q05",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q06",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q07",
+          "kind": "vocab_mismatch",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q08",
+          "kind": "vocab_mismatch",
+          "lang": "en",
+          "rank": null
+        },
+        {
+          "id": "q09",
+          "kind": "vocab_mismatch",
+          "lang": "en",
+          "rank": 2
+        },
+        {
+          "id": "q10",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": null
+        },
+        {
+          "id": "q11",
+          "kind": "vocab_mismatch",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q12",
+          "kind": "lexical",
+          "lang": "tr",
+          "rank": 1
+        },
+        {
+          "id": "q13",
+          "kind": "lexical",
+          "lang": "tr",
+          "rank": 1
+        },
+        {
+          "id": "q14",
+          "kind": "lexical",
+          "lang": "tr",
+          "rank": 1
+        },
+        {
+          "id": "q15",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": null
+        }
+      ]
+    },
+    "lexical-bm25": {
+      "all": {
+        "n": 15,
+        "recall@1": 0.733,
+        "recall@3": 0.867,
+        "mrr": 0.789
+      },
+      "lexical_queries": {
+        "n": 11,
+        "recall@1": 0.818,
+        "recall@3": 1.0,
+        "mrr": 0.894
+      },
+      "vocab_mismatch_queries": {
+        "n": 4,
+        "recall@1": 0.5,
+        "recall@3": 0.5,
+        "mrr": 0.5
+      },
+      "ms_total": 2.2,
+      "records": [
+        {
+          "id": "q01",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q02",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 2
+        },
+        {
+          "id": "q03",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q04",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q05",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q06",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q07",
+          "kind": "vocab_mismatch",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q08",
+          "kind": "vocab_mismatch",
+          "lang": "en",
+          "rank": null
+        },
+        {
+          "id": "q09",
+          "kind": "vocab_mismatch",
+          "lang": "en",
+          "rank": null
+        },
+        {
+          "id": "q10",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 3
+        },
+        {
+          "id": "q11",
+          "kind": "vocab_mismatch",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q12",
+          "kind": "lexical",
+          "lang": "tr",
+          "rank": 1
+        },
+        {
+          "id": "q13",
+          "kind": "lexical",
+          "lang": "tr",
+          "rank": 1
+        },
+        {
+          "id": "q14",
+          "kind": "lexical",
+          "lang": "tr",
+          "rank": 1
+        },
+        {
+          "id": "q15",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        }
+      ]
+    },
+    "lexical+neural-rerank": {
+      "all": {
+        "n": 15,
+        "recall@1": 0.8,
+        "recall@3": 0.867,
+        "mrr": 0.833
+      },
+      "lexical_queries": {
+        "n": 11,
+        "recall@1": 0.909,
+        "recall@3": 1.0,
+        "mrr": 0.955
+      },
+      "vocab_mismatch_queries": {
+        "n": 4,
+        "recall@1": 0.5,
+        "recall@3": 0.5,
+        "mrr": 0.5
+      },
+      "ms_total": 1176.2,
+      "records": [
+        {
+          "id": "q01",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q02",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q03",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q04",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q05",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 2
+        },
+        {
+          "id": "q06",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q07",
+          "kind": "vocab_mismatch",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q08",
+          "kind": "vocab_mismatch",
+          "lang": "en",
+          "rank": null
+        },
+        {
+          "id": "q09",
+          "kind": "vocab_mismatch",
+          "lang": "en",
+          "rank": null
+        },
+        {
+          "id": "q10",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q11",
+          "kind": "vocab_mismatch",
+          "lang": "en",
+          "rank": 1
+        },
+        {
+          "id": "q12",
+          "kind": "lexical",
+          "lang": "tr",
+          "rank": 1
+        },
+        {
+          "id": "q13",
+          "kind": "lexical",
+          "lang": "tr",
+          "rank": 1
+        },
+        {
+          "id": "q14",
+          "kind": "lexical",
+          "lang": "tr",
+          "rank": 1
+        },
+        {
+          "id": "q15",
+          "kind": "lexical",
+          "lang": "en",
+          "rank": 1
+        }
+      ]
+    }
+  },
+  "embedding_selection": "unavailable: no embedding model installed; none downloaded (not measured, not estimated)",
+  "citation_cases": 10,
+  "citation_false_accepts": 0,
+  "citation_verdict_mismatches": 0,
+  "citations": [
+    {
+      "id": "c01",
+      "got": [
+        "supported"
+      ],
+      "expect": [
+        "supported"
+      ]
+    },
+    {
+      "id": "c02",
+      "got": [
+        "quote_not_in_source"
+      ],
+      "expect": [
+        "quote_not_in_source"
+      ]
+    },
+    {
+      "id": "c03",
+      "got": [
+        "unknown_source"
+      ],
+      "expect": [
+        "unknown_source"
+      ]
+    },
+    {
+      "id": "c04",
+      "got": [
+        "supported",
+        "quote_not_in_source"
+      ],
+      "expect": [
+        "supported",
+        "quote_not_in_source"
+      ]
+    },
+    {
+      "id": "c05",
+      "got": [
+        "supported"
+      ],
+      "expect": [
+        "supported"
+      ]
+    },
+    {
+      "id": "c06",
+      "got": [
+        "source_not_selected"
+      ],
+      "expect": [
+        "source_not_selected"
+      ]
+    },
+    {
+      "id": "c07",
+      "got": [
+        "empty_quote"
+      ],
+      "expect": [
+        "empty_quote"
+      ]
+    },
+    {
+      "id": "c08",
+      "got": [
+        "unknown_source",
+        "unknown_source"
+      ],
+      "expect": [
+        "unknown_source",
+        "unknown_source"
+      ]
+    },
+    {
+      "id": "c09",
+      "got": [
+        "supported"
+      ],
+      "expect": [
+        "supported"
+      ]
+    },
+    {
+      "id": "c10",
+      "got": [
+        "supported",
+        "source_not_selected"
+      ],
+      "expect": [
+        "supported",
+        "source_not_selected"
+      ]
+    }
+  ],
+  "acceptance_pass": true,
+  "suite_file": null,
+  "token_measurement": "character-count estimate: ceil(chars/4), not tokenizer-measured"
+}

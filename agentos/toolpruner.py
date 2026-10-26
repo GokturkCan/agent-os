@@ -40,7 +40,7 @@ class Pruned:
 
 
 def _protected(line: str) -> bool:
-    return bool(PROTECT.search(line) or protected_lines(line))
+    return bool(PROTECT.search(line) or protected_lines(line, identifiers=False))
 
 
 def _norm(line: str) -> str:
