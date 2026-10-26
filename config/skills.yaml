@@ -35,6 +35,33 @@ sources:
       record, deterministic task mapping) needs a separate protected approval. Never selected by description matching:
       explicit dispatch only. Verify with scripts/verify_skills_lock.py.
 
+  # Engineering-skill staging (2026-10-26): vendored DORMANT review/reference modules. Status `candidate` = named, not usable.
+  # Not under skills/, no registry record, no worker exposure; activation needs a separate protected approval.
+  mattpocock_skills:
+    status: candidate
+    location: "~/agent-stack/third_party/mattpocock-skills (vendored, DORMANT; not on any loading path)"
+    role: "Deep-module design vocabulary (codebase-design) for design/review work."
+    agent_os: optional_specialist
+    source: "github.com/mattpocock/skills commit 5beb35b040e3de97e54fa9e386d7e42d15c295c2 (MIT; hashes in scripts/runtime/skills.lock.json)"
+  vercel_agent_skills:
+    status: candidate
+    location: "~/agent-stack/third_party/vercel-agent-skills (vendored, DORMANT; not on any loading path)"
+    role: "React/Next.js performance rules and component-composition patterns (review rubric)."
+    agent_os: optional_specialist
+    source: "github.com/vercel-labs/agent-skills commit 063bee94c3f4df8453406c830b0a7df0f2860278 (MIT per README/SKILL frontmatter; NO LICENSE file upstream, see PROVENANCE.md)"
+  emilkowalski_skill:
+    status: candidate
+    location: "~/agent-stack/third_party/emilkowalski-skill (vendored, DORMANT; not on any loading path)"
+    role: "Animation performance and worst-case-data UI stress review."
+    agent_os: optional_specialist
+    source: "github.com/emilkowalski/skill commit 2d228630ba1446365f614a108cb8252f1feda202 (MIT)"
+  addyosmani_agent_skills:
+    status: candidate
+    location: "~/agent-stack/third_party/addyosmani-agent-skills (vendored, DORMANT; not on any loading path)"
+    role: "API/interface design, security hardening, observability, CI/CD and deprecation/migration engineering rubrics."
+    agent_os: optional_specialist
+    source: "github.com/addyosmani/agent-skills tag 0.6.13, commit aeac41d4d005999432bb7312f7ff06383a91d59d (MIT; hooks/ not staged)"
+
   claude_obsidian:
     status: configured
     location: "Claude plugin claude-obsidian@agricidaniel-claude-obsidian 2.2.0"
