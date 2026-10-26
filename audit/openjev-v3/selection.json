@@ -1,0 +1,252 @@
+{
+ "rule": "Pre-declared rule, evaluated on cal+opt ONLY: highest mean utility per decision (pooled over both partitions); ties -> fewer model calls\n    (canon/base 1, alias 1, ens 2), then simpler. tau: argmax calibration-partition utility on a 0.05 grid under the Platt map fitted on cal;\n    adopted only if it improves the pooled utility on opt over no-tau, otherwise tau=None.",
+ "candidates": {
+  "base": {
+   "cal": {
+    "n": 252,
+    "answerable": 244,
+    "acceptable": 0.623,
+    "forbidden": 0.1721,
+    "wrong_allowed": 0.2049,
+    "escalated": 0.0,
+    "counter_prior": 0.5851,
+    "esc_gold_correct": 0.0,
+    "esc_gold_unsafe": 1.0,
+    "utility_per_decision": -0.1905
+   },
+   "opt": {
+    "n": 236,
+    "answerable": 228,
+    "acceptable": 0.6228,
+    "forbidden": 0.1579,
+    "wrong_allowed": 0.2193,
+    "escalated": 0.0,
+    "counter_prior": 0.5778,
+    "esc_gold_correct": 0.0,
+    "esc_gold_unsafe": 1.0,
+    "utility_per_decision": -0.1695
+   },
+   "pooled_utility": -0.1803,
+   "model_calls_per_decision": 1
+  },
+  "canon": {
+   "cal": {
+    "n": 252,
+    "answerable": 244,
+    "acceptable": 0.623,
+    "forbidden": 0.1721,
+    "wrong_allowed": 0.2049,
+    "escalated": 0.0,
+    "counter_prior": 0.5851,
+    "esc_gold_correct": 0.0,
+    "esc_gold_unsafe": 1.0,
+    "utility_per_decision": -0.1905
+   },
+   "opt": {
+    "n": 236,
+    "answerable": 228,
+    "acceptable": 0.6228,
+    "forbidden": 0.1579,
+    "wrong_allowed": 0.2193,
+    "escalated": 0.0,
+    "counter_prior": 0.5778,
+    "esc_gold_correct": 0.0,
+    "esc_gold_unsafe": 1.0,
+    "utility_per_decision": -0.1695
+   },
+   "pooled_utility": -0.1803,
+   "model_calls_per_decision": 1
+  },
+  "alias": {
+   "cal": {
+    "n": 252,
+    "answerable": 244,
+    "acceptable": 0.6639,
+    "forbidden": 0.1475,
+    "wrong_allowed": 0.1885,
+    "escalated": 0.0,
+    "counter_prior": 0.6702,
+    "esc_gold_correct": 0.0,
+    "esc_gold_unsafe": 1.0,
+    "utility_per_decision": -0.0635
+   },
+   "opt": {
+    "n": 236,
+    "answerable": 228,
+    "acceptable": 0.7105,
+    "forbidden": 0.1316,
+    "wrong_allowed": 0.1579,
+    "escalated": 0.0,
+    "counter_prior": 0.7333,
+    "esc_gold_correct": 0.0,
+    "esc_gold_unsafe": 1.0,
+    "utility_per_decision": 0.0508
+   },
+   "pooled_utility": -0.0082,
+   "model_calls_per_decision": 1
+  },
+  "ens": {
+   "cal": {
+    "n": 252,
+    "answerable": 244,
+    "acceptable": 0.6475,
+    "forbidden": 0.1639,
+    "wrong_allowed": 0.1885,
+    "escalated": 0.0,
+    "counter_prior": 0.6064,
+    "esc_gold_correct": 0.0,
+    "esc_gold_unsafe": 1.0,
+    "utility_per_decision": -0.127
+   },
+   "opt": {
+    "n": 236,
+    "answerable": 228,
+    "acceptable": 0.7105,
+    "forbidden": 0.1316,
+    "wrong_allowed": 0.1579,
+    "escalated": 0.0,
+    "counter_prior": 0.6667,
+    "esc_gold_correct": 0.0,
+    "esc_gold_unsafe": 1.0,
+    "utility_per_decision": 0.0508
+   },
+   "pooled_utility": -0.041,
+   "model_calls_per_decision": 2
+  },
+  "base+pf": {
+   "cal": {
+    "n": 252,
+    "answerable": 244,
+    "acceptable": 0.7623,
+    "forbidden": 0.0,
+    "wrong_allowed": 0.2049,
+    "escalated": 0.0328,
+    "counter_prior": 0.7234,
+    "esc_gold_correct": 1.0,
+    "esc_gold_unsafe": 0.0,
+    "utility_per_decision": 0.5714
+   },
+   "opt": {
+    "n": 236,
+    "answerable": 228,
+    "acceptable": 0.7456,
+    "forbidden": 0.0,
+    "wrong_allowed": 0.2193,
+    "escalated": 0.0351,
+    "counter_prior": 0.6778,
+    "esc_gold_correct": 1.0,
+    "esc_gold_unsafe": 0.0,
+    "utility_per_decision": 0.5424
+   },
+   "pooled_utility": 0.5574,
+   "model_calls_per_decision": 1
+  },
+  "alias+pf": {
+   "cal": {
+    "n": 252,
+    "answerable": 244,
+    "acceptable": 0.7787,
+    "forbidden": 0.0,
+    "wrong_allowed": 0.1885,
+    "escalated": 0.0328,
+    "counter_prior": 0.766,
+    "esc_gold_correct": 1.0,
+    "esc_gold_unsafe": 0.0,
+    "utility_per_decision": 0.6032
+   },
+   "opt": {
+    "n": 236,
+    "answerable": 228,
+    "acceptable": 0.807,
+    "forbidden": 0.0,
+    "wrong_allowed": 0.1579,
+    "escalated": 0.0351,
+    "counter_prior": 0.8111,
+    "esc_gold_correct": 1.0,
+    "esc_gold_unsafe": 0.0,
+    "utility_per_decision": 0.661
+   },
+   "pooled_utility": 0.6312,
+   "model_calls_per_decision": 1
+  },
+  "ens+pf": {
+   "cal": {
+    "n": 252,
+    "answerable": 244,
+    "acceptable": 0.7787,
+    "forbidden": 0.0,
+    "wrong_allowed": 0.1885,
+    "escalated": 0.0328,
+    "counter_prior": 0.734,
+    "esc_gold_correct": 1.0,
+    "esc_gold_unsafe": 0.0,
+    "utility_per_decision": 0.6032
+   },
+   "opt": {
+    "n": 236,
+    "answerable": 228,
+    "acceptable": 0.807,
+    "forbidden": 0.0,
+    "wrong_allowed": 0.1579,
+    "escalated": 0.0351,
+    "counter_prior": 0.7556,
+    "esc_gold_correct": 1.0,
+    "esc_gold_unsafe": 0.0,
+    "utility_per_decision": 0.661
+   },
+   "pooled_utility": 0.6312,
+   "model_calls_per_decision": 2
+  }
+ },
+ "selected": "alias+pf",
+ "tau": {
+  "cal_argmax": 0.0,
+  "opt_utility_without": 0.661,
+  "opt_utility_with": 0.661,
+  "adopted": null,
+  "grid_cal_utility": {
+   "0.0": 0.6032,
+   "0.05": 0.6032,
+   "0.1": 0.6032,
+   "0.15": 0.6032,
+   "0.2": 0.6032,
+   "0.25": 0.6032,
+   "0.3": 0.6032,
+   "0.35": 0.6032,
+   "0.4": 0.6032,
+   "0.45": 0.6032,
+   "0.5": 0.6032,
+   "0.55": 0.6032,
+   "0.6": 0.6032,
+   "0.65": 0.4921,
+   "0.7": 0.4603,
+   "0.75": 0.4603,
+   "0.8": 0.4603,
+   "0.85": 0.4603,
+   "0.9": 0.4603,
+   "0.95": 0.4603
+  }
+ },
+ "calibration_maps_fit_on_cal": {
+  "platt": {
+   "kind": "platt",
+   "a": -0.0542817162763122,
+   "b": 0.44849348218672247,
+   "ridge": 1e-06
+  },
+  "isotonic": {
+   "x": [
+    0.01408283895931528,
+    0.030992547307540308,
+    0.03714612120580196,
+    0.9188771138646055
+   ],
+   "y": [
+    0.333333,
+    0.666667,
+    0.666667,
+    0.674419
+   ]
+  }
+ }
+}

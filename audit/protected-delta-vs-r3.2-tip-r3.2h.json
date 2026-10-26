@@ -1,0 +1,20 @@
+{
+ "review_status": "PENDING HUMAN REVIEW BEFORE MERGE (manifest refreshes were mechanical, NOT approval)",
+ "base": "feature/run3-local-intelligence 2f9b498",
+ "head": "R3.2H working tree (see git log of feature/run3-openjev-optimization)",
+ "scope": "Every file matching agentos.permissions.PROTECTED_POLICY_PATHS (including evals/protected-manifest.json itself) that differs between the PR #3 tip (2f9b498) and the working tree. sha256 of file bytes.",
+ "supersedes": null,
+ "added": {
+  "evals/data/openjev-v3-cal.yaml": "a5aa118fd7f6b05b81c86fda94058fd3deaf3c3ccb9109679bb4405d199225d5",
+  "evals/data/openjev-v3-final.yaml": "c707921a14c50cb9d20d9c1503d67961be8bcf9294ec6fe1036c5cfa7a538a41",
+  "evals/data/openjev-v3-opt.yaml": "c6318e69561473cd04fef7e7f9cff28d7e5e969e64a69f45dcccc16c7251cef8",
+  "evals/test_openjev_opt.py": "6b7fd0efdfada4c86b1c76b19494aa202770b57083c83974c2e4ad9e3433c536"
+ },
+ "modified": {
+  "evals/protected-manifest.json": {
+   "before": "288d2870ecb174c9d32e6fceee4890e35de1386b90a26462244168d15020dc2e",
+   "after": "6b21038dd92756cb7da144456d3a2778b05e861d0a41daa4f9b2973147bb6d86"
+  }
+ },
+ "removed": []
+}

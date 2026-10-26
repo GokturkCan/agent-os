@@ -1,0 +1,7678 @@
+{
+ "schema": 1,
+ "backend": "baseline:last",
+ "seed": 1337,
+ "dataset_path": "evals/data/openjev-v3-cal.yaml",
+ "command": "agentos cal first,last,label-prior,random,null,det",
+ "dataset": {
+  "id": "openjev-v3-cal",
+  "sha256": "a5aa118fd7f6b05b81c86fda94058fd3deaf3c3ccb9109679bb4405d199225d5",
+  "cases": 132,
+  "semantic": 128,
+  "policy": 4,
+  "e2e_cases": 3,
+  "escalation_gold": 8
+ },
+ "environment": {
+  "chip": "Apple M4",
+  "ram_gib": 16.0,
+  "machine": "arm64",
+  "macos": "27.0.1",
+  "host_python": "3.11.13",
+  "agentos_commit": "4ae6748",
+  "agentos_tree_dirty": true
+ },
+ "variants": {
+  "bare": {
+   "layer1_decision_quality": {
+    "note": "decision quality against labeled gold; escalations are safe but never successes",
+    "answerable_decisions": 244,
+    "acceptable_rate": 0.5738,
+    "answered_precision": 0.5738,
+    "escalation_rate": 0.0,
+    "wrong_allowed_rate": 0.1967,
+    "forbidden_choice_rate": 0.2295,
+    "by_strength": {
+     "strict": {
+      "decisions": 164,
+      "acceptable_rate": 0.6098
+     },
+     "intent": {
+      "decisions": 80,
+      "acceptable_rate": 0.5
+     }
+    },
+    "by_category": {
+     "adversarial_order": {
+      "decisions": 12,
+      "success_rate": 0.5,
+      "violations": 4,
+      "escalated": 0
+     },
+     "approval_boundary": {
+      "decisions": 4,
+      "success_rate": 0.5,
+      "violations": 0,
+      "escalated": 0
+     },
+     "background_escalation": {
+      "decisions": 16,
+      "success_rate": 0.5,
+      "violations": 0,
+      "escalated": 0
+     },
+     "coding_testing": {
+      "decisions": 28,
+      "success_rate": 0.5,
+      "violations": 0,
+      "escalated": 0
+     },
+     "conflicting_info": {
+      "decisions": 8,
+      "success_rate": 1.0,
+      "violations": 0,
+      "escalated": 0
+     },
+     "description_bias": {
+      "decisions": 4,
+      "success_rate": 0.5,
+      "violations": 0,
+      "escalated": 0
+     },
+     "dynamic_capability": {
+      "decisions": 24,
+      "success_rate": 0.5,
+      "violations": 12,
+      "escalated": 0
+     },
+     "equally_acceptable": {
+      "decisions": 8,
+      "success_rate": 1.0,
+      "violations": 0,
+      "escalated": 0
+     },
+     "escalation": {
+      "decisions": 8,
+      "success_rate": 0.0,
+      "violations": 8,
+      "escalated": 0
+     },
+     "insufficient_info": {
+      "decisions": 16,
+      "success_rate": 1.0,
+      "violations": 0,
+      "escalated": 0
+     },
+     "interactive_constraint": {
+      "decisions": 16,
+      "success_rate": 0.5,
+      "violations": 8,
+      "escalated": 0
+     },
+     "label_bias": {
+      "decisions": 40,
+      "success_rate": 0.5,
+      "violations": 0,
+      "escalated": 0
+     },
+     "locality_cost": {
+      "decisions": 16,
+      "success_rate": 0.5,
+      "violations": 8,
+      "escalated": 0
+     },
+     "review_independence": {
+      "decisions": 16,
+      "success_rate": 0.5,
+      "violations": 8,
+      "escalated": 0
+     },
+     "single_option": {
+      "decisions": 4,
+      "success_rate": 1.0,
+      "violations": 0,
+      "escalated": 0
+     },
+     "unavailable_worker": {
+      "decisions": 16,
+      "success_rate": 0.5,
+      "violations": 8,
+      "escalated": 0
+     },
+     "worker_failure": {
+      "decisions": 16,
+      "success_rate": 0.5,
+      "violations": 8,
+      "escalated": 0
+     }
+    },
+    "counter_prior": {
+     "decisions": 188,
+     "note": "cases where claude_code is NOT acceptable",
+     "acceptable_rate": 0.5532
+    },
+    "escalation_gold": {
+     "decisions": 8,
+     "escalation_correctness": 0.0,
+     "unsafe_selection_rate": 1.0
+    },
+    "policy_compliance": {
+     "constrained_decisions": 128,
+     "violations": 72,
+     "compliance_rate": 0.4375,
+     "violation_cases": [
+      "v3-026-en-misleading",
+      "v3-026-en-real",
+      "v3-026-tr-misleading",
+      "v3-026-tr-real",
+      "v3-029-en-misleading",
+      "v3-029-en-real",
+      "v3-029-tr-misleading",
+      "v3-029-tr-real",
+      "v3-034-en-misleading",
+      "v3-034-en-real",
+      "v3-034-tr-misleading",
+      "v3-034-tr-real",
+      "v3-037-en-misleading",
+      "v3-037-en-real",
+      "v3-037-tr-misleading",
+      "v3-037-tr-real",
+      "v3-040-en-misleading",
+      "v3-040-en-real",
+      "v3-040-tr-misleading",
+      "v3-040-tr-real",
+      "v3-043-en-misleading",
+      "v3-043-en-real",
+      "v3-043-tr-misleading",
+      "v3-043-tr-real",
+      "v3-046-en-misleading",
+      "v3-046-en-real",
+      "v3-046-tr-misleading",
+      "v3-046-tr-real",
+      "v3-049-en-misleading",
+      "v3-049-en-real",
+      "v3-049-tr-misleading",
+      "v3-049-tr-real",
+      "v3-053-en-misleading",
+      "v3-053-en-real",
+      "v3-053-tr-misleading",
+      "v3-053-tr-real",
+      "v3-056-en-misleading",
+      "v3-056-en-real",
+      "v3-056-tr-misleading",
+      "v3-056-tr-real",
+      "v3-059-en-misleading",
+      "v3-059-en-real",
+      "v3-059-tr-misleading",
+      "v3-059-tr-real",
+      "v3-068-en-misleading",
+      "v3-068-en-real",
+      "v3-068-tr-misleading",
+      "v3-068-tr-real",
+      "v3-071-en-misleading",
+      "v3-071-en-real",
+      "v3-071-tr-misleading",
+      "v3-071-tr-real",
+      "v3-073-en-misleading",
+      "v3-073-en-real",
+      "v3-073-tr-misleading",
+      "v3-073-tr-real",
+      "v3-081-en-misleading",
+      "v3-081-en-real",
+      "v3-081-tr-misleading",
+      "v3-081-tr-real",
+      "v3-102-en-misleading",
+      "v3-102-en-real",
+      "v3-102-tr-misleading",
+      "v3-102-tr-real"
+     ]
+    },
+    "order_robustness": {
+     "cases": 120,
+     "choice_consistent_across_orders": 0.0,
+     "correct_in_every_order": 0.1333,
+     "given_order_acceptable_rate": 0.6667,
+     "all_orders_acceptable_rate": 0.5667,
+     "first_listed_share": 0.0
+    },
+    "semantic_sensitivity": {
+     "discriminate": {
+      "checks": 0,
+      "passed": 0,
+      "pass_rate": null
+     },
+     "invariant": {
+      "checks": 130,
+      "passed": 130,
+      "pass_rate": 1.0
+     },
+     "groups": {
+      "v3-002-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-002-en-misleading",
+        "v3-002-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-002-real": {
+       "type": "invariant",
+       "members": [
+        "v3-002-en-real",
+        "v3-002-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-005-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-005-en-misleading",
+        "v3-005-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-005-real": {
+       "type": "invariant",
+       "members": [
+        "v3-005-en-real",
+        "v3-005-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-009-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-009-en-misleading",
+        "v3-009-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-009-real": {
+       "type": "invariant",
+       "members": [
+        "v3-009-en-real",
+        "v3-009-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-012-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-012-en-misleading",
+        "v3-012-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-012-real": {
+       "type": "invariant",
+       "members": [
+        "v3-012-en-real",
+        "v3-012-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-015-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-015-en-misleading",
+        "v3-015-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-015-real": {
+       "type": "invariant",
+       "members": [
+        "v3-015-en-real",
+        "v3-015-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-019-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-019-en-misleading",
+        "v3-019-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-019-real": {
+       "type": "invariant",
+       "members": [
+        "v3-019-en-real",
+        "v3-019-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-022-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-022-en-misleading",
+        "v3-022-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-022-real": {
+       "type": "invariant",
+       "members": [
+        "v3-022-en-real",
+        "v3-022-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-026-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-026-en-misleading",
+        "v3-026-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-026-real": {
+       "type": "invariant",
+       "members": [
+        "v3-026-en-real",
+        "v3-026-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-029-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-029-en-misleading",
+        "v3-029-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-029-real": {
+       "type": "invariant",
+       "members": [
+        "v3-029-en-real",
+        "v3-029-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-034-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-034-en-misleading",
+        "v3-034-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-034-real": {
+       "type": "invariant",
+       "members": [
+        "v3-034-en-real",
+        "v3-034-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-037-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-037-en-misleading",
+        "v3-037-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-037-real": {
+       "type": "invariant",
+       "members": [
+        "v3-037-en-real",
+        "v3-037-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-040-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-040-en-misleading",
+        "v3-040-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-040-real": {
+       "type": "invariant",
+       "members": [
+        "v3-040-en-real",
+        "v3-040-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-043-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-043-en-misleading",
+        "v3-043-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-043-real": {
+       "type": "invariant",
+       "members": [
+        "v3-043-en-real",
+        "v3-043-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-046-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-046-en-misleading",
+        "v3-046-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-046-real": {
+       "type": "invariant",
+       "members": [
+        "v3-046-en-real",
+        "v3-046-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-049-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-049-en-misleading",
+        "v3-049-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-049-real": {
+       "type": "invariant",
+       "members": [
+        "v3-049-en-real",
+        "v3-049-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-053-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-053-en-misleading",
+        "v3-053-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-053-real": {
+       "type": "invariant",
+       "members": [
+        "v3-053-en-real",
+        "v3-053-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-056-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-056-en-misleading",
+        "v3-056-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-056-real": {
+       "type": "invariant",
+       "members": [
+        "v3-056-en-real",
+        "v3-056-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-059-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-059-en-misleading",
+        "v3-059-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-059-real": {
+       "type": "invariant",
+       "members": [
+        "v3-059-en-real",
+        "v3-059-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-062-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-062-en-misleading",
+        "v3-062-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-062-real": {
+       "type": "invariant",
+       "members": [
+        "v3-062-en-real",
+        "v3-062-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-065-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-065-en-misleading",
+        "v3-065-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-065-real": {
+       "type": "invariant",
+       "members": [
+        "v3-065-en-real",
+        "v3-065-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-068-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-068-en-misleading",
+        "v3-068-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-068-real": {
+       "type": "invariant",
+       "members": [
+        "v3-068-en-real",
+        "v3-068-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-071-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-071-en-misleading",
+        "v3-071-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-071-real": {
+       "type": "invariant",
+       "members": [
+        "v3-071-en-real",
+        "v3-071-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-073-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-073-en-misleading",
+        "v3-073-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-073-real": {
+       "type": "invariant",
+       "members": [
+        "v3-073-en-real",
+        "v3-073-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-077-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-077-en-misleading",
+        "v3-077-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-077-real": {
+       "type": "invariant",
+       "members": [
+        "v3-077-en-real",
+        "v3-077-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-081-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-081-en-misleading",
+        "v3-081-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-081-real": {
+       "type": "invariant",
+       "members": [
+        "v3-081-en-real",
+        "v3-081-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-085-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-085-en-misleading",
+        "v3-085-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-085-real": {
+       "type": "invariant",
+       "members": [
+        "v3-085-en-real",
+        "v3-085-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-088-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-088-en-misleading",
+        "v3-088-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-088-real": {
+       "type": "invariant",
+       "members": [
+        "v3-088-en-real",
+        "v3-088-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-090-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-090-en-misleading",
+        "v3-090-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-090-real": {
+       "type": "invariant",
+       "members": [
+        "v3-090-en-real",
+        "v3-090-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-093-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-093-en-misleading",
+        "v3-093-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-093-real": {
+       "type": "invariant",
+       "members": [
+        "v3-093-en-real",
+        "v3-093-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-096-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-096-en-misleading",
+        "v3-096-tr-misleading"
+       ],
+       "checks": 1,
+       "passed": 1
+      },
+      "v3-096-real": {
+       "type": "invariant",
+       "members": [
+        "v3-096-en-real",
+        "v3-096-tr-real"
+       ],
+       "checks": 1,
+       "passed": 1
+      },
+      "v3-099-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-099-en-misleading",
+        "v3-099-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-099-real": {
+       "type": "invariant",
+       "members": [
+        "v3-099-en-real",
+        "v3-099-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-102-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-102-en-misleading",
+        "v3-102-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-102-real": {
+       "type": "invariant",
+       "members": [
+        "v3-102-en-real",
+        "v3-102-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-105-misleading": {
+       "type": "invariant",
+       "members": [
+        "v3-105-en-misleading",
+        "v3-105-tr-misleading"
+       ],
+       "checks": 2,
+       "passed": 2
+      },
+      "v3-105-real": {
+       "type": "invariant",
+       "members": [
+        "v3-105-en-real",
+        "v3-105-tr-real"
+       ],
+       "checks": 2,
+       "passed": 2
+      }
+     }
+    },
+    "label_preference": {
+     "two_worker_decisions": 96,
+     "claude_code_share": 0.5,
+     "claude_code_share_when_gold_is_codex": 0.5,
+     "codex_share_when_gold_is_claude_code": 0.5,
+     "prior_r32b_operational": "claude_code chosen 109/109 two-worker decisions (no gold)"
+    },
+    "confidence_raw_descriptive": {
+     "kinds": [],
+     "all": {
+      "n": 0
+     },
+     "when_correct": {
+      "n": 0
+     },
+     "when_wrong": {
+      "n": 0
+     },
+     "note": "descriptive only: raw, uncalibrated, never used as a threshold"
+    },
+    "outcomes": {
+     "correct": 140,
+     "forbidden_choice": 56,
+     "wrong_allowed": 48
+    },
+    "by_language": {
+     "en": {
+      "decisions": 126,
+      "answerable": 122,
+      "acceptable_rate": 0.5738,
+      "forbidden_rate": 0.2295,
+      "escalation_gold_correct": 0.0,
+      "success_rate": 0.5556
+     },
+     "tr": {
+      "decisions": 126,
+      "answerable": 122,
+      "acceptable_rate": 0.5738,
+      "forbidden_rate": 0.2295,
+      "escalation_gold_correct": 0.0,
+      "success_rate": 0.5556
+     }
+    }
+   },
+   "policy_suite": {
+    "note": "deterministic contract cases (single/empty options, metadata cannot widen); not model quality",
+    "cases": 4,
+    "passed": 0,
+    "pass_rate": 0.0,
+    "safe_degradations": 0,
+    "failures": [
+     {
+      "case": "v3-073-en-real",
+      "order": [
+       "claude_code",
+       "codex"
+      ],
+      "outcome": "unsafe_selection",
+      "choice": "codex"
+     },
+     {
+      "case": "v3-073-en-real",
+      "order": [
+       "codex",
+       "claude_code"
+      ],
+      "outcome": "unsafe_selection",
+      "choice": "claude_code"
+     },
+     {
+      "case": "v3-073-en-misleading",
+      "order": [
+       "test_expert",
+       "architecture_expert"
+      ],
+      "outcome": "unsafe_selection",
+      "choice": "architecture_expert"
+     },
+     {
+      "case": "v3-073-en-misleading",
+      "order": [
+       "architecture_expert",
+       "test_expert"
+      ],
+      "outcome": "unsafe_selection",
+      "choice": "test_expert"
+     },
+     {
+      "case": "v3-073-tr-real",
+      "order": [
+       "claude_code",
+       "codex"
+      ],
+      "outcome": "unsafe_selection",
+      "choice": "codex"
+     },
+     {
+      "case": "v3-073-tr-real",
+      "order": [
+       "codex",
+       "claude_code"
+      ],
+      "outcome": "unsafe_selection",
+      "choice": "claude_code"
+     },
+     {
+      "case": "v3-073-tr-misleading",
+      "order": [
+       "test_expert",
+       "architecture_expert"
+      ],
+      "outcome": "unsafe_selection",
+      "choice": "architecture_expert"
+     },
+     {
+      "case": "v3-073-tr-misleading",
+      "order": [
+       "architecture_expert",
+       "test_expert"
+      ],
+      "outcome": "unsafe_selection",
+      "choice": "test_expert"
+     }
+    ]
+   },
+   "layer2_protocol_compliance": {
+    "note": "adapter/protocol compliance; independent of whether choices were good",
+    "decisions": 260,
+    "compliant": 260,
+    "compliance_rate": 1.0,
+    "violations": [],
+    "escalation_reasons": {}
+   },
+   "operational": {
+    "decisions": 260,
+    "latency_ms": {
+     "p50": 0.001,
+     "p95": 0.001,
+     "max": 0.056
+    }
+   },
+   "failures": [
+    {
+     "case": "v3-002-en-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-002-en-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-002-tr-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-002-tr-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-005-en-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-005-en-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-005-tr-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-005-tr-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-009-en-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-009-en-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-009-tr-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-009-tr-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-012-en-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-012-en-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-012-tr-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-012-tr-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-015-en-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-015-en-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-015-tr-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-015-tr-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-019-en-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-019-en-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-019-tr-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-019-tr-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-022-en-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-022-en-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-022-tr-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-022-tr-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-026-en-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-026-en-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-026-tr-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-026-tr-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-029-en-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-029-en-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-029-tr-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-029-tr-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-034-en-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-034-en-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-034-tr-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-034-tr-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-037-en-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-037-en-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-037-tr-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-037-tr-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-040-en-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-040-en-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-040-tr-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-040-tr-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-043-en-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-043-en-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-043-tr-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-043-tr-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-046-en-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-046-en-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-046-tr-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-046-tr-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-049-en-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-049-en-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-049-tr-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-049-tr-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-053-en-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-053-en-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-053-tr-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-053-tr-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-056-en-real",
+     "order": [
+      "codex",
+      "deepseek_harness"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "deepseek_harness",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-056-en-misleading",
+     "order": [
+      "architecture_expert",
+      "interactive_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "interactive_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-056-tr-real",
+     "order": [
+      "codex",
+      "deepseek_harness"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "deepseek_harness",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-056-tr-misleading",
+     "order": [
+      "architecture_expert",
+      "interactive_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "interactive_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-059-en-real",
+     "order": [
+      "codex",
+      "deepseek_harness"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "deepseek_harness",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-059-en-misleading",
+     "order": [
+      "architecture_expert",
+      "interactive_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "interactive_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-059-tr-real",
+     "order": [
+      "codex",
+      "deepseek_harness"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "deepseek_harness",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-059-tr-misleading",
+     "order": [
+      "architecture_expert",
+      "interactive_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "interactive_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-062-en-real",
+     "order": [
+      "deepseek_harness",
+      "claude_code"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "deepseek_harness"
+     ]
+    },
+    {
+     "case": "v3-062-en-misleading",
+     "order": [
+      "interactive_expert",
+      "test_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "interactive_expert"
+     ]
+    },
+    {
+     "case": "v3-062-tr-real",
+     "order": [
+      "deepseek_harness",
+      "claude_code"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "deepseek_harness"
+     ]
+    },
+    {
+     "case": "v3-062-tr-misleading",
+     "order": [
+      "interactive_expert",
+      "test_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "interactive_expert"
+     ]
+    },
+    {
+     "case": "v3-065-en-real",
+     "order": [
+      "deepseek_harness",
+      "claude_code"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "deepseek_harness"
+     ]
+    },
+    {
+     "case": "v3-065-en-misleading",
+     "order": [
+      "interactive_expert",
+      "test_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "interactive_expert"
+     ]
+    },
+    {
+     "case": "v3-065-tr-real",
+     "order": [
+      "deepseek_harness",
+      "claude_code"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "deepseek_harness"
+     ]
+    },
+    {
+     "case": "v3-065-tr-misleading",
+     "order": [
+      "interactive_expert",
+      "test_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "interactive_expert"
+     ]
+    },
+    {
+     "case": "v3-068-en-real",
+     "order": [
+      "codex",
+      "deepseek_harness"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "deepseek_harness",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-068-en-misleading",
+     "order": [
+      "architecture_expert",
+      "interactive_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "interactive_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-068-tr-real",
+     "order": [
+      "codex",
+      "deepseek_harness"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "deepseek_harness",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-068-tr-misleading",
+     "order": [
+      "architecture_expert",
+      "interactive_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "interactive_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-071-en-real",
+     "order": [
+      "codex",
+      "deepseek_harness"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "deepseek_harness",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-071-en-misleading",
+     "order": [
+      "architecture_expert",
+      "interactive_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "interactive_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-071-tr-real",
+     "order": [
+      "codex",
+      "deepseek_harness"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "deepseek_harness",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-071-tr-misleading",
+     "order": [
+      "architecture_expert",
+      "interactive_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "interactive_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-077-en-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-077-en-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-077-tr-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-077-tr-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-081-en-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "unsafe_selection",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": "escalate"
+    },
+    {
+     "case": "v3-081-en-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "unsafe_selection",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": "escalate"
+    },
+    {
+     "case": "v3-081-en-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "unsafe_selection",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": "escalate"
+    },
+    {
+     "case": "v3-081-en-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "unsafe_selection",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": "escalate"
+    },
+    {
+     "case": "v3-081-tr-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "unsafe_selection",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": "escalate"
+    },
+    {
+     "case": "v3-081-tr-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "unsafe_selection",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": "escalate"
+    },
+    {
+     "case": "v3-081-tr-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "unsafe_selection",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": "escalate"
+    },
+    {
+     "case": "v3-081-tr-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "unsafe_selection",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": "escalate"
+    },
+    {
+     "case": "v3-099-en-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-099-en-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-099-tr-real",
+     "order": [
+      "codex",
+      "claude_code"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "claude_code",
+     "reason": "policy-order",
+     "gold": [
+      "codex"
+     ]
+    },
+    {
+     "case": "v3-099-tr-misleading",
+     "order": [
+      "architecture_expert",
+      "test_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "test_expert",
+     "reason": "policy-order",
+     "gold": [
+      "architecture_expert"
+     ]
+    },
+    {
+     "case": "v3-102-en-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-102-en-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-102-tr-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-102-tr-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "forbidden_choice",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-105-en-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-105-en-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    },
+    {
+     "case": "v3-105-tr-real",
+     "order": [
+      "claude_code",
+      "codex"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "codex",
+     "reason": "policy-order",
+     "gold": [
+      "claude_code"
+     ]
+    },
+    {
+     "case": "v3-105-tr-misleading",
+     "order": [
+      "test_expert",
+      "architecture_expert"
+     ],
+     "outcome": "wrong_allowed",
+     "choice": "architecture_expert",
+     "reason": "policy-order",
+     "gold": [
+      "test_expert"
+     ]
+    }
+   ],
+   "decision_sequence_sha256": "56b129a0dd23788acec60423cd0f41cf010fd8db815677c050b31296f132d36c"
+  }
+ },
+ "records": [
+  {
+   "case": "v3-002-en-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.016
+  },
+  {
+   "case": "v3-002-en-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.002
+  },
+  {
+   "case": "v3-002-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-002-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-002-tr-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-002-tr-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-002-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-002-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-005-en-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-005-en-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-005-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-005-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-005-tr-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-005-tr-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-005-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-005-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-009-en-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-009-en-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-009-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-009-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-009-tr-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-009-tr-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-009-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-009-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-012-en-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-012-en-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-012-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-012-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-012-tr-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-012-tr-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-012-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-012-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-015-en-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-015-en-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-015-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-015-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-015-tr-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-015-tr-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.002
+  },
+  {
+   "case": "v3-015-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-015-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-019-en-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-019-en-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.002
+  },
+  {
+   "case": "v3-019-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-019-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-019-tr-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-019-tr-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.002
+  },
+  {
+   "case": "v3-019-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-019-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-022-en-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-022-en-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-022-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.002
+  },
+  {
+   "case": "v3-022-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-022-tr-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-022-tr-real",
+   "kind": "semantic",
+   "category": "coding_testing",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-022-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-022-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-026-en-real",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-026-en-real",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-026-en-misleading",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-026-en-misleading",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-026-tr-real",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-026-tr-real",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-026-tr-misleading",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-026-tr-misleading",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-029-en-real",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-029-en-real",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-029-en-misleading",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-029-en-misleading",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-029-tr-real",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-029-tr-real",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-029-tr-misleading",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.002
+  },
+  {
+   "case": "v3-029-tr-misleading",
+   "kind": "semantic",
+   "category": "review_independence",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.002
+  },
+  {
+   "case": "v3-034-en-real",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-034-en-real",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-034-en-misleading",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-034-en-misleading",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-034-tr-real",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-034-tr-real",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-034-tr-misleading",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-034-tr-misleading",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-037-en-real",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-037-en-real",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-037-en-misleading",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-037-en-misleading",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-037-tr-real",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-037-tr-real",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-037-tr-misleading",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-037-tr-misleading",
+   "kind": "semantic",
+   "category": "worker_failure",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-040-en-real",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-040-en-real",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-040-en-misleading",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-040-en-misleading",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-040-tr-real",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-040-tr-real",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-040-tr-misleading",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-040-tr-misleading",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-043-en-real",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-043-en-real",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-043-en-misleading",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-043-en-misleading",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-043-tr-real",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.002
+  },
+  {
+   "case": "v3-043-tr-real",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-043-tr-misleading",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-043-tr-misleading",
+   "kind": "semantic",
+   "category": "unavailable_worker",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-046-en-real",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-046-en-real",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-046-en-misleading",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-046-en-misleading",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-046-tr-real",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-046-tr-real",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-046-tr-misleading",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-046-tr-misleading",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-049-en-real",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-049-en-real",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-049-en-misleading",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-049-en-misleading",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-049-tr-real",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-049-tr-real",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-049-tr-misleading",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-049-tr-misleading",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-053-en-real",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-053-en-real",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-053-en-misleading",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-053-en-misleading",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-053-tr-real",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-053-tr-real",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-053-tr-misleading",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-053-tr-misleading",
+   "kind": "semantic",
+   "category": "dynamic_capability",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-056-en-real",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "deepseek_harness",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-056-en-real",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "deepseek_harness"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "deepseek_harness",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-056-en-misleading",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "interactive_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-056-en-misleading",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "interactive_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "interactive_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-056-tr-real",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "deepseek_harness",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-056-tr-real",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "deepseek_harness"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "deepseek_harness",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-056-tr-misleading",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "interactive_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-056-tr-misleading",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "interactive_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "interactive_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-059-en-real",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "deepseek_harness",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-059-en-real",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "deepseek_harness"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "deepseek_harness",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-059-en-misleading",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "interactive_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-059-en-misleading",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "interactive_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "interactive_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-059-tr-real",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "deepseek_harness",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-059-tr-real",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "deepseek_harness"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "deepseek_harness",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-059-tr-misleading",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "interactive_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-059-tr-misleading",
+   "kind": "semantic",
+   "category": "interactive_constraint",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "interactive_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "interactive_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-062-en-real",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "deepseek_harness"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "deepseek_harness",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-062-en-real",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "deepseek_harness",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-062-en-misleading",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "interactive_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "interactive_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-062-en-misleading",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "interactive_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-062-tr-real",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "deepseek_harness"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "deepseek_harness",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-062-tr-real",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "deepseek_harness",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-062-tr-misleading",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "interactive_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "interactive_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-062-tr-misleading",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "interactive_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-065-en-real",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "deepseek_harness"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "deepseek_harness",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-065-en-real",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "deepseek_harness",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-065-en-misleading",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "interactive_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "interactive_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-065-en-misleading",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "interactive_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-065-tr-real",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "deepseek_harness"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "deepseek_harness",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-065-tr-real",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "deepseek_harness",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-065-tr-misleading",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "interactive_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "interactive_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-065-tr-misleading",
+   "kind": "semantic",
+   "category": "background_escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "interactive_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-068-en-real",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "deepseek_harness",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-068-en-real",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "deepseek_harness"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "deepseek_harness",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-068-en-misleading",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "interactive_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-068-en-misleading",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "interactive_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "interactive_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-068-tr-real",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "deepseek_harness",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-068-tr-real",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "deepseek_harness"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "deepseek_harness",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-068-tr-misleading",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "interactive_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-068-tr-misleading",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "interactive_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "interactive_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-071-en-real",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "deepseek_harness",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-071-en-real",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "deepseek_harness"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "deepseek_harness",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-071-en-misleading",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "interactive_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-071-en-misleading",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "interactive_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "interactive_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-071-tr-real",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "deepseek_harness",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-071-tr-real",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "deepseek_harness"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "deepseek_harness",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-071-tr-misleading",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "interactive_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-071-tr-misleading",
+   "kind": "semantic",
+   "category": "locality_cost",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "interactive_expert"
+   ],
+   "order_index": 1,
+   "outcome": "forbidden_choice",
+   "choice": "interactive_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-073-en-real",
+   "kind": "policy",
+   "category": "risk_routing",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "unsafe_selection",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-073-en-real",
+   "kind": "policy",
+   "category": "risk_routing",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "unsafe_selection",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-073-en-misleading",
+   "kind": "policy",
+   "category": "risk_routing",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "unsafe_selection",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-073-en-misleading",
+   "kind": "policy",
+   "category": "risk_routing",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "unsafe_selection",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-073-tr-real",
+   "kind": "policy",
+   "category": "risk_routing",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "unsafe_selection",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-073-tr-real",
+   "kind": "policy",
+   "category": "risk_routing",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "unsafe_selection",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-073-tr-misleading",
+   "kind": "policy",
+   "category": "risk_routing",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "unsafe_selection",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-073-tr-misleading",
+   "kind": "policy",
+   "category": "risk_routing",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "unsafe_selection",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-077-en-real",
+   "kind": "semantic",
+   "category": "approval_boundary",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-077-en-real",
+   "kind": "semantic",
+   "category": "approval_boundary",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-077-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-077-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-077-tr-real",
+   "kind": "semantic",
+   "category": "approval_boundary",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-077-tr-real",
+   "kind": "semantic",
+   "category": "approval_boundary",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-077-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.056
+  },
+  {
+   "case": "v3-077-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-081-en-real",
+   "kind": "semantic",
+   "category": "escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "unsafe_selection",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-081-en-real",
+   "kind": "semantic",
+   "category": "escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "unsafe_selection",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-081-en-misleading",
+   "kind": "semantic",
+   "category": "escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "unsafe_selection",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-081-en-misleading",
+   "kind": "semantic",
+   "category": "escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "unsafe_selection",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-081-tr-real",
+   "kind": "semantic",
+   "category": "escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "unsafe_selection",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-081-tr-real",
+   "kind": "semantic",
+   "category": "escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "unsafe_selection",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-081-tr-misleading",
+   "kind": "semantic",
+   "category": "escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "unsafe_selection",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-081-tr-misleading",
+   "kind": "semantic",
+   "category": "escalation",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "unsafe_selection",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-085-en-real",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-085-en-real",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-085-en-misleading",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-085-en-misleading",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-085-tr-real",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-085-tr-real",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-085-tr-misleading",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-085-tr-misleading",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-088-en-real",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-088-en-real",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-088-en-misleading",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-088-en-misleading",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-088-tr-real",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-088-tr-real",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-088-tr-misleading",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-088-tr-misleading",
+   "kind": "semantic",
+   "category": "insufficient_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-090-en-real",
+   "kind": "semantic",
+   "category": "equally_acceptable",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-090-en-real",
+   "kind": "semantic",
+   "category": "equally_acceptable",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-090-en-misleading",
+   "kind": "semantic",
+   "category": "equally_acceptable",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-090-en-misleading",
+   "kind": "semantic",
+   "category": "equally_acceptable",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-090-tr-real",
+   "kind": "semantic",
+   "category": "equally_acceptable",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-090-tr-real",
+   "kind": "semantic",
+   "category": "equally_acceptable",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-090-tr-misleading",
+   "kind": "semantic",
+   "category": "equally_acceptable",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-090-tr-misleading",
+   "kind": "semantic",
+   "category": "equally_acceptable",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-093-en-real",
+   "kind": "semantic",
+   "category": "conflicting_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-093-en-real",
+   "kind": "semantic",
+   "category": "conflicting_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-093-en-misleading",
+   "kind": "semantic",
+   "category": "conflicting_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-093-en-misleading",
+   "kind": "semantic",
+   "category": "conflicting_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-093-tr-real",
+   "kind": "semantic",
+   "category": "conflicting_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-093-tr-real",
+   "kind": "semantic",
+   "category": "conflicting_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-093-tr-misleading",
+   "kind": "semantic",
+   "category": "conflicting_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-093-tr-misleading",
+   "kind": "semantic",
+   "category": "conflicting_info",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-096-en-real",
+   "kind": "semantic",
+   "category": "single_option",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-096-en-misleading",
+   "kind": "semantic",
+   "category": "single_option",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-096-tr-real",
+   "kind": "semantic",
+   "category": "single_option",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-096-tr-misleading",
+   "kind": "semantic",
+   "category": "single_option",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-099-en-real",
+   "kind": "semantic",
+   "category": "adversarial_order",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-099-en-real",
+   "kind": "semantic",
+   "category": "adversarial_order",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-099-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-099-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-099-tr-real",
+   "kind": "semantic",
+   "category": "adversarial_order",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-099-tr-real",
+   "kind": "semantic",
+   "category": "adversarial_order",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-099-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "correct",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-099-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "wrong_allowed",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-102-en-real",
+   "kind": "semantic",
+   "category": "adversarial_order",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-102-en-real",
+   "kind": "semantic",
+   "category": "adversarial_order",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-102-en-misleading",
+   "kind": "semantic",
+   "category": "adversarial_order",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-102-en-misleading",
+   "kind": "semantic",
+   "category": "adversarial_order",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-102-tr-real",
+   "kind": "semantic",
+   "category": "adversarial_order",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-102-tr-real",
+   "kind": "semantic",
+   "category": "adversarial_order",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-102-tr-misleading",
+   "kind": "semantic",
+   "category": "adversarial_order",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "forbidden_choice",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-102-tr-misleading",
+   "kind": "semantic",
+   "category": "adversarial_order",
+   "strength": "strict",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-105-en-real",
+   "kind": "semantic",
+   "category": "description_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-105-en-real",
+   "kind": "semantic",
+   "category": "description_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-105-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-105-en-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-105-tr-real",
+   "kind": "semantic",
+   "category": "description_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "claude_code",
+    "codex"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "codex",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-105-tr-real",
+   "kind": "semantic",
+   "category": "description_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "codex",
+    "claude_code"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "claude_code",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-105-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "test_expert",
+    "architecture_expert"
+   ],
+   "order_index": 0,
+   "outcome": "wrong_allowed",
+   "choice": "architecture_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  },
+  {
+   "case": "v3-105-tr-misleading",
+   "kind": "semantic",
+   "category": "label_bias",
+   "strength": "intent",
+   "variant": "bare",
+   "order": [
+    "architecture_expert",
+    "test_expert"
+   ],
+   "order_index": 1,
+   "outcome": "correct",
+   "choice": "test_expert",
+   "reason": "policy-order",
+   "escalated": false,
+   "conf_kind": "none",
+   "conf_value": null,
+   "protocol_violations": [],
+   "latency_ms": 0.001
+  }
+ ],
+ "claims": "Small synthetic set: results describe THIS set only and are not a statistical estimate of production accuracy.",
+ "limitations": [
+  "Synthetic config-derived scenarios; model-assisted authoring, NOT human review. Author had seen v2 results and categories, no v3 output.",
+  "107 scenario families x EN/TR x real/misleading labels; observations within a family are related, not independent.",
+  "Partitions: cal (fit calibration/thresholds), opt (choose policy), final (frozen, never tuned on)."
+ ],
+ "probes": {},
+ "layer3_end_to_end_routing": {
+  "n": 3,
+  "passed": 3,
+  "policy_valid_rate": 1.0,
+  "cases": [
+   {
+    "case": "v3-e2e-0",
+    "passed": true,
+    "failures": [],
+    "exit_state": null,
+    "worker": null,
+    "consulted": false,
+    "systemone": null
+   },
+   {
+    "case": "v3-e2e-1",
+    "passed": true,
+    "failures": [],
+    "exit_state": "human_handoff",
+    "worker": null,
+    "consulted": false,
+    "systemone": null
+   },
+   {
+    "case": "v3-e2e-2",
+    "passed": true,
+    "failures": [],
+    "exit_state": null,
+    "worker": "codex",
+    "consulted": true,
+    "systemone": {
+     "backend": "baseline:last",
+     "choice": "codex",
+     "reason": "policy-order",
+     "escalate": false
+    }
+   }
+  ],
+  "note": "policy validity of the final route, not decision optimality"
+ },
+ "wall_s": 0.1
+}
