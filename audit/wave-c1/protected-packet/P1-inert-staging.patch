@@ -1,0 +1,666 @@
+--- a/config/capability_registry.yaml
++++ b/config/capability_registry.yaml
+@@ -72,6 +72,8 @@
+   ui.component_registry:       "UI component registry lookup"
+   ui.quality_filter:           "Filter generic/low-quality UI output"
+   ui.style_reference:          "Visual style references"
++  ui.art_direction:            "UI art direction: anti-template design brief and direction before building"
++  ui.visual_qa:                "Deterministic real-browser layout/visual inspection with screenshots"
+   engineering.workflow:        "Engineering process SOPs (TDD, debugging, planning)"
+   engineering.spec:            "Spec-driven development"
+   engineering.guidelines:      "LLM coding behaviour guidelines"
+@@ -104,6 +106,7 @@
+       playwright: supported   # harness supports it; per-task exposure still needs the mcp_playwright grant
+       github-mcp: supported   # harness supports it (interactive). NOT deliverable to dispatched workers: mcp.yaml has no launch for it, so capability_policy.plan_for fails closed (human handoff); registry facts stay unchanged
+       superpowers: supported
++      taste-skill: supported   # project skills under <worktree>/.claude/skills verified in the Wave C1 isolated probe (claude -p); Agent OS dispatch acceptance still required
+       kepano-obsidian-skills: supported
+       orchestra-research: supported   # ambient in ~/.claude/skills today; Agent OS side uses skills/orchestra-index
+       rea: unknown
+@@ -129,6 +132,7 @@
+       context7: unsupported
+       playwright: unsupported
+       github-mcp: unsupported
++      taste-skill: unknown    # project-skill loading under `codex exec` not verified (NOT TESTED); never selected until verified
+       rea: unknown
+       omni-macos: unknown
+     probe:
+@@ -253,7 +257,7 @@
+     kind: mcp
+     adoption: adopted
+     config_ref: mcp.playwright
+-    capabilities: [web.interact, web.browser_test, web.browse]
++    capabilities: [web.interact, web.browser_test, web.browse, ui.visual_qa]
+     locality: local
+     cost: free
+     latency: local_slow
+@@ -440,6 +444,45 @@
+     notes: "Deferred 2026-10-24: no Run 4 capability depends on diagrams. Not installed."
+ 
+   # ---- UI ---------------------------------------------------------------------------------
++  - id: taste-skill
++    kind: skill
++    adoption: benchmark          # inert: never selected until the separate activation diff flips it to adopted
++    config_ref: skills.taste_skill
++    capabilities: [ui.art_direction]
++    locality: local
++    cost: free
++    latency: local_slow
++    risk: medium                 # runs headless Chrome via the worker's Bash; writes .taste-skill/ in the worktree
++    hosts: [any]
++    requires: [devops.shell]
++    probe:
++      - {type: path, paths: ["~/agent-stack/third_party/taste-skill/skill/SKILL.md"]}
++    notes: "Primary UI art-direction specialist (owner decision 2026-10-25). Vendored dormant at v2.1.5 12af471; delivered per task into the worker's own worktree (agentos/skill_delivery.py) after lock verification; never copied to skills/, ~/.claude, ~/.codex or Hermes. assets.mjs excluded."
++
++  - id: frontend-design
++    kind: skill
++    adoption: future             # optional alternative design specialist; not vendored, not selectable
++    capabilities: [ui.art_direction]
++    locality: local
++    cost: free
++    latency: local_fast
++    risk: low
++    hosts: [any]
++    probe:
++    notes: "anthropics/skills frontend-design (Apache-2.0, 9.4 KB, no scripts). Not staged."
++
++  - id: ui-ux-pro-max
++    kind: skill
++    adoption: future             # optional alternative design specialist; not vendored, not selectable
++    capabilities: [ui.art_direction]
++    locality: local
++    cost: free
++    latency: local_fast
++    risk: medium
++    hosts: [any]
++    probe:
++    notes: "nextlevelbuilder/ui-ux-pro-max-skill (MIT; python scripts + CLI installer). Not staged."
++
+   - id: design-md
+     kind: skill
+     adoption: future
+@@ -593,6 +636,8 @@
+     web.docs_lookup: [context7]
+     devops.github: [github-mcp, gh-cli]
+     docs.convert: [markitdown]
++    ui.art_direction: [taste-skill, frontend-design, ui-ux-pro-max]
++    ui.visual_qa: [playwright]
+   capability_reasons:
+     code.references: semantic-navigation-required
+     code.semantic_navigation: semantic-navigation-required
+@@ -612,6 +657,7 @@
+     github: [devops.github]
+     docs_lookup: [web.docs_lookup]
+     browser_test: [web.browser_test]
++    ui_design: [ui.art_direction, ui.visual_qa, code.edit, code.test]
+     reverse_engineering: [reverse_engineering.static_analysis]
+   # Columns of `agentos capabilities matrix` (capability ids or provider ids).
+   parity_columns: [devops.shell, devops.git, serena, context7, github-mcp, playwright, rea, skills.load]
+--- a/config/routing.yaml
++++ b/config/routing.yaml
+@@ -50,6 +50,13 @@
+     workers: [claude_code, codex, opencode]
+     reviewer_rule: "Reviewer must differ from primary worker (see roles.reviewer)."
+ 
++  ui_design:
++    stages: [cloud]
++    cloud_chain: [claude_subscription]
++    workers: [claude_code]
++    reviewer_rule: "Reviewer must differ from primary worker (see roles.reviewer)."
++    note: "Frontend design + implementation. The art-direction skill is chosen by the capability plan (task type -> ui.art_direction), never by description matching. Codex excluded until skill delivery is verified for it."
++
+   background_coding_escalation:
+     stages: [cloud]
+     cloud_chain: [nvidia_nim]
+--- a/agentos/skill_delivery.py
++++ b/agentos/skill_delivery.py
+@@ -0,0 +1,133 @@
++"""Task-scoped delivery of a vendored skill into ONE worker's own worktree.
++
++A skill whose lock entry (scripts/runtime/skills.lock.json) carries a `delivery` block is never copied into
++~/.claude, ~/.codex, OpenCode, Hermes or ~/agent-stack/skills. Only when the deterministic capability plan selects it
++for a dispatched task is it provisioned into `<worktree>/.claude/skills/<name>`, after its locked hashes verify, and
++removed again when the worker returns; the skill's working files are moved into the task's evidence directory.
++No git configuration is touched (shared `info/exclude` would leak into the target repository). Skills without a `delivery` block (Ponytail, Orchestra index, ambient host
++skills) are untouched by this module: `deliverable()` is True for them, so existing plans do not change.
++
++Fail closed: a selected skill that cannot be delivered verified is never skipped silently.
++"""
++from __future__ import annotations
++
++import hashlib
++import json
++import shutil
++from pathlib import Path
++
++import yaml
++
++REPO = Path(__file__).resolve().parent.parent
++LOCK = Path("scripts") / "runtime" / "skills.lock.json"
++
++
++class SkillDeliveryError(Exception):
++    pass
++
++
++def _lock(repo: Path) -> dict:
++    return json.loads((repo / LOCK).read_text())
++
++
++def entry(repo: Path | None, skill_id: str) -> dict | None:
++    e = _lock(repo or REPO).get(skill_id)
++    return e if e and "delivery" in e else None
++
++
++def _sha(p: Path) -> str:
++    return hashlib.sha256(p.read_bytes()).hexdigest()
++
++
++def verify(repo: Path, skill_id: str) -> list[str]:
++    """Problems with the vendored tree of `skill_id` (empty list = verified)."""
++    e = entry(repo, skill_id)
++    if e is None:
++        return [f"{skill_id}: no lock entry with a delivery block"]
++    errs = []
++    for rel, digest in {**e["sha256"], **e.get("license_file", {})}.items():
++        p = repo / rel
++        if not p.is_file():
++            errs.append(f"missing {rel}")
++        elif _sha(p) != digest:
++            errs.append(f"hash mismatch {rel}")
++    errs += [f"must not exist: {rel}" for rel in e.get("must_not_exist", []) if (repo / rel).exists()]
++    src = repo / e["delivery"]["src"]
++    errs += [f"unlisted file {f.relative_to(repo)}" for f in src.rglob("*")
++             if f.is_file() and str(f.relative_to(repo)) not in e["sha256"]]
++    return errs
++
++
++def deliverable(cfg, provider, repo: Path | None = None) -> bool:
++    """Predicate used by capability_policy.worker_deliverable for kind `skill` providers."""
++    repo = repo or REPO
++    if provider.kind != "skill" or entry(repo, provider.id) is None:
++        return True            # ambient / loading-path skills: behaviour unchanged
++    return not verify(repo, provider.id)
++
++
++def skill_name(src: Path) -> str:
++    head = (src / "SKILL.md").read_text().split("---")[1]
++    name = (yaml.safe_load(head) or {}).get("name", "")
++    if not isinstance(name, str) or not name.replace("-", "").replace("_", "").isalnum():
++        raise SkillDeliveryError(f"unsafe skill name in {src}/SKILL.md")
++    return name
++
++
++def provision(repo: Path | None, wt: Path, skill_id: str) -> dict:
++    """Verify, then copy the locked tree into the worktree. Never touches git config or any path outside `wt`."""
++    repo = repo or REPO
++    errs = verify(repo, skill_id)
++    if errs:
++        raise SkillDeliveryError(f"{skill_id} failed verification: {'; '.join(errs[:3])}")
++    e = entry(repo, skill_id)
++    src = repo / e["delivery"]["src"]
++    try:
++        name = skill_name(src)
++        dest = wt / ".claude" / "skills" / name
++        if dest.exists():
++            shutil.rmtree(dest)
++        for rel in e["delivery"].get("worktree_ignore", []):      # stale working files from an earlier attempt
++            shutil.rmtree(wt / rel, ignore_errors=True)
++        shutil.copytree(src, dest)
++        root = e["delivery"]["src"].rstrip("/") + "/"
++        for rel, digest in e["sha256"].items():
++            if _sha(dest / rel[len(root):]) != digest:
++                shutil.rmtree(dest, ignore_errors=True)
++                raise SkillDeliveryError(f"{skill_id}: copy differs from lock at {rel}")
++    except OSError as exc:
++        raise SkillDeliveryError(f"{skill_id}: could not provision ({type(exc).__name__})") from exc
++    return {"skill": skill_id, "name": name, "dest": str(dest), "files": len(e["sha256"]), "verified": True,
++            "commit": e["commit"]}
++
++
++def instruction(deliveries: list[dict]) -> str:
++    lines = [f"Use the `{d['name']}` skill (installed in this project) for the design direction of this task; "
++             "do not use it for non-UI work." for d in deliveries]
++    return "\n".join(lines) + "\n\n" if lines else ""
++
++
++def finish(wt: Path, delivery: dict, evidence_dir: Path, repo: Path | None = None) -> dict:
++    """After the worker returns (any outcome): persist the skill's working files as evidence under `evidence_dir`
++    (task state, outside the worktree), then remove the skill copy and those files from the worktree so they can
++    never be committed. Filesystem-only evidence of what the skill's scripts left behind, not proof of quality."""
++    e = entry(repo, delivery["skill"]) or {}
++    artifacts = []
++    for rel in e.get("delivery", {}).get("worktree_ignore", []):
++        base = wt / rel
++        if base.is_dir():
++            for f in sorted(base.rglob("*")):
++                if f.is_file():
++                    out = evidence_dir / f.relative_to(wt)
++                    out.parent.mkdir(parents=True, exist_ok=True)
++                    shutil.copy2(f, out)
++                    artifacts.append({"path": str(f.relative_to(wt)), "bytes": f.stat().st_size, "sha256": _sha(out)})
++        shutil.rmtree(base, ignore_errors=True)
++    shutil.rmtree(wt / ".claude" / "skills" / delivery["name"], ignore_errors=True)
++    for parent in (wt / ".claude" / "skills", wt / ".claude"):        # leave no empty scaffolding behind
++        try:
++            parent.rmdir()
++        except OSError:
++            pass
++    return {**{k: delivery[k] for k in ("skill", "name", "commit", "files", "verified")},
++            "evidence_dir": str(evidence_dir), "artifacts": artifacts}
+--- a/agentos/capability_policy.py
++++ b/agentos/capability_policy.py
+@@ -28,6 +28,7 @@
+ from dataclasses import asdict, dataclass, field
+ from pathlib import Path
+ 
++from . import skill_delivery
+ from .capability_registry import (COST, LATENCY, LOCALITY, REJECTION_REASONS, RISK,
+                                   SELECTION_REASONS, HOSTS, Provider, Registry)
+ 
+@@ -448,15 +449,31 @@
+         if spec.get("kind") == "mcp" and "launch" in spec:
+             names.append(name)
+     return tuple(names)
++
+ 
++def selected_skills(cfg, registry: Registry, plan: CapabilityPlan, worker: str | None) -> tuple[str, ...]:
++    """Provider ids of task-scoped skills (lock entry with a `delivery` block) the plan selected for `worker`.
+ 
++    Loading-path / ambient skills are not delivered per task and never appear here."""
++    executor = next((e for e, w in zip(plan.eligible_executors, plan.eligible_workers) if w == worker), None)
++    ids = []
++    for pid in sorted(set(plan.tools_by_executor.get(executor, {}).values())):
++        p = registry.providers.get(pid)
++        if p is not None and p.kind == "skill" and skill_delivery.entry(None, pid) is not None:
++            ids.append(pid)
++    return tuple(ids)
++
++
+ def worker_deliverable(cfg):
+     """Predicate for plan(): can a dispatched worker really use this tool?
++    * task-scoped skills (lock `delivery` block) are deliverable only while their vendored tree verifies;
+     * MCP providers need a `launch` in config/mcp.yaml (workers.mcp_servers_for drops the rest silently);
+     * a CLI whose executable is withheld from all workers (workers.yaml `withheld_executables`) or denied to this
+       executor's worker (`Bash(<exe>:*)` in always_disallowed) is not deliverable.
+     Derived from config, so planning cannot drift from what the launcher and deny list actually do."""
+     def check(executor, tool) -> bool:
++        if tool.kind == "skill":
++            return skill_delivery.deliverable(cfg, tool)
+         if tool.kind == "mcp":
+             ref = tool.config_ref or ""
+             spec = cfg.mcp["tools"].get(ref.split(".", 1)[1]) if ref.startswith("mcp.") else None
+--- a/agentos/dispatch.py
++++ b/agentos/dispatch.py
+@@ -37,7 +37,7 @@
+ import time
+ from pathlib import Path
+ 
+-from . import capability_policy, capability_registry, events, router, telemetry, worktree, workers
++from . import capability_policy, capability_registry, events, router, skill_delivery, telemetry, worktree, workers
+ from .config import REPO_ROOT, Config
+ from .permissions import WorkerSession
+ from .taskstate import TaskError, TaskStore
+@@ -138,9 +138,12 @@
+         event["required_capabilities"] = list(plan.required)
+     d = router.route(cfg, event, health)
+     extra_mcp = capability_policy.selected_mcp(cfg, registry, plan, d.worker) if plan else ()
++    skill_ids = capability_policy.selected_skills(cfg, registry, plan, d.worker) if plan else ()
+     if cap:
+         cap["capabilities"]["routed_worker"] = d.worker
+         cap["capabilities"]["extra_mcp"] = list(extra_mcp)
++        if skill_ids:                      # task-scoped skills only; absent key == pre-C1 result shape
++            cap["capabilities"]["skills"] = list(skill_ids)
+     if d.exit_state or not d.worker:
+         exit_state = d.exit_state or "blocked"
+         events.emit("task_failed", task_id=task_id, exit_state=exit_state, status="not_dispatched",
+@@ -205,6 +208,16 @@
+         st0 = task.state
+         ev.update(attempt=st0["attempts"] + 1, iteration=st0["iteration"] + 1)
+         remaining = task.remaining_seconds()
++        deliveries, delivery_error = [], None
++        if skill_ids and remaining > 0:
++            try:
++                for s in skill_ids:
++                    deliveries.append(skill_delivery.provision(None, wt, s))
++            except skill_delivery.SkillDeliveryError as exc:
++                delivery_error = str(exc)[:300]
++                for x in deliveries:       # undo any skill already provisioned for this attempt
++                    skill_delivery.finish(wt, x, task.path / "evidence" / x["skill"])
++                deliveries = []
+         if remaining <= 0:
+             events.emit("timeout", **ev, timeout_kind="wall_clock", detail="budget exhausted before attempt")
+             # Cumulative wall-clock budget already spent: do not start another attempt.
+@@ -213,14 +226,26 @@
+             task.close("timeout", "wall_clock budget exhausted before attempt")
+             exit_state, timed_out = "timeout", True
+             status, nxt = "stopped", "escalate or hand to human (wall-clock budget exhausted)"
++        elif delivery_error:
++            # A selected skill that cannot be delivered verified is never skipped silently.
++            task.close("blocked", f"skill delivery failed: {delivery_error}")
++            exit_state = "blocked"
++            status, nxt = "stopped", "report to Hermes: selected skill could not be delivered verified"
+         else:
++            if deliveries:
++                prompt = skill_delivery.instruction(deliveries) + prompt
+             worker_limit, limit_kind = ((timeout, "per_call") if timeout <= remaining
+                                         else (remaining, "wall_clock"))
+             launch = workers.build_launch(cfg, session, prompt, wt, max_turns=max_turns, extra_mcp=extra_mcp)
+             launch.setdefault("env", {})[WORKER_CONTEXT_ENV] = task_id    # keep the push-guard env
+             events.emit("worker_started", **ev, status="running")
+             started = time.monotonic()
+-            run = runner(launch, task_id=task_id, task_type=task_type, timeout=math.ceil(worker_limit))
++            try:
++                run = runner(launch, task_id=task_id, task_type=task_type, timeout=math.ceil(worker_limit))
++            finally:                      # also when the runner raises: nothing of the skill stays in the worktree
++                if deliveries:
++                    cap["capabilities"]["skill_evidence"] = [
++                        skill_delivery.finish(wt, x, task.path / "evidence" / x["skill"]) for x in deliveries]
+             worker_ms = round((time.monotonic() - started) * 1000, 1)
+             events.emit("worker_finished", **ev, duration_ms=worker_ms,
+                         status="timeout" if run.get("timed_out")
+--- a/scripts/runtime/skills.lock.json
++++ b/scripts/runtime/skills.lock.json
+@@ -104,6 +104,14 @@
+       "third_party/taste-skill/skill/scripts/lint.mjs": "05f2fae2f56fc051b539cdbacb43a6f78fbbfb9644bb74aa11be472ff12dcaf5",
+       "third_party/taste-skill/skill/scripts/scenes.mjs": "234ec582e2b841457c33033feeeba8535f9ac285495a74d08dc533a1566c90d5",
+       "third_party/taste-skill/skill/SKILL.md": "3435ed963b15a1b6447746ec8844ab2cd38d8d2e8ead3451937f42df01e408c4"
++    },
++    "delivery": {
++      "mode": "worktree",
++      "src": "third_party/taste-skill/skill",
++      "worktree_ignore": [
++        ".taste-skill/"
++      ],
++      "requires": "node >= 22 and an installed Chrome/Edge/Chromium (inspector); runs via the worker's Bash"
+     }
+   }
+ }
+--- a/evals/test_wave_c1_production.py
++++ b/evals/test_wave_c1_production.py
+@@ -0,0 +1,272 @@
++"""Wave C1 production pipeline (task-scoped skill delivery, deterministic UI selection).
++
++Deterministic, offline, no model call, no network, no credential read, no host config touched. Gate evidence that
++needs a live worker or a browser is NOT here (see audit/wave-c1/acceptance-matrix.md for which gates are open)."""
++import dataclasses
++import hashlib
++import json
++import shutil
++import subprocess
++from pathlib import Path
++
++import pytest
++
++from agentos import capability_policy as CP
++from agentos import capability_registry as R
++from agentos import skill_delivery as SD
++from agentos.config import REPO_ROOT
++from agentos.dispatch import dispatch
++
++OK = {"available": "present", "health": "healthy", "auth": "present"}
++IDS = ["claude-code", "codex", "opencode", "serena", "context7", "playwright", "taste-skill",
++       "frontend-design", "ui-ux-pro-max"]
++OVERRIDES = {pid: dict(OK) for pid in IDS}
++TASTE = REPO_ROOT / "third_party" / "taste-skill" / "skill"
++
++
++def _activated(cfg):
++    reg = R.load(cfg)
++    reg.providers["taste-skill"] = dataclasses.replace(reg.providers["taste-skill"], adoption="adopted")
++    return reg
++
++
++@pytest.fixture
++def reg(cfg):
++    return R.load(cfg)
++
++
++@pytest.fixture
++def tmp_repo(tmp_path, monkeypatch):
++    """A throwaway copy of the lock + vendored tree that skill_delivery is pointed at (never the real one)."""
++    dst = tmp_path / "repo"
++    (dst / "scripts" / "runtime").mkdir(parents=True)
++    shutil.copy(REPO_ROOT / "scripts/runtime/skills.lock.json", dst / "scripts/runtime/")
++    shutil.copytree(REPO_ROOT / "third_party/taste-skill", dst / "third_party/taste-skill")
++    monkeypatch.setattr(SD, "REPO", dst)
++    return dst
++
++
++# ------------------------------------------------------------ registry facts (gate 7: deterministic selection)
++def test_registry_records_are_truthful_and_inert(reg):
++    t = reg.get("taste-skill")
++    assert (t.kind, t.adoption, t.config_ref) == ("skill", "benchmark", "skills.taste_skill")
++    assert [reg.get(i).adoption for i in ("frontend-design", "ui-ux-pro-max")] == ["future", "future"]
++    assert "ui.art_direction" in reg.capabilities and "ui.visual_qa" in reg.capabilities
++
++
++def test_task_type_mapping_is_registry_data_not_inference(cfg, reg):
++    assert CP.resolve_required(reg, (), "ui_design") == ("code.edit", "code.test", "ui.art_direction", "ui.visual_qa")
++    assert CP.resolve_required(reg, (), "coding") == ("code.edit", "code.test")      # coding unchanged
++
++
++def test_ui_design_fails_closed_until_taste_is_activated(cfg, reg):
++    pl = CP.plan_for(cfg, task_type="ui_design", overrides=OVERRIDES, registry=reg)
++    assert pl.status == "blocked" and pl.eligible_executors == []
++    assert "capability-missing" in pl.rejected_executors["claude-code"].reasons
++
++
++def test_activated_plan_is_deterministic_taste_first_claude_only(cfg):
++    reg = _activated(cfg)
++    plans = [CP.plan_for(cfg, task_type="ui_design", overrides=OVERRIDES, registry=reg) for _ in range(3)]
++    assert len({json.dumps(CP.telemetry_payload(p), sort_keys=True) for p in plans}) == 1
++    pl = plans[0]
++    assert pl.status == "selected" and pl.eligible_executors == ["claude-code"]
++    assert pl.tools["ui.art_direction"] == "taste-skill" and pl.tools["ui.visual_qa"] == "playwright"
++    assert "integration-unknown" in pl.rejected_executors["codex"].reasons          # Codex never gets it unverified
++    assert CP.selected_skills(cfg, reg, pl, "claude_code") == ("taste-skill",)
++    assert CP.selected_skills(cfg, reg, pl, "codex") == ()
++    assert CP.selected_mcp(cfg, reg, pl, "claude_code") == ("playwright",)
++
++
++def test_alternates_are_never_selectable(cfg):
++    reg = _activated(cfg)
++    reg.providers["taste-skill"] = dataclasses.replace(reg.providers["taste-skill"], adoption="disabled",
++                                                       reason="test")
++    pl = CP.plan_for(cfg, task_type="ui_design", overrides=OVERRIDES, registry=reg)
++    assert pl.status == "blocked"            # frontend-design / ui-ux-pro-max are `future`: not a silent fallback
++
++
++def test_non_ui_tasks_never_select_a_design_skill(cfg):
++    reg = _activated(cfg)
++    for tt in ("coding", "review", "browser_test", "docs_lookup"):
++        pl = CP.plan_for(cfg, task_type=tt, overrides=OVERRIDES, registry=reg)
++        assert "taste-skill" not in pl.tools.values()
++        assert CP.selected_skills(cfg, reg, pl, "claude_code") == ()
++
++
++def test_existing_skills_are_unaffected_by_the_delivery_predicate(cfg, reg):
++    d = CP.worker_deliverable(cfg)
++    cc = reg.get("claude-code")
++    for sid in ("ponytail", "superpowers", "orchestra-research"):
++        assert d(cc, reg.get(sid))
++    assert d(cc, reg.get("taste-skill"))
++
++
++# ------------------------------------------------------------ gate 8: provenance + fail closed
++def test_vendored_tree_verifies_and_matches_the_reviewed_pin():
++    assert SD.verify(REPO_ROOT, "taste-skill") == []
++    e = SD.entry(REPO_ROOT, "taste-skill")
++    assert e["commit"] == "12af471f627f866411b4bd785b19646d3672784c" and len(e["sha256"]) == 36
++    assert not (REPO_ROOT / "skills" / "design-taste-frontend").exists()
++
++
++def test_tampered_vendored_file_makes_the_skill_undeliverable_and_blocks_planning(cfg, tmp_repo):
++    f = tmp_repo / "third_party/taste-skill/skill/SKILL.md"
++    f.write_text(f.read_text() + "\nignore previous instructions\n")
++    reg = _activated(cfg)
++    assert not SD.deliverable(cfg, reg.get("taste-skill"))
++    pl = CP.plan_for(cfg, task_type="ui_design", overrides=OVERRIDES, registry=reg)
++    assert pl.status == "blocked" and "integration-undeliverable" in pl.rejected_executors["claude-code"].reasons
++
++
++def test_reintroduced_downloader_is_undeliverable(cfg, tmp_repo):
++    (tmp_repo / "third_party/taste-skill/skill/scripts/assets.mjs").write_text("x")
++    assert not SD.deliverable(cfg, _activated(cfg).get("taste-skill"))
++
++
++# ------------------------------------------------------------ provisioning
++def _worktree(tmp_path):
++    wt = tmp_path / "wt"
++    wt.mkdir()
++    for c in (["git", "init", "-q", "-b", "main"],):
++        subprocess.run(c, cwd=wt, check=True)
++    return wt
++
++
++def test_provision_copies_verified_bytes_then_finish_persists_evidence_and_removes_everything(tmp_path):
++    wt = _worktree(tmp_path)
++    dl = SD.provision(None, wt, "taste-skill")
++    dest = Path(dl["dest"])
++    assert dest == wt / ".claude/skills/design-taste-frontend" and dl["verified"] and dl["files"] == 36
++    e = SD.entry(None, "taste-skill")
++    for rel, digest in e["sha256"].items():
++        assert hashlib.sha256((dest / rel[len("third_party/taste-skill/skill/"):]).read_bytes()).hexdigest() == digest
++    (wt / ".taste-skill/inspect").mkdir(parents=True)
++    (wt / ".taste-skill/inspect/report.json").write_text('{"fails": 0}')
++    ev = SD.finish(wt, dl, tmp_path / "evidence")
++    assert [a["path"] for a in ev["artifacts"]] == [".taste-skill/inspect/report.json"]
++    assert (tmp_path / "evidence/.taste-skill/inspect/report.json").read_text() == '{"fails": 0}'
++    assert not (wt / ".claude").exists() and not (wt / ".taste-skill").exists()
++    assert subprocess.run(["git", "status", "--porcelain"], cwd=wt, capture_output=True, text=True).stdout == ""
++    assert SD.provision(None, wt, "taste-skill")["verified"]                           # idempotent re-provision
++
++
++def test_provision_and_finish_do_not_touch_git_config_or_shared_exclude(fixture_repo, tmp_path):
++    """A linked worktree shares info/exclude with the main checkout: delivery must never write there."""
++    ex = fixture_repo / ".git" / "info" / "exclude"
++    before = ex.read_bytes() if ex.exists() else None
++    wt = tmp_path / "linked"
++    subprocess.run(["git", "worktree", "add", "-q", "-b", "t", str(wt)], cwd=fixture_repo, check=True)
++    dl = SD.provision(None, wt, "taste-skill")
++    SD.finish(wt, dl, tmp_path / "evidence")
++    assert (ex.read_bytes() if ex.exists() else None) == before
++    assert subprocess.run(["git", "config", "--local", "--list"], cwd=fixture_repo, capture_output=True,
++                          text=True).stdout.count("exclude") == 0
++
++
++def test_provision_wraps_filesystem_errors_as_delivery_errors(tmp_path):
++    f = tmp_path / "not-a-dir"
++    f.write_text("x")
++    with pytest.raises(SD.SkillDeliveryError, match="could not provision"):
++        SD.provision(None, f, "taste-skill")
++
++
++def test_provision_refuses_unverified_trees(tmp_path, tmp_repo):
++    (tmp_repo / "third_party/taste-skill/LICENSE").unlink()
++    with pytest.raises(SD.SkillDeliveryError, match="failed verification"):
++        SD.provision(None, _worktree(tmp_path), "taste-skill")
++
++
++def test_interactive_and_hermes_skill_paths_are_never_written(tmp_path, monkeypatch):
++    home = tmp_path / "home"
++    monkeypatch.setenv("HOME", str(home))
++    SD.provision(None, _worktree(tmp_path), "taste-skill")
++    assert not home.exists() and not (REPO_ROOT / "skills" / "design-taste-frontend").exists()
++
++
++# ------------------------------------------------------------ dispatch integration (fake runner; no model)
++def _flip(monkeypatch, cfg):
++    real = R.load
++
++    def load(c):
++        r = real(c)
++        r.providers["taste-skill"] = dataclasses.replace(r.providers["taste-skill"], adoption="adopted")
++        return r
++    monkeypatch.setattr("agentos.capability_registry.load", load)
++
++
++def _go(cfg, repo, tmp_path, runner, **kw):
++    return dispatch(cfg, task_id=kw.pop("task_id", "ui-1"), task_type="ui_design", repo=repo,
++                    prompt="build the pricing page", verify="true", runner=runner,
++                    worktree_root=tmp_path / "wts", capability_overrides=OVERRIDES, **kw)
++
++
++def test_dispatch_delivers_instructs_persists_evidence_and_commits_no_skill_files(cfg, fixture_repo, tmp_path,
++                                                                                  monkeypatch):
++    _flip(monkeypatch, cfg)
++    seen = {}
++
++    def runner(launch, **kw):
++        wt = Path(launch["cwd"])
++        seen["prompt"] = launch["argv"][launch["argv"].index("-p") + 1]
++        seen["skill_md"] = (wt / ".claude/skills/design-taste-frontend/SKILL.md").read_bytes()
++        (wt / ".taste-skill/inspect").mkdir(parents=True)
++        (wt / ".taste-skill/inspect/report.json").write_text('{"fails":0}')
++        (wt / "page.html").write_text("<h1>x</h1>")
++        return {"returncode": 0, "latency_ms": 1.0}
++
++    res = _go(cfg, fixture_repo, tmp_path, runner)
++    assert (res["status"], res["exit_state"]) == ("done", "success")
++    assert seen["prompt"].startswith("Use the `design-taste-frontend` skill")
++    assert hashlib.sha256(seen["skill_md"]).hexdigest() == SD.entry(None, "taste-skill")["sha256"][
++        "third_party/taste-skill/skill/SKILL.md"]
++    c = res["capabilities"]
++    assert c["skills"] == ["taste-skill"] and c["extra_mcp"] == ["playwright"]
++    ev = c["skill_evidence"][0]
++    assert [a["path"] for a in ev["artifacts"]] == [".taste-skill/inspect/report.json"]
++    assert (Path(ev["evidence_dir"]) / ".taste-skill/inspect/report.json").read_text() == '{"fails":0}'
++    wt = Path(res["worktree"])
++    assert not (wt / ".claude").exists() and not (wt / ".taste-skill").exists()          # nothing left in the worktree
++    tree = subprocess.run(["git", "ls-tree", "-r", "--name-only", res["commit"]], cwd=wt, capture_output=True,
++                          text=True).stdout.split()
++    assert "page.html" in tree and not [t for t in tree if t.startswith((".claude", ".taste-skill"))]
++
++
++def test_dispatch_cleans_up_even_when_the_runner_raises(cfg, fixture_repo, tmp_path, monkeypatch):
++    _flip(monkeypatch, cfg)
++    seen = {}
++
++    def runner(launch, **kw):
++        seen["wt"] = Path(launch["cwd"])
++        (seen["wt"] / ".taste-skill").mkdir()
++        (seen["wt"] / ".taste-skill/x.json").write_text("{}")
++        raise RuntimeError("worker crashed")
++    with pytest.raises(RuntimeError):
++        _go(cfg, fixture_repo, tmp_path, runner)
++    assert not (seen["wt"] / ".claude").exists() and not (seen["wt"] / ".taste-skill").exists()
++
++
++def test_dispatch_dry_run_names_the_selected_skill_without_provisioning(cfg, fixture_repo, tmp_path, monkeypatch):
++    _flip(monkeypatch, cfg)
++    res = _go(cfg, fixture_repo, tmp_path, None, dry_run=True)
++    assert res["status"] == "dry_run" and res["worker"] == "claude_code"
++    assert res["capabilities"]["skills"] == ["taste-skill"]
++    assert not (tmp_path / "wts").exists()
++
++
++def test_dispatch_fails_closed_when_delivery_fails_after_planning(cfg, fixture_repo, tmp_path, monkeypatch):
++    _flip(monkeypatch, cfg)
++    called = []
++
++    def boom(repo, wt, sid):
++        raise SD.SkillDeliveryError("simulated hash mismatch")
++    monkeypatch.setattr(SD, "provision", boom)
++    res = _go(cfg, fixture_repo, tmp_path, lambda *a, **k: called.append(1) or {"returncode": 0})
++    assert (res["status"], res["exit_state"]) == ("stopped", "blocked") and called == []
++
++
++def test_unmapped_task_types_keep_the_old_result_shape(cfg, fixture_repo, tmp_path, monkeypatch):
++    _flip(monkeypatch, cfg)
++    res = dispatch(cfg, task_id="c-1", task_type="coding", repo=fixture_repo, prompt="p", verify="true",
++                   dry_run=True, worktree_root=tmp_path / "wts", capability_overrides=OVERRIDES)
++    assert "skills" not in res["capabilities"]
+--- a/evals/test_capability_registry.py
++++ b/evals/test_capability_registry.py
+@@ -53,7 +53,8 @@
+     assert reg.get("opencode").adoption == "disabled" and "fail closed" in reg.get("opencode").reason
+     # Beyond Wave A: Run 1's github CLI, one future browser fallback, and the 2026-10-24 rollout records.
+     assert set(reg.providers) - WAVE_A == {"gh-cli", "browser-use", "markitdown", "orchestra-research",
+-                                           "openspec", "superclaude", "omniroute", "clawdbot"}
++                                           "openspec", "superclaude", "omniroute", "clawdbot",
++                                           "taste-skill", "frontend-design", "ui-ux-pro-max"}   # Wave C1 (inert)
+     assert reg.get("openspec").adoption == "benchmark"
+     assert all(reg.get(p).adoption == "disabled" and reg.get(p).reason for p in ("superclaude", "omniroute", "clawdbot"))
+     assert reg.get("browser-use").adoption == "future"

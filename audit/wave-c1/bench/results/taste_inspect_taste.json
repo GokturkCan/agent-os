@@ -1,0 +1,2316 @@
+{
+ "url": "/private/tmp/claude-501/-Users-gokturkcan-agent-stack/f3ecec3e-a2dd-48ef-8659-5ee3dd61580c/scratchpad/bench/ws/ui__taste/redesigned/index.html",
+ "at": "2026-10-25T01:41:29.020Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 5,
+   "filled": [
+    0.4,
+    0.73,
+    0.68,
+    0.53,
+    0.81
+   ],
+   "motion": {
+    "elements": 16,
+    "css": 0,
+    "transitions": 16,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 4369,
+     "screens": 4.9,
+     "words": 192,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 1,
+     "sections": 5,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Backups that just work",
+     "words": 4,
+     "chars": 22,
+     "lines": 2,
+     "size": 95,
+     "vw": 6.6,
+     "font": "Helvetica Neue",
+     "weight": 800,
+     "tracking": -0.035,
+     "leading": 0.98,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "left",
+     "widthRatio": 0.44,
+     "top": 236,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Backups that just work",
+     "words": 4,
+     "lines": 2,
+     "size": 95,
+     "font": "Helvetica Neue"
+    },
+    "headings": [
+     {
+      "text": "Backups that just work",
+      "words": 4,
+      "chars": 22,
+      "lines": 2,
+      "size": 95,
+      "vw": 6.6,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.035,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.44,
+      "top": 236,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "45",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 160,
+      "vw": 11.1,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.05,
+      "leading": 0.9,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.11,
+      "top": 916,
+      "tag": "b",
+      "kind": "heading"
+     },
+     {
+      "text": "How far back do you need to go?",
+      "words": 8,
+      "chars": 31,
+      "lines": 2,
+      "size": 69.1,
+      "vw": 4.8,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.035,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.44,
+      "top": 940,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Pick the plan that remembers enough",
+      "words": 6,
+      "chars": 35,
+      "lines": 2,
+      "size": 69.1,
+      "vw": 4.8,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.035,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.51,
+      "top": 1780,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Starter",
+      "words": 1,
+      "chars": 7,
+      "lines": 1,
+      "size": 56,
+      "vw": 3.9,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.26,
+      "top": 2120,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "$9/mo",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 96,
+      "vw": 6.7,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.04,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.26,
+      "top": 2188,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Team",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 56,
+      "vw": 3.9,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.26,
+      "top": 2408,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "$29/mo",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 96,
+      "vw": 6.7,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.04,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.26,
+      "top": 2476,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Business",
+      "words": 1,
+      "chars": 8,
+      "lines": 1,
+      "size": 56,
+      "vw": 3.9,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.26,
+      "top": 2705,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "$79/mo",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 96,
+      "vw": 6.7,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.04,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.26,
+      "top": 2773,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Questions",
+      "words": 1,
+      "chars": 9,
+      "lines": 1,
+      "size": 69.1,
+      "vw": 4.8,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.035,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.36,
+      "top": 3151,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Get product news",
+      "words": 3,
+      "chars": 16,
+      "lines": 2,
+      "size": 69.1,
+      "vw": 4.8,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.035,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.32,
+      "top": 3663,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Meridian",
+      "words": 1,
+      "chars": 8,
+      "lines": 1,
+      "size": 331.2,
+      "vw": 23,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.06,
+      "leading": 0.85,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.94,
+      "top": 3980,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 13,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Helvetica Neue",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      16,
+      17,
+      18,
+      20,
+      22,
+      24,
+      29,
+      48,
+      56,
+      69,
+      95,
+      96,
+      160,
+      331
+     ],
+     "sizeCount": 14,
+     "notLoaded": [],
+     "body": {
+      "font": "Helvetica Neue",
+      "size": 18,
+      "leading": 1.55,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 8.5
+     },
+     "measureChars": 38,
+     "max": {
+      "size": 331.2,
+      "vw": 23,
+      "font": "Helvetica Neue",
+      "text": "Meridian"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.01,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#0d2328",
+     "bodyBgHsl": {
+      "h": 191,
+      "s": 0.51,
+      "l": 0.1
+     },
+     "dark": true,
+     "sectionBgs": [
+      {
+       "color": "#143239",
+       "top": 824,
+       "hsl": {
+        "h": 191,
+        "s": 0.48,
+        "l": 0.15
+       }
+      },
+      {
+       "color": "#e8f0ed",
+       "top": 2649,
+       "hsl": {
+        "h": 158,
+        "s": 0.21,
+        "l": 0.93
+       }
+      },
+      {
+       "color": "#ffb347",
+       "top": 3558,
+       "hsl": {
+        "h": 35,
+        "s": 1,
+        "l": 0.64
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#f2f6f4",
+       "share": 0.49
+      },
+      {
+       "color": "#bfd0cc",
+       "share": 0.27
+      },
+      {
+       "color": "#0d2328",
+       "share": 0.18
+      },
+      {
+       "color": "#ffb347",
+       "share": 0.04
+      },
+      {
+       "color": "#e8f0ed",
+       "share": 0.01
+      }
+     ],
+     "button": {
+      "bg": "#ffb347",
+      "hsl": {
+       "h": 35,
+       "s": 1,
+       "l": 0.64
+      },
+      "fg": "#0d2328"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 6,
+     "inHero": 2,
+     "radius": 0,
+     "height": 53,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Skip to content",
+      "Start 14-day free trial"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "svg",
+      "ratio": 0.15
+     }
+    ],
+    "nav": {
+     "links": 5,
+     "fixed": false,
+     "height": 88,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 4369,
+    "margins": {
+     "left": 48,
+     "right": 48
+    },
+    "sections": [
+     {
+      "sel": "section#top.wrap.hero",
+      "tag": "section",
+      "top": 88,
+      "height": 564,
+      "words": 29,
+      "media": 1,
+      "middle": 232,
+      "heading": {
+       "text": "Backups that just work",
+       "size": 95,
+       "tag": "h1"
+      },
+      "left": 48,
+      "right": 88,
+      "textLeft": 48,
+      "textRight": 832,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#history.restore",
+      "tag": "section",
+      "top": 824,
+      "height": 783,
+      "words": 52,
+      "media": 0,
+      "middle": 209,
+      "heading": {
+       "text": "45",
+       "size": 160,
+       "tag": "b"
+      },
+      "left": 48,
+      "right": 48,
+      "textLeft": 48,
+      "textRight": 48,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#pricing.pricing",
+      "tag": "section",
+      "top": 1780,
+      "height": 1198,
+      "words": 68,
+      "media": 0,
+      "middle": 257,
+      "heading": {
+       "text": "$9",
+       "size": 96,
+       "tag": "div"
+      },
+      "left": 48,
+      "right": 305,
+      "textLeft": 48,
+      "textRight": 305,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#faq.faq",
+      "tag": "section",
+      "top": 3151,
+      "height": 234,
+      "words": 13,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Is my data encrypted?",
+       "size": 20,
+       "tag": "h3"
+      },
+      "left": 658,
+      "right": 48,
+      "textLeft": 682,
+      "textRight": 542,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#trial-form.sub",
+      "tag": "section",
+      "top": 3558,
+      "height": 342,
+      "words": 6,
+      "media": 0,
+      "middle": 342,
+      "heading": {
+       "text": "Get product news",
+       "size": 69,
+       "tag": "h2"
+      },
+      "left": 48,
+      "right": 48,
+      "textLeft": 48,
+      "textRight": 76,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer",
+      "tag": "footer",
+      "top": 3900,
+      "height": 469,
+      "words": 10,
+      "media": 0,
+      "middle": 28,
+      "heading": {
+       "text": "Meridian",
+       "size": 331,
+       "tag": "div"
+      },
+      "left": 35,
+      "right": 50,
+      "textLeft": 35,
+      "textRight": 50,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [
+     {
+      "top": 636,
+      "height": 276
+     },
+     {
+      "top": 1464,
+      "height": 308
+     },
+     {
+      "top": 3380,
+      "height": 272
+     }
+    ],
+    "h1s": [
+     {
+      "text": "Backups that just work",
+      "size": 95,
+      "top": 236,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 48,
+      "n": 8
+     },
+     {
+      "x": 96,
+      "n": 3
+     },
+     {
+      "x": 682,
+      "n": 3
+     }
+    ],
+    "leftBlocks": 14,
+    "bodySize": 18,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0.27,
+    "voidBox": {
+     "x": 0,
+     "y": 660,
+     "w": 1440,
+     "h": 240
+    }
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 5,
+   "filled": [
+    0.59,
+    0.71,
+    0.83,
+    0.73,
+    0.74
+   ],
+   "motion": {
+    "elements": 16,
+    "css": 0,
+    "transitions": 16,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 4921,
+     "screens": 4.8,
+     "words": 192,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 1,
+     "sections": 5,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Backups that just work",
+     "words": 4,
+     "chars": 22,
+     "lines": 2,
+     "size": 50.7,
+     "vw": 6.6,
+     "font": "Helvetica Neue",
+     "weight": 800,
+     "tracking": -0.035,
+     "leading": 0.98,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "left",
+     "widthRatio": 0.44,
+     "top": 142,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Backups that just work",
+     "words": 4,
+     "lines": 2,
+     "size": 50.7,
+     "font": "Helvetica Neue"
+    },
+    "headings": [
+     {
+      "text": "Backups that just work",
+      "words": 4,
+      "chars": 22,
+      "lines": 2,
+      "size": 50.7,
+      "vw": 6.6,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.035,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.44,
+      "top": 142,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "How far back do you need to go?",
+      "words": 8,
+      "chars": 31,
+      "lines": 2,
+      "size": 36.9,
+      "vw": 4.8,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.035,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.51,
+      "top": 1165,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "45",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 92.2,
+      "vw": 12,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.05,
+      "leading": 0.9,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.12,
+      "top": 1345,
+      "tag": "b",
+      "kind": "heading"
+     },
+     {
+      "text": "Pick the plan that remembers enough",
+      "words": 6,
+      "chars": 35,
+      "lines": 2,
+      "size": 36.9,
+      "vw": 4.8,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.035,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.51,
+      "top": 2005,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Starter",
+      "words": 1,
+      "chars": 7,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.84,
+      "top": 2222,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "$9/mo",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 53.8,
+      "vw": 7,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.04,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.84,
+      "top": 2266,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Team",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.84,
+      "top": 2704,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "$29/mo",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 53.8,
+      "vw": 7,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.04,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.84,
+      "top": 2748,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Business",
+      "words": 1,
+      "chars": 8,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.84,
+      "top": 3231,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "$79/mo",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 53.8,
+      "vw": 7,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.04,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.84,
+      "top": 3275,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Questions",
+      "words": 1,
+      "chars": 9,
+      "lines": 1,
+      "size": 36.9,
+      "vw": 4.8,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.035,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.51,
+      "top": 3851,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Get product news",
+      "words": 3,
+      "chars": 16,
+      "lines": 2,
+      "size": 36.9,
+      "vw": 4.8,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.035,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.32,
+      "top": 4313,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Meridian",
+      "words": 1,
+      "chars": 8,
+      "lines": 1,
+      "size": 176.6,
+      "vw": 23,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.06,
+      "leading": 0.85,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.93,
+      "top": 4663,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 13,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Helvetica Neue",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      16,
+      17,
+      18,
+      20,
+      24,
+      28,
+      32,
+      37,
+      51,
+      54,
+      92,
+      177
+     ],
+     "sizeCount": 12,
+     "notLoaded": [],
+     "body": {
+      "font": "Helvetica Neue",
+      "size": 17.6,
+      "leading": 1.55,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 15
+     },
+     "measureChars": 38,
+     "max": {
+      "size": 176.6,
+      "vw": 23,
+      "font": "Helvetica Neue",
+      "text": "Meridian"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.01,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#0d2328",
+     "bodyBgHsl": {
+      "h": 191,
+      "s": 0.51,
+      "l": 0.1
+     },
+     "dark": true,
+     "sectionBgs": [
+      {
+       "color": "#143239",
+       "top": 470,
+       "hsl": {
+        "h": 191,
+        "s": 0.48,
+        "l": 0.15
+       }
+      },
+      {
+       "color": "#e8f0ed",
+       "top": 3200,
+       "hsl": {
+        "h": 158,
+        "s": 0.21,
+        "l": 0.93
+       }
+      },
+      {
+       "color": "#ffb347",
+       "top": 4259,
+       "hsl": {
+        "h": 35,
+        "s": 1,
+        "l": 0.64
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#f2f6f4",
+       "share": 0.49
+      },
+      {
+       "color": "#bfd0cc",
+       "share": 0.27
+      },
+      {
+       "color": "#0d2328",
+       "share": 0.18
+      },
+      {
+       "color": "#ffb347",
+       "share": 0.04
+      },
+      {
+       "color": "#e8f0ed",
+       "share": 0.01
+      }
+     ],
+     "button": {
+      "bg": "#ffb347",
+      "hsl": {
+       "h": 35,
+       "s": 1,
+       "l": 0.64
+      },
+      "fg": "#0d2328"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 6,
+     "inHero": 2,
+     "radius": 0,
+     "height": 53,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Skip to content",
+      "Start 14-day free trial"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "svg",
+      "ratio": 0.42
+     }
+    ],
+    "nav": {
+     "links": 5,
+     "fixed": false,
+     "height": 88,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 4921,
+    "margins": {
+     "left": 31,
+     "right": 31
+    },
+    "sections": [
+     {
+      "sel": "section#top.wrap.hero",
+      "tag": "section",
+      "top": 88,
+      "height": 924,
+      "words": 29,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Backups that just work",
+       "size": 51,
+       "tag": "h1"
+      },
+      "left": 31,
+      "right": 54,
+      "textLeft": 31,
+      "textRight": 405,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#history.restore",
+      "tag": "section",
+      "top": 1104,
+      "height": 809,
+      "words": 52,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "45",
+       "size": 92,
+       "tag": "b"
+      },
+      "left": 31,
+      "right": 31,
+      "textLeft": 31,
+      "textRight": 31,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.wrap",
+      "tag": "div",
+      "top": 2005,
+      "height": 148,
+      "words": 14,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 31,
+      "right": 301,
+      "textLeft": 31,
+      "textRight": 301,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.wrap.plans",
+      "tag": "div",
+      "top": 2191,
+      "height": 1568,
+      "words": 54,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "$9",
+       "size": 54,
+       "tag": "div"
+      },
+      "left": 61,
+      "right": 528,
+      "textLeft": 61,
+      "textRight": 528,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#faq.faq",
+      "tag": "section",
+      "top": 3851,
+      "height": 316,
+      "words": 13,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Is my data encrypted?",
+       "size": 20,
+       "tag": "h3"
+      },
+      "left": 31,
+      "right": 31,
+      "textLeft": 55,
+      "textRight": 497,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#trial-form.sub",
+      "tag": "section",
+      "top": 4259,
+      "height": 358,
+      "words": 6,
+      "media": 0,
+      "middle": 12,
+      "heading": {
+       "text": "Get product news",
+       "size": 37,
+       "tag": "h2"
+      },
+      "left": 31,
+      "right": 31,
+      "textLeft": 31,
+      "textRight": 59,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer",
+      "tag": "footer",
+      "top": 4617,
+      "height": 304,
+      "words": 10,
+      "media": 0,
+      "middle": 6,
+      "heading": {
+       "text": "Meridian",
+       "size": 177,
+       "tag": "div"
+      },
+      "left": 24,
+      "right": 33,
+      "textLeft": 24,
+      "textRight": 33,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Backups that just work",
+      "size": 51,
+      "top": 142,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 31,
+      "n": 8
+     },
+     {
+      "x": 55,
+      "n": 6
+     }
+    ],
+    "leftBlocks": 14,
+    "bodySize": 18,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 6,
+   "filled": [
+    0.54,
+    0.79,
+    0.75,
+    0.81,
+    0.69,
+    0.7
+   ],
+   "motion": {
+    "elements": 16,
+    "css": 0,
+    "transitions": 16,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 4499,
+     "screens": 5.3,
+     "words": 192,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 1,
+     "sections": 5,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Backups that just work",
+     "words": 4,
+     "chars": 22,
+     "lines": 2,
+     "size": 41.6,
+     "vw": 10.7,
+     "font": "Helvetica Neue",
+     "weight": 800,
+     "tracking": -0.035,
+     "leading": 0.98,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "left",
+     "widthRatio": 0.71,
+     "top": 177,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Backups that just work",
+     "words": 4,
+     "lines": 2,
+     "size": 41.6,
+     "font": "Helvetica Neue"
+    },
+    "headings": [
+     {
+      "text": "Meridian",
+      "words": 1,
+      "chars": 8,
+      "lines": 1,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.55,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.24,
+      "top": 20,
+      "tag": "a",
+      "kind": "heading"
+     },
+     {
+      "text": "Backups that just work",
+      "words": 4,
+      "chars": 22,
+      "lines": 2,
+      "size": 41.6,
+      "vw": 10.7,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.035,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.71,
+      "top": 177,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "How far back do you need to go?",
+      "words": 8,
+      "chars": 31,
+      "lines": 2,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.035,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.87,
+      "top": 878,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "45",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 64,
+      "vw": 16.4,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.05,
+      "leading": 0.9,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.17,
+      "top": 1066,
+      "tag": "b",
+      "kind": "heading"
+     },
+     {
+      "text": "Pick the plan that remembers enough",
+      "words": 6,
+      "chars": 35,
+      "lines": 2,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.035,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.87,
+      "top": 1702,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Starter",
+      "words": 1,
+      "chars": 7,
+      "lines": 1,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.84,
+      "top": 1900,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "$9/mo",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 48,
+      "vw": 12.3,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.04,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.84,
+      "top": 1944,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Team",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.84,
+      "top": 2372,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "$29/mo",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 48,
+      "vw": 12.3,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.04,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.84,
+      "top": 2416,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Business",
+      "words": 1,
+      "chars": 8,
+      "lines": 1,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.84,
+      "top": 2887,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "$79/mo",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 48,
+      "vw": 12.3,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.04,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.84,
+      "top": 2931,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Questions",
+      "words": 1,
+      "chars": 9,
+      "lines": 1,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.035,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.87,
+      "top": 3478,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Get product news",
+      "words": 3,
+      "chars": 16,
+      "lines": 2,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.035,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.55,
+      "top": 3895,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Meridian",
+      "words": 1,
+      "chars": 8,
+      "lines": 1,
+      "size": 89.7,
+      "vw": 23,
+      "font": "Helvetica Neue",
+      "weight": 800,
+      "tracking": -0.06,
+      "leading": 0.85,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.93,
+      "top": 4275,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 14,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Helvetica Neue",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      14,
+      16,
+      17,
+      18,
+      19,
+      20,
+      24,
+      32,
+      42,
+      48,
+      64,
+      90
+     ],
+     "sizeCount": 12,
+     "notLoaded": [],
+     "body": {
+      "font": "Helvetica Neue",
+      "size": 17.6,
+      "leading": 1.55,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 15
+     },
+     "measureChars": 38,
+     "max": {
+      "size": 89.7,
+      "vw": 23,
+      "font": "Helvetica Neue",
+      "text": "Meridian"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.01,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#0d2328",
+     "bodyBgHsl": {
+      "h": 191,
+      "s": 0.51,
+      "l": 0.1
+     },
+     "dark": true,
+     "sectionBgs": [
+      {
+       "color": "#143239",
+       "top": 473,
+       "hsl": {
+        "h": 191,
+        "s": 0.48,
+        "l": 0.15
+       }
+      },
+      {
+       "color": "#e8f0ed",
+       "top": 2859,
+       "hsl": {
+        "h": 158,
+        "s": 0.21,
+        "l": 0.93
+       }
+      },
+      {
+       "color": "#ffb347",
+       "top": 3847,
+       "hsl": {
+        "h": 35,
+        "s": 1,
+        "l": 0.64
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#f2f6f4",
+       "share": 0.49
+      },
+      {
+       "color": "#bfd0cc",
+       "share": 0.27
+      },
+      {
+       "color": "#0d2328",
+       "share": 0.18
+      },
+      {
+       "color": "#ffb347",
+       "share": 0.04
+      },
+      {
+       "color": "#e8f0ed",
+       "share": 0.01
+      }
+     ],
+     "button": {
+      "bg": "#ffb347",
+      "hsl": {
+       "h": 35,
+       "s": 1,
+       "l": 0.64
+      },
+      "fg": "#0d2328"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 6,
+     "inHero": 2,
+     "radius": 0,
+     "height": 53,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Skip to content",
+      "Start 14-day free trial"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "svg",
+      "ratio": 0.24
+     }
+    ],
+    "nav": {
+     "links": 5,
+     "fixed": false,
+     "height": 137,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 4499,
+    "margins": {
+     "left": 16,
+     "right": 16
+    },
+    "sections": [
+     {
+      "sel": "header",
+      "tag": "header",
+      "top": 0,
+      "height": 137,
+      "words": 6,
+      "media": 0,
+      "middle": 32,
+      "heading": null,
+      "left": 16,
+      "right": 52,
+      "textLeft": 16,
+      "textRight": 52,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section#top.wrap.hero",
+      "tag": "section",
+      "top": 137,
+      "height": 613,
+      "words": 29,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Backups that just work",
+       "size": 42,
+       "tag": "h1"
+      },
+      "left": 16,
+      "right": 32,
+      "textLeft": 16,
+      "textRight": 42,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#history.restore",
+      "tag": "section",
+      "top": 822,
+      "height": 808,
+      "words": 52,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "45",
+       "size": 64,
+       "tag": "b"
+      },
+      "left": 16,
+      "right": 16,
+      "textLeft": 16,
+      "textRight": 16,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.wrap",
+      "tag": "div",
+      "top": 1702,
+      "height": 139,
+      "words": 14,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 16,
+      "right": 39,
+      "textLeft": 16,
+      "textRight": 39,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.wrap.plans",
+      "tag": "div",
+      "top": 1872,
+      "height": 1534,
+      "words": 54,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "$9",
+       "size": 48,
+       "tag": "div"
+      },
+      "left": 32,
+      "right": 180,
+      "textLeft": 32,
+      "textRight": 180,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#faq.faq",
+      "tag": "section",
+      "top": 3478,
+      "height": 297,
+      "words": 13,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Is my data encrypted?",
+       "size": 20,
+       "tag": "h3"
+      },
+      "left": 16,
+      "right": 16,
+      "textLeft": 40,
+      "textRight": 134,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#trial-form.sub",
+      "tag": "section",
+      "top": 3847,
+      "height": 388,
+      "words": 6,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Get product news",
+       "size": 32,
+       "tag": "h2"
+      },
+      "left": 16,
+      "right": 16,
+      "textLeft": 16,
+      "textRight": 204,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer",
+      "tag": "footer",
+      "top": 4235,
+      "height": 264,
+      "words": 10,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Meridian",
+       "size": 90,
+       "tag": "div"
+      },
+      "left": 12,
+      "right": 47,
+      "textLeft": 12,
+      "textRight": 47,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Backups that just work",
+      "size": 42,
+      "top": 177,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 16,
+      "n": 8
+     },
+     {
+      "x": 32,
+      "n": 6
+     }
+    ],
+    "leftBlocks": 14,
+    "bodySize": 18,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "WARN",
+   "id": "size-count",
+   "width": 1440,
+   "message": "14 different font sizes (16, 17, 18, 20, 22, 24, 29, 48, 56, 69, 95, 96, 160, 331).",
+   "fix": "A page needs about five: display, heading, lead, body, small.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "few-pictures",
+   "width": 1440,
+   "message": "Only 0 picture(s) on the page (0 photographs, footage or raster images, 0 interface fragments). Drawings in SVG do not count.",
+   "fix": "Find real pictures of the subject's world with scripts/assets.mjs (photographs, archival images, maps, engravings, footage), download them to assets/ and give them room: a hero picture, one per section that has a subject, a full-width band. At least four, usually six to twelve."
+  },
+  {
+   "level": "WARN",
+   "id": "no-footage",
+   "width": 1440,
+   "message": "No video anywhere on the page.",
+   "fix": "Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject."
+  },
+  {
+   "level": "WARN",
+   "id": "lopsided",
+   "width": 1440,
+   "message": "A section keeps its content on one side and leaves 658px of the width empty: \"Is my data encrypted?\".",
+   "fix": "Fill the other side with what the section has (its picture, a second column, the figure), or defend the void in one sentence."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "/private/tmp/claude-501/-Users-gokturkcan-agent-stack/f3ecec3e-a2dd-48ef-8659-5ee3dd61580c/scratchpad/bench/insp/taste/desktop-fold.jpg",
+   "pages": [
+    "/private/tmp/claude-501/-Users-gokturkcan-agent-stack/f3ecec3e-a2dd-48ef-8659-5ee3dd61580c/scratchpad/bench/insp/taste/desktop-page-01.jpg",
+    "/private/tmp/claude-501/-Users-gokturkcan-agent-stack/f3ecec3e-a2dd-48ef-8659-5ee3dd61580c/scratchpad/bench/insp/taste/desktop-page-02.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "/private/tmp/claude-501/-Users-gokturkcan-agent-stack/f3ecec3e-a2dd-48ef-8659-5ee3dd61580c/scratchpad/bench/insp/taste/tablet-fold.jpg",
+   "pages": [
+    "/private/tmp/claude-501/-Users-gokturkcan-agent-stack/f3ecec3e-a2dd-48ef-8659-5ee3dd61580c/scratchpad/bench/insp/taste/tablet-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "/private/tmp/claude-501/-Users-gokturkcan-agent-stack/f3ecec3e-a2dd-48ef-8659-5ee3dd61580c/scratchpad/bench/insp/taste/mobile-fold.jpg",
+   "pages": [
+    "/private/tmp/claude-501/-Users-gokturkcan-agent-stack/f3ecec3e-a2dd-48ef-8659-5ee3dd61580c/scratchpad/bench/insp/taste/mobile-page-01.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

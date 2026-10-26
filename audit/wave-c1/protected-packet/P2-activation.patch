@@ -1,0 +1,74 @@
+--- a/config/capability_registry.yaml
++++ b/config/capability_registry.yaml
+@@ -446,7 +446,7 @@
+   # ---- UI ---------------------------------------------------------------------------------
+   - id: taste-skill
+     kind: skill
+-    adoption: benchmark          # inert: never selected until the separate activation diff flips it to adopted
++    adoption: adopted            # activated under approval <ref>: task-scoped delivery only (never skills/)
+     config_ref: skills.taste_skill
+     capabilities: [ui.art_direction]
+     locality: local
+--- a/config/skills.yaml
++++ b/config/skills.yaml
+@@ -24,8 +24,8 @@
+       mode tracking. The other four upstream skills (audit, debt, gain, help) are not installed.
+ 
+   taste_skill:
+-    status: candidate
+-    location: "~/agent-stack/third_party/taste-skill/skill (vendored, DORMANT; not on any loading path)"
++    status: configured
++    location: "~/agent-stack/third_party/taste-skill/skill (vendored; delivered per task into the worker worktree; not on any loading path)"
+     role: "Primary UI/UX art-direction specialist for frontend work (owner decision 2026-10-25). Not for non-UI coding tasks."
+     agent_os: optional_specialist
+     source: "github.com/Leonxlnx/taste-skill v2.1.5, commit 12af471f627f866411b4bd785b19646d3672784c (MIT; 36-file subset, hashes in scripts/runtime/skills.lock.json)"
+--- a/scripts/runtime/skills.lock.json
++++ b/scripts/runtime/skills.lock.json
+@@ -19,7 +19,7 @@
+     "tag": "v2.1.5",
+     "commit": "12af471f627f866411b4bd785b19646d3672784c",
+     "license": "MIT",
+-    "status": "dormant",
++    "status": "task-scoped",
+     "license_file": {
+       "third_party/taste-skill/LICENSE": "4575a543ab88dad12ccea7d97e563d0bce5b448b06072e65d3264497dad326df"
+     },
+--- a/scripts/runtime/test_skills_lock.py
++++ b/scripts/runtime/test_skills_lock.py
+@@ -30,7 +30,7 @@
+ def test_taste_subset_shape():
+     e = json.loads((REPO / "scripts/runtime/skills.lock.json").read_text())["taste-skill"]
+     assert e["commit"] == "12af471f627f866411b4bd785b19646d3672784c" and e["tag"] == "v2.1.5"
+-    assert e["license"] == "MIT" and e["status"] == "dormant"
++    assert e["license"] == "MIT" and e["status"] == "task-scoped"
+     assert len(e["sha256"]) == 36
+     assert not any(p.endswith("assets.mjs") for p in e["sha256"])
+     assert (TASTE / "LICENSE").read_text().startswith("MIT License")
+--- a/evals/test_wave_c1_production.py
++++ b/evals/test_wave_c1_production.py
+@@ -47,9 +47,9 @@
+ 
+ 
+ # ------------------------------------------------------------ registry facts (gate 7: deterministic selection)
+-def test_registry_records_are_truthful_and_inert(reg):
++def test_registry_records_are_truthful(reg):
+     t = reg.get("taste-skill")
+-    assert (t.kind, t.adoption, t.config_ref) == ("skill", "benchmark", "skills.taste_skill")
++    assert (t.kind, t.adoption, t.config_ref) == ("skill", "adopted", "skills.taste_skill")
+     assert [reg.get(i).adoption for i in ("frontend-design", "ui-ux-pro-max")] == ["future", "future"]
+     assert "ui.art_direction" in reg.capabilities and "ui.visual_qa" in reg.capabilities
+ 
+@@ -59,10 +59,10 @@
+     assert CP.resolve_required(reg, (), "coding") == ("code.edit", "code.test")      # coding unchanged
+ 
+ 
+-def test_ui_design_fails_closed_until_taste_is_activated(cfg, reg):
++def test_ui_design_selects_taste_on_the_real_registry(cfg, reg):
+     pl = CP.plan_for(cfg, task_type="ui_design", overrides=OVERRIDES, registry=reg)
+-    assert pl.status == "blocked" and pl.eligible_executors == []
+-    assert "capability-missing" in pl.rejected_executors["claude-code"].reasons
++    assert pl.status == "selected" and pl.eligible_executors == ["claude-code"]
++    assert pl.tools["ui.art_direction"] == "taste-skill"
+ 
+ 
+ def test_activated_plan_is_deterministic_taste_first_claude_only(cfg):

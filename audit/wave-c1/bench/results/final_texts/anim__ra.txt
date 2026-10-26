@@ -1,0 +1,3 @@
+I can't run the `review-animations` skill. It's set to user-invocation only, so the Skill tool refused it, and I haven't reviewed Modal.css or Modal.tsx. To run it, type `/review-animations` yourself in this session.
+
+I also didn't try to copy the skill's workflow by hand, because the tool error said not to. If you'd like a plain review without the skill, tell me and I'll read HEAD's Modal.css and Modal.tsx and list the defects in order of impact. I won't edit any files.

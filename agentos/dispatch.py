@@ -37,7 +37,7 @@ import sys
 import time
 from pathlib import Path
 
-from . import capability_policy, capability_registry, events, router, telemetry, worktree, workers
+from . import capability_policy, capability_registry, events, router, skill_delivery, telemetry, worktree, workers
 from .config import REPO_ROOT, Config
 from .permissions import WorkerSession
 from .taskstate import TaskError, TaskStore
@@ -138,9 +138,12 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
         event["required_capabilities"] = list(plan.required)
     d = router.route(cfg, event, health)
     extra_mcp = capability_policy.selected_mcp(cfg, registry, plan, d.worker) if plan else ()
+    skill_ids = capability_policy.selected_skills(cfg, registry, plan, d.worker) if plan else ()
     if cap:
         cap["capabilities"]["routed_worker"] = d.worker
         cap["capabilities"]["extra_mcp"] = list(extra_mcp)
+        if skill_ids:                      # task-scoped skills only; absent key == pre-C1 result shape
+            cap["capabilities"]["skills"] = list(skill_ids)
     if d.exit_state or not d.worker:
         exit_state = d.exit_state or "blocked"
         events.emit("task_failed", task_id=task_id, exit_state=exit_state, status="not_dispatched",
@@ -205,6 +208,16 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
         st0 = task.state
         ev.update(attempt=st0["attempts"] + 1, iteration=st0["iteration"] + 1)
         remaining = task.remaining_seconds()
+        deliveries, delivery_error = [], None
+        if skill_ids and remaining > 0:
+            try:
+                for s in skill_ids:
+                    deliveries.append(skill_delivery.provision(None, wt, s))
+            except skill_delivery.SkillDeliveryError as exc:
+                delivery_error = str(exc)[:300]
+                for x in deliveries:       # undo any skill already provisioned for this attempt
+                    skill_delivery.finish(wt, x, task.path / "evidence" / x["skill"])
+                deliveries = []
         if remaining <= 0:
             events.emit("timeout", **ev, timeout_kind="wall_clock", detail="budget exhausted before attempt")
             # Cumulative wall-clock budget already spent: do not start another attempt.
@@ -213,14 +226,26 @@ def dispatch(cfg: Config, *, task_id: str, task_type: str, repo: str | Path, pro
             task.close("timeout", "wall_clock budget exhausted before attempt")
             exit_state, timed_out = "timeout", True
             status, nxt = "stopped", "escalate or hand to human (wall-clock budget exhausted)"
+        elif delivery_error:
+            # A selected skill that cannot be delivered verified is never skipped silently.
+            task.close("blocked", f"skill delivery failed: {delivery_error}")
+            exit_state = "blocked"
+            status, nxt = "stopped", "report to Hermes: selected skill could not be delivered verified"
         else:
+            if deliveries:
+                prompt = skill_delivery.instruction(deliveries) + prompt
             worker_limit, limit_kind = ((timeout, "per_call") if timeout <= remaining
                                         else (remaining, "wall_clock"))
             launch = workers.build_launch(cfg, session, prompt, wt, max_turns=max_turns, extra_mcp=extra_mcp)
             launch.setdefault("env", {})[WORKER_CONTEXT_ENV] = task_id    # keep the push-guard env
             events.emit("worker_started", **ev, status="running")
             started = time.monotonic()
-            run = runner(launch, task_id=task_id, task_type=task_type, timeout=math.ceil(worker_limit))
+            try:
+                run = runner(launch, task_id=task_id, task_type=task_type, timeout=math.ceil(worker_limit))
+            finally:                      # also when the runner raises: nothing of the skill stays in the worktree
+                if deliveries:
+                    cap["capabilities"]["skill_evidence"] = [
+                        skill_delivery.finish(wt, x, task.path / "evidence" / x["skill"]) for x in deliveries]
             worker_ms = round((time.monotonic() - started) * 1000, 1)
             events.emit("worker_finished", **ev, duration_ms=worker_ms,
                         status="timeout" if run.get("timed_out")

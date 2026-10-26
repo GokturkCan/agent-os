@@ -1,0 +1,22 @@
+;; Wave C1 isolation profile (PROPOSAL; not wired into anything). macOS Seatbelt via /usr/bin/sandbox-exec.
+;; Deny by default; no network of any kind; writes only to WORK and TMP; reads only system/toolchain paths + WORK + TMP.
+;; Parameters: -D WORK=<abs worktree> -D TMP=<abs scratch>. Launch ONLY through `env -i` (Seatbelt does not scrub the
+;; environment) with an allowlist, e.g. /usr/bin/env -i PATH=... HOME=$WORK TMPDIR=$TMP/ NPM_CONFIG_*=...
+;; Tested 2026-10-25 with trusted binaries only: sh/cat/echo/curl, node v24.21.0, npm 11.19.0 (offline, zero deps).
+;; NOT covered: browsers. Chrome under this profile crashes in crashpad (it insists on the real ~/Library/Application
+;; Support/Google/Chrome); making it run would require write access to the real browser profile, which this profile refuses.
+(version 1)
+(deny default)
+(deny network*)
+(allow process-fork)
+(allow process-exec (subpath "/bin") (subpath "/usr/bin") (subpath "/opt/homebrew/Cellar") (subpath "/opt/homebrew/opt"))
+(allow signal (target self))
+(allow sysctl-read)
+(allow file-read-metadata)
+(allow file-read* (literal "/") (subpath "/usr") (subpath "/bin") (subpath "/sbin") (subpath "/System") (subpath "/Library")
+                  (subpath "/private/etc") (subpath "/private/var/db") (subpath "/dev"))
+;; Homebrew toolchain, read-only, only the trees node needs (dylibs, openssl.cnf). Machine-specific; re-derive per host.
+(allow file-read* (subpath "/opt/homebrew/Cellar") (subpath "/opt/homebrew/opt") (subpath "/opt/homebrew/lib")
+                  (subpath "/opt/homebrew/etc/openssl@3"))
+(allow file-read* (subpath (param "WORK")) (subpath (param "TMP")))
+(allow file-write* (subpath (param "WORK")) (subpath (param "TMP")) (literal "/dev/null"))

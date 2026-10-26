@@ -7,6 +7,14 @@ Run 1 and Run 2 are engineering milestones that are **both included in V1**. Run
 
 ## [Unreleased]
 
+### Wave C1 (branch `feature/wave-c1-engineering-ui`; research + D1 staging only, no protected change)
+
+- Review, benchmark and approval-packet evidence under `audit/wave-c1/` and `docs/wave-c1.md` (25 valid runs, NOT TESTED list, limitations).
+- Production pipeline spec (`docs/wave-c1-production-pipeline.md`), eight-gate acceptance matrix, scoped capability shortlist and an UNAPPLIED protected packet (`audit/wave-c1/protected-packet/`: P1 inert staging + P2 activation, validated on scratch copies only). Erratum recorded: the Taste benchmark arm never ran `draw.mjs`.
+- **P1 applied** under `audit/wave-c1/APPROVAL.md` (registry capabilities/providers, `ui_design` task class, task-scoped skill delivery in `agentos/skill_delivery.py`, `capability_policy`/`dispatch` hooks, 20 tests; manifest 78→79). Taste stays `benchmark`/dormant; `ui_design` fails closed; P2 not applied. Added isolation proposal + canaries (L1 proven, browser BLOCKED, model-run isolation unverified), offline dependency policy, and the reviewer-enforcement finding (not enforced).
+- **P1b applied** (D15): the worker-controlled-worktree symlink/FIFO/size hardening of `agentos/skill_delivery.py` (7 of 9 new adversarial tests fail against the applied module; unreachable until P2).
+- Taste Skill v2.1.5 (`12af471`) staged DORMANT under `third_party/taste-skill/` (36-file subset, `assets.mjs` excluded, MIT preserved); lock entry in `scripts/runtime/skills.lock.json`; `scripts/verify_skills_lock.py` + `scripts/runtime/test_skills_lock.py`. Not activated: no `skills/` copy, no registry record, no worker exposure.
+
 ### Pre-Run 4 capability rollout (branch `feature/capability-rollout`; PR #8; protected packet APPROVED and APPLIED 2026-10-25)
 
 - Security hardening (PR #8 follow-up): `bin/repomix` no longer executes repo-local configuration (confirmed exploitable before the fix) and is an allowlist wrapper with a fixed external config; `bin/markitdown` is local-files-only (no URI/stdin/Azure/plugin modes); `gen_orchestra_index.py` validates and sanitises untrusted skill frontmatter. Behavior tests: `scripts/runtime/test_wrappers.py` (90).

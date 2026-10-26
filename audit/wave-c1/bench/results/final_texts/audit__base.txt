@@ -1,0 +1,89 @@
+# Audit: `legacy/index.html`
+
+## Critical
+
+1. **Controls are not keyboard or screen-reader accessible** (WCAG 2.1.1, 4.1.2)
+   - Elements: `.btn` (hero, the 3 cards, Subscribe), `.nav span`, `.q`.
+   - They are `<div>`/`<span>` elements with `onclick`. They can't be focused, have no role, and don't respond to Enter or Space.
+   - Fix:
+     - Make `.btn` a `<button type="button">`, or an `<a href>` if it navigates.
+     - Make the nav items `<a href="#features">` and so on, inside `<nav>` and `<ul>`.
+     - Make each `.q` a `<button aria-expanded aria-controls="faq-N">` inside a heading. Give each `.a` a matching `id`.
+     - Update `aria-expanded` in `tog()`.
+
+2. **Text contrast fails WCAG 1.4.3 almost everywhere.** Approximate ratios:
+   - `.btn` text `#9ab` on `#6a5acd`: about 2.3:1. The primary CTA is nearly unreadable. Use `#fff` (about 5.3:1).
+   - `.card ul` `#bbb` on white: about 1.9:1, at 11px. Use `#555` or darker.
+   - `.a` `#aaa` on white: 2.3:1. Use `#555` or darker.
+   - `.hero p` `#aaa` on `#f5f5f5`: about 2.1:1. Use `#555` or darker.
+   - `body` `#888` on `#f5f5f5`: about 3.2:1, below the 4.5:1 needed at 13px. Use `#444` or darker.
+   - `.price` `#999` on white: 2.8:1. The price is key content, so use `#222`.
+   - `.q` `#777` on white: 4.5:1 or just under. Darken it.
+   - `.foot` `#666` on `#333`: about 1.9:1, at 10px. Use `#ddd` or lighter.
+   - `.top` white text on the `#00bfff` end of the gradient: about 2.2:1. Darken the gradient or use dark text.
+   - `.card h3` `#6a5acd` on white: about 5.3:1. This one passes.
+
+3. **Page is not responsive.** There is no viewport meta tag, and fixed widths are used throughout.
+   - Elements: `.wrap`, `.cards`, `.faq` are `width:1200px`; `.card` is `380px` plus margins. Three cards need about 1,200px plus margins, so they overflow.
+   - Mobile browsers render a ~980px virtual viewport, so the page is tiny or scrolls sideways.
+   - Fix:
+     - Add `<meta name="viewport" content="width=device-width, initial-scale=1">`.
+     - Use `max-width:1200px; width:100%; padding-inline:16px; box-sizing:border-box` on `.wrap`.
+     - Remove the fixed widths on `.cards` and `.faq`.
+     - Set `.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px}` and `.card{width:auto; margin:0}`.
+
+## High
+
+4. **Missing document basics** (WCAG 3.1.1, 2.4.2)
+   - There is no `<!DOCTYPE html>`, so the page renders in quirks mode.
+   - There is no `lang` on `<html>`, no `<meta charset>`, and the `<title>` is just "Meridian".
+   - Fix: add the doctype, `<html lang="en">`, `<meta charset="utf-8">`, and a descriptive title such as "Pricing – Meridian".
+
+5. **No landmarks, and the heading structure is broken** (WCAG 1.3.1, 2.4.1)
+   - There is no `<header>`, `<nav>`, `<main>` or `<footer>`. All of it is `div`s.
+   - The hero uses `h2` with no `h1`. The cards use `h3` and the FAQ uses `h4`, so levels are skipped.
+   - Fix: use `h1` for the hero. Use `h2` for "Pricing" and "Questions", and `h3` for plan names. Add landmark elements and a skip link.
+
+6. **The email input has no label, and its focus ring is removed** (WCAG 3.3.2, 2.4.7)
+   - Element: `input`.
+   - It relies on the placeholder only, and has no `name`, `autocomplete` or `type="email"`. `outline:none` removes the focus indicator.
+   - Fix:
+     - Add `<label for="email">`, `type="email"`, `name="email"` and `autocomplete="email"`.
+     - Wrap it in a `<form>` with a submit button.
+     - Replace the outline with a visible `:focus-visible` style.
+     - Make `width` fluid, for example `max-width:100%`.
+
+7. **No focus styles anywhere.** Once the elements are made focusable, add `:focus-visible{outline:2px solid #6a5acd; outline-offset:2px}` for buttons, links and `.q`.
+
+8. **FAQ answers are hidden with inline `display:none` toggled by JS and aren't linked to their questions.** The toggle indexes `querySelectorAll('.a')[i]` by position. This is fragile, and it never updates state for assistive tech. Use `<details><summary>`, or the button/`aria-expanded` pattern from item 1.
+
+9. **Handlers are empty stubs.** `go`, `trial`, `choose` and `sub` do nothing, so every CTA and nav item is dead.
+   - Elements: all `.btn`, all `.nav span`.
+   - Fix: use real `href`s and form actions.
+
+## Medium
+
+10. **Text is too small** (`.nav span` 12px, `.btn` 12px, `.card ul` 11px, `.foot` 10px, body 13px). Use at least 16px for body text and 14px for secondary text. Use `rem` units so text respects user font settings.
+
+11. **Images:** the three `<img>` elements in the cards have no `alt` and no explicit `width`/`height`.
+    - Fix: if decorative, use `alt=""`. Add `width="40" height="40"` to prevent layout shift.
+
+12. **Touch targets are too small.** `.btn` is about 12px text with 8px/14px padding, which is under the 44px recommendation (WCAG 2.5.8 requires at least 24px). `.nav span` has no padding. Increase padding to a `min-height` of about 44px.
+
+13. **The price markup is unclear.** `$9<small>/mo</small>` is read as "$9/mo". `<small>` inherits no sizing here and ends up at browser-default size.
+    - Fix: style it explicitly and add visually hidden text such as "per month" if needed.
+
+14. **Plan comparison and recommendation are missing.** All three cards look the same, with no "most popular" cue. Optional UX improvement.
+
+15. **The `<div class="btn">` in `.sub` sits inline next to the input.** The input has `width:260px` with the button beside it, so on narrow screens they overflow or wrap awkwardly. Lay out the form with flexbox and `flex-wrap`.
+
+## Low
+
+16. **Nav spacing:** `.nav span` has `margin-left:30px` and no wrapping. On small screens it collides with the logo. Use a flex container with `gap`, and wrap or collapse it.
+17. **Brand logo:** `<b style="font-size:22px">` is an inline style on a non-semantic element. Use a link to `/` styled via a class.
+18. **Font stack:** `font-family: Arial` has no fallback. Use `system-ui, -apple-system, "Segoe UI", Arial, sans-serif`.
+19. **`h2` margins and `.hero` padding** use browser defaults, and `60px 0` is excessive on mobile. Use `clamp()` for the `h2` size (`40px` is large on narrow screens) and for padding.
+20. **Footer:** "Terms | Privacy | Status" is plain text, not links. Use `<a>` elements in a `<nav aria-label="Footer">`.
+21. **Missing `prefers-reduced-motion` and `prefers-color-scheme`** handling. Nothing animates today, but add them if transitions are introduced.
+22. **Inline JS and inline styles** (`onclick`, `style=`) block a strict CSP and make maintenance harder. Move them to a script file and use `addEventListener`.
+23. **Missing meta and SEO basics:** there is no `<meta name="description">` and no favicon.

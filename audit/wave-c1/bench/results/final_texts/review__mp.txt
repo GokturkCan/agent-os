@@ -1,0 +1,65 @@
+**Review of `UserSearch.tsx` (HEAD, a92c45b)**
+
+I read the file directly and did not spawn the skill's two sub-agents. The repo has no `CODING_STANDARDS.md`, no `CONTRIBUTING.md` and no spec, and HEAD is the only commit. So there was no Spec axis to run, and the Standards axis was just the smell baseline. Nothing was edited.
+
+**Critical**
+
+1. **Line 46: XSS.** `dangerouslySetInnerHTML={{ __html: u.bioHtml }}` renders server-supplied HTML unsanitized. Any user whose bio contains `<img onerror=…>` runs script in every viewer's session.
+   - Fix: render `bio` as plain text.
+   - If HTML is truly required, sanitize it with DOMPurify before rendering. Better still, sanitize on the server too.
+
+2. **Line 15: query is not URL-encoded.** `?q=${query}` lets input like `a&admin=1` or `#` alter the request, which is parameter injection.
+   - Fix: use `` `${endpoint}?q=${encodeURIComponent(query)}` ``.
+
+**High**
+
+3. **Line 22: wrong dependency array.** The effect reads `query` but depends only on `[endpoint]`. It runs on mount, when the query is empty, and never again when the user types. Search does not work.
+   - Fix: use `[endpoint, query]`.
+
+4. **Lines 12–22: no cancellation, so stale responses can win.** Responses can arrive out of order and overwrite newer results. A response can also set state after unmount.
+   - Fix: create an `AbortController`, pass `signal` to `fetch`, and call `abort()` in the effect cleanup.
+   - Also debounce here, so there is no request per keystroke.
+
+5. **Line 21: errors are swallowed and `loading` can stick.** `.catch(() => {})` hides failures. On error, `setLoading(false)` is never called, so "Loading…" shows forever. HTTP error statuses are not checked either, because `r.json()` runs on 4xx/5xx responses.
+   - Fix: check `r.ok`, add an `error` state, and put `setLoading(false)` in a `.finally` (skipping aborted requests).
+
+6. **Line 35: `users.sort` mutates state in place.** It sorts the state array during render, which breaks React's immutability rule. It also triggers a double-render hazard in StrictMode.
+   - Fix: `const sorted = useMemo(() => [...users].sort(…), [users])`. Better, sort once when the data arrives.
+
+7. **Lines 30–31: `picked.push(u); setPicked(picked)` mutates state and re-sets the same reference.** React bails out because the reference is unchanged, so `picked.length` on line 50 does not update. It will appear stale or update only by accident. It also allows duplicate picks.
+   - Fix: `setPicked(prev => prev.some(p => p.id === u.id) ? prev : [...prev, u])`.
+
+**Medium**
+
+8. **Line 26: `setTimeout` in the handler, with a stale closure.** `setSearches(searches + 1)` uses the `searches` value captured at render. Fast typing queues several timers that all write the same value, so the count undercounts. The timers are never cleared, so they can fire after unmount. The counter also doesn't track actual searches, only keystrokes.
+   - Fix: delete this state. If a count is wanted, increment it inside the effect with `setSearches(n => n + 1)`, and clean up the timers.
+
+9. **Line 44: `key={i}` uses the array index.** The list is re-sorted, so rows get remounted or mismatched.
+   - Fix: use `key={u.id}`.
+
+10. **Line 13: clearing the query leaves stale results.** `if (!query) return;` keeps the old `users` and the loading state.
+    - Fix: call `setUsers([])` when the query is empty.
+
+**Low**
+
+11. **Line 44: clickable `<li>` is not accessible.** It has no keyboard handler, role or focusability.
+    - Fix: put a `<button type="button">` inside the `<li>`.
+
+12. **Line 39: the input has no accessible label.** A placeholder is not a label.
+    - Fix: add `<label>` or `aria-label`.
+
+13. **Line 18: `data as User[]` is an unchecked cast of untrusted JSON.**
+    - Fix: validate at runtime, for example with zod.
+
+14. **Smell judgement calls (baseline only).**
+    - Possible Primitive Obsession: `score` and `id` are bare primitives. This is minor.
+    - Possible Mysterious Name: `searches` doesn't say what it counts.
+    - Possible Speculative Generality: the `picked` state duplicates what `onPick` already reports to the parent.
+    - Fix: lift or drop `picked` unless the component needs to display it.
+
+**Other files in the commit**
+
+- `tools/shot.mjs` calls `./_shot_impl.mjs`, which is not in the commit, so the helper is broken as committed.
+- The `.claude/skills/code-review/` files were not reviewed.
+
+**Summary:** 14 findings. The worst are the unsanitized HTML on line 46 and the missing `query` dependency on line 22, which breaks search entirely.

@@ -1,0 +1,8 @@
+I fixed three bugs in `src/pricing.ts`, and all 4 tests in `test/pricing.test.ts` now pass. Only the two `paginate` tests were failing before. The other two bugs didn't show up in those tests, but they broke SPEC.md.
+
+**Root causes**
+1. **`paginate` was 0-based.** It used `start = page * size`, so page 1 skipped the first page and the last page came back empty. It now uses `(page - 1) * size`.
+2. **Options leaked between calls.** `Object.assign(defaults, options)` changed the shared `defaults` object, so one call's `taxExempt` or `code` carried into later calls. I removed `defaults` and read straight from `options`.
+3. **Discount was rounded per line.** SPEC.md says it is computed once on the subtotal and rounded half-up, so I changed `discountFor` to take the subtotal. Per-line rounding can differ from that by a cent or more.
+
+**Simplification:** I removed the `lineTotal` helper and the temporary variables. `priceOrder` now computes the subtotal with `reduce`, `paginate` uses `slice`, and `formatMoney` uses `padStart`. I checked the discount fix and the leak fix only by reading the code, since the existing tests don't cover them.

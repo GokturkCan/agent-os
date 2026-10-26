@@ -1,0 +1,13 @@
+[
+ {"id":"D1","what":"effect deps omit query: search never reruns on typing (stale results)","kw":["dependenc","deps","[endpoint]","query"],"need":["dependenc|deps|dependency array"]},
+ {"id":"D2","what":"no cleanup/abort: race condition, out-of-order responses overwrite newer","kw":["race","abort","cleanup","stale response","out-of-order","out of order"]},
+ {"id":"D3","what":"errors swallowed (empty catch) and loading never reset on failure; no r.ok check","kw":["catch","swallow","error state","loading","r.ok","res.ok","response.ok"]},
+ {"id":"D4","what":"query not URL-encoded (injection / broken URLs)","kw":["encodeURIComponent","encode","url-encod","urlsearchparams","query string injection"]},
+ {"id":"D5","what":"state mutation: picked.push then setPicked(same ref) so no re-render","kw":["push","mutat","same reference","same array","spread"]},
+ {"id":"D6","what":"users.sort mutates state in render","kw":["sort","mutat","toSorted","copy"]},
+ {"id":"D7","what":"key={index} on a re-sorted list","kw":["key","index"]},
+ {"id":"D8","what":"dangerouslySetInnerHTML with user-supplied HTML: XSS","kw":["xss","dangerouslySetInnerHTML","sanitiz","dompurify"]},
+ {"id":"D9","what":"stale closure setSearches(searches+1) in timeout (and unmanaged timer/no debounce)","kw":["stale","closure","functional update","setSearches","debounce","timeout"]},
+ {"id":"D10","what":"a11y: li onClick not keyboard accessible (no button), input has no label","kw":["keyboard","a11y","accessib","label","button","role"]},
+ {"id":"D11","what":"unvalidated cast data as User[] (runtime shape not checked)","kw":["as user","cast","runtime validation","zod","validate","type assertion","unsafe"]}
+]

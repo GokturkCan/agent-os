@@ -1,0 +1,1761 @@
+{
+ "url": "/private/tmp/claude-501/-Users-gokturkcan-agent-stack/f3ecec3e-a2dd-48ef-8659-5ee3dd61580c/scratchpad/bench/ws/ui__base/legacy/index.html",
+ "at": "2026-10-25T01:40:59.839Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 2,
+   "filled": [
+    0.45,
+    0.44
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 995,
+     "screens": 1.1,
+     "words": 106,
+     "img": 3,
+     "video": 0,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 0,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Backups that just work",
+     "words": 4,
+     "chars": 22,
+     "lines": 1,
+     "size": 40,
+     "vw": 2.8,
+     "font": "Arial",
+     "weight": 700,
+     "tracking": 0,
+     "leading": 1.2,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "center",
+     "position": "center",
+     "widthRatio": 0.83,
+     "top": 159,
+     "tag": "h2",
+     "kind": "heading"
+    },
+    "h1": null,
+    "headings": [
+     {
+      "text": "Backups that just work",
+      "words": 4,
+      "chars": 22,
+      "lines": 1,
+      "size": 40,
+      "vw": 2.8,
+      "font": "Arial",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.83,
+      "top": 159,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "$9/mo",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Arial",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.23,
+      "top": 474,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "$29/mo",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Arial",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.23,
+      "top": 474,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "$79/mo",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Arial",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.23,
+      "top": 474,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 4,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 1,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Arial",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      10,
+      11,
+      12,
+      13,
+      15,
+      22,
+      27,
+      32,
+      40
+     ],
+     "sizeCount": 9,
+     "notLoaded": [],
+     "body": {
+      "font": "Arial",
+      "size": 13,
+      "leading": 1.2,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 2.1
+     },
+     "measureChars": 185,
+     "max": {
+      "size": 40,
+      "vw": 2.8,
+      "font": "Arial",
+      "text": "Backups that just work"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.27,
+     "smallText": 14
+    },
+    "eyebrows": [
+     {
+      "text": "Starter",
+      "above": "$9/mo",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 15.2,
+      "top": 442
+     },
+     {
+      "text": "Team",
+      "above": "$29/mo",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 15.2,
+      "top": 442
+     },
+     {
+      "text": "Business",
+      "above": "$79/mo",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 15.2,
+      "top": 442
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f5f5f5",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0,
+      "l": 0.96
+     },
+     "dark": false,
+     "sectionBgs": [],
+     "textColors": [
+      {
+       "color": "#bbbbbb",
+       "share": 0.3
+      },
+      {
+       "color": "#aaaaaa",
+       "share": 0.2
+      },
+      {
+       "color": "#99aabb",
+       "share": 0.11
+      },
+      {
+       "color": "#777777",
+       "share": 0.1
+      },
+      {
+       "color": "#666666",
+       "share": 0.1
+      }
+     ],
+     "button": null,
+     "lowContrast": [
+      {
+       "text": "1 user",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "100 GB storage",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "30-day version history",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "10 users",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "2 TB storage",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "90-day version history",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      }
+     ]
+    },
+    "buttons": {
+     "count": 0,
+     "inHero": 0,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": []
+    },
+    "surfaces": {
+     "shadowStatic": 3,
+     "shadowOverlay": 0,
+     "shadowSamples": [
+      "div.card → rgba(0, 0, 0, 0.1) 0px 2px 6px 0px",
+      "div.card → rgba(0, 0, 0, 0.1) 0px 2px 6px 0px",
+      "div.card → rgba(0, 0, 0, 0.1) 0px 2px 6px 0px"
+     ],
+     "gradients": 1,
+     "scrims": 0,
+     "gradientSamples": [
+      "div.top → linear-gradient(90deg, rgb(106, 90, 205), rgb(0, 191, 255))"
+     ],
+     "gradientText": 0,
+     "hairlines": 3,
+     "hairlineSamples": [
+      "div.q 1200px",
+      "div.q 1200px",
+      "div.q 1200px"
+     ],
+     "outlinedBoxes": 3,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 3,
+     "boxRadius": 8,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 3,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 365
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": null,
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 995,
+    "margins": {
+     "left": 120,
+     "right": 360
+    },
+    "sections": [
+     {
+      "sel": "div.hero",
+      "tag": "div",
+      "top": 66,
+      "height": 289,
+      "words": 29,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Backups that just work",
+       "size": 40,
+       "tag": "h2"
+      },
+      "left": 364,
+      "right": 364,
+      "textLeft": 364,
+      "textRight": 364,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.cards",
+      "tag": "div",
+      "top": 355,
+      "height": 298,
+      "words": 48,
+      "media": 0,
+      "middle": 252,
+      "heading": {
+       "text": "$9",
+       "size": 32,
+       "tag": "div"
+      },
+      "left": 151,
+      "right": 344,
+      "textLeft": 151,
+      "textRight": 344,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.faq",
+      "tag": "div",
+      "top": 694,
+      "height": 140,
+      "words": 14,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Questions",
+       "size": 13,
+       "tag": "h4"
+      },
+      "left": 120,
+      "right": 1178,
+      "textLeft": 120,
+      "textRight": 1178,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 151,
+      "n": 1
+     },
+     {
+      "x": 551,
+      "n": 1
+     },
+     {
+      "x": 951,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 3,
+    "bodySize": 13,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0.18,
+    "voidBox": {
+     "x": 1140,
+     "y": 120,
+     "w": 300,
+     "h": 780
+    }
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 1,
+   "filled": [
+    0.54
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 1024,
+     "screens": 1,
+     "words": 106,
+     "img": 3,
+     "video": 0,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 0,
+     "horizontalOverflow": 452,
+     "overflowCulprits": [
+      "div.wrap (+452px)",
+      "h2 (+432px)",
+      "p (+432px)"
+     ],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Backups that just work",
+     "words": 4,
+     "chars": 22,
+     "lines": 1,
+     "size": 40,
+     "vw": 5.2,
+     "font": "Arial",
+     "weight": 700,
+     "tracking": 0,
+     "leading": 1.2,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "center",
+     "position": "right",
+     "widthRatio": 1.56,
+     "top": 159,
+     "tag": "h2",
+     "kind": "heading"
+    },
+    "h1": null,
+    "headings": [
+     {
+      "text": "Backups that just work",
+      "words": 4,
+      "chars": 22,
+      "lines": 1,
+      "size": 40,
+      "vw": 5.2,
+      "font": "Arial",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "right",
+      "widthRatio": 1.56,
+      "top": 159,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "$9/mo",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Arial",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.44,
+      "top": 474,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "$29/mo",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Arial",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.44,
+      "top": 474,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "$79/mo",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Arial",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.44,
+      "top": 474,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 4,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 1,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Arial",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      10,
+      11,
+      12,
+      13,
+      15,
+      22,
+      27,
+      32,
+      40
+     ],
+     "sizeCount": 9,
+     "notLoaded": [],
+     "body": {
+      "font": "Arial",
+      "size": 13,
+      "leading": 1.2,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 2.1
+     },
+     "measureChars": 185,
+     "max": {
+      "size": 40,
+      "vw": 5.2,
+      "font": "Arial",
+      "text": "Backups that just work"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.27,
+     "smallText": 14
+    },
+    "eyebrows": [
+     {
+      "text": "Starter",
+      "above": "$9/mo",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 15.2,
+      "top": 442
+     },
+     {
+      "text": "Team",
+      "above": "$29/mo",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 15.2,
+      "top": 442
+     },
+     {
+      "text": "Business",
+      "above": "$79/mo",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 15.2,
+      "top": 442
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f5f5f5",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0,
+      "l": 0.96
+     },
+     "dark": false,
+     "sectionBgs": [],
+     "textColors": [
+      {
+       "color": "#bbbbbb",
+       "share": 0.3
+      },
+      {
+       "color": "#aaaaaa",
+       "share": 0.2
+      },
+      {
+       "color": "#99aabb",
+       "share": 0.11
+      },
+      {
+       "color": "#777777",
+       "share": 0.1
+      },
+      {
+       "color": "#666666",
+       "share": 0.1
+      }
+     ],
+     "button": null,
+     "lowContrast": [
+      {
+       "text": "1 user",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "100 GB storage",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "30-day version history",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "10 users",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "2 TB storage",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "90-day version history",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      }
+     ]
+    },
+    "buttons": {
+     "count": 0,
+     "inHero": 0,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": []
+    },
+    "surfaces": {
+     "shadowStatic": 3,
+     "shadowOverlay": 0,
+     "shadowSamples": [
+      "div.card → rgba(0, 0, 0, 0.1) 0px 2px 6px 0px",
+      "div.card → rgba(0, 0, 0, 0.1) 0px 2px 6px 0px",
+      "div.card → rgba(0, 0, 0, 0.1) 0px 2px 6px 0px"
+     ],
+     "gradients": 1,
+     "scrims": 0,
+     "gradientSamples": [
+      "div.top → linear-gradient(90deg, rgb(106, 90, 205), rgb(0, 191, 255))"
+     ],
+     "gradientText": 0,
+     "hairlines": 3,
+     "hairlineSamples": [
+      "div.q 1200px",
+      "div.q 1200px",
+      "div.q 1200px"
+     ],
+     "outlinedBoxes": 3,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 3,
+     "boxRadius": 8,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 3,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 365
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": null,
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 1024,
+    "margins": {
+     "left": 0,
+     "right": 189
+    },
+    "sections": [
+     {
+      "sel": "div.hero",
+      "tag": "div",
+      "top": 66,
+      "height": 289,
+      "words": 29,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Backups that just work",
+       "size": 40,
+       "tag": "h2"
+      },
+      "left": 244,
+      "right": 0,
+      "textLeft": 244,
+      "textRight": -188,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.cards",
+      "tag": "div",
+      "top": 355,
+      "height": 298,
+      "words": 48,
+      "media": 0,
+      "middle": 252,
+      "heading": {
+       "text": "$9",
+       "size": 32,
+       "tag": "div"
+      },
+      "left": 31,
+      "right": 0,
+      "textLeft": 31,
+      "textRight": -208,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.faq",
+      "tag": "div",
+      "top": 694,
+      "height": 140,
+      "words": 14,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Questions",
+       "size": 13,
+       "tag": "h4"
+      },
+      "left": 0,
+      "right": 626,
+      "textLeft": 0,
+      "textRight": 626,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [],
+    "edgeText": [
+     {
+      "text": "Questions",
+      "side": "left",
+      "px": 0
+     },
+     {
+      "text": "Is my data encrypted?",
+      "side": "left",
+      "px": 10
+     },
+     {
+      "text": "Can I cancel any time?",
+      "side": "left",
+      "px": 10
+     },
+     {
+      "text": "Do you support Linux?",
+      "side": "left",
+      "px": 10
+     },
+     {
+      "text": "Get product news:",
+      "side": "left",
+      "px": 0
+     }
+    ],
+    "edges": [
+     {
+      "x": 31,
+      "n": 1
+     },
+     {
+      "x": 431,
+      "n": 1
+     },
+     {
+      "x": 831,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 3,
+    "bodySize": 13,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 4,
+   "filled": [
+    0.25,
+    0.25,
+    0.25,
+    0.25
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1220,
+     "h": 2641
+    },
+    "page": {
+     "height": 2641,
+     "screens": 1,
+     "words": 106,
+     "img": 3,
+     "video": 0,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 0,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Backups that just work",
+     "words": 4,
+     "chars": 22,
+     "lines": 1,
+     "size": 40,
+     "vw": 3.3,
+     "font": "Arial",
+     "weight": 700,
+     "tracking": 0,
+     "leading": 1.2,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "center",
+     "position": "center",
+     "widthRatio": 0.98,
+     "top": 159,
+     "tag": "h2",
+     "kind": "heading"
+    },
+    "h1": null,
+    "headings": [
+     {
+      "text": "Backups that just work",
+      "words": 4,
+      "chars": 22,
+      "lines": 1,
+      "size": 40,
+      "vw": 3.3,
+      "font": "Arial",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.98,
+      "top": 159,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "$9/mo",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.6,
+      "font": "Arial",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.28,
+      "top": 474,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "$29/mo",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.6,
+      "font": "Arial",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.28,
+      "top": 474,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "$79/mo",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.6,
+      "font": "Arial",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.28,
+      "top": 474,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 4,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 1,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Arial",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      10,
+      11,
+      12,
+      13,
+      15,
+      22,
+      27,
+      32,
+      40
+     ],
+     "sizeCount": 9,
+     "notLoaded": [],
+     "body": {
+      "font": "Arial",
+      "size": 13,
+      "leading": 1.2,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 2.1
+     },
+     "measureChars": 185,
+     "max": {
+      "size": 40,
+      "vw": 3.3,
+      "font": "Arial",
+      "text": "Backups that just work"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.27,
+     "smallText": 14
+    },
+    "eyebrows": [
+     {
+      "text": "Starter",
+      "above": "$9/mo",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 15.2,
+      "top": 442
+     },
+     {
+      "text": "Team",
+      "above": "$29/mo",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 15.2,
+      "top": 442
+     },
+     {
+      "text": "Business",
+      "above": "$79/mo",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 15.2,
+      "top": 442
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f5f5f5",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0,
+      "l": 0.96
+     },
+     "dark": false,
+     "sectionBgs": [],
+     "textColors": [
+      {
+       "color": "#bbbbbb",
+       "share": 0.3
+      },
+      {
+       "color": "#aaaaaa",
+       "share": 0.2
+      },
+      {
+       "color": "#99aabb",
+       "share": 0.11
+      },
+      {
+       "color": "#777777",
+       "share": 0.1
+      },
+      {
+       "color": "#666666",
+       "share": 0.1
+      }
+     ],
+     "button": null,
+     "lowContrast": [
+      {
+       "text": "1 user",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "100 GB storage",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "30-day version history",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "10 users",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "2 TB storage",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "90-day version history",
+       "ratio": 1.9,
+       "need": 4.5,
+       "size": 11,
+       "fg": "#bbbbbb",
+       "bg": "#ffffff"
+      }
+     ]
+    },
+    "buttons": {
+     "count": 0,
+     "inHero": 0,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": []
+    },
+    "surfaces": {
+     "shadowStatic": 3,
+     "shadowOverlay": 0,
+     "shadowSamples": [
+      "div.card → rgba(0, 0, 0, 0.1) 0px 2px 6px 0px",
+      "div.card → rgba(0, 0, 0, 0.1) 0px 2px 6px 0px",
+      "div.card → rgba(0, 0, 0, 0.1) 0px 2px 6px 0px"
+     ],
+     "gradients": 1,
+     "scrims": 0,
+     "gradientSamples": [
+      "div.top → linear-gradient(90deg, rgb(106, 90, 205), rgb(0, 191, 255))"
+     ],
+     "gradientText": 0,
+     "hairlines": 3,
+     "hairlineSamples": [
+      "div.q 1200px",
+      "div.q 1200px",
+      "div.q 1200px"
+     ],
+     "outlinedBoxes": 3,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 3,
+     "boxRadius": 8,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 3,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 365
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": null,
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 1220,
+     "h": 2641
+    },
+    "pageH": 2641,
+    "margins": {
+     "left": 0,
+     "right": 260
+    },
+    "sections": [
+     {
+      "sel": "div.hero",
+      "tag": "div",
+      "top": 66,
+      "height": 289,
+      "words": 29,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Backups that just work",
+       "size": 40,
+       "tag": "h2"
+      },
+      "left": 244,
+      "right": 264,
+      "textLeft": 244,
+      "textRight": 264,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.cards",
+      "tag": "div",
+      "top": 355,
+      "height": 298,
+      "words": 48,
+      "media": 0,
+      "middle": 252,
+      "heading": {
+       "text": "$9",
+       "size": 32,
+       "tag": "div"
+      },
+      "left": 31,
+      "right": 244,
+      "textLeft": 31,
+      "textRight": 244,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.faq",
+      "tag": "div",
+      "top": 694,
+      "height": 140,
+      "words": 14,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Questions",
+       "size": 13,
+       "tag": "h4"
+      },
+      "left": 0,
+      "right": 1078,
+      "textLeft": 0,
+      "textRight": 1078,
+      "fullBleed": false,
+      "footer": true,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [],
+    "edgeText": [
+     {
+      "text": "Questions",
+      "side": "left",
+      "px": 0
+     },
+     {
+      "text": "Is my data encrypted?",
+      "side": "left",
+      "px": 10
+     },
+     {
+      "text": "Can I cancel any time?",
+      "side": "left",
+      "px": 10
+     },
+     {
+      "text": "Do you support Linux?",
+      "side": "left",
+      "px": 10
+     },
+     {
+      "text": "Get product news:",
+      "side": "left",
+      "px": 0
+     }
+    ],
+    "edges": [
+     {
+      "x": 31,
+      "n": 1
+     },
+     {
+      "x": 431,
+      "n": 1
+     },
+     {
+      "x": 831,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 3,
+    "bodySize": 13,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0.6,
+    "voidBox": {
+     "x": 0,
+     "y": 1056,
+     "w": 1220,
+     "h": 1585
+    }
+   },
+   "app": null,
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "FAIL",
+   "id": "eyebrow",
+   "width": 1440,
+   "message": "3 eyebrow/kicker label(s) above headings: \"Starter\" above \"$9/mo\"; \"Team\" above \"$29/mo\"; \"Business\" above \"$79/mo\"",
+   "fix": "Delete them. If the label carried real information, fold it into the headline or the supporting sentence.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "gradient",
+   "width": 1440,
+   "message": "1 gradient fill(s): div.top → linear-gradient(90deg, rgb(106, 90, 205), rgb(0, 191, 255))",
+   "fix": "Use a flat colour or a real image. The only gradient allowed by default is a neutral scrim over a photo for legibility.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "shadow",
+   "width": 1440,
+   "message": "3 box-shadow(s) on elements at rest: div.card → rgba(0, 0, 0, 0.1) 0px 2px 6px 0px | div.card → rgba(0, 0, 0, 0.1) 0px 2px 6px 0px | div.card → rgba(0, 0, 0, 0.1) 0px 2px 6px 0px",
+   "fix": "Remove. Separate surfaces with a tone step or space. Shadows are for things that really float (menus, dialogs, sticky bars).",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "hairline",
+   "width": 1440,
+   "message": "3 thin rule(s)/divider line(s): div.q 1200px | div.q 1200px | div.q 1200px",
+   "fix": "Delete. Separate with space, a tone change, or scale. Lines are only for real tables and form fields.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "outlined-box",
+   "width": 1440,
+   "message": "3 boxes drawn with a 1px outline.",
+   "fix": "Define a surface by its fill (one tone step from the page) or leave the content unboxed.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "icon-cards",
+   "width": 1440,
+   "message": "1 row(s) of identical cards each topped with a small icon (3 cards).",
+   "fix": "Replace with one composed section from the direction: a narrative split, a list set in large type, or real imagery per item.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "contrast",
+   "width": 1440,
+   "message": "Unreadable text: \"1 user\" 1.9:1 (#bbbbbb on #ffffff); \"100 GB storage\" 1.9:1 (#bbbbbb on #ffffff); \"30-day version history\" 1.9:1 (#bbbbbb on #ffffff); \"10 users\" 1.9:1 (#bbbbbb on #ffffff)",
+   "fix": "Raise contrast to at least 4.5:1 for text, 3:1 for large display.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "body-size",
+   "width": 1440,
+   "message": "Body text is 13px (the size most of the running text is set in).",
+   "fix": "Body copy 16–20px. Map small sizes from blueprints onto your body step.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "grey-body",
+   "width": 1440,
+   "message": "The running text is a soft grey on its ground (2.1:1).",
+   "fix": "Set body copy in the full ink (7:1 or more). Keep the muted ink for secondary notes; pages read thin and unfinished when everything is grey.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "first-action",
+   "width": 1440,
+   "message": "No visible button in the first screen.",
+   "fix": "Give the one primary action a real button in the first screen (a filled or solid-bordered control, 44px or taller), not only a link in the navigation.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "few-pictures",
+   "width": 1440,
+   "message": "Only 0 picture(s) on the page (0 photographs, footage or raster images, 0 interface fragments). Drawings in SVG do not count.",
+   "fix": "Find real pictures of the subject's world with scripts/assets.mjs (photographs, archival images, maps, engravings, footage), download them to assets/ and give them room: a hero picture, one per section that has a subject, a full-width band. At least four, usually six to twelve."
+  },
+  {
+   "level": "WARN",
+   "id": "no-footage",
+   "width": 1440,
+   "message": "No video anywhere on the page.",
+   "fix": "Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject."
+  },
+  {
+   "level": "WARN",
+   "id": "measure",
+   "width": 1440,
+   "message": "Longest paragraph runs about 185 characters per line.",
+   "fix": "Cap paragraphs at 45–75 characters (max-width: 60ch).",
+   "alsoAt": [
+    768
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "small-text",
+   "width": 1440,
+   "message": "14 text blocks under 13px.",
+   "fix": "Nothing meant to be read goes below 13px.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "focal-point",
+   "width": 1440,
+   "message": "The first screen has no dominant element: the largest type is 40px (2.8vw) and no single picture holds a third of the viewport.",
+   "fix": "Make one thing lead: the headline at display size, or one large picture. A grid of many small pictures is not one thing; in blind tests jurors marked a first screen without a headline down every time. On the strongest studied sites the largest type has a median of 8.4vw."
+  },
+  {
+   "level": "FAIL",
+   "id": "off-centre",
+   "width": 1440,
+   "message": "The page sits off-centre: its content comes to 120px from the left edge but only to 360px from the right, at 1440px.",
+   "fix": "Give the page one pair of equal margins. Check the wrapper for a max-width without margin-inline: auto, a grid with an empty last column, or padding on one side only. If one side is meant to hold air, it must still be closed by something that reaches the margin (a picture, the navigation's last item, a figure).",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "no-title",
+   "width": 1440,
+   "message": "The page has no visible h1.",
+   "fix": "Give the first screen a clear title in an h1 that says what this is (a name with what it does, the product with what it is for, the event with its date and place).",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "still-page",
+   "width": 1440,
+   "message": "Only 0 element(s) moved while the page loaded and scrolled.",
+   "fix": "Build the motion layer (SKILL.md step 9, references/motion.md): the signature move, an entrance for the parts of every section, feedback on every control, and one moving picture. Transform and opacity only, with a reduced-motion fallback."
+  },
+  {
+   "level": "FAIL",
+   "id": "overflow",
+   "width": 768,
+   "message": "Page scrolls sideways by 452px at 768px. Widest offenders: div.wrap (+452px), h2 (+432px), p (+432px).",
+   "fix": "Constrain the element that is wider than the viewport (max-width: 100%, or overflow: clip on its section)."
+  },
+  {
+   "level": "FAIL",
+   "id": "edge-text",
+   "width": 768,
+   "message": "5 text block(s) sit within 16px of the screen edge: \"Questions\" (0px from the left); \"Is my data encrypted?\" (10px from the left); \"Can I cancel any time?\" (10px from the left); \"Do you support Linux?\" (10px from the left)",
+   "fix": "Keep text inside the page margin (16–32px or more). Only display type deliberately bled past the edge may touch it.",
+   "alsoAt": [
+    390
+   ]
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "/private/tmp/claude-501/-Users-gokturkcan-agent-stack/f3ecec3e-a2dd-48ef-8659-5ee3dd61580c/scratchpad/bench/insp/legacy/desktop-fold.jpg",
+   "pages": [
+    "/private/tmp/claude-501/-Users-gokturkcan-agent-stack/f3ecec3e-a2dd-48ef-8659-5ee3dd61580c/scratchpad/bench/insp/legacy/desktop-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "/private/tmp/claude-501/-Users-gokturkcan-agent-stack/f3ecec3e-a2dd-48ef-8659-5ee3dd61580c/scratchpad/bench/insp/legacy/tablet-fold.jpg",
+   "pages": [
+    "/private/tmp/claude-501/-Users-gokturkcan-agent-stack/f3ecec3e-a2dd-48ef-8659-5ee3dd61580c/scratchpad/bench/insp/legacy/tablet-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "/private/tmp/claude-501/-Users-gokturkcan-agent-stack/f3ecec3e-a2dd-48ef-8659-5ee3dd61580c/scratchpad/bench/insp/legacy/mobile-fold.jpg",
+   "pages": [
+    "/private/tmp/claude-501/-Users-gokturkcan-agent-stack/f3ecec3e-a2dd-48ef-8659-5ee3dd61580c/scratchpad/bench/insp/legacy/mobile-page-01.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

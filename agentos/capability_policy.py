@@ -28,6 +28,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
+from . import skill_delivery
 from .capability_registry import (COST, LATENCY, LOCALITY, REJECTION_REASONS, RISK,
                                   SELECTION_REASONS, HOSTS, Provider, Registry)
 
@@ -450,13 +451,29 @@ def selected_mcp(cfg, registry: Registry, plan: CapabilityPlan, worker: str | No
     return tuple(names)
 
 
+def selected_skills(cfg, registry: Registry, plan: CapabilityPlan, worker: str | None) -> tuple[str, ...]:
+    """Provider ids of task-scoped skills (lock entry with a `delivery` block) the plan selected for `worker`.
+
+    Loading-path / ambient skills are not delivered per task and never appear here."""
+    executor = next((e for e, w in zip(plan.eligible_executors, plan.eligible_workers) if w == worker), None)
+    ids = []
+    for pid in sorted(set(plan.tools_by_executor.get(executor, {}).values())):
+        p = registry.providers.get(pid)
+        if p is not None and p.kind == "skill" and skill_delivery.entry(None, pid) is not None:
+            ids.append(pid)
+    return tuple(ids)
+
+
 def worker_deliverable(cfg):
     """Predicate for plan(): can a dispatched worker really use this tool?
+    * task-scoped skills (lock `delivery` block) are deliverable only while their vendored tree verifies;
     * MCP providers need a `launch` in config/mcp.yaml (workers.mcp_servers_for drops the rest silently);
     * a CLI whose executable is withheld from all workers (workers.yaml `withheld_executables`) or denied to this
       executor's worker (`Bash(<exe>:*)` in always_disallowed) is not deliverable.
     Derived from config, so planning cannot drift from what the launcher and deny list actually do."""
     def check(executor, tool) -> bool:
+        if tool.kind == "skill":
+            return skill_delivery.deliverable(cfg, tool)
         if tool.kind == "mcp":
             ref = tool.config_ref or ""
             spec = cfg.mcp["tools"].get(ref.split(".", 1)[1]) if ref.startswith("mcp.") else None

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian – Backups that just work | Pricing</title>
+<meta name="description" content="Meridian keeps your team's files safe with automatic encrypted backups. Compare Starter, Team and Business plans.">
+<style>
+:root{
+  --ink:#0e1a2b; --ink-2:#17283f; --paper:#f5efe2; --paper-2:#ebe3d0; --card:#fffdf8;
+  --text:#0e1a2b; --muted:#46505e; --line:#cfc4aa;
+  --amber:#f0a92e; --amber-d:#8a5300; --focus:#0a4fd6; --focus-dark:#ffd58a;
+  --serif:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;font:1rem/1.6 var(--sans);color:var(--text);background:var(--paper);overflow-x:hidden}
+img,svg{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+.dark :focus-visible{outline-color:var(--focus-dark)}
+.skip{position:absolute;left:1rem;top:-4rem;background:var(--amber);color:var(--ink);padding:.75rem 1rem;font-weight:700;z-index:10;border-radius:6px}
+.skip:focus{top:1rem}
+.wrap{width:min(100% - 2.5rem,72rem);margin-inline:auto}
+
+/* header + hero: night chart */
+.dark{background:var(--ink);color:#f5efe2;position:relative;isolation:isolate;overflow:hidden}
+.dark::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;
+  background:
+   radial-gradient(ellipse 60% 120% at 80% 50%,transparent 0 38%,rgba(240,169,46,.28) 38.3%,transparent 38.8%),
+   radial-gradient(ellipse 40% 120% at 80% 50%,transparent 0 55%,rgba(240,169,46,.28) 55.4%,transparent 56%),
+   radial-gradient(ellipse 22% 120% at 80% 50%,transparent 0 70%,rgba(240,169,46,.28) 70.5%,transparent 71.2%),
+   repeating-linear-gradient(0deg,transparent 0 47px,rgba(245,239,226,.07) 47px 48px)}
+header .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem 1.5rem;padding-block:1rem}
+.brand{display:flex;align-items:center;gap:.6rem;font:700 1.5rem var(--serif);text-decoration:none;letter-spacing:.01em;min-height:44px}
+nav ul{display:flex;flex-wrap:wrap;gap:.25rem;list-style:none;margin:0;padding:0}
+nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 .9rem;text-decoration:none;border-radius:6px;font-size:.95rem}
+nav a:hover{background:rgba(245,239,226,.12);text-decoration:underline;text-underline-offset:4px}
+nav a.login{border:1px solid rgba(245,239,226,.55)}
+
+.hero{padding:clamp(3rem,8vw,7rem) 0 clamp(3.5rem,8vw,6.5rem)}
+.eyebrow{font:600 .8rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:0 0 1rem}
+.hero h1{font:700 clamp(2.25rem,6.5vw,4.75rem)/1.05 var(--serif);margin:0 0 1.25rem;max-width:14ch;letter-spacing:-.01em}
+.hero p.lead{font-size:clamp(1.05rem,2vw,1.3rem);max-width:38rem;margin:0 0 2rem;color:#e6dfcf}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:.75rem 1.5rem;border-radius:8px;font:700 1rem var(--sans);text-decoration:none;cursor:pointer;border:2px solid transparent;text-align:center;transition:transform .15s ease,background-color .15s ease}
+.btn:active{transform:translateY(1px)}
+.btn-amber{background:var(--amber);color:var(--ink)}
+.btn-amber:hover{background:#ffc15a}
+.btn-ink{background:var(--ink);color:#f5efe2}
+.btn-ink:hover{background:var(--ink-2)}
+.btn-line{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:#f5efe2}
+.note{min-height:1.6em;margin:1rem 0 0;font-weight:600}
+
+section{padding-block:clamp(3rem,7vw,5.5rem)}
+h2{font:700 clamp(1.75rem,4vw,2.75rem)/1.15 var(--serif);margin:0 0 .5rem}
+.sec-sub{color:var(--muted);margin:0 0 2.5rem;max-width:40rem}
+
+/* plans */
+.plans{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));list-style:none;margin:0;padding:0}
+.plan{background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:1.75rem;display:flex;flex-direction:column;box-shadow:6px 6px 0 var(--ink)}
+.plan svg{width:40px;height:40px;margin-bottom:1rem}
+.plan h3{font:700 1.5rem var(--serif);margin:0}
+.price{font:700 3rem/1.1 var(--serif);margin:.5rem 0 1.25rem}
+.price small{font:500 1rem var(--sans);color:var(--muted)}
+.plan ul{list-style:none;margin:0 0 1.75rem;padding:0;flex:1}
+.plan li{padding:.55rem 0 .55rem 1.6rem;border-top:1px solid var(--line);position:relative}
+.plan li::before{content:"";position:absolute;left:0;top:1.05rem;width:.55rem;height:.55rem;border-radius:50%;background:var(--amber-d)}
+.plan .btn{width:100%}
+
+/* faq */
+.faq-bg{background:var(--paper-2);border-block:1px solid var(--line)}
+.faq{max-width:50rem}
+.faq h3{margin:0;font:inherit}
+.faq-item{border-bottom:2px solid var(--ink)}
+.faq-item:first-of-type{border-top:2px solid var(--ink)}
+.faq button{all:unset;box-sizing:border-box;display:flex;width:100%;align-items:center;justify-content:space-between;gap:1rem;min-height:56px;padding:1rem .25rem;cursor:pointer;font:700 1.15rem/1.35 var(--serif)}
+.faq button:hover{background:rgba(14,26,43,.06)}
+.faq button:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
+.faq .chev{flex:none;width:1.25rem;height:1.25rem;transition:transform .2s ease}
+.faq button[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.faq .panel{padding:0 .25rem 1.25rem;margin:0;color:var(--muted);max-width:42rem}
+.faq .panel p{margin:0}
+
+/* subscribe */
+.sub-card{background:var(--ink);color:#f5efe2;border-radius:16px;padding:clamp(1.5rem,5vw,3rem);display:grid;gap:1.5rem 3rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));align-items:center}
+.sub-card h2{margin:0}
+form{display:grid;gap:.5rem}
+label{font-weight:700}
+.row{display:flex;flex-wrap:wrap;gap:.75rem}
+input[type=email]{flex:1 1 14rem;min-width:0;min-height:48px;padding:.65rem .9rem;font:1rem var(--sans);border-radius:8px;border:2px solid #f5efe2;background:#fffdf8;color:var(--ink)}
+input[type=email]:focus-visible{outline:3px solid var(--focus-dark);outline-offset:3px}
+input[aria-invalid=true]{border-color:#ff9c8f;box-shadow:0 0 0 2px #ff9c8f}
+.msg{min-height:1.6em;margin:.25rem 0 0;font-weight:600}
+
+footer{padding:2rem 0 2.5rem;font-size:.9rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:.5rem 2rem;justify-content:space-between;align-items:center}
+footer ul{display:flex;gap:.25rem;list-style:none;margin:0;padding:0}
+footer a{display:inline-flex;align-items:center;min-height:44px;padding:0 .75rem}
+footer p{margin:0;color:var(--muted)}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media (max-width:30em){.plan{box-shadow:4px 4px 0 var(--ink)}nav a{padding:0 .65rem}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<div class="dark">
+<header>
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Meridian home">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true" focusable="false"><circle cx="15" cy="15" r="13" fill="none" stroke="#f0a92e" stroke-width="2"/><ellipse cx="15" cy="15" rx="6" ry="13" fill="none" stroke="#f0a92e" stroke-width="2"/><path d="M15 2v26" stroke="#f0a92e" stroke-width="2"/></svg>
+      Meridian
+    </a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a class="login" href="#login" data-stub>Log in</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="hero" id="features">
+  <div class="wrap" id="top">
+    <p class="eyebrow">Team backup service</p>
+    <h1>Backups that just work</h1>
+    <p class="lead">Meridian keeps your team's files safe with automatic encrypted backups. Restore any file from the last 90 days in two clicks.</p>
+    <button type="button" class="btn btn-amber" id="trial">Start 14-day free trial</button>
+    <p class="note" id="trial-note" role="status"></p>
+  </div>
+</div>
+</div>
+
+<main id="main">
+  <section id="pricing" aria-labelledby="pricing-h">
+    <div class="wrap">
+      <h2 id="pricing-h">Pricing</h2>
+      <p class="sec-sub">Three plans, billed monthly. Pick the one that fits your team.</p>
+      <ul class="plans">
+        <li class="plan">
+          <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><circle cx="20" cy="20" r="18" fill="#0e1a2b"/><circle cx="20" cy="20" r="7" fill="#f0a92e"/></svg>
+          <h3>Starter</h3>
+          <p class="price">$9<small>/mo</small></p>
+          <ul><li>1 user</li><li>100 GB storage</li><li>30-day version history</li></ul>
+          <button type="button" class="btn btn-line choose" data-plan="Starter">Choose Starter</button>
+        </li>
+        <li class="plan">
+          <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><rect x="2" y="2" width="36" height="36" rx="6" fill="#0e1a2b"/><path d="M20 2v36M2 20h36" stroke="#f0a92e" stroke-width="3"/></svg>
+          <h3>Team</h3>
+          <p class="price">$29<small>/mo</small></p>
+          <ul><li>10 users</li><li>2 TB storage</li><li>90-day version history</li><li>Priority email support</li></ul>
+          <button type="button" class="btn btn-ink choose" data-plan="Team">Choose Team</button>
+        </li>
+        <li class="plan">
+          <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><polygon points="20,2 38,38 2,38" fill="#0e1a2b"/><polygon points="20,16 28,32 12,32" fill="#f0a92e"/></svg>
+          <h3>Business</h3>
+          <p class="price">$79<small>/mo</small></p>
+          <ul><li>Unlimited users</li><li>10 TB storage</li><li>1-year version history</li><li>SSO and audit log</li><li>Phone support</li></ul>
+          <button type="button" class="btn btn-line choose" data-plan="Business">Choose Business</button>
+        </li>
+      </ul>
+      <p class="note" id="plan-note" role="status"></p>
+    </div>
+  </section>
+
+  <div class="faq-bg">
+  <section id="faq" aria-labelledby="faq-h">
+    <div class="wrap faq">
+      <h2 id="faq-h">Questions</h2>
+      <div class="faq-item">
+        <h3><button type="button" id="q0" aria-expanded="false" aria-controls="a0">Is my data encrypted?<svg class="chev" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3 7l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></button></h3>
+        <div class="panel" id="a0" role="region" aria-labelledby="q0" hidden><p>Yes. Files are encrypted on your device before upload (AES-256) and stay encrypted at rest.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3><button type="button" id="q1" aria-expanded="false" aria-controls="a1">Can I cancel any time?<svg class="chev" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3 7l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></button></h3>
+        <div class="panel" id="a1" role="region" aria-labelledby="q1" hidden><p>Yes. Cancel from the billing page; your backups stay readable for 30 days after.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3><button type="button" id="q2" aria-expanded="false" aria-controls="a2">Do you support Linux?<svg class="chev" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3 7l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></button></h3>
+        <div class="panel" id="a2" role="region" aria-labelledby="q2" hidden><p>macOS and Windows today. A Linux agent is planned for later this year.</p></div>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <section aria-labelledby="sub-h">
+    <div class="wrap">
+      <div class="sub-card dark">
+        <h2 id="sub-h">Get product news</h2>
+        <form id="sub-form" novalidate>
+          <label for="email">Email address</label>
+          <div class="row">
+            <input type="email" id="email" name="email" placeholder="you@company.com" autocomplete="email" required aria-describedby="email-msg">
+            <button type="submit" class="btn btn-amber">Subscribe</button>
+          </div>
+          <p class="msg" id="email-msg" role="status"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Meridian Labs Ltd. All rights reserved.</p>
+    <nav aria-label="Legal">
+      <ul>
+        <li><a href="#terms" data-stub>Terms</a></li>
+        <li><a href="#privacy" data-stub>Privacy</a></li>
+        <li><a href="#status" data-stub>Status</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // FAQ disclosure: native buttons give Enter/Space; arrows/Home/End move between questions
+  var btns=[].slice.call(document.querySelectorAll('.faq button'));
+  btns.forEach(function(b,i){
+    b.addEventListener('click',function(){
+      var open=b.getAttribute('aria-expanded')==='true';
+      b.setAttribute('aria-expanded',String(!open));
+      document.getElementById(b.getAttribute('aria-controls')).hidden=open;
+    });
+    b.addEventListener('keydown',function(e){
+      var n=null;
+      if(e.key==='ArrowDown')n=(i+1)%btns.length;
+      else if(e.key==='ArrowUp')n=(i-1+btns.length)%btns.length;
+      else if(e.key==='Home')n=0;
+      else if(e.key==='End')n=btns.length-1;
+      if(n!==null){e.preventDefault();btns[n].focus();}
+    });
+  });
+  document.getElementById('trial').addEventListener('click',function(){
+    document.getElementById('trial-note').textContent='Your 14-day free trial is being set up.';
+  });
+  [].forEach.call(document.querySelectorAll('.choose'),function(b){
+    b.addEventListener('click',function(){
+      document.getElementById('plan-note').textContent=b.dataset.plan+' plan selected.';
+    });
+  });
+  [].forEach.call(document.querySelectorAll('[data-stub]'),function(a){
+    a.addEventListener('click',function(e){e.preventDefault();});
+  });
+  var form=document.getElementById('sub-form'),email=document.getElementById('email'),msg=document.getElementById('email-msg');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!email.value||!email.checkValidity()){
+      email.setAttribute('aria-invalid','true');
+      msg.textContent='Please enter a valid email address, like you@company.com.';
+      email.focus();return;
+    }
+    email.removeAttribute('aria-invalid');
+    msg.textContent='Thanks! You are subscribed.';
+    form.reset();
+  });
+})();
+</script>
+</body>
+</html>

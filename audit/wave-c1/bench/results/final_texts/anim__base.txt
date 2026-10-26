@@ -1,0 +1,54 @@
+Defects, ordered by impact. Nothing was edited.
+
+1. **`Modal.tsx:5-9,13`: an endless rAF loop calls `setState` every frame.**
+   - While `open` is true, `tick` calls `setY` about 60 times a second and never stops.
+   - Each call re-renders `Modal` and its `children`.
+   - `marginTop: y % 3` also changes layout every frame. That causes a 0–2px jitter and a reflow on a `position: fixed` element.
+   - The `y` value is never used for real motion, so it does nothing useful.
+   - Fix: delete the `y` state, the rAF effect and the `style` prop. The CSS transition already handles the animation. If JS-driven motion is really needed, write to `ref.current.style.transform` inside rAF. Don't use React state, and stop once the animation ends.
+
+2. **`Modal.css:3-5`: the modal animates layout properties (`top`, `width`, `height`).**
+   - Every frame triggers layout and paint, and `scale(0)` is stacked on top of the size change.
+   - The 0.9s `linear` timing on position and size, combined with a different easing on `transform`, makes the motion look incoherent. The size grows while the scale also grows, so it ends up squared.
+   - Fix: give the modal its final size (`width: 480px; height: 320px; top: 20%`). Animate only `transform` and `opacity`, for example `translate(-50%, 20px) scale(.96)` with `opacity: 0` going to `translate(-50%, 0) scale(1)` with `opacity: 1`. Use one easing, such as `cubic-bezier(.2,.8,.2,1)`, and a duration of about 200–250ms.
+
+3. **`Modal.css:1`: `.backdrop` uses `transition: all 1.2s ease-in`.**
+   - 1.2s is far too slow for a backdrop, and the modal appears well before the backdrop finishes.
+   - `ease-in` makes it feel laggy on entry.
+   - `all` transitions properties you didn't intend to animate.
+   - Fix: `transition: opacity .2s ease-out`.
+
+4. **`Modal.css:3-5` and `Modal.tsx:12-13`: the closed modal can't animate out or be hidden properly.**
+   - The `.modal` and `.backdrop` elements are always mounted. The backdrop is `position: fixed; inset: 0` with no `pointer-events: none`, so when it's closed it still sits invisibly over the page and blocks clicks.
+   - Fix: add `pointer-events: none` to the closed backdrop and `pointer-events: auto` to `.open`. Also add `visibility: hidden` to the closed modal, with a `visibility` transition so the exit still plays. Alternatively, keep both elements mounted until `transitionend`.
+
+5. **`Modal.css` (whole file): no `prefers-reduced-motion` handling.**
+   - The slide, scale and infinite toast animation all run for users who've asked for less motion.
+   - Fix: add `@media (prefers-reduced-motion: reduce) { .backdrop, .modal, .btn, .toast { transition: none; animation: none; } }`. A short opacity-only fade is also acceptable.
+
+6. **`Modal.css:6-7`: `.toast` uses `animation: slide 2s infinite` on `margin-bottom`.**
+   - It animates a layout property.
+   - It loops forever, so the toast bounces and never settles.
+   - The keyframes jump from `from` back to `from` with no easing or reverse, so there is a visible snap each cycle.
+   - Fix: play it once, with `animation: slide .25s ease-out both`. Use `@keyframes slide { from { transform: translateY(24px); opacity: 0 } to { transform: none; opacity: 1 } }`.
+
+7. **`Modal.css:8-9`: `.btn` uses `transition: all 0.6s` and a blanket `will-change`.**
+   - `will-change` on `transform, opacity, width, height` promotes every button to its own compositor layer. That wastes memory, and `width` and `height` can't be composited anyway.
+   - 0.6s is sluggish for press feedback.
+   - `scale(.5)` on `:active` is far too large a shrink.
+   - Fix: `transition: transform .12s ease-out, opacity .12s`. Remove `will-change`. Use `.btn:active { transform: scale(.97); }`.
+
+8. **`Modal.css:10`: `.list-item` transitions `height`.**
+   - Height transitions trigger layout every frame, and they don't work at all when the height is `auto`.
+   - `background .5s` is also slow for hover feedback.
+   - Fix: animate with `grid-template-rows: 0fr → 1fr`, or use a `transform`/`opacity` approach. Reduce the background transition to about 150ms.
+
+9. **`Modal.css:11`: `.card:hover` has a large 30px/80px shadow with `transition: box-shadow 1s`.**
+   - The transition is declared only on `:hover`, so the shadow fades in over 1s but snaps off instantly on mouse-out.
+   - Animating `box-shadow` repaints on every frame, and a blur this large is expensive.
+   - Fix: put the `transition` on `.card` itself, shorten it to about 200ms, and use a smaller shadow. For a cheaper effect, fade the opacity of a pseudo-element that carries the shadow.
+
+10. **`Modal.css:3` and `Modal.tsx:13`: the `marginTop` style and `translateX(-50%)` positioning are fragile.**
+    - The inline `marginTop` conflicts with the `top` transition.
+    - Centering with `left: 50%` plus `translateX(-50%)` inside the transitioned `transform` couples positioning to the animation.
+    - Fix: remove the inline style (see #1). Center with `inset: 20% 0 auto; margin-inline: auto;`, or with a wrapper element, so that `transform` is free for animation only.

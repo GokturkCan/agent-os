@@ -1,0 +1,9 @@
+I wrote `redesigned/index.html`, but I haven't opened it in a browser or run any automated checks. The responsive and accessibility behaviour below comes from how I wrote the code.
+
+- **Look:** A dark navy "night chart" header and hero with amber meridian lines, on a warm paper background with Georgia headings and a system-font body. Plan cards have hard ink offset shadows and small geometric icons. I didn't consult the `ui-ux-pro-max` skill's search tool and designed from its general rules.
+- **Content:** All plans, prices, features, FAQ answers, the 14-day trial button and the subscribe form are kept with the same facts. I added a short "Pricing" intro line and a "Team backup service" label above the headline. "Log in", "Terms", "Privacy" and "Status" go nowhere, as in the legacy page. The trial and plan buttons only show a status message, and subscribe validates the email and shows a message but sends nothing.
+- **Responsive and accessibility:**
+  - Layout: the plan cards use an auto-fit grid and the page has no fixed widths, so it should fit from 360px to 1600px without horizontal scroll.
+  - Landmarks and forms: it has a skip link, header, main and footer landmarks, labelled navs, an `h1`–`h3` heading order, a real email label, and decorative icons hidden from screen readers.
+  - Contrast and focus: there are visible focus rings and dark-on-light text.
+  - FAQ: it uses real buttons with `aria-expanded`. Enter and Space toggle them, and the arrow keys, Home and End move between questions.

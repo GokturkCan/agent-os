@@ -1,0 +1,7 @@
+I wrote `redesigned/index.html` as one self-contained file with inline CSS/JS and no external requests. I haven't opened it in a browser, so the 360–1600px layout, contrast and keyboard behaviour are untested.
+
+- **Identity:** The look is a nautical chart. The hero has a navy ground with drawn longitude arcs, and a "today → 90 days → 1 year" ruler. Pricing is three columns split by hairline rules instead of cards. Each plan has a bar showing its history length out of one year. The type is a Palatino/Georgia serif over a system sans, with a cobalt and buoy-yellow accent.
+- **Content kept:** All plans, prices, features, FAQ answers, the trial CTA and the subscribe form are intact. I added a short "Features" section, using only facts from the old hero, because the legacy nav linked to a Features section that didn't exist.
+- **Accessibility:** There are landmarks, a skip link, a heading hierarchy, a labelled email field and `aria-live` status messages. The FAQ is built from buttons with `aria-expanded` and works with Enter/Space, arrow keys, Home and End. Focus rings are two-tone, and the hero animation stops under reduced-motion.
+
+The legacy buttons and the "Log in" link had empty handlers. I made the plan and trial buttons show a status message, and left "Log in" as a placeholder link. The footer links (Terms, Privacy, Status) point to `#` anchors with no destination.

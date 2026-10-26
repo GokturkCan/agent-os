@@ -1,0 +1,1 @@
+Implement `src/cache.ts` per `SPEC.md`. Tests run with `node --test test/cache.test.ts` (TypeScript is executed by Node's built-in type stripping: use `.ts` import extensions; no enums, namespaces or parameter properties). You may add tests under test/. Do not ask questions; make reasonable decisions. Reply with a 3-line summary.

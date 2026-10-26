@@ -1,0 +1,3 @@
+I implemented `TtlLruCache` in `src/cache.ts` per `SPEC.md`, and all 4 tests pass with `node --test test/cache.test.ts`.
+It keeps entries in a `Map` (insertion order is recency) and removes expired or evicted entries before calling `onEvict`. If `onEvict` throws, the cache is already consistent: it still calls `onEvict` for the other pending evictions, then rethrows the first error.
+I added two tests to `test/cache.test.ts`, one for TTL expiry (`get` doesn't extend the TTL) and one for `RangeError` on invalid options. I didn't test the `onEvict`-throws case or every other spec rule.

@@ -1,0 +1,77 @@
+What this change does: It adds a `UserSearch` React component (`UserSearch.tsx`). The user types a query and the component fetches matching users from `endpoint`. It lists them sorted by score, shows each user's bio as HTML, and lets the user pick users. The commit also adds a screenshot helper script and the review skill file. I assumed many users in a browser, with an API that returns user-written content.
+
+**Must fix**
+
+1. **Search never runs when the user types** (`UserSearch.tsx:L12-22`)
+   - **What this is:** An effect (code that runs after render) that should call the API when the query changes.
+   - **Problem:** The dependency list is `[endpoint]`, not `[query]`. The fetch runs only when `endpoint` changes. At mount `query` is empty, so it returns early and nothing is ever fetched. The search box does nothing.
+   - **Fix:** Use `[endpoint, query]` as the dependency list.
+   - **If we skip it:** The component's main feature does not work.
+
+2. **Stored XSS from `bioHtml`** (`UserSearch.tsx:L46`)
+   - **What this is:** Each user's bio is injected as raw HTML.
+   - **Problem:** Any user can set a bio like `<img src=x onerror=...>`. The script then runs in every searcher's browser and can steal sessions or act as them. XSS means attacker code runs inside your page.
+   - **Fix:** Render plain text (`{u.bio}`). If you need formatting, clean the HTML with DOMPurify first: `__html: DOMPurify.sanitize(u.bioHtml)`. Better still, sanitize on the server too.
+   - **If we skip it:** An account takeover hole.
+
+3. **Query is not URL-encoded** (`UserSearch.tsx:L15`)
+   - **What this is:** The user's text is pasted straight into the URL.
+   - **Problem:** Typing `a&admin=1` or `a#b` changes the request. A `&` adds extra parameters. A `#` cuts off the query. Spaces and non-ASCII text can also break it.
+   - **Fix:** Use `` `${endpoint}?q=${encodeURIComponent(query)}` ``.
+   - **If we skip it:** Wrong results and parameter injection into your own API.
+
+4. **Out-of-order responses, no cancel, no debounce** (`UserSearch.tsx:L12-22`)
+   - **What this is:** One request per query change (once finding 1 is fixed).
+   - **Problem:** Typing "ab" sends "a" and "ab". If the "a" reply arrives last, the list shows results for the wrong text. Every keystroke also hits the API. There is no debounce, which means waiting until typing pauses.
+   - **Fix:** Use an `AbortController` and abort it in the effect cleanup. Wrap the request in a ~300 ms `setTimeout` and clear it in the same cleanup. Also check `r.ok` before `r.json()`.
+   - **If we skip it:** Stale results and extra load on the API.
+
+5. **Loading never clears on error, and errors are hidden** (`UserSearch.tsx:L14-21`)
+   - **What this is:** `loading` is set to true before the fetch and set to false only on success.
+   - **Problem:** If the network fails, the server returns an error, or the body is not JSON, the empty `.catch(() => {})` swallows it. "Loading…" stays forever. The user sees no error. A non-array reply such as `{error: ...}` also crashes at `.sort`.
+   - **Fix:** Use `.finally(() => setLoading(false))`. Put an `error` state in `catch`, and ignore `AbortError`. Check `Array.isArray(data)`.
+   - **If we skip it:** A permanent spinner with no clue about the cause.
+
+6. **State mutated in place** (`UserSearch.tsx:L29-33, L35`)
+   - **What this is:** `pick` pushes into the `picked` state array. `sorted` sorts the `users` state array.
+   - **Problem:** `picked.push` then `setPicked(picked)` passes the same array, so React sees no change. The "N picked" count lags until some other re-render. `users.sort` also reorders the state array in place on every render. This breaks React rules and can misbehave under React 19 strict mode and concurrent rendering.
+   - **Fix:** Use `setPicked((p) => [...p, u])` and `[...users].sort(...)`. Wrap the sort in `useMemo` if the lists are large.
+   - **If we skip it:** The counter is wrong, and the bugs are hard to reproduce.
+
+**Should fix**
+
+7. **Wrong "searches" counter** (`UserSearch.tsx:L10, L24-27, L40`)
+   - **What this is:** A counter of searches, bumped 500 ms after each keystroke.
+   - **Problem:** It uses the stale `searches` value, so fast typing gives `+1` several times, not `+n`. It counts keystrokes, not searches. The timer is never cleared, so it can set state after the component unmounts. Nothing else uses the value.
+   - **Fix:** Delete `searches` and the `setTimeout`. If you need it, count inside the effect after a fetch starts.
+   - **If we skip it:** The number on screen is wrong and the timers leak.
+
+8. **Index used as list key, and the item is not keyboard accessible** (`UserSearch.tsx:L44`)
+   - **What this is:** `key={i}` on a clickable `<li>`.
+   - **Problem:** When the sorted order changes, React reuses the wrong DOM nodes. The `<li onClick>` cannot be reached or used with the keyboard.
+   - **Fix:** Use `key={u.id}`. Put a `<button type="button" onClick={...}>` inside the `<li>`.
+   - **If we skip it:** Odd rendering after re-sorts, and an unusable list for keyboard and screen reader users.
+
+9. **No tests** (`UserSearch.tsx`)
+   - **What this is:** A new component with fetching, a race, and HTML rendering.
+   - **Problem:** Nothing would fail if findings 1, 3 or 4 came back.
+   - **Fix:** Add one test (React Testing Library plus a mocked `fetch`). Type "a b", then assert that the URL contains `q=a%20b` and that the results show.
+   - **If we skip it:** The first bug will return unnoticed.
+
+10. **Broken helper script** (`tools/shot.mjs:L4`)
+    - **What this is:** A wrapper that runs `./_shot_impl.mjs`.
+    - **Problem:** That file is not in the repo. The script fails on use. It also has nothing to do with this component.
+    - **Fix:** Add the missing file, or remove `shot.mjs` from this commit.
+    - **If we skip it:** Dead tooling in the repo.
+
+**Nice to have**
+
+11. **Unused state** (`UserSearch.tsx:L9, L50`)
+    - **What this is:** The `picked` list exists only to show a count.
+    - **Problem:** The parent already gets `onPick`. A second copy of this data can drift from the parent's copy.
+    - **Fix:** Drop it, or keep only `pickedIds` if the count is a real need.
+    - **If we skip it:** A little duplicate state.
+
+Verdict: fix 1 to 6 first, then 7 to 10.
+Lean: -8 lines possible (searches state and timer, plus the `picked` state if dropped).
+Not checked: the real API contract (does it return `bioHtml` already sanitized, and what shape does it send on errors), and `_shot_impl.mjs`, which is missing.

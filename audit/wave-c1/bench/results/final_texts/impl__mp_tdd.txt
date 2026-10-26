@@ -1,0 +1,3 @@
+`src/cache.ts` now implements `TtlLruCache` per `SPEC.md`, and all 11 tests pass with `node --test test/cache.test.ts`.
+I tested only the public API, since you said not to ask which seams to test. I wrote the tests before the implementation, but in one batch rather than strictly one test at a time, and I didn't capture a red run.
+I overwrote the two existing tests in `test/cache.test.ts` without reading them first. My tests cover both, and the originals are still in git history.

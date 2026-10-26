@@ -1,0 +1,49 @@
+Review of `Modal.css` and `Modal.tsx` at HEAD (92d7eef). Everything below is verified from code only. Confirming real frame cost needs a DevTools Performance recording on a mid-range phone.
+
+## Findings, ordered by cost
+
+**1. Modal grows with layout properties**: `Modal.css:3-5` (`.modal`, `.modal.open`)
+Cause: layout properties animate (`top`, `width`, `height`).
+Before: `transition: top .9s linear, width .9s linear, height .9s linear, transform .9s ease-in`. This runs layout on every frame, and it also fights the `scale(0)`→`scale(1)` transform.
+After: give the modal a fixed `width: 480px; height: 320px; top: 20%`. Animate only `transform: translate(-50%, 100vh) scale(.95)` → `translate(-50%, 0) scale(1)`, plus `opacity: 0` → `1`. Use `transition: transform .3s cubic-bezier(.2,0,0,1), opacity .3s`.
+Why it matters: `width: 0; height: 0; overflow: hidden` also means the children are laid out at every intermediate size.
+
+**2. Per-frame `setState` in a rAF loop**: `Modal.tsx:4-7`
+Cause: React re-renders every frame.
+Before: `setY((v) => v + 4)` inside `requestAnimationFrame` re-renders the modal and its `children` about 60 or 120 times a second while open. The loop never stops, because `tick` re-schedules itself with no end condition.
+After: delete the loop and the `y` state. The CSS transition handles the motion. If JS-driven motion is really needed, write to a ref's `style.transform`.
+
+**3. `marginTop` driven from that state**: `Modal.tsx:12` (`style={{ marginTop: y % 3 }}`)
+Cause: a layout property is animated from the main thread.
+Before: it flips `marginTop` between 0, 1 and 2px every frame. That forces layout on every frame, adds a jitter nobody asked for, and overrides the CSS positioning.
+After: remove it. If a nudge is wanted, use `transform: translateY()` set through a ref.
+
+**4. `transition: all 1.2s ease-in` on the backdrop**: `Modal.css:1` (`.backdrop`)
+Cause: `transition: all`. This breaks the "never `transition: all`" rule.
+Before: any future property change on the backdrop gets animated, including layout ones.
+After: `transition: opacity .2s ease-out`. The 1.2s `ease-in` is also slow, and it starts slowly for a user-triggered open. The backdrop is full-screen, so don't add `will-change`.
+
+**5. Toast animates `margin-bottom` forever**: `Modal.css:6-7` (`.toast`, `@keyframes slide`)
+Cause: layout property in a keyframe, and `infinite` runs it continuously. It also runs on the main thread.
+Before: `margin-bottom: -80px` → `0`.
+After: `transform: translateY(80px)` → `translateY(0)`, with an iteration count of 1 unless a looping toast is intended.
+
+**6. `.btn` uses `transition: all` plus an over-broad `will-change`**: `Modal.css:8`
+Cause: `transition: all`, and `will-change` on properties that never animate.
+Before: `transition: all 0.6s; will-change: transform, opacity, width, height`. Promoting a layer for `width` and `height` gains nothing, because layout still runs. Applying it to every button costs GPU memory. The 0.6s on a press is also far too slow.
+After: `transition: transform .15s ease-out`. Drop `will-change` unless a measured 1px shift or dropped frames justify it, and then use `will-change: transform` only.
+
+**7. Card hover animates `box-shadow`**: `Modal.css:10` (`.card:hover`)
+Cause: paint every frame. This is a large 80px-blur shadow, so the repaint is expensive.
+Before: `box-shadow: 0 30px 80px rgba(0,0,0,.4); transition: box-shadow 1s`.
+After: put the shadow on a `::after` pseudo-element and transition its `opacity`, or use `filter: drop-shadow()`. Shorten 1s to about 200ms. The `transition` is also declared only in `:hover`, so the un-hover snaps back instantly. Move it to `.card`.
+
+**8. List item animates `height` and `background`**: `Modal.css:9` (`.list-item`)
+Cause: `height` is a layout property, and it pushes every sibling below.
+Before: `transition: height .5s ease-in-out, background .5s`.
+After: for expand and collapse, use `grid-template-rows: 0fr` → `1fr` if the height is truly unknown, or `transform`/`opacity` if the item can overlay. `background` is cheap in current Chrome and Firefox but paints in Safari. Note that `ease-in-out` at 0.5s is slow for UI.
+
+## Minor
+- **Easing**: `linear` on `top`, `width` and `height` (`Modal.css:4`) makes the motion feel mechanical, and `ease-in` on entering elements feels sluggish. Use ease-out for enter.
+- **Reduced motion**: none of this is guarded by `@media (prefers-reduced-motion: reduce)`.
+- **Out of scope**: `tools/shot.mjs` isn't animation code. It does call `_shot_impl.mjs`, which isn't in the commit.
