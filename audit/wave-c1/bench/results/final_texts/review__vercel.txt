@@ -1,0 +1,73 @@
+# Review of `UserSearch.tsx` (HEAD)
+
+The commit also adds the skill files and `tools/shot.mjs`. `tools/shot.mjs` spawns `_shot_impl.mjs`, which isn't in the repo. I reviewed only `UserSearch.tsx`.
+
+## Critical
+
+1. **Line 46: XSS through `dangerouslySetInnerHTML`.** `u.bioHtml` comes from the network and is injected unsanitized, so any user's bio can run script in other users' sessions.
+   - **Fix:** Sanitize with DOMPurify on the server or client. Better, return plain text or structured data and render it as text.
+
+2. **Line 22: wrong effect dependencies, so search doesn't work.** The effect reads `query` but depends only on `[endpoint]`. It runs on mount (when `query` is empty, so it returns early) and never re-runs when the user types. The list never updates.
+   - **Fix:** Use `[endpoint, query]`. Debounce the input so each keystroke doesn't fire a request.
+
+3. **Lines 15 and 21: race condition, no abort, and a stuck loading state.**
+   - Responses can arrive out of order, so a stale response overwrites newer results.
+   - Nothing cancels the request on unmount or when the query changes.
+   - `.catch(() => {})` swallows errors and never calls `setLoading(false)`, so "Loading…" stays up forever after a failure.
+   - There is no `r.ok` check, so a 500 error body gets cast to `User[]`.
+   - **Fix:**
+     ```ts
+     const ac = new AbortController();
+     fetch(url, { signal: ac.signal })
+       .then(r => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+       .then(setUsers)
+       .catch(e => { if (e.name !== 'AbortError') setError(e); })
+       .finally(() => { if (!ac.signal.aborted) setLoading(false); });
+     return () => ac.abort();
+     ```
+
+4. **Line 15: unencoded query string.** `?q=${query}` breaks on `&`, `#` and `+`, and allows parameter injection.
+   - **Fix:** `` `${endpoint}?q=${encodeURIComponent(query)}` ``.
+
+5. **Lines 30–31: state mutation.** `picked.push(u); setPicked(picked)` mutates state and passes the same reference back, so React bails out and doesn't re-render. The "N picked" count stays stale. Strict Mode and concurrent rendering can also behave unpredictably. Clicking the same user twice adds a duplicate.
+   - **Fix:** `setPicked(prev => prev.some(p => p.id === u.id) ? prev : [...prev, u])`. Call `onPick` only when the user was actually added.
+
+## High
+
+6. **Line 35: `users.sort()` mutates state during render.** It sorts the state array in place on every render, which is a side effect in render. In Strict Mode it runs twice.
+   - **Fix:** `const sorted = useMemo(() => users.toSorted((a, b) => b.score - a.score), [users])`, or sort once when you set the data. (Rule `js-tosorted-immutable`.)
+
+7. **Line 43–44: `key={i}`.** Index keys on a list that gets re-sorted and refetched cause wrong DOM reuse and state mix-ups.
+   - **Fix:** `key={u.id}`.
+
+8. **Line 26: stale closure and uncleaned timer.**
+   - `setSearches(searches + 1)` uses the value captured when the timer was set, so fast typing loses counts.
+   - Every keystroke schedules a timer that is never cleared, and it can fire after unmount.
+   - The counter counts keystrokes, not searches.
+   - **Fix:** Drop the counter, or increment it inside the fetch effect with `setSearches(n => n + 1)`. If a delay is wanted, use a debounce with cleanup in the effect.
+
+## Medium
+
+9. **Line 14: empty query leaves stale results.** `if (!query) return` leaves the old `users` and `loading` state in place when the input is cleared.
+   - **Fix:** In that branch, call `setUsers([])` and `setLoading(false)`.
+
+10. **Line 18: unvalidated `as User[]` cast.** If the server returns an error object, `.sort` throws at render and crashes the component.
+    - **Fix:** Validate with zod or a type guard, or at least `Array.isArray`.
+
+11. **Line 44: click handler on a non-interactive `<li>`.** The list isn't keyboard-accessible and has no role.
+    - **Fix:** Use a `<button>` inside the `<li>`.
+
+12. **Line 39: the input has no label.** A placeholder isn't an accessible name.
+    - **Fix:** Add `aria-label="Search users"` or a `<label>`.
+
+13. **Line 41: rendering with `&&`.** This is fine for a boolean, but the project guidelines (`rendering-conditional-render`) prefer a ternary. It's a nit.
+
+## Low and design
+
+14. **Lines 9 and 10: derived or redundant state.** `picked` and `searches` are state mostly used for counts, and `onPick` already notifies the parent. Consider lifting `picked` to the parent or deriving it. Also consider replacing the `useEffect` and `useState` fetching with SWR or React Query for caching and deduplication (`client-swr-dedup`).
+
+15. **Line 1: `import React` is unnecessary.** With React 19's automatic JSX runtime you only need `import type { ChangeEvent }`.
+
+16. **No tests, and the `User` type isn't exported.** The `onPick` prop type exposes `User`, so consumers can't name it.
+
+**Verdict:** Don't merge. Items 1–5 are real correctness or security bugs. Search doesn't run on typing, the picked count doesn't update, and the bio HTML is an XSS vector.

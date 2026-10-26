@@ -1,0 +1,3 @@
+`src/cache.ts` now implements `TtlLruCache` per SPEC.md. It uses one `Map` in recency order, and an entry is removed before `onEvict` is called for it. I added two tests in `test/cache.test.ts`, and all 4 tests pass.
+Skipped: I didn't test that `onEvict` can throw without corrupting the cache, though the code removes the entry first. If it throws midway through a purge, the remaining expired entries stay until the next purge.
+Judgment call: the spec doesn't say whether `has` reports an expired entry, so it removes it and reports `expired`.

@@ -7,7 +7,7 @@
     "agentos/selfimprove.py": "8835593d3992c5d43edd7dd35eef2fbe5f4512bdc9c0aae5daa0f9632f7c93f6",
     "agentos/workers.py": "9165c3a6b00efab6c7e313c35caf1a8fbf1e106518166cd49ba010444778ea17",
     "config/capabilities.yaml": "c6a07840857d2a0ef6752db9f79991c23974942a69c3a9e94a8483879f79f4ae",
-    "config/capability_registry.yaml": "d094a61ceeba2db2f4d1d43aaa7aaf7f0b7d57dc1f7467d2d09bc4a915ebb822",
+    "config/capability_registry.yaml": "b6ea1c0f97c44e2968e9f2312e28da8c951855719a9a9adb397e4b68c003fc58",
     "config/compute.yaml": "912979050971d494dd5c8312711bbe5bae64eb988ed55a3c97b80bb7073869bd",
     "config/mcp.yaml": "79316139638e7041a4800551c17e9dfb159daed7153e5f8a57a86151c1c0ef81",
     "config/permissions.yaml": "eedf18b4c7b46ab69fff631ec4c7efba6f93cb4e5f6c853dcd58ca2d77cf5107",
@@ -50,7 +50,7 @@
     "evals/test_capability_cli.py": "4ff42e1f1788fcea4e19915515122cb42ee1b477b4769377515b3367a60df2f8",
     "evals/test_capability_policy.py": "4e290db23f4a777a5a19b63c5214147be0d92cafb309441bd65571fb0e435b36",
     "evals/test_capability_probes.py": "e37dde88b02e21d4ae58c6f847edfb976d8d3cba74b6962bf9a781e08367b46c",
-    "evals/test_capability_registry.py": "05c01ca150ea30caab78eb7dffea8329861f9bfc8635ca7f06a78c4d0f2b616f",
+    "evals/test_capability_registry.py": "90eadda1e5e366f1b33bf6966499b42a1fced77b9b471e2081ddd74d08ab852e",
     "evals/test_capability_rollout.py": "ad022ad93b47a79516540b97480a8629141d76153939bb4df05379bee7746602",
     "evals/test_capability_wiring.py": "8c92f21b41adf146d80537b2cac2484fdf6bc55dd1da602901776b46c803e33f",
     "evals/test_compute_contract.py": "747a0fefce6e981734ea8e65421bf034c0cae9a9597c2cd0c1a6fdc210d3ef78",
@@ -78,6 +78,7 @@
     "evals/test_systemone_pipeline.py": "1a231480ac7ffcb56641348f75bcd591cc218e00fc25bb00bd3b08134d646010",
     "evals/test_systemone_routing.py": "6e2016626e5f13cd5475930f5ab82faa5a5f05d6f668793affe8ed6183b30fe8",
     "evals/test_timeouts.py": "b305be34e98173d1f4675b8bbbd8128f7d333015611d5d27f7e34190cb8de0d2",
+    "evals/test_wave_c1_production.py": "368dba6113cddf5b717ad86808cf39d6caea5f81d8788a6121a1d49b115f2653",
     "evals/test_worker_boundaries.py": "4a3142833958081fc85bd26bd4bd7a44abc5968c16b49e371793f3aa0aa7f52e"
   }
 }

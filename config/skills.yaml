@@ -23,6 +23,18 @@ sources:
       (Hermes external_dirs). NOT the plugin wrapper: no hooks, status line, task ledger, webhook or
       mode tracking. The other four upstream skills (audit, debt, gain, help) are not installed.
 
+  taste_skill:
+    status: candidate
+    location: "~/agent-stack/third_party/taste-skill/skill (vendored, DORMANT; not on any loading path)"
+    role: "Primary UI/UX art-direction specialist for frontend work (owner decision 2026-10-25). Not for non-UI coding tasks."
+    agent_os: optional_specialist
+    source: "github.com/Leonxlnx/taste-skill v2.1.5, commit 12af471f627f866411b4bd785b19646d3672784c (MIT; 36-file subset, hashes in scripts/runtime/skills.lock.json)"
+    note: >
+      Staged (vendored, dormant) 2026-10-25, approval D1 only; status `candidate` = named, not usable (the validator has no 'staged'). `scripts/assets.mjs` (network downloader) excluded; SKILL.md byte-identical.
+      Not under skills/, no registry record, no worker exposure: activation (copy to skills/design-taste-frontend, registry
+      record, deterministic task mapping) needs a separate protected approval. Never selected by description matching:
+      explicit dispatch only. Verify with scripts/verify_skills_lock.py.
+
   claude_obsidian:
     status: configured
     location: "Claude plugin claude-obsidian@agricidaniel-claude-obsidian 2.2.0"

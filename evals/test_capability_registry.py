@@ -53,7 +53,8 @@ def test_wave_a_inventory_registered_and_adopted(reg):
     assert reg.get("opencode").adoption == "disabled" and "fail closed" in reg.get("opencode").reason
     # Beyond Wave A: Run 1's github CLI, one future browser fallback, and the 2026-10-24 rollout records.
     assert set(reg.providers) - WAVE_A == {"gh-cli", "browser-use", "markitdown", "orchestra-research",
-                                           "openspec", "superclaude", "omniroute", "clawdbot"}
+                                           "openspec", "superclaude", "omniroute", "clawdbot",
+                                           "taste-skill", "frontend-design", "ui-ux-pro-max"}   # Wave C1 (inert)
     assert reg.get("openspec").adoption == "benchmark"
     assert all(reg.get(p).adoption == "disabled" and reg.get(p).reason for p in ("superclaude", "omniroute", "clawdbot"))
     assert reg.get("browser-use").adoption == "future"

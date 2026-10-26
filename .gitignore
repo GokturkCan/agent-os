@@ -92,3 +92,6 @@ audit/openjev-v3/cal/
 audit/openjev-v3/opt/
 audit/openjev-v3/final/
 audit/openjev-v3/dev/
+
+# Taste Skill working files (draw history, inspection screenshots)
+.taste-skill/

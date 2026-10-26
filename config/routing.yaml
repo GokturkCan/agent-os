@@ -50,6 +50,13 @@ task_classes:
     workers: [claude_code, codex, opencode]
     reviewer_rule: "Reviewer must differ from primary worker (see roles.reviewer)."
 
+  ui_design:
+    stages: [cloud]
+    cloud_chain: [claude_subscription]
+    workers: [claude_code]
+    reviewer_rule: "Reviewer must differ from primary worker (see roles.reviewer)."
+    note: "Frontend design + implementation. The art-direction skill is chosen by the capability plan (task type -> ui.art_direction), never by description matching. Codex excluded until skill delivery is verified for it."
+
   background_coding_escalation:
     stages: [cloud]
     cloud_chain: [nvidia_nim]

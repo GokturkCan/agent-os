@@ -1,0 +1,65 @@
+Line numbers refer to `UserSearch.tsx` in HEAD.
+
+## Review of `UserSearch.tsx`
+
+### Critical
+1. **Line 58, stored XSS.** `dangerouslySetInnerHTML={{ __html: u.bioHtml }}` renders server-supplied HTML unsanitized. Any user can plant a script-bearing bio, such as `<img onerror=…>`, and it runs in every searcher's session.
+   **Fix:** Sanitize with DOMPurify before rendering, or have the API return plain text and render `{u.bio}`.
+
+2. **Lines 24–34, the search effect is broken.** The dependency array is `[endpoint]`, not `[query]`.
+   - The fetch fires on mount (where `query` is empty, so the effect returns early) and again only when `endpoint` changes. Typing never triggers a search, and the effect closes over a stale `query`.
+   - **Fix:** Use deps `[endpoint, query]`.
+
+### High
+3. **Line 27, unencoded query string.** `?q=${query}` is not URL-encoded. Characters such as `&`, `#` and `=` corrupt the request, and it allows parameter injection.
+   **Fix:** Use `?q=${encodeURIComponent(query)}`.
+
+4. **Lines 26–33, race conditions and no cleanup.**
+   - There is no `AbortController` and no ignore flag, so out-of-order responses can overwrite newer results with stale ones.
+   - `setState` can also run after unmount.
+   - **Fix:** Create an `AbortController`, pass `signal` to `fetch`, and call `abort()` in the effect cleanup.
+
+5. **Lines 28–33, error handling is missing.**
+   - `.catch(() => {})` swallows every error, and `loading` stays `true` forever after a failure.
+   - There is no `r.ok` check, so a 4xx or 5xx response is parsed as `User[]`, and a non-array body crashes at `.sort` or `.map`.
+   - **Fix:** Check `r.ok`, use `finally` to reset `loading`, ignore `AbortError`, and expose an error state.
+
+6. **Line 47, `users.sort` mutates state in place.** It sorts the state array during render, which breaks React's immutability rules. Sorting runs on every render and is non-deterministic under StrictMode.
+   **Fix:** `const sorted = useMemo(() => [...users].sort(...), [users])`.
+
+7. **Lines 41–45, `pick` mutates state.** `picked.push(u)` followed by `setPicked(picked)` keeps the same reference, so React bails out and doesn't re-render. The "N picked" count on line 62 goes stale, and the same user can be picked repeatedly.
+   **Fix:** `setPicked(p => p.some(x => x.id === u.id) ? p : [...p, u])`.
+
+### Medium
+8. **Lines 36–39, the "searches" counter is wrong.**
+   - `setSearches(searches + 1)` uses a stale closure, so rapid typing within 500ms increments only once.
+   - The timeout is never cleared, so it can fire after unmount.
+   - It counts keystrokes rather than actual searches.
+   - **Fix:** Remove it and increment inside the effect with a functional update (`setSearches(n => n + 1)`), or drop the counter if it's unneeded.
+
+9. **Lines 24–34, no debounce.** Once the effect depends on `query`, every keystroke sends a request.
+   **Fix:** Debounce the query by 300ms, with a `setTimeout` in the effect and `clearTimeout` in its cleanup.
+
+10. **Line 56, `key={i}` uses the array index as the key.** Reordering after the sort remounts or misassociates DOM nodes.
+    **Fix:** Use `key={u.id}`.
+
+11. **Line 25, stale results are never cleared.** When `query` becomes empty, the effect returns early. The old results and loading state remain, and `loading` can stick if the query is cleared mid-request.
+    **Fix:** In that branch, call `setUsers([])` and `setLoading(false)`.
+
+### Low
+12. **Line 56, accessibility.** A clickable `<li>` has no keyboard or role support.
+    **Fix:** Put a `<button type="button">` inside the `<li>`.
+
+13. **Line 51, the input has no accessible label.** A placeholder is not a label.
+    **Fix:** Add an `aria-label` or a `<label>`.
+
+14. **Line 30, unvalidated cast.** `data as User[]` trusts the network response.
+    **Fix:** Validate with zod or a guard such as `Array.isArray`.
+
+15. **Line 17, `onPick` is not memoized in the API contract.** This is harmless today, but it will cause re-runs if it is ever added to the effect deps.
+
+### Unrelated file
+16. **`tools/shot.mjs:4`** spawns `./_shot_impl.mjs`, which is not in the commit, so the script fails at runtime. The comment ("available to both T3 arms") looks like benchmark scaffolding. It shouldn't ship with this component, so split it into a separate commit or remove it.
+
+### Missing tests
+No tests were included. At minimum, cover the search trigger, race handling, error state and pick deduplication.

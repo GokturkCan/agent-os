@@ -1,0 +1,3 @@
+`TtlLruCache` is implemented in `src/cache.ts`, and all 18 tests pass with `node --test test/cache.test.ts`.
+I wrote the tests first and they failed because the constructor threw "not implemented". I then added tests to `test/cache.test.ts` for each SPEC rule, including expiry at exactly `t + ttl`, recency versus TTL, and `undefined` values.
+If `onEvict` throws, the cache removes every affected entry first, calls `onEvict` for all of them, then rethrows the first error. That keeps the state consistent and still propagates the error, as SPEC requires.

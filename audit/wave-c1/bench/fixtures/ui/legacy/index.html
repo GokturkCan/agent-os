@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>Meridian</title>
+<style>
+body { font-family: Arial; margin: 0; background: #f5f5f5; color: #888; font-size: 13px; }
+.wrap { width: 1200px; margin: 0 auto; }
+.top { background: linear-gradient(90deg,#6a5acd,#00bfff); padding: 20px; color: #fff; }
+.top .nav span { margin-left: 30px; cursor: pointer; font-size: 12px; }
+.hero { text-align: center; padding: 60px 0; }
+.hero h2 { font-size: 40px; color: #333; }
+.hero p { color: #aaa; }
+.cards { display: flex; width: 1200px; }
+.card { width: 380px; margin: 10px; padding: 20px; background: #fff; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,.1); }
+.card h3 { color: #6a5acd; }
+.price { font-size: 32px; color: #999; }
+.card ul { color: #bbb; font-size: 11px; }
+.btn { background: #6a5acd; color: #9ab; padding: 8px 14px; display: inline-block; cursor: pointer; border-radius: 4px; font-size: 12px; }
+.faq { width: 1200px; margin-top: 40px; }
+.q { padding: 10px; background: #fff; border-bottom: 1px solid #eee; cursor: pointer; color: #777; }
+.a { padding: 10px; display: none; color: #aaa; }
+input { padding: 6px; border: 1px solid #ccc; outline: none; width: 260px; }
+.sub { margin: 40px 0; }
+.foot { background: #333; color: #666; padding: 20px; font-size: 10px; }
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap"><b style="font-size:22px">Meridian</b>
+<span class="nav"><span onclick="go('features')">Features</span><span onclick="go('pricing')">Pricing</span><span onclick="go('faq')">FAQ</span><span onclick="go('login')">Log in</span></span></div></div>
+<div class="wrap">
+<div class="hero"><h2>Backups that just work</h2><p>Meridian keeps your team's files safe with automatic encrypted backups. Restore any file from the last 90 days in two clicks.</p>
+<div class="btn" onclick="trial()">Start 14-day free trial</div></div>
+<div class="cards">
+<div class="card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='18' fill='%236a5acd'/%3E%3C/svg%3E"><h3>Starter</h3><div class="price">$9<small>/mo</small></div><ul><li>1 user</li><li>100 GB storage</li><li>30-day version history</li></ul><div class="btn" onclick="choose('starter')">Choose Starter</div></div>
+<div class="card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Crect width='36' height='36' x='2' y='2' fill='%2300bfff'/%3E%3C/svg%3E"><h3>Team</h3><div class="price">$29<small>/mo</small></div><ul><li>10 users</li><li>2 TB storage</li><li>90-day version history</li><li>Priority email support</li></ul><div class="btn" onclick="choose('team')">Choose Team</div></div>
+<div class="card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpolygon points='20,2 38,38 2,38' fill='%23333'/%3E%3C/svg%3E"><h3>Business</h3><div class="price">$79<small>/mo</small></div><ul><li>Unlimited users</li><li>10 TB storage</li><li>1-year version history</li><li>SSO and audit log</li><li>Phone support</li></ul><div class="btn" onclick="choose('business')">Choose Business</div></div>
+</div>
+<div class="faq"><h4>Questions</h4>
+<div class="q" onclick="tog(0)">Is my data encrypted?</div><div class="a">Yes. Files are encrypted on your device before upload (AES-256) and stay encrypted at rest.</div>
+<div class="q" onclick="tog(1)">Can I cancel any time?</div><div class="a">Yes. Cancel from the billing page; your backups stay readable for 30 days after.</div>
+<div class="q" onclick="tog(2)">Do you support Linux?</div><div class="a">macOS and Windows today. A Linux agent is planned for later this year.</div></div>
+<div class="sub">Get product news: <input type="text" placeholder="you@company.com"> <div class="btn" onclick="sub()">Subscribe</div></div>
+</div>
+<div class="foot">Meridian Labs Ltd. All rights reserved. Terms | Privacy | Status</div>
+<script>
+function tog(i){var a=document.querySelectorAll('.a')[i];a.style.display=a.style.display=='block'?'none':'block'}
+function go(){} function trial(){} function choose(){} function sub(){}
+</script>
+</body></html>

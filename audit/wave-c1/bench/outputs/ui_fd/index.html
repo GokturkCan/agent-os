@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian: encrypted backups for your team</title>
+<meta name="description" content="Meridian keeps your team's files safe with automatic encrypted backups. Restore any file from the last 90 days in two clicks.">
+<style>
+:root{
+  --ink:#10233A; --deep:#0A1A2D; --paper:#E8EDF0; --white:#fff;
+  --cobalt:#1B4BD1; --buoy:#F5B700; --muted:#40536A; --rule:#B7C3CE; --mist:#C9D5E2;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:"Avenir Next","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --pad:clamp(1.25rem,5vw,4rem);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:1.0625rem/1.6 var(--sans);overflow-wrap:break-word}
+img,svg{max-width:100%}
+h1,h2,h3,p,ul{margin:0}
+ul{padding:0;list-style:none}
+a{color:inherit}
+.inner{max-width:76rem;margin:0 auto;padding-inline:var(--pad)}
+:focus-visible{outline:3px solid var(--cobalt);outline-offset:3px;box-shadow:0 0 0 6px #fff}
+.dark :focus-visible{outline-color:var(--buoy);box-shadow:0 0 0 6px var(--deep)}
+.skip{position:absolute;left:1rem;top:-5rem;background:var(--buoy);color:var(--deep);padding:.6rem 1rem;font-weight:700;z-index:10}
+.skip:focus{top:1rem}
+
+/* header + hero */
+.dark{background:var(--deep);color:#EEF3F8}
+.site-head{position:relative;z-index:2}
+.site-head .inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem 2rem;padding-block:1.25rem}
+.brand{font:700 1.6rem/1 var(--serif);text-decoration:none;letter-spacing:.01em;display:flex;align-items:center;gap:.6rem}
+.brand svg{width:1.7rem;height:1.7rem;flex:none}
+.site-head ul{display:flex;flex-wrap:wrap;gap:.25rem 1.5rem}
+.site-head li a{display:inline-block;padding:.5rem 0;text-decoration:none;font-weight:500;border-bottom:2px solid transparent}
+.site-head li a:hover{border-color:var(--buoy)}
+
+.hero{position:relative;overflow:hidden;padding-block:clamp(2.5rem,8vw,6.5rem) clamp(3rem,8vw,6rem)}
+.arcs{position:absolute;right:-8%;top:50%;width:min(60rem,130%);transform:translateY(-50%);opacity:.55;pointer-events:none}
+.arcs path{fill:none;stroke:#3F6A9C;stroke-width:1.2;stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 2.4s ease-out forwards}
+.arcs path:nth-child(2){animation-delay:.15s}.arcs path:nth-child(3){animation-delay:.3s}
+.arcs path:nth-child(4){animation-delay:.45s}.arcs path:nth-child(5){animation-delay:.6s}
+.arcs path.eq{stroke:var(--buoy);stroke-width:1.6;stroke-dasharray:none;stroke-dashoffset:0;animation:none;opacity:.8}
+@keyframes draw{to{stroke-dashoffset:0}}
+.hero .inner{position:relative}
+.hero h1{font:700 clamp(2.5rem,8.5vw,6rem)/.98 var(--serif);letter-spacing:-.02em;max-width:12ch}
+.hero .lede{margin-top:1.5rem;max-width:34rem;font-size:clamp(1.1rem,2.4vw,1.35rem);color:#D3DEEA}
+.cta{display:inline-block;margin-top:2rem;padding:.95rem 1.6rem;background:var(--buoy);color:var(--deep);font:700 1.05rem var(--sans);border:2px solid var(--buoy);border-radius:2px;cursor:pointer;text-decoration:none;min-height:44px}
+.cta:hover{background:#FFD24A;border-color:#FFD24A}
+.ruler{margin-top:clamp(2.5rem,6vw,4.5rem);max-width:40rem}
+.ruler-track{position:relative;height:2.2rem;border-bottom:2px solid #8FB0D4;background:repeating-linear-gradient(90deg,#8FB0D4 0 1px,transparent 1px 3.3333%) bottom/100% 35% no-repeat}
+.ruler-track i{position:absolute;bottom:0;width:2px;height:100%;background:var(--buoy)}
+.ruler-labels{display:flex;justify-content:space-between;font-size:.9rem;color:#C5D4E4;margin-top:.4rem}
+
+/* sections */
+section{padding-block:clamp(3rem,7vw,5.5rem)}
+h2{font:700 clamp(1.9rem,4.5vw,3rem)/1.05 var(--serif);letter-spacing:-.01em;max-width:20ch}
+.sec-intro{margin-top:.9rem;color:var(--muted);max-width:36rem}
+
+.points{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:1.5rem 2.5rem;margin-top:2rem}
+.points li{border-top:3px solid var(--ink);padding-top:.8rem}
+.points strong{display:block;font:700 1.25rem/1.2 var(--serif);margin-bottom:.3rem}
+.points span{color:var(--muted)}
+
+/* pricing: columns divided by meridian rules, not cards */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);margin-top:2.5rem;background:var(--white);border:1px solid var(--rule)}
+.plan{padding:clamp(1.5rem,3vw,2.25rem);display:flex;flex-direction:column;border-left:1px solid var(--rule)}
+.plan:first-child{border-left:0}
+.plan header{display:flex;align-items:center;gap:.75rem}
+.plan svg{width:2rem;height:2rem;flex:none}
+.plan h3{font:700 1.7rem/1 var(--serif)}
+.price{margin-top:1.25rem;font:700 3.4rem/1 var(--serif);letter-spacing:-.02em}
+.price small{font:500 1.05rem var(--sans);color:var(--muted);letter-spacing:0;margin-left:.2rem}
+.history{margin-top:1.5rem}
+.history .bar{height:8px;background:var(--mist);position:relative}
+.history .bar b{position:absolute;inset:0 auto 0 0;background:var(--cobalt)}
+.feat{margin-block:1.25rem 2rem;flex:1}
+.feat li{padding:.55rem 0;border-top:1px solid var(--mist)}
+.feat li:first-child{border-top:0}
+.btn{width:100%;padding:.85rem 1rem;min-height:44px;background:var(--ink);color:#fff;font:700 1rem var(--sans);border:2px solid var(--ink);border-radius:2px;cursor:pointer}
+.btn:hover{background:var(--cobalt);border-color:var(--cobalt)}
+.btn[aria-pressed="true"]{background:var(--white);color:var(--ink)}
+.status{margin-top:1rem;min-height:1.6em;font-weight:600;color:var(--ink)}
+
+/* faq */
+.faq{margin-top:2rem;max-width:46rem;border-top:2px solid var(--ink)}
+.faq h3{font:inherit}
+.faq button{all:unset;box-sizing:border-box;width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.1rem 0;font:700 1.25rem/1.3 var(--serif);cursor:pointer;min-height:44px}
+.faq button:focus-visible{outline:3px solid var(--cobalt);outline-offset:2px;box-shadow:0 0 0 6px #fff}
+.faq button::after{content:"";flex:none;width:.7rem;height:.7rem;border-right:3px solid var(--cobalt);border-bottom:3px solid var(--cobalt);transform:rotate(45deg);transition:transform .2s;margin-right:.3rem}
+.faq button[aria-expanded="true"]::after{transform:rotate(-135deg)}
+.faq .item{border-bottom:1px solid var(--rule)}
+.faq .panel{padding:0 2.5rem 1.25rem 0;color:var(--muted);max-width:38rem}
+.faq .panel[hidden]{display:none}
+
+/* subscribe */
+.subscribe{background:var(--ink);color:#EEF3F8}
+.subscribe .inner{display:grid;grid-template-columns:1fr 1fr;gap:2rem 4rem;align-items:end}
+.subscribe h2{max-width:14ch}
+form label{display:block;font-weight:600;margin-bottom:.5rem}
+.row{display:flex;gap:.75rem;flex-wrap:wrap}
+input[type=email]{flex:1 1 14rem;min-width:0;padding:.8rem 1rem;min-height:48px;font:1rem var(--sans);border:2px solid #fff;border-radius:2px;background:#fff;color:var(--ink)}
+.subscribe .cta{margin:0;flex:none}
+.subscribe .status{color:#fff}
+.subscribe :focus-visible{outline-color:var(--buoy);box-shadow:0 0 0 6px var(--ink)}
+
+footer{background:var(--deep);color:#C5D4E4;padding-block:2rem;font-size:.95rem}
+footer .inner{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem 2rem}
+footer ul{display:flex;gap:1.5rem;flex-wrap:wrap}
+footer a{display:inline-block;padding:.4rem 0}
+footer :focus-visible{outline-color:var(--buoy);box-shadow:0 0 0 6px var(--deep)}
+
+@media (max-width:56rem){
+  .plans{grid-template-columns:1fr}
+  .plan{border-left:0;border-top:1px solid var(--rule)}
+  .plan:first-child{border-top:0}
+  .subscribe .inner{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .arcs path{animation:none;stroke-dashoffset:0}
+  .faq button::after{transition:none}
+}
+@media (forced-colors:active){.btn,.cta{border:2px solid ButtonText}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="dark">
+<header class="site-head">
+  <div class="inner">
+    <a class="brand" href="#top" aria-label="Meridian home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="14" fill="none" stroke="#F5B700" stroke-width="2"/><ellipse cx="16" cy="16" rx="6" ry="14" fill="none" stroke="#EEF3F8" stroke-width="1.6"/><path d="M2 16h28" stroke="#EEF3F8" stroke-width="1.6"/></svg>
+      Meridian
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#login" data-stub="login">Log in</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <svg class="arcs" viewBox="0 0 800 600" aria-hidden="true" focusable="false">
+    <path d="M400 0C130 130 130 470 400 600"/><path d="M400 0C250 150 250 450 400 600"/>
+    <path d="M400 0V600"/>
+    <path d="M400 0C550 150 550 450 400 600"/><path d="M400 0C670 130 670 470 400 600"/>
+    <path class="eq" d="M0 300H800"/>
+  </svg>
+  <div class="inner">
+    <h1>Backups that just work</h1>
+    <p class="lede">Meridian keeps your team's files safe with automatic encrypted backups. Restore any file from the last 90 days in two clicks.</p>
+    <button type="button" class="cta" id="trial">Start 14-day free trial</button>
+    <p class="status" id="trial-status" role="status"></p>
+    <div class="ruler" aria-hidden="true">
+      <div class="ruler-track"><i style="left:0"></i><i style="left:24.7%"></i><i style="right:0"></i></div>
+      <div class="ruler-labels"><span>Today</span><span>90 days</span><span>1 year</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<main id="main">
+<section id="features" aria-labelledby="features-h">
+  <div class="inner">
+    <h2 id="features-h">Set it up once, then forget it</h2>
+    <ul class="points">
+      <li><strong>Automatic backups</strong><span>Your team's files are backed up without anyone having to remember.</span></li>
+      <li><strong>Encrypted on your device</strong><span>Files are encrypted before upload (AES-256) and stay encrypted at rest.</span></li>
+      <li><strong>Restore in two clicks</strong><span>Bring back any file from the last 90 days.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="pricing" aria-labelledby="pricing-h" style="padding-top:0">
+  <div class="inner">
+    <h2 id="pricing-h">Pricing</h2>
+    <p class="sec-intro">Pick the plan that fits your team. The bar in each plan shows how far back you can restore, out of one year.</p>
+    <div class="plans">
+      <article class="plan" aria-labelledby="p1">
+        <header>
+          <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><circle cx="20" cy="20" r="18" fill="#1B4BD1"/></svg>
+          <h3 id="p1">Starter</h3>
+        </header>
+        <p class="price">$9<small>/mo</small></p>
+        <div class="history" aria-hidden="true"><div class="bar"><b style="width:8.2%"></b></div></div>
+        <ul class="feat"><li>1 user</li><li>100 GB storage</li><li>30-day version history</li></ul>
+        <button type="button" class="btn" data-plan="Starter" aria-pressed="false">Choose Starter</button>
+      </article>
+      <article class="plan" aria-labelledby="p2">
+        <header>
+          <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><rect width="36" height="36" x="2" y="2" fill="#0077A8"/></svg>
+          <h3 id="p2">Team</h3>
+        </header>
+        <p class="price">$29<small>/mo</small></p>
+        <div class="history" aria-hidden="true"><div class="bar"><b style="width:24.7%"></b></div></div>
+        <ul class="feat"><li>10 users</li><li>2 TB storage</li><li>90-day version history</li><li>Priority email support</li></ul>
+        <button type="button" class="btn" data-plan="Team" aria-pressed="false">Choose Team</button>
+      </article>
+      <article class="plan" aria-labelledby="p3">
+        <header>
+          <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><polygon points="20,2 38,38 2,38" fill="#10233A"/></svg>
+          <h3 id="p3">Business</h3>
+        </header>
+        <p class="price">$79<small>/mo</small></p>
+        <div class="history" aria-hidden="true"><div class="bar"><b style="width:100%"></b></div></div>
+        <ul class="feat"><li>Unlimited users</li><li>10 TB storage</li><li>1-year version history</li><li>SSO and audit log</li><li>Phone support</li></ul>
+        <button type="button" class="btn" data-plan="Business" aria-pressed="false">Choose Business</button>
+      </article>
+    </div>
+    <p class="status" id="plan-status" role="status"></p>
+  </div>
+</section>
+
+<section id="faq" aria-labelledby="faq-h" style="padding-top:0">
+  <div class="inner">
+    <h2 id="faq-h">Questions</h2>
+    <div class="faq" id="faq-list">
+      <div class="item">
+        <h3><button type="button" id="q0" aria-expanded="false" aria-controls="a0">Is my data encrypted?</button></h3>
+        <div class="panel" id="a0" role="region" aria-labelledby="q0" hidden><p>Yes. Files are encrypted on your device before upload (AES-256) and stay encrypted at rest.</p></div>
+      </div>
+      <div class="item">
+        <h3><button type="button" id="q1" aria-expanded="false" aria-controls="a1">Can I cancel any time?</button></h3>
+        <div class="panel" id="a1" role="region" aria-labelledby="q1" hidden><p>Yes. Cancel from the billing page; your backups stay readable for 30 days after.</p></div>
+      </div>
+      <div class="item">
+        <h3><button type="button" id="q2" aria-expanded="false" aria-controls="a2">Do you support Linux?</button></h3>
+        <div class="panel" id="a2" role="region" aria-labelledby="q2" hidden><p>macOS and Windows today. A Linux agent is planned for later this year.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="subscribe" aria-labelledby="sub-h">
+  <div class="inner">
+    <h2 id="sub-h">Get product news</h2>
+    <form id="sub-form" novalidate>
+      <label for="email">Email address</label>
+      <div class="row">
+        <input type="email" id="email" name="email" placeholder="you@company.com" autocomplete="email" required aria-describedby="sub-status">
+        <button type="submit" class="cta">Subscribe</button>
+      </div>
+      <p class="status" id="sub-status" role="status"></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="inner">
+    <p>Meridian Labs Ltd. All rights reserved.</p>
+    <nav aria-label="Legal and status">
+      <ul><li><a href="#terms">Terms</a></li><li><a href="#privacy">Privacy</a></li><li><a href="#status">Status</a></li></ul>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var $=function(s,c){return (c||document).querySelector(s)};
+  // FAQ: buttons toggle panels; arrow keys, Home and End move between questions
+  var btns=[].slice.call(document.querySelectorAll('.faq button'));
+  btns.forEach(function(b,i){
+    b.addEventListener('click',function(){
+      var open=b.getAttribute('aria-expanded')==='true';
+      b.setAttribute('aria-expanded',String(!open));
+      document.getElementById(b.getAttribute('aria-controls')).hidden=open;
+    });
+    b.addEventListener('keydown',function(e){
+      var n=null;
+      if(e.key==='ArrowDown')n=(i+1)%btns.length;
+      else if(e.key==='ArrowUp')n=(i-1+btns.length)%btns.length;
+      else if(e.key==='Home')n=0;
+      else if(e.key==='End')n=btns.length-1;
+      if(n!==null){e.preventDefault();btns[n].focus()}
+    });
+  });
+  // Plan choice
+  var plans=[].slice.call(document.querySelectorAll('[data-plan]'));
+  plans.forEach(function(b){
+    b.addEventListener('click',function(){
+      plans.forEach(function(o){o.setAttribute('aria-pressed',String(o===b));o.textContent=o===b?b.dataset.plan+' selected':'Choose '+o.dataset.plan});
+      $('#plan-status').textContent=b.dataset.plan+' plan selected.';
+    });
+  });
+  $('#trial').addEventListener('click',function(){
+    $('#trial-status').textContent='Your 14-day free trial is ready to start.';
+  });
+  // Placeholder links from the legacy page had no destination
+  document.querySelectorAll('[data-stub]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault()})});
+  // Subscribe
+  var f=$('#sub-form'),em=$('#email'),st=$('#sub-status');
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!em.value||!em.validity.valid){
+      em.setAttribute('aria-invalid','true');
+      st.textContent='Enter a valid email address, like you@company.com.';
+      em.focus();return;
+    }
+    em.removeAttribute('aria-invalid');
+    st.textContent='Thanks. We will send product news to '+em.value+'.';
+    f.reset();
+  });
+})();
+</script>
+</body>
+</html>

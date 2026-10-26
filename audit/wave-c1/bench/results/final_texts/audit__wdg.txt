@@ -1,0 +1,52 @@
+## legacy/index.html
+
+**Critical (blocks use or fails WCAG)**
+
+legacy/index.html:27-28, 31, 33-35, 41 - Nav links, CTA, plan buttons and Subscribe are `<span>`/`<div onclick>`. They aren't focusable, have no keyboard handlers and no role, so keyboard and screen-reader users can't reach them. Fix: nav → `<a href="#features">` etc. (Log in → `<a href="/login">`). Actions (`trial`, `choose`, `sub`) → `<button type="button">`. Plan choice should be a link/form submit with the plan in the URL or a form field.
+legacy/index.html:37-40, 45 - FAQ uses `div.q` with onclick. It has no keyboard access and no `aria-expanded`/`aria-controls`. Fix: `<button aria-expanded aria-controls>` inside a heading, with the panel as a `<div id hidden>`. Or use `<details><summary>`. Toggle `hidden` or a class, not inline `display`.
+legacy/index.html:21 - `input { outline: none }` removes the focus indicator with no replacement. Fix: delete it, and add `:focus-visible { outline: 2px solid #4b3fb0; outline-offset: 2px }` for all interactive elements.
+legacy/index.html:41 - Email input has no `<label>`, `name`, `type="email"`, `autocomplete="email"` or `spellcheck="false"`, and it isn't in a `<form>`. Fix: `<form><label for=email>Email</label><input id=email name=email type=email autocomplete=email spellcheck=false placeholder="you@company.com…" required>`. Make the submit a `<button type="submit">`.
+legacy/index.html:5, 11, 15, 16, 20, 23 - Text contrast fails WCAG 1.4.3 (4.5:1; 3:1 for large text). Approximate ratios:
+- `#888` body on `#f5f5f5` ≈ 3.3:1
+- `.hero p` `#aaa` ≈ 2.2:1
+- `.price` `#999` ≈ 2.6:1
+- `.card ul` `#bbb` ≈ 1.9:1
+- `.a` `#aaa` on white ≈ 2.3:1
+- `.q` `#777` ≈ 4.2:1
+- `.foot` `#666` on `#333` ≈ 2.1:1
+Fix: body text at `#333`–`#595959` or darker; footer text `#ccc` or lighter on `#333`.
+legacy/index.html:17 - `.btn` has `#9ab` text on `#6a5acd`, about 2.3:1, and is 12px. Fix: `color:#fff` (about 5.3:1 on `#6a5acd`; verify) and use at least 14–16px.
+legacy/index.html:7 - White text on the gradient's `#00bfff` end is about 2:1, so the nav is unreadable on the right. Fix: use a darker gradient end (e.g. `#0077b6`) or a solid dark bar.
+legacy/index.html:1-3 - No `<!doctype>` (quirks mode), no `lang`, no `<meta charset>`, and **no `<meta name="viewport">`**. Mobile browsers render at about 980px wide and the page is unusable on phones. Fix: `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">`. Don't add `user-scalable=no`.
+
+**High (responsiveness)**
+
+legacy/index.html:6, 12, 18 - `.wrap`, `.cards` and `.faq` have fixed `width:1200px`, which forces horizontal scroll below 1200px. Fix: `max-width:1200px; width:100%; padding-inline:16px; box-sizing:border-box`.
+legacy/index.html:12-13 - `.cards` uses a fixed `380px` card width (3×(380+20+2+20) overflows 1200px) and has no wrap. Fix: `.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}` and `.card{margin:0;box-sizing:border-box}`. Remove the fixed widths.
+legacy/index.html:5, 8, 16, 17, 23 - Font sizes are too small: 10px footer, 11px feature lists, 12px nav and buttons, 13px body. Fix: body 16px (`1rem`), and nothing below 14px. Use `rem`, not `px`, so user font-size settings apply.
+legacy/index.html:8, 17 - Touch targets are too small: the 12px nav spans and `8px 14px` buttons give roughly 30px height. Fix: `min-height:44px` with padding, and spacing between targets.
+legacy/index.html:21, 41 - The input is a fixed 260px, so it overflows on narrow screens, and the inline-block button sits beside it with no wrapping control. Fix: `width:100%; max-width:260px` or a flex form with `flex-wrap`.
+
+**Medium (semantics, structure)**
+
+legacy/index.html:30 - The hero heading is `<h2>`, and there is no `<h1>`. The page then jumps to `<h3>` (plan names) and `<h4>` (FAQ "Questions"). Fix: hero → `<h1>`, add `<h2>Plans</h2>`, FAQ heading → `<h2>`, plan names stay `<h3>`. Style with classes, not heading level.
+legacy/index.html:27-28, 29, 43 - No landmarks and no skip link. Fix: `<header>`, `<nav aria-label="Main">` with a `<ul>`, `<main id="main">`, `<footer>`, and a first-child `<a class="skip" href="#main">Skip to content</a>`.
+legacy/index.html:33-35 - The decorative SVG `<img>`s have no `alt`, `width` or `height`. Fix: `alt="" width="40" height="40"` (decorative). Add `loading="lazy"` only if they're below the fold.
+legacy/index.html:28 - Nav anchors target `features`, `pricing` and `faq`, but no section ids exist, and `go()` is an empty stub. `features` and `login` have no destination. Fix: add `id="pricing"` and `id="faq"` on the sections plus `scroll-margin-top`. Wire up or remove `features`.
+legacy/index.html:46 - `go`, `trial`, `choose` and `sub` are empty functions, so every primary CTA (trial, plan choice, subscribe) does nothing. Fix: implement them as real `<a href>` or form submits.
+legacy/index.html:33-35 - Plan "cards" aren't structured as list items, and the price is not tied to its plan for assistive tech. Fix: use `<ul>`/`<article aria-labelledby>`, and write the price as `$9<span class="sr-only"> per month</span>`/`<small>/mo</small>`. Button labels like "Choose Starter" are fine.
+legacy/index.html:3 - `<title>Meridian</title>` is not descriptive. Fix: `Meridian Pricing – Encrypted Team Backups`. Also add `<meta name="description">`.
+legacy/index.html:42-43 - Subscribe has no status or confirmation, and there is no error handling. Fix: add `aria-live="polite"` status text, and put inline errors beside the field.
+
+**Low (polish, interaction states)**
+
+legacy/index.html:13-17, 19 - No `:hover`, `:active`, `:focus-visible` or `cursor` states on cards and buttons. The `.btn` and `.q` rules set `cursor:pointer` only. Fix: add hover and active styles and a `transition` on explicit properties (`background-color, box-shadow`), wrapped in `prefers-reduced-motion`.
+legacy/index.html:5 - `font-family: Arial` has no fallback stack. Fix: `font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif`.
+legacy/index.html:10 - The hero heading lacks `text-wrap: balance`. Use it on `h1`/`h2`.
+legacy/index.html:15, 33-35 - Prices are not `font-variant-numeric: tabular-nums`, and `$9<small>/mo</small>` has no styling for `small`. Add both. Use `Intl.NumberFormat` if prices become dynamic.
+legacy/index.html:30 - Copy: "two clicks" should be "2 clicks" (numerals for counts). Hero CTA "Start 14-day free trial" is fine, but use Title Case across buttons ("Start 14-Day Free Trial").
+legacy/index.html:5 - There is no `color-scheme` declaration or `<meta name="theme-color">`. Add `<meta name="theme-color" content="#6a5acd">`.
+legacy/index.html:8, 13 - Missing `touch-action: manipulation` on interactive elements, and the tap-highlight color is not set deliberately.
+legacy/index.html:27 - The brand name "Meridian" has no `translate="no"`. The brand string is also repeated in the footer without a `&nbsp;` where needed. Fix: add `translate="no"` on brand spans.
+legacy/index.html:27 - The logo is plain `<b style>` with an inline style, not a link to home. Fix: `<a href="/" class="logo">Meridian</a>`, and move the inline style into the stylesheet.
+legacy/index.html:43 - Footer "Terms | Privacy | Status" are plain text, not links. Fix: `<nav aria-label="Footer"><a href="/terms">Terms</a> …`. Also add `©` and the year, and raise the 10px size to at least 14px.

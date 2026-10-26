@@ -1,0 +1,10 @@
+The four tests in `test/pricing.test.ts` now pass. I rewrote `src/pricing.ts` to be shorter.
+
+Root causes:
+1. **`paginate` was 0-based.** It started at `page * size` where SPEC says pages are 1-based. That caused both test failures. It now uses `slice((page - 1) * size, page * size)`.
+2. **Options leaked between calls.** `Object.assign(defaults, options)` mutated the shared `defaults` object, so one call's `taxExempt` or `code` carried into the next. The module-level defaults are gone and `options` now defaults to `{}`.
+3. **Discount was rounded per line.** SPEC says to compute it once on the subtotal. It now does that.
+
+I also replaced float `Math.round` with an integer half-up helper for discount and tax, which stays exact for non-negative cents amounts.
+
+I didn't add tests for the discount or option-leak cases, since the existing tests don't cover them and I can't edit `test/`. I checked those fixes only by reading the code against SPEC.md.

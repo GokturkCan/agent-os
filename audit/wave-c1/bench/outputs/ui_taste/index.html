@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian: encrypted team backup, from $9/mo</title>
+<meta name="description" content="Meridian keeps your team's files safe with automatic encrypted backups. Restore any file from the last 90 days in two clicks.">
+<style>
+:root{
+  --ground:#0d2328; --step:#143239; --ink:#f2f6f4; --soft:#bfd0cc;
+  --accent:#ffb347; --on-accent:#0d2328;
+  --pale:#e8f0ed; --pale-ink:#0d2328; --pale-soft:#2f4a50; --pale-bar:#0d2328;
+  --focus:#ffb347;
+  --m:clamp(16px,4vw,48px);
+  --gap:clamp(72px,12vw,200px);
+  --font:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 18px/1.55 var(--font);overflow-x:hidden}
+img,svg{max-width:100%;display:block}
+h1,h2,h3,p,ul,ol,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.pale :focus-visible{outline-color:var(--pale-ink)}
+.skip{position:absolute;left:var(--m);top:-80px;background:var(--accent);color:var(--on-accent);padding:12px 18px;font-weight:700;z-index:10}
+.skip:focus{top:12px}
+.wrap{padding-inline:var(--m);max-width:1600px;margin-inline:auto}
+h1,h2{font-weight:800;letter-spacing:-.035em;line-height:.98}
+h2{font-size:clamp(2rem,4.8vw,4.5rem);max-width:19ch}
+.btn{display:inline-block;background:var(--accent);color:var(--on-accent);font:700 1.0625rem/1 var(--font);padding:18px 28px;border:0;border-radius:0;text-decoration:none;cursor:pointer;min-height:48px;transition:transform .15s ease,background-color .15s ease}
+.btn:hover{background:#ffc470}
+.btn:active{transform:translateY(2px)}
+.pale .btn{background:var(--pale-ink);color:var(--pale)}
+.pale .btn:hover{background:#1d4048}
+
+/* header */
+header .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 32px;padding-block:20px}
+.logo{font-weight:800;font-size:1.5rem;letter-spacing:-.03em;text-decoration:none}
+nav ul{display:flex;flex-wrap:wrap;gap:4px 28px}
+nav a{display:inline-block;padding:10px 2px;text-decoration:none;font-weight:600}
+nav a:hover{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:2px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:end;padding-top:clamp(40px,7vw,100px)}
+.hero h1{font-size:clamp(2.6rem,6.6vw,6.5rem);max-width:12ch}
+.hero p{font-size:clamp(1.1rem,1.6vw,1.4rem);max-width:34ch;margin:clamp(24px,3vw,40px) 0 32px;color:var(--ink)}
+.hero .art{background:var(--step);padding:clamp(16px,3vw,40px);align-self:stretch}
+.art svg{width:100%;height:auto}
+
+/* restore */
+.restore{margin-top:var(--gap);background:var(--step);padding-block:clamp(56px,8vw,120px)}
+.restore .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:start}
+.restore label{display:block;font-size:1.25rem;font-weight:700;margin-bottom:16px}
+.dayout{font-size:clamp(4rem,12vw,10rem);font-weight:800;letter-spacing:-.05em;line-height:.9;color:var(--accent);margin-bottom:24px;font-variant-numeric:tabular-nums}
+.dayout span{font-size:.3em;letter-spacing:-.02em;color:var(--ink);margin-left:.2em}
+input[type=range]{width:100%;height:48px;accent-color:var(--accent);background:transparent;margin:0}
+.scale{display:flex;justify-content:space-between;color:var(--soft);font-size:1rem;margin-top:4px}
+.cover li{display:flex;justify-content:space-between;gap:16px;padding:18px 20px;margin-bottom:8px;background:var(--ground);font-size:1.25rem;font-weight:700}
+.cover li span:last-child{font-weight:600;text-align:right}
+.cover li.yes span:last-child{color:var(--accent)}
+.cover li.no{color:var(--soft)}
+.restore .note{margin-top:20px;color:var(--soft);max-width:44ch}
+
+/* pricing */
+.pricing{margin-top:var(--gap)}
+.pricing>.wrap>p{margin-top:20px;color:var(--soft);max-width:44ch}
+.plans{margin-top:clamp(32px,5vw,72px)}
+.plan{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:24px clamp(24px,4vw,64px);padding:clamp(28px,4vw,56px) var(--m);background:var(--step);margin-bottom:12px;align-items:start}
+.plan.pale{background:var(--pale);color:var(--pale-ink)}
+.plan h3{font-size:clamp(2rem,4vw,3.5rem);font-weight:800;letter-spacing:-.03em;line-height:1}
+.price{font-size:clamp(3rem,7vw,6rem);font-weight:800;letter-spacing:-.04em;line-height:1;margin-top:12px;font-variant-numeric:tabular-nums}
+.price small{font-size:.3em;font-weight:600;letter-spacing:0;margin-left:.15em}
+.plan ul li{padding:7px 0;font-size:1.125rem}
+.plan ul li+li{margin-top:2px}
+.reach{margin-bottom:28px}
+.reach p{font-size:1rem;margin-bottom:8px;color:var(--soft)}
+.pale .reach p{color:var(--pale-soft)}
+.track{height:20px;background:var(--ground)}
+.pale .track{background:#c5d5d0}
+.fill{height:100%;background:var(--accent)}
+.pale .fill{background:var(--pale-bar)}
+
+/* faq */
+.faq{margin-top:var(--gap)}
+.faq .grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:start}
+.q{margin-bottom:8px;background:var(--step)}
+.q h3{margin:0;font-size:inherit}
+.q button{all:unset;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;gap:20px;width:100%;padding:22px 24px;min-height:64px;font:700 1.25rem/1.3 var(--font);cursor:pointer}
+.q button:hover{background:#1b414a}
+.q button:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
+.q .mark{flex:none;width:24px;height:24px;position:relative}
+.q .mark::before,.q .mark::after{content:"";position:absolute;left:0;top:10px;width:24px;height:4px;background:var(--accent);transition:transform .2s ease}
+.q .mark::after{transform:rotate(90deg)}
+.q button[aria-expanded=true] .mark::after{transform:rotate(0)}
+.q .a{padding:0 24px 26px;max-width:56ch}
+.js .q .a[hidden]{display:none}
+
+/* subscribe */
+.sub{margin-top:var(--gap);background:var(--accent);color:var(--on-accent);padding-block:clamp(48px,7vw,104px)}
+.sub .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:end}
+.sub h2{max-width:12ch}
+.sub label{display:block;font-weight:700;font-size:1.25rem;margin-bottom:12px}
+.field{display:flex;flex-wrap:wrap;gap:12px}
+.sub input[type=email]{flex:1 1 240px;min-width:0;min-height:56px;padding:0 16px;font:400 1.125rem var(--font);border:2px solid var(--on-accent);border-radius:0;background:#fff;color:#0d2328}
+.sub input::placeholder{color:#4a5b5f;opacity:1}
+.sub .btn{background:var(--on-accent);color:var(--accent)}
+.sub .btn:hover{background:#1d4048}
+.sub :focus-visible{outline-color:var(--on-accent)}
+.sub .status{margin-top:14px;font-weight:700;min-height:1.5em}
+
+/* footer */
+footer{padding-block:clamp(40px,6vw,80px) 28px}
+.big{font-size:clamp(4rem,23vw,22rem);font-weight:800;letter-spacing:-.06em;line-height:.85;margin-left:-.04em}
+footer .row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 32px;margin-top:32px;color:var(--soft)}
+footer ul{display:flex;flex-wrap:wrap;gap:4px 24px}
+footer ul a{display:inline-block;padding:10px 2px}
+
+@media (max-width:900px){
+  .hero,.restore .grid,.faq .grid,.sub .grid{grid-template-columns:minmax(0,1fr)}
+  .plan{grid-template-columns:minmax(0,1fr)}
+}
+.js .rv{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;transition-delay:calc(var(--i,0)*80ms)}
+.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none}*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Meridian, home">Meridian</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#history">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#login">Log in</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="wrap hero" id="top" aria-labelledby="h1">
+    <div>
+      <h1 id="h1">Backups that just work</h1>
+      <p>Meridian keeps your team's files safe with automatic encrypted backups. Restore any file from the last 90 days in two clicks.</p>
+      <a class="btn" href="#pricing" id="trial">Start 14-day free trial</a>
+    </div>
+    <div class="art">
+      <svg viewBox="0 0 400 300" role="img" aria-labelledby="art-t">
+        <title id="art-t">A timeline of backups. Each dot is a saved version, running back in time to the highlighted version 90 days ago.</title>
+        <rect width="400" height="300" fill="#143239"/>
+        <rect x="52" y="24" width="14" height="252" fill="#0d2328"/>
+        <rect x="52" y="24" width="14" height="70" fill="#ffb347"/>
+        <g fill="#f2f6f4">
+          <rect x="90" y="30" width="200" height="14"/><rect x="90" y="78" width="150" height="14"/>
+          <rect x="90" y="126" width="220" height="14"/><rect x="90" y="174" width="120" height="14"/>
+          <rect x="90" y="222" width="180" height="14"/>
+        </g>
+        <g fill="#bfd0cc"><rect x="90" y="52" width="90" height="8"/><rect x="90" y="100" width="60" height="8"/><rect x="90" y="148" width="110" height="8"/><rect x="90" y="196" width="70" height="8"/><rect x="90" y="244" width="100" height="8"/></g>
+        <circle cx="59" cy="37" r="14" fill="#ffb347"/><circle cx="59" cy="85" r="14" fill="#ffb347"/>
+        <circle cx="59" cy="133" r="14" fill="#f2f6f4"/><circle cx="59" cy="181" r="14" fill="#f2f6f4"/><circle cx="59" cy="229" r="14" fill="#f2f6f4"/>
+      </svg>
+    </div>
+  </section>
+
+  <section class="restore" id="history" aria-labelledby="h-restore">
+    <div class="wrap grid">
+      <div>
+        <h2 id="h-restore">How far back do you need to go?</h2>
+        <p class="note">Every plan keeps older versions of your files. Slide to a day and see which plans can bring it back.</p>
+      </div>
+      <div>
+        <div class="dayout" aria-hidden="true"><b id="daynum" style="font-weight:inherit">45</b><span>days ago</span></div>
+        <label for="days">Restore a file from this many days ago</label>
+        <input type="range" id="days" min="1" max="365" value="45" aria-describedby="cover-list">
+        <div class="scale" aria-hidden="true"><span>1 day</span><span>1 year</span></div>
+        <ul class="cover" id="cover-list" aria-live="polite" style="margin-top:28px">
+          <li data-limit="30"><span>Starter</span><span></span></li>
+          <li data-limit="90"><span>Team</span><span></span></li>
+          <li data-limit="365"><span>Business</span><span></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing" aria-labelledby="h-pricing">
+    <div class="wrap">
+      <h2 id="h-pricing">Pick the plan that remembers enough</h2>
+      <p>All prices are per month. Every plan starts with the 14-day free trial.</p>
+    </div>
+    <div class="wrap plans">
+      <article class="plan" aria-labelledby="p1">
+        <div><h3 id="p1">Starter</h3><div class="price">$9<small>/mo</small></div></div>
+        <ul><li>1 user</li><li>100 GB storage</li><li>30-day version history</li></ul>
+        <div><div class="reach" aria-hidden="true"><p>History reach</p><div class="track"><div class="fill" style="width:8.2%"></div></div></div>
+        <a class="btn" href="#trial-form" data-plan="starter">Choose Starter</a></div>
+      </article>
+      <article class="plan" aria-labelledby="p2">
+        <div><h3 id="p2">Team</h3><div class="price">$29<small>/mo</small></div></div>
+        <ul><li>10 users</li><li>2 TB storage</li><li>90-day version history</li><li>Priority email support</li></ul>
+        <div><div class="reach" aria-hidden="true"><p>History reach</p><div class="track"><div class="fill" style="width:24.7%"></div></div></div>
+        <a class="btn" href="#trial-form" data-plan="team">Choose Team</a></div>
+      </article>
+      <article class="plan pale" aria-labelledby="p3">
+        <div><h3 id="p3">Business</h3><div class="price">$79<small>/mo</small></div></div>
+        <ul><li>Unlimited users</li><li>10 TB storage</li><li>1-year version history</li><li>SSO and audit log</li><li>Phone support</li></ul>
+        <div><div class="reach" aria-hidden="true"><p>History reach</p><div class="track"><div class="fill" style="width:100%"></div></div></div>
+        <a class="btn" href="#trial-form" data-plan="business">Choose Business</a></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="faq" id="faq" aria-labelledby="h-faq">
+    <div class="wrap grid">
+      <h2 id="h-faq">Questions</h2>
+      <div>
+        <div class="q"><h3><button type="button" aria-expanded="false" aria-controls="a1" id="b1">Is my data encrypted?<span class="mark" aria-hidden="true"></span></button></h3>
+          <div class="a" id="a1" role="region" aria-labelledby="b1"><p>Yes. Files are encrypted on your device before upload (AES-256) and stay encrypted at rest.</p></div></div>
+        <div class="q"><h3><button type="button" aria-expanded="false" aria-controls="a2" id="b2">Can I cancel any time?<span class="mark" aria-hidden="true"></span></button></h3>
+          <div class="a" id="a2" role="region" aria-labelledby="b2"><p>Yes. Cancel from the billing page; your backups stay readable for 30 days after.</p></div></div>
+        <div class="q"><h3><button type="button" aria-expanded="false" aria-controls="a3" id="b3">Do you support Linux?<span class="mark" aria-hidden="true"></span></button></h3>
+          <div class="a" id="a3" role="region" aria-labelledby="b3"><p>macOS and Windows today. A Linux agent is planned for later this year.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sub" id="trial-form" aria-labelledby="h-sub">
+    <div class="wrap grid">
+      <h2 id="h-sub">Get product news</h2>
+      <form id="subform" novalidate>
+        <label for="email">Email address</label>
+        <div class="field">
+          <input type="email" id="email" name="email" placeholder="you@company.com" autocomplete="email" required aria-describedby="status">
+          <button class="btn" type="submit">Subscribe</button>
+        </div>
+        <p class="status" id="status" role="status"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="big" aria-hidden="true">Meridian</div>
+    <div class="row">
+      <p>Meridian Labs Ltd. All rights reserved.</p>
+      <nav aria-label="Legal"><ul><li><a href="#terms">Terms</a></li><li><a href="#privacy">Privacy</a></li><li><a href="#status">Status</a></li></ul></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+// FAQ: buttons toggle their panel (Enter/Space work natively on buttons)
+document.querySelectorAll('.q button').forEach(function(b){
+  var p=document.getElementById(b.getAttribute('aria-controls'));
+  p.hidden=true;
+  b.addEventListener('click',function(){
+    var open=b.getAttribute('aria-expanded')==='true';
+    b.setAttribute('aria-expanded',String(!open));
+    p.hidden=open;
+  });
+});
+// Entrances
+var els=document.querySelectorAll('main h1,main h2,.hero p,.hero .btn,.hero .art,.plan,.q,.cover li,.dayout,.sub form');
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
+els.forEach(function(el,k){el.classList.add('rv');el.style.setProperty('--i',k%4);io.observe(el)})}
+// Restore reach
+var r=document.getElementById('days'),n=document.getElementById('daynum'),items=document.querySelectorAll('#cover-list li');
+function upd(){
+  var d=+r.value;n.textContent=d;
+  items.forEach(function(li){
+    var ok=d<=+li.dataset.limit;
+    li.className=ok?'yes':'no';
+    li.lastElementChild.textContent=ok?'Can restore it':'History too short';
+  });
+  r.setAttribute('aria-valuetext',d+(d===1?' day':' days')+' ago');
+}
+r.addEventListener('input',upd);upd();
+// Subscribe
+document.getElementById('subform').addEventListener('submit',function(e){
+  e.preventDefault();
+  var i=document.getElementById('email'),s=document.getElementById('status');
+  if(!i.value||!/^\S+@\S+\.\S+$/.test(i.value)){s.textContent='Please enter a valid email address, like you@company.com.';i.setAttribute('aria-invalid','true');i.focus();return}
+  i.removeAttribute('aria-invalid');
+  s.textContent='Thanks. You are subscribed to Meridian product news.';
+});
+</script>
+</body>
+</html>

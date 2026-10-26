@@ -1,0 +1,273 @@
+--- a/agentos/skill_delivery.py
++++ b/agentos/skill_delivery.py
+@@ -13,13 +13,17 @@
+ 
+ import hashlib
+ import json
++import os
+ import shutil
++import stat
+ from pathlib import Path
+ 
+ import yaml
+ 
+ REPO = Path(__file__).resolve().parent.parent
+ LOCK = Path("scripts") / "runtime" / "skills.lock.json"
++MAX_EVIDENCE_FILES = 200
++MAX_EVIDENCE_FILE_BYTES = 25 * 1024 * 1024
+ 
+ 
+ class SkillDeliveryError(Exception):
+@@ -53,8 +57,9 @@
+             errs.append(f"hash mismatch {rel}")
+     errs += [f"must not exist: {rel}" for rel in e.get("must_not_exist", []) if (repo / rel).exists()]
+     src = repo / e["delivery"]["src"]
++    errs += [f"symlink in vendored tree {f.relative_to(repo)}" for f in src.rglob("*") if f.is_symlink()]
+     errs += [f"unlisted file {f.relative_to(repo)}" for f in src.rglob("*")
+-             if f.is_file() and str(f.relative_to(repo)) not in e["sha256"]]
++             if f.is_file() and not f.is_symlink() and str(f.relative_to(repo)) not in e["sha256"]]
+     return errs
+ 
+ 
+@@ -74,6 +79,38 @@
+     return name
+ 
+ 
++def _clear_link_components(wt: Path, parts) -> None:
++    """The worktree is worker-controlled. A symlink on `parts` is removed as a LINK (never its target, never
++    followed); a non-directory where a directory is required is refused. Missing components end the walk."""
++    cur = wt
++    for part in parts:
++        cur = cur / part
++        if os.path.islink(cur):
++            os.unlink(cur)
++        elif not os.path.lexists(cur):
++            return
++        elif not cur.is_dir():
++            raise SkillDeliveryError(f"{cur.relative_to(wt)} exists and is not a directory")
++
++
++def _copy_regular(src: Path, dst: Path) -> bool:
++    """Copy `src` to `dst` only if it is a regular file, without following a final symlink and without blocking on
++    FIFOs/devices (O_NONBLOCK, fstat check). Returns False when skipped."""
++    try:
++        fd = os.open(src, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
++    except OSError:
++        return False
++    try:
++        if not stat.S_ISREG(os.fstat(fd).st_mode):
++            return False
++        dst.parent.mkdir(parents=True, exist_ok=True)
++        with os.fdopen(fd, "rb", closefd=False) as r, open(dst, "wb") as w:
++            shutil.copyfileobj(r, w)
++        return True
++    finally:
++        os.close(fd)
++
++
+ def provision(repo: Path | None, wt: Path, skill_id: str) -> dict:
+     """Verify, then copy the locked tree into the worktree. Never touches git config or any path outside `wt`."""
+     repo = repo or REPO
+@@ -83,13 +120,19 @@
+     e = entry(repo, skill_id)
+     src = repo / e["delivery"]["src"]
+     try:
++        wt = Path(os.path.realpath(wt))
+         name = skill_name(src)
++        _clear_link_components(wt, (".claude", "skills", name))
+         dest = wt / ".claude" / "skills" / name
+-        if dest.exists():
++        if dest.is_dir():
+             shutil.rmtree(dest)
+         for rel in e["delivery"].get("worktree_ignore", []):      # stale working files from an earlier attempt
+-            shutil.rmtree(wt / rel, ignore_errors=True)
+-        shutil.copytree(src, dest)
++            _clear_link_components(wt, Path(rel).parts)
++            if (wt / rel).is_dir():
++                shutil.rmtree(wt / rel, ignore_errors=True)
++        shutil.copytree(src, dest, symlinks=True)
++        if not os.path.realpath(dest).startswith(str(wt) + os.sep):
++            raise SkillDeliveryError(f"{skill_id}: destination escapes the worktree")
+         root = e["delivery"]["src"].rstrip("/") + "/"
+         for rel, digest in e["sha256"].items():
+             if _sha(dest / rel[len(root):]) != digest:
+@@ -110,24 +153,50 @@
+ def finish(wt: Path, delivery: dict, evidence_dir: Path, repo: Path | None = None) -> dict:
+     """After the worker returns (any outcome): persist the skill's working files as evidence under `evidence_dir`
+     (task state, outside the worktree), then remove the skill copy and those files from the worktree so they can
+-    never be committed. Filesystem-only evidence of what the skill's scripts left behind, not proof of quality."""
++    never be committed. Runs in the host dispatcher over a WORKER-CONTROLLED directory, so it never follows a
++    symlink, copies only regular files, skips FIFOs/devices, and caps count and size. Filesystem-only evidence of
++    what the skill's scripts left behind, not proof of quality."""
++    wt = Path(os.path.realpath(wt))
+     e = entry(repo, delivery["skill"]) or {}
+-    artifacts = []
++    artifacts, skipped = [], []
+     for rel in e.get("delivery", {}).get("worktree_ignore", []):
+         base = wt / rel
++        if os.path.islink(base):                       # planted link: drop the link only
++            os.unlink(base)
++            skipped.append({"path": rel.rstrip("/"), "reason": "symlink"})
++            continue
+         if base.is_dir():
+-            for f in sorted(base.rglob("*")):
+-                if f.is_file():
+-                    out = evidence_dir / f.relative_to(wt)
+-                    out.parent.mkdir(parents=True, exist_ok=True)
+-                    shutil.copy2(f, out)
+-                    artifacts.append({"path": str(f.relative_to(wt)), "bytes": f.stat().st_size, "sha256": _sha(out)})
+-        shutil.rmtree(base, ignore_errors=True)
+-    shutil.rmtree(wt / ".claude" / "skills" / delivery["name"], ignore_errors=True)
++            for root, dirs, files in os.walk(base, followlinks=False):
++                for d in [d for d in dirs if os.path.islink(os.path.join(root, d))]:
++                    skipped.append({"path": str((Path(root) / d).relative_to(wt)), "reason": "symlink"})
++                dirs[:] = [d for d in dirs if not os.path.islink(os.path.join(root, d))]
++                for fn in sorted(files):
++                    f = Path(root) / fn
++                    try:
++                        st = os.lstat(f)
++                    except OSError:
++                        continue
++                    relp = str(f.relative_to(wt))
++                    if not stat.S_ISREG(st.st_mode):
++                        skipped.append({"path": relp, "reason": "not a regular file"})
++                    elif st.st_size > MAX_EVIDENCE_FILE_BYTES or len(artifacts) >= MAX_EVIDENCE_FILES:
++                        skipped.append({"path": relp, "reason": "size or count cap"})
++                    else:
++                        out = evidence_dir / relp
++                        if _copy_regular(f, out):
++                            artifacts.append({"path": relp, "bytes": st.st_size, "sha256": _sha(out)})
++                        else:
++                            skipped.append({"path": relp, "reason": "not copied"})
++            shutil.rmtree(base, ignore_errors=True)
++    _clear_link_components(wt, (".claude", "skills", delivery["name"]))
++    skill_dir = wt / ".claude" / "skills" / delivery["name"]
++    if skill_dir.is_dir():
++        shutil.rmtree(skill_dir, ignore_errors=True)
+     for parent in (wt / ".claude" / "skills", wt / ".claude"):        # leave no empty scaffolding behind
+-        try:
+-            parent.rmdir()
+-        except OSError:
+-            pass
++        if not os.path.islink(parent):
++            try:
++                parent.rmdir()
++            except OSError:
++                pass
+     return {**{k: delivery[k] for k in ("skill", "name", "commit", "files", "verified")},
+-            "evidence_dir": str(evidence_dir), "artifacts": artifacts}
++            "evidence_dir": str(evidence_dir), "artifacts": artifacts, "skipped": skipped}
+--- a/evals/test_wave_c1_production.py
++++ b/evals/test_wave_c1_production.py
+@@ -270,3 +270,111 @@
+     res = dispatch(cfg, task_id="c-1", task_type="coding", repo=fixture_repo, prompt="p", verify="true",
+                    dry_run=True, worktree_root=tmp_path / "wts", capability_overrides=OVERRIDES)
+     assert "skills" not in res["capabilities"]
++
++
++# ------------------------------------------------------------ worker-controlled worktree: symlink / FIFO / size attacks
++# finish() and provision() run in the host dispatcher over a directory the worker controls. A planted link must never
++# make them read, write or delete anything outside the worktree. "Host secrets" here are sentinels in tmp_path.
++import os  # noqa: E402
++import signal  # noqa: E402
++
++
++def _outside(tmp_path):
++    out = tmp_path / "outside"
++    out.mkdir()
++    (out / "secret.txt").write_text("HOST-SECRET")
++    return out
++
++
++def _evidence_has_secret(evidence_dir):
++    return evidence_dir.exists() and any("HOST-SECRET" in p.read_text(errors="ignore")
++                                         for p in evidence_dir.rglob("*") if p.is_file())
++
++
++def test_finish_never_copies_through_a_file_symlink(tmp_path):
++    out, wt = _outside(tmp_path), _worktree(tmp_path)
++    dl = SD.provision(None, wt, "taste-skill")
++    (wt / ".taste-skill").mkdir()
++    (wt / ".taste-skill/leak.txt").symlink_to(out / "secret.txt")
++    (wt / ".taste-skill/ok.json").write_text("{}")
++    ev = SD.finish(wt, dl, tmp_path / "evidence")
++    assert [a["path"] for a in ev["artifacts"]] == [".taste-skill/ok.json"]
++    assert any(s["reason"] == "not a regular file" for s in ev["skipped"])
++    assert not _evidence_has_secret(tmp_path / "evidence") and (out / "secret.txt").read_text() == "HOST-SECRET"
++
++
++def test_finish_never_descends_into_a_directory_symlink(tmp_path):
++    out, wt = _outside(tmp_path), _worktree(tmp_path)
++    dl = SD.provision(None, wt, "taste-skill")
++    (wt / ".taste-skill").mkdir()
++    (wt / ".taste-skill/dirlink").symlink_to(out, target_is_directory=True)
++    ev = SD.finish(wt, dl, tmp_path / "evidence")
++    assert ev["artifacts"] == [] and not _evidence_has_secret(tmp_path / "evidence")
++    assert (out / "secret.txt").read_text() == "HOST-SECRET"                           # target untouched by rmtree
++
++
++def test_finish_when_the_working_dir_itself_is_a_symlink(tmp_path):
++    out, wt = _outside(tmp_path), _worktree(tmp_path)
++    dl = SD.provision(None, wt, "taste-skill")
++    (wt / ".taste-skill").symlink_to(out, target_is_directory=True)
++    ev = SD.finish(wt, dl, tmp_path / "evidence")
++    assert ev["artifacts"] == [] and ev["skipped"][0]["reason"] == "symlink"
++    assert not os.path.lexists(wt / ".taste-skill") and (out / "secret.txt").read_text() == "HOST-SECRET"
++
++
++def test_finish_does_not_hang_on_a_fifo_and_skips_it(tmp_path):
++    wt = _worktree(tmp_path)
++    dl = SD.provision(None, wt, "taste-skill")
++    (wt / ".taste-skill").mkdir()
++    os.mkfifo(wt / ".taste-skill/pipe")
++    signal.alarm(10)                                       # a hang fails the test instead of the suite
++    try:
++        ev = SD.finish(wt, dl, tmp_path / "evidence")
++    finally:
++        signal.alarm(0)
++    assert ev["artifacts"] == [] and ev["skipped"][0]["reason"] == "not a regular file"
++
++
++def test_finish_caps_file_size_and_count(tmp_path, monkeypatch):
++    monkeypatch.setattr(SD, "MAX_EVIDENCE_FILE_BYTES", 10)
++    monkeypatch.setattr(SD, "MAX_EVIDENCE_FILES", 2)
++    wt = _worktree(tmp_path)
++    dl = SD.provision(None, wt, "taste-skill")
++    (wt / ".taste-skill").mkdir()
++    (wt / ".taste-skill/big.bin").write_bytes(b"x" * 11)
++    for i in range(4):
++        (wt / f".taste-skill/f{i}.txt").write_text("a")
++    ev = SD.finish(wt, dl, tmp_path / "evidence")
++    assert len(ev["artifacts"]) == 2 and {s["reason"] for s in ev["skipped"]} == {"size or count cap"}
++
++
++def test_provision_refuses_to_write_or_delete_through_a_claude_dir_symlink(tmp_path):
++    out, wt = _outside(tmp_path), _worktree(tmp_path)
++    (wt / ".claude").symlink_to(out, target_is_directory=True)                        # left by a previous attempt
++    dl = SD.provision(None, wt, "taste-skill")
++    assert not (wt / ".claude").is_symlink() and (wt / ".claude/skills/design-taste-frontend/SKILL.md").is_file()
++    assert sorted(p.name for p in out.iterdir()) == ["secret.txt"]                    # nothing written outside
++    assert (out / "secret.txt").read_text() == "HOST-SECRET"
++    SD.finish(wt, dl, tmp_path / "evidence")
++    assert sorted(p.name for p in out.iterdir()) == ["secret.txt"]
++
++
++def test_provision_does_not_rmtree_a_symlinked_skill_dir(tmp_path):
++    out, wt = _outside(tmp_path), _worktree(tmp_path)
++    (wt / ".claude/skills").mkdir(parents=True)
++    (wt / ".claude/skills/design-taste-frontend").symlink_to(out, target_is_directory=True)
++    SD.provision(None, wt, "taste-skill")
++    assert (out / "secret.txt").read_text() == "HOST-SECRET"                          # the link was removed, not followed
++    assert (wt / ".claude/skills/design-taste-frontend/SKILL.md").is_file()
++
++
++def test_provision_refuses_a_regular_file_where_a_directory_is_required(tmp_path):
++    wt = _worktree(tmp_path)
++    (wt / ".claude").write_text("x")
++    with pytest.raises(SD.SkillDeliveryError):
++        SD.provision(None, wt, "taste-skill")
++
++
++def test_a_symlink_inside_the_vendored_tree_is_undeliverable(tmp_repo):
++    (tmp_repo / "third_party/taste-skill/skill/refs-link").symlink_to(tmp_repo / "scripts")
++    assert any("symlink in vendored tree" in e for e in SD.verify(tmp_repo, "taste-skill"))

@@ -1,0 +1,3 @@
+`src/cache.ts` now implements `TtlLruCache` per `SPEC.md`. The 21 tests in `node --test test/cache.test.ts` pass, and I added 19 of them to `test/cache.test.ts`.
+I wrote the tests first and saw them fail with "not implemented" before implementing. `package.json` has no `test` script, so that file run is the only suite I ran.
+If `onEvict` throws, the cache finishes its purge or eviction and then rethrows the first error. So in `set`, the new value is still stored when an expiry callback throws.

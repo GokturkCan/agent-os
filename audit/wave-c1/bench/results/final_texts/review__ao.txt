@@ -1,0 +1,62 @@
+# Review of HEAD: `UserSearch.tsx`
+
+**Verdict: Request changes.** There are no tests in this commit. `tools/shot.mjs` is unrelated, and it calls `_shot_impl.mjs`, which isn't in the commit. The commit message "initial" doesn't describe the change.
+
+## Critical
+
+1. **Line 46: stored XSS.** `dangerouslySetInnerHTML={{ __html: u.bioHtml }}` renders server-supplied HTML unsanitized. Any user who can set a bio can run script in every searcher's session.
+   - Fix: render `bio` as plain text. If rich text is required, sanitize with `DOMPurify.sanitize(u.bioHtml)` at the boundary, ideally server-side too.
+
+2. **Lines 12–22: the search effect has the wrong dependencies.** The deps are `[endpoint]`, not `[query, endpoint]`.
+   - The effect runs on mount, when `query` is empty, so it returns early.
+   - It never re-runs when the user types, so **search doesn't work at all**. A change to `endpoint` re-fetches with whatever `query` was captured at that render.
+   - Fix: use deps `[query, endpoint]`, with debounce and cancellation as in items 3 and 4.
+
+3. **Lines 15 and 21: no request cancellation, so responses can arrive out of order.** Once item 2 is fixed, a slow response for "ab" can overwrite the results for "abc". The component also calls setState after unmount.
+   - Fix: create an `AbortController` in the effect, pass `signal` to `fetch`, and call `abort()` in the cleanup. Ignore `AbortError` in the catch.
+
+4. **Lines 21 and 14–19: errors are swallowed and `loading` can stick.** `.catch(() => {})` hides failures, and `loading` is never reset on error. The spinner shows forever after a network failure. The code also never checks `r.ok`, so a 500 JSON body gets cast to `User[]`, and `users.sort` then throws during render.
+   - Fix: check `if (!r.ok) throw`, add an `error` state, and use `.finally(() => !signal.aborted && setLoading(false))`.
+
+5. **Line 15: the query is not URL-encoded.** `?q=${query}` lets `&`, `#` and `%` in the input corrupt or inject query parameters.
+   - Fix: `` `${endpoint}?q=${encodeURIComponent(query)}` ``.
+
+## High
+
+6. **Lines 29–33: state is mutated in place.** `picked.push(u); setPicked(picked)` passes the same reference, so React bails out of the re-render. "N picked" doesn't update until some unrelated render happens.
+   - Fix: `setPicked(prev => [...prev, u])`. Also decide whether picking the same user twice should be deduplicated by `id`.
+
+7. **Line 35: `users.sort` mutates state during render.** It sorts the state array in place, which is a side effect in render and can show up as bugs under StrictMode or the React Compiler.
+   - Fix: `const sorted = useMemo(() => [...users].sort(...), [users])`. Better still, sort once when setting the data.
+
+8. **Lines 24–27: the "searches" counter is wrong and is a fake debounce.**
+   - `setTimeout` is never cleared, so there's a leak and a setState after unmount.
+   - `searches + 1` uses a stale closure. Fast typing within 500ms yields `n+1`, not `n+k`.
+   - The counter counts keystrokes, not searches, and no debounce is actually applied to the fetch.
+   - Fix: delete the counter, or derive it from completed fetches. For real debouncing, use a `useDebouncedValue(query, 300)` hook and drive the effect from the debounced value.
+
+## Medium
+
+9. **Line 44: `key={i}` uses the array index.** The list is re-sorted and replaced, so React reuses the wrong DOM nodes. Use `key={u.id}`.
+
+10. **Line 44: the `<li onClick>` is not keyboard- or screen-reader-accessible.** Use a `<button>` inside the `li`. The input also needs a label or `aria-label`, not just a placeholder.
+
+11. **Lines 13–14: clearing the query leaves stale results.** `if (!query) return` keeps the old `users` on screen. Reset to `[]` and set `loading` to false.
+
+12. **Lines 18 and 3: `data as User[]` is an unchecked cast of untrusted JSON.** The cast hides the type boundary. If `data` is not an array, `.sort` throws. Validate the shape (for example with zod) or at least check `Array.isArray`.
+
+## Low / Nits
+
+13. **Line 9:** `picked` state duplicates what the parent already receives via `onPick`. Consider whether the component should own it at all.
+14. **Line 1:** `React` is imported only for the `React.ChangeEvent` type. Use `import type { ChangeEvent } from 'react'`.
+15. **Line 5:** the inline props type should be a named `UserSearchProps`, and `User` should be exported since it appears in the public `onPick` signature.
+16. **`tools/shot.mjs`:** this is unrelated to the component, and it references a missing `_shot_impl.mjs`. Remove it from this change or include the implementation.
+
+## Tests required before merge
+
+The component needs tests for at least these cases:
+- typing triggers a fetch;
+- out-of-order responses;
+- fetch failure resets `loading`;
+- picking updates the count;
+- HTML in `bioHtml` is not executed.

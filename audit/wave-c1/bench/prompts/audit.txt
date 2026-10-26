@@ -1,0 +1,1 @@
+Audit `legacy/index.html` (a pricing page) for accessibility, responsiveness and web-interface quality problems. List concrete defects ordered by severity, each with the element/selector and the fix. Do not edit any file. Output only the audit.

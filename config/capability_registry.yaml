@@ -72,6 +72,8 @@ capabilities:
   ui.component_registry:       "UI component registry lookup"
   ui.quality_filter:           "Filter generic/low-quality UI output"
   ui.style_reference:          "Visual style references"
+  ui.art_direction:            "UI art direction: anti-template design brief and direction before building"
+  ui.visual_qa:                "Deterministic real-browser layout/visual inspection with screenshots"
   engineering.workflow:        "Engineering process SOPs (TDD, debugging, planning)"
   engineering.spec:            "Spec-driven development"
   engineering.guidelines:      "LLM coding behaviour guidelines"
@@ -104,6 +106,7 @@ providers:
       playwright: supported   # harness supports it; per-task exposure still needs the mcp_playwright grant
       github-mcp: supported   # harness supports it (interactive). NOT deliverable to dispatched workers: mcp.yaml has no launch for it, so capability_policy.plan_for fails closed (human handoff); registry facts stay unchanged
       superpowers: supported
+      taste-skill: supported   # project skills under <worktree>/.claude/skills verified in the Wave C1 isolated probe (claude -p); Agent OS dispatch acceptance still required
       kepano-obsidian-skills: supported
       orchestra-research: supported   # ambient in ~/.claude/skills today; Agent OS side uses skills/orchestra-index
       rea: unknown
@@ -129,6 +132,7 @@ providers:
       context7: unsupported
       playwright: unsupported
       github-mcp: unsupported
+      taste-skill: unknown    # project-skill loading under `codex exec` not verified (NOT TESTED); never selected until verified
       rea: unknown
       omni-macos: unknown
     probe:
@@ -253,7 +257,7 @@ providers:
     kind: mcp
     adoption: adopted
     config_ref: mcp.playwright
-    capabilities: [web.interact, web.browser_test, web.browse]
+    capabilities: [web.interact, web.browser_test, web.browse, ui.visual_qa]
     locality: local
     cost: free
     latency: local_slow
@@ -440,6 +444,45 @@ providers:
     notes: "Deferred 2026-10-24: no Run 4 capability depends on diagrams. Not installed."
 
   # ---- UI ---------------------------------------------------------------------------------
+  - id: taste-skill
+    kind: skill
+    adoption: benchmark          # inert: never selected until the separate activation diff flips it to adopted
+    config_ref: skills.taste_skill
+    capabilities: [ui.art_direction]
+    locality: local
+    cost: free
+    latency: local_slow
+    risk: medium                 # runs headless Chrome via the worker's Bash; writes .taste-skill/ in the worktree
+    hosts: [any]
+    requires: [devops.shell]
+    probe:
+      - {type: path, paths: ["~/agent-stack/third_party/taste-skill/skill/SKILL.md"]}
+    notes: "Primary UI art-direction specialist (owner decision 2026-10-25). Vendored dormant at v2.1.5 12af471; delivered per task into the worker's own worktree (agentos/skill_delivery.py) after lock verification; never copied to skills/, ~/.claude, ~/.codex or Hermes. assets.mjs excluded."
+
+  - id: frontend-design
+    kind: skill
+    adoption: future             # optional alternative design specialist; not vendored, not selectable
+    capabilities: [ui.art_direction]
+    locality: local
+    cost: free
+    latency: local_fast
+    risk: low
+    hosts: [any]
+    probe:
+    notes: "anthropics/skills frontend-design (Apache-2.0, 9.4 KB, no scripts). Not staged."
+
+  - id: ui-ux-pro-max
+    kind: skill
+    adoption: future             # optional alternative design specialist; not vendored, not selectable
+    capabilities: [ui.art_direction]
+    locality: local
+    cost: free
+    latency: local_fast
+    risk: medium
+    hosts: [any]
+    probe:
+    notes: "nextlevelbuilder/ui-ux-pro-max-skill (MIT; python scripts + CLI installer). Not staged."
+
   - id: design-md
     kind: skill
     adoption: future
@@ -593,6 +636,8 @@ policy:
     web.docs_lookup: [context7]
     devops.github: [github-mcp, gh-cli]
     docs.convert: [markitdown]
+    ui.art_direction: [taste-skill, frontend-design, ui-ux-pro-max]
+    ui.visual_qa: [playwright]
   capability_reasons:
     code.references: semantic-navigation-required
     code.semantic_navigation: semantic-navigation-required
@@ -612,6 +657,7 @@ policy:
     github: [devops.github]
     docs_lookup: [web.docs_lookup]
     browser_test: [web.browser_test]
+    ui_design: [ui.art_direction, ui.visual_qa, code.edit, code.test]
     reverse_engineering: [reverse_engineering.static_analysis]
   # Columns of `agentos capabilities matrix` (capability ids or provider ids).
   parity_columns: [devops.shell, devops.git, serena, context7, github-mcp, playwright, rea, skills.load]
