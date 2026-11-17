@@ -7,7 +7,7 @@
   hermes-wire.py rollback                     restore the most recent backup made by `apply`
 
 Change (under the existing top-level `skills:` block of ~/.hermes/config.yaml):
-  skills.external_dirs: [~/agent-stack/skills]           required: Hermes loads agent-os-* skills
+  skills.external_dirs: [<this-repo>/skills]             required: Hermes loads agent-os-* skills
   skills.disabled: [claude-code, codex, opencode]         recommended: no direct worker launches
 
 Done as a text insertion (not `hermes config set`, which rewrites the file
@@ -25,9 +25,20 @@ from pathlib import Path
 
 import yaml
 
+_REPO = Path(__file__).resolve().parent.parent
+
+
+def _canonical_external_skills_dir() -> str:
+    root = (_REPO / "skills").resolve()
+    try:
+        return f"~/{root.relative_to(Path.home().resolve()).as_posix()}"
+    except ValueError:
+        return str(root)
+
+
 CONFIG = Path.home() / ".hermes" / "config.yaml"
 BACKUP_GLOB = "config.yaml.backup-before-agentos-*"
-EXTERNAL = "~/agent-stack/skills"
+EXTERNAL = _canonical_external_skills_dir()
 DISABLE = ["claude-code", "codex", "opencode"]
 
 

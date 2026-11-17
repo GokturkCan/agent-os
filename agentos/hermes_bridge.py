@@ -24,6 +24,16 @@ AGENT_OS_SKILLS = ("agent-os-orchestrate", "agent-os-task")
 DIRECT_WORKER_SKILLS = ("claude-code", "codex", "opencode")   # Hermes bundled skills that launch workers directly
 SKILLS_DIR = REPO_ROOT / "skills"
 
+
+def canonical_external_skills_dir() -> str:
+    """Value for Hermes `skills.external_dirs` pointing at this checkout's skills/."""
+    root = SKILLS_DIR.resolve()
+    try:
+        return f"~/{root.relative_to(Path.home().resolve()).as_posix()}"
+    except ValueError:
+        return str(root)
+
+
 # Canonical Agent OS -> Hermes entrypoint. It runs the deterministic intent gate
 # (config/routing.yaml intent_rules) before Hermes starts. Bare `hermes chat`
 # stays technically possible but is NON-CANONICAL: preload is not guaranteed.
@@ -82,7 +92,7 @@ def _expand(entry: str) -> Path:
 
 
 def is_wired(cfg: dict | None = None) -> bool:
-    """True when the live Hermes config loads ~/agent-stack/skills."""
+    """True when Hermes loads this repo's skills/ via skills.external_dirs."""
     skills = (cfg if cfg is not None else live_config()).get("skills") or {}
     return any(_expand(str(e)) == SKILLS_DIR.resolve() for e in (skills.get("external_dirs") or []))
 

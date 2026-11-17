@@ -56,7 +56,7 @@
     "evals/test_compute_contract.py": "747a0fefce6e981734ea8e65421bf034c0cae9a9597c2cd0c1a6fdc210d3ef78",
     "evals/test_efficiency_patterns.py": "9491451bb33b4a501c19f2c702d9720df4395f72654fea900d139287616a2c03",
     "evals/test_events.py": "9168c268e926fd397129982fffd5755326366322ea021cd221c2732eaba51db4",
-    "evals/test_hermes_integration.py": "8091a47d9982e5d6feae55bc76d6c8a35e156dadb4f59e13a8140db14de5641e",
+    "evals/test_hermes_integration.py": "04d81a771e7bc9bf8aaca992071f04edac50beffe4e2ad026cd5bd14f5c99a9d",
     "evals/test_intent_routing.py": "88bf3c2a5d1ea9035f14bdd7b5560e0ee001c480e281448e6ccd8fe77d8d2e20",
     "evals/test_laya_smoke.py": "347c60d6a49bc97c8ad62c36ed8cc27a9d47a42b8caceaaa29b44aeb7e7d2273",
     "evals/test_openjev_opt.py": "62fb94f7d86d0ea96916d2596c05f56bafd3230b231a2e5aaa24e871b8add570",
