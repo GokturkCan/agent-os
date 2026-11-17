@@ -110,7 +110,9 @@ def main(argv=None) -> int:
     ls.add_argument("--text", required=True)
     ls.add_argument("--evidence", action="append", default=[])
     from . import knowledge_cli
+    from . import workflow_cli
     knowledge_cli.add_parser(sub)
+    workflow_cli.add_parser(sub)
     capability_cli.add_parser(sub)
     systemone_bench.add_parser(sub)
     systemone_eval.add_parser(sub)
@@ -127,6 +129,8 @@ def main(argv=None) -> int:
     cfg = C.load()
     if a.cmd == "knowledge":
         return knowledge_cli.run(cfg, a)
+    if a.cmd == "workflow":
+        return workflow_cli.run(cfg, a)
     if a.cmd == "validate":
         errs = C.validate(cfg)
         print("\n".join(errs) or "config valid")

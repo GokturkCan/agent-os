@@ -12,6 +12,7 @@ from .config import Config
 from .knowledge_lifecycle import Lifecycle
 from .project_continuity import continuation_package, project_status
 from .recall import recall
+from .taskstate import TaskStore
 
 PROPOSAL_ID = re.compile(r"^kp-[a-f0-9]{24}$")
 
@@ -93,6 +94,34 @@ def capture_remember(
         "verified_on_disk": True,
         "verify_command": f"agentos knowledge show {pid}",
     }
+
+
+def learn_from_task(
+    life: Lifecycle,
+    *,
+    task_id: str,
+    project_query: str,
+    session: str | None = None,
+    extra: str | None = None,
+) -> dict[str, Any]:
+    """Turn verified task evidence into a lesson proposal (operational capture only)."""
+    st = TaskStore(life.cfg).get(task_id).state
+    tests = st.get("tests") or []
+    last = tests[-1] if tests else {}
+    parts = [
+        f"Task {task_id} exit={st.get('exit_state') or 'open'}.",
+        f"Last verification: {last.get('summary', 'n/a')}.",
+    ]
+    if extra:
+        parts.append(extra.strip())
+    text = " ".join(parts)
+    return capture_remember(
+        life,
+        project_query=project_query,
+        text=text,
+        kind="lesson",
+        session=session or f"learn:{task_id}",
+    )
 
 
 def where_stopped(

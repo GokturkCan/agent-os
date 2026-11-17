@@ -1,0 +1,28 @@
+findings:
+  research-a: method A prefers low latency
+  research-b: method B prefers accuracy
+nodes:
+  - id: research-a
+    role: research
+    depends_on: []
+  - id: research-b
+    role: research
+    depends_on: []
+  - id: join
+    role: join
+    depends_on: [research-a, research-b]
+  - id: implement
+    role: coding
+    depends_on: [join]
+    dispatch:
+      task_id: wf-demo
+      repo: <fixture-repo>
+      verify: python -m pytest -q
+      prompt: implement verified outcome
+  - id: lesson
+    role: lesson
+    depends_on: [implement]
+    lesson:
+      project: orbit
+      from_task: wf-demo
+      kind: lesson
