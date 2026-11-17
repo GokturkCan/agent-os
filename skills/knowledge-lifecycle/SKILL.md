@@ -17,7 +17,38 @@ prerequisites:
 
 Hermes decides the objective and scope. Agent OS owns execution, leases, durable operational state and policy. SecondBrain remains canonical knowledge. Load only the commands needed for the user's request.
 
-All backing commands: use the active Agent OS checkout (integration: `~/agent-stack-integration/bin/agentos knowledge ...`).
+Use `~/agent-stack-integration/bin/agentos knowledge …` (active integration checkout).
+
+## HARD CONTRACT (Hermes)
+
+### Remember / save project knowledge
+When the user asks to remember, save, or record something for a project (e.g. “Remember this for Agent OS”):
+
+1. Resolve the project with `knowledge projects "<name or id>"` if the target is unclear.
+2. Run **exactly one** authoritative command (build `--text` from the user’s request; never paste chat transcripts):
+
+```bash
+~/agent-stack-integration/bin/agentos knowledge remember --project "<project id or name>" --text "<concise durable summary>"
+```
+
+3. **Success is allowed only** when stdout JSON has `"status": "captured"`, `"verified_on_disk": true`, and a `proposal_id` matching `kp-[a-f0-9]{24}`.
+4. Immediately run `knowledge show <proposal_id>` and confirm `state` is `DRAFT`.
+5. **Never** claim a proposal exists because of a narrative, invented path under `state/…/drafts/`, or inbox filename. If the command was not run or verification fails, say capture **did not** happen.
+
+### Where did we stop / continuity
+For “where did we stop”, resume status, or unfinished work on a project:
+
+1. Do **not** answer by grepping `SecondBrain`, task folders, or vault paths on your own.
+2. Run:
+
+```bash
+~/agent-stack-integration/bin/agentos knowledge where-stopped --project "<project id or name>" --repo <registered git repo if not default>
+```
+
+3. Answer only from `project_status`, `continuation`, and optional `recall.results` in that JSON. Cite `recall` paths only after `read_file` on the returned `absolute_path`.
+4. If `status` is not `ok`, report ambiguity or missing project — do not invent history.
+
+Low-level `capture --input`, `status`, and `continue` remain available; prefer `remember` and `where-stopped` for natural language.
 
 ## When to Use
 

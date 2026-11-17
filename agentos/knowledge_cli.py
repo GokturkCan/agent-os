@@ -56,6 +56,24 @@ def add_parser(sub):
     cont.add_argument("--budget", type=int, default=12000)
     cont.add_argument("--worker", choices=["claude_code", "codex"], default="claude_code")
     cont.add_argument("--profile", default="coder")
+    remember = actions.add_parser(
+        "remember",
+        help="Hermes contract: NL remember → verified DRAFT proposal (no vault write)",
+    )
+    remember.add_argument("--project", required=True, help="project id, name, or alias")
+    remember.add_argument("--text", required=True, help="concise durable summary to capture")
+    remember.add_argument("--kind", choices=[
+        "idea", "hypothesis", "research_question", "decision", "experiment", "lesson",
+        "rejected_alternative", "blocker", "follow_up",
+    ])
+    remember.add_argument("--session", help="Hermes session id for provenance (optional)")
+    where = actions.add_parser(
+        "where-stopped",
+        help="Hermes contract: authoritative continuity JSON (status + continuation + recall)",
+    )
+    where.add_argument("--project", required=True)
+    where.add_argument("--repo", help="defaults to first registered project repository")
+    where.add_argument("--objective", help="continuation objective (optional)")
 
 
 def _input(path):
@@ -97,6 +115,25 @@ def run(cfg, args):
             from .project_continuity import continuation_package
             result = continuation_package(cfg, life, args.project, args.repo, args.objective,
                                           budget=args.budget, worker=args.worker, profile=args.profile)
+        elif action == "remember":
+            from .hermes_knowledge import capture_remember
+            result = capture_remember(
+                life,
+                project_query=args.project,
+                text=args.text,
+                kind=args.kind,
+                session=args.session,
+            )
+            if result.get("status") != "captured":
+                print(json.dumps(result, indent=2, ensure_ascii=False), file=sys.stderr)
+                return 2
+        elif action == "where-stopped":
+            from .hermes_knowledge import where_stopped
+            result = where_stopped(cfg, life, project_query=args.project, repo=args.repo,
+                                   objective=args.objective)
+            if result.get("status") != "ok":
+                print(json.dumps(result, indent=2, ensure_ascii=False), file=sys.stderr)
+                return 2
         elif action == "changes":
             def instant(value):
                 stamp=datetime.fromisoformat(value.replace("Z", "+00:00"))

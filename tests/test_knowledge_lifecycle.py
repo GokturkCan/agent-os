@@ -49,7 +49,16 @@ def note(root, path, project, body, **extra):
 
 
 @pytest.fixture
-def world(tmp_path, monkeypatch):
+def knowledge_world(tmp_path, monkeypatch):
+    return _world_impl(tmp_path, monkeypatch)
+
+
+@pytest.fixture
+def world(knowledge_world):
+    return knowledge_world
+
+
+def _world_impl(tmp_path, monkeypatch):
     from agentos.knowledge_lifecycle import Lifecycle
     cfg = load()
     root = tmp_path / "vault"

@@ -63,7 +63,16 @@ def vault_empty(tmp_path, monkeypatch):
 
 
 @pytest.fixture
-def world(tmp_path, monkeypatch):
+def project_world(tmp_path, monkeypatch):
+    return _project_world_impl(tmp_path, monkeypatch)
+
+
+@pytest.fixture
+def world(project_world):
+    return project_world
+
+
+def _project_world_impl(tmp_path, monkeypatch):
     cfg = load()
     root = tmp_path / "vault"
     cli = engine_cli(cfg)
