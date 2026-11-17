@@ -36,7 +36,7 @@ echo "== Dispatch dry-run (development path) =="
 cat <<'NOTE'
 
 Live Hermes (after hermes-wire apply --i-approve):
-  bin/hermes-agentos "What do we know about Agent OS?" 
+  bin/hermes-agentos "What do we know about Agent OS?"
   bin/hermes-agentos "Remember for Agent OS: weekly scheduling review is our cadence."
   bin/hermes-agentos "Where did we stop on Agent OS?"
 

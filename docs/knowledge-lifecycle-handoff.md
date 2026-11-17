@@ -3,7 +3,7 @@
 Continuation from Codex after usage limit. Repository: `~/agent-stack` only. No commits,
 pushes, or canonical SecondBrain mutations were performed in this session.
 
-**Date:** 2026-11-13  
+**Date:** 2026-11-13
 **Agent:** Cursor (local)
 
 ---
@@ -16,8 +16,8 @@ pushes, or canonical SecondBrain mutations were performed in this session.
 | **Agent OS** | Execution, routing, policy, leases, task state (`agentos knowledge …`, gate, dispatch). |
 | **SecondBrain** | Canonical knowledge via claude-obsidian (`Vault` capture → propose → approve → apply). |
 
-Operational lifecycle state lives under  
-`${AGENTOS_STATE_DIR:-~/agent-stack/state}/knowledge/lifecycle/`  
+Operational lifecycle state lives under
+`${AGENTOS_STATE_DIR:-~/agent-stack/state}/knowledge/lifecycle/`
 (proposals, handoffs, contexts, outcomes, **navigation preview**). It is not canonical memory.
 
 `AGENTS.md` is **not present** in this checkout; policy is in `CLAUDE.md`, `skills/knowledge-lifecycle/SKILL.md`, and `docs/knowledge-lifecycle.md`.
@@ -57,7 +57,7 @@ No second canonical-write path was found. Controls and regression tests:
 | Worker authenticity | Dispatch outcome + TaskStore attestation or artifact hash | `test_unknown_worker_success_*` |
 | Canonical writes | No lifecycle approve; workers cannot apply | CLI omits approve; gate tests |
 
-**Session fix:** Concurrent capture could race on first `_directory_fd` mkdir and `.lock` open (`test_capture_idempotent_concurrent_and_restart_recovery` flaky).  
+**Session fix:** Concurrent capture could race on first `_directory_fd` mkdir and `.lock` open (`test_capture_idempotent_concurrent_and_restart_recovery` flaky).
 `locked()` and `_directory_fd` now retry safe creation/open and hold the directory fd for the full lock scope. **60/60** lifecycle tests pass after fix.
 
 **Residual risk (accepted):** Operational state under `~/agent-stack/state` is trusted to the same user as Agent OS. The threat model is malicious symlink/TOCTOU under that tree and vault concurrent edits — not remote attackers without local access.
@@ -187,11 +187,11 @@ Real vault has **no** `wiki/projects/*.md` entries. Do not invent facts or auto-
    }
    ```
 
-3. **Run** `capture` → `ready` → `export`. Open  
+3. **Run** `capture` → `ready` → `export`. Open
    `state/knowledge/lifecycle/handoffs/kp-…/review.md` and confirm diff + hashes.
 4. **Authorize** through the existing reviewer workflow (`docs/knowledge-lifecycle.md`): inbox capture, `Vault.propose/approve/apply` — **not** Hermes self-approval.
 5. **Reconcile** `agentos knowledge reconcile kp-…` after engine apply.
-6. **Verify** `knowledge projects "<alias>"` → `status: matched`; then  
+6. **Verify** `knowledge projects "<alias>"` → `status: matched`; then
    `knowledge context --project <id> --objective "…"`.
 
 ---
@@ -201,7 +201,7 @@ Real vault has **no** `wiki/projects/*.md` entries. Do not invent facts or auto-
 In a Hermes session (canonical entrypoint unchanged):
 
 1. Confirm skill: `knowledge-lifecycle` appears in external skills (already verified in evals).
-2. Ask Hermes to run:  
+2. Ask Hermes to run:
    `~/agent-stack/bin/agentos recall "<topic you know exists in SecondBrain>" --top 5`
 3. Expect JSON with `status: ok` or `no_results`; Hermes must read cited `absolute_path` before claiming facts.
 
