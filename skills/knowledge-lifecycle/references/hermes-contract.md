@@ -40,3 +40,14 @@ On node failure, repair only the failed node (completed siblings are not reset):
 ```
 
 Success is `"status": "done"` in workflow JSON with per-node `done` and checkpoint `checkpoint_seq` increasing.
+
+## workflow request (natural language)
+
+```bash
+~/agent-stack-integration/bin/agentos workflow request \
+  --text "Run two independent research tasks, combine, implement, verify, remember." \
+  --project "Agent OS" \
+  --repo /absolute/path/to/fixture-or-project-repo
+```
+
+Valid success JSON includes `"schema": "agentos.hermes-workflow-execute.v1"`, `evidence.workflow_state`, and `checkpoint.checkpoint_seq`.
