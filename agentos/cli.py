@@ -4,6 +4,7 @@
   agentos validate                       validate config/*.yaml
   agentos route <type> [--risk R] [--provider-down P ...] [--msi up|down]
   agentos tool <need>                    which tool serves an info need
+  agentos recall <query> [--top N]       read-only SecondBrain search with provenance (see skills/secondbrain-recall)
   agentos task new|resume|claim|iterate|test|files|fail|checkpoint|handoff|close|list <id> ...
                                          file-backed task state (see skills/agent-os-task)
   agentos launch <worker> <worktree> <prompt> [--profile P]   (prints argv; never runs)
@@ -47,6 +48,9 @@ def main(argv=None) -> int:
     r.add_argument("--provider-down", action="append", default=[])
     r.add_argument("--msi", choices=["up", "down"], default=None)
     r.add_argument("--record", action="store_true", help="append decision to telemetry")
+    rc = sub.add_parser("recall", help="read-only SecondBrain search (BM25 over wiki/, provenance included)")
+    rc.add_argument("query")
+    rc.add_argument("--top", type=int, default=5)
     t = sub.add_parser("tool")
     t.add_argument("need")
     tk = sub.add_parser("task")
@@ -105,6 +109,8 @@ def main(argv=None) -> int:
     ls.add_argument("--title", required=True)
     ls.add_argument("--text", required=True)
     ls.add_argument("--evidence", action="append", default=[])
+    from . import knowledge_cli
+    knowledge_cli.add_parser(sub)
     capability_cli.add_parser(sub)
     systemone_bench.add_parser(sub)
     systemone_eval.add_parser(sub)
@@ -119,6 +125,8 @@ def main(argv=None) -> int:
     if a.cmd == "health":
         return health.summarize(health.run_checks())
     cfg = C.load()
+    if a.cmd == "knowledge":
+        return knowledge_cli.run(cfg, a)
     if a.cmd == "validate":
         errs = C.validate(cfg)
         print("\n".join(errs) or "config valid")
@@ -135,6 +143,11 @@ def main(argv=None) -> int:
                              **d.systemone_fields())
         print(json.dumps(d.to_dict(), indent=2))
         return 0 if d.exit_state is None else 2
+    if a.cmd == "recall":
+        from .recall import recall
+        res = recall(cfg, a.query, top=a.top)
+        print(json.dumps(res, indent=2))
+        return 0 if res["status"] != "unavailable" else 2
     if a.cmd == "tool":
         print(json.dumps(router.route_tool(cfg, a.need), indent=2))
         return 0

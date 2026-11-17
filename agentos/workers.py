@@ -52,6 +52,19 @@ def git_push_guard_env(environ=None) -> dict:
 GITHUB_CREDENTIAL_VARS = ("GH_TOKEN", "GITHUB_TOKEN", "GH_ENTERPRISE_TOKEN", "GITHUB_ENTERPRISE_TOKEN",
                           "GITHUB_PERSONAL_ACCESS_TOKEN")
 
+# Git honors GIT_CONFIG_KEY_/VALUE_ pairs indexed from zero up to GIT_CONFIG_COUNT-1.
+# A host shell (IDE, sandbox, CI) may already set these; workers must not inherit them.
+_WORKER_STRIP_PREFIXES = ("GIT_CONFIG_",)
+
+
+def sanitized_host_environ(environ: dict | None = None) -> dict:
+    """Host env with worker-inherited git/github identity keys removed."""
+    environ = dict(os.environ if environ is None else environ)
+    for key in list(environ):
+        if key.startswith(_WORKER_STRIP_PREFIXES) or key in GITHUB_CREDENTIAL_VARS:
+            environ.pop(key, None)
+    return environ
+
 
 def gh_isolation_env(environ=None) -> dict:
     environ = os.environ if environ is None else environ
@@ -86,7 +99,7 @@ def build_launch(cfg: Config, session: WorkerSession, prompt: str, worktree: Pat
                                "refusing to launch (fail closed)")
     worktree = str(Path(worktree).resolve())
     out = {"worker": session.worker, "profile": session.profile, "cwd": worktree, "files": {},
-           "env": {**git_push_guard_env(), **gh_isolation_env()}}
+           "env": {**git_push_guard_env({}), **gh_isolation_env()}}
 
     if session.worker == "claude_code":
         tmap = spec["tool_map"]
@@ -171,7 +184,7 @@ def run(launch: dict, task_id: str | None = None, task_type: str = "coding",
     try:
         with telemetry.Timer() as t:
             r = run_bounded(launch["argv"], cwd=launch["cwd"], timeout=timeout,
-                            env={**os.environ, **launch.get("env", {})})
+                            env={**sanitized_host_environ(), **launch.get("env", {})})
     finally:
         for f in launch.get("files", {}).values():
             Path(f).unlink(missing_ok=True)

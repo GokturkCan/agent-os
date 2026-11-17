@@ -115,6 +115,16 @@ def test_claude_workers_are_denied_gh(cfg, tmp_path, profile):
     assert not any(a.startswith("Bash(gh") for a in allowed)
 
 
+def test_worker_launch_env_ignores_ambient_git_config(cfg, tmp_path, monkeypatch):
+    monkeypatch.setenv("GIT_CONFIG_COUNT", "2")
+    monkeypatch.setenv("GIT_CONFIG_KEY_0", "bogus.section")
+    monkeypatch.setenv("GIT_CONFIG_VALUE_0", "/tmp/not-hooks")
+    env = build_launch(cfg, WorkerSession.start(cfg, "claude_code", "coder"), "p", tmp_path)["env"]
+    assert env["GIT_CONFIG_COUNT"] == "1"
+    assert env["GIT_CONFIG_KEY_0"] == "core.hooksPath"
+    assert env["GIT_CONFIG_VALUE_0"].endswith("githooks")
+
+
 @pytest.mark.parametrize("worker", ["claude_code", "codex"])
 def test_worker_launch_env_has_no_github_identity(cfg, tmp_path, worker):
     env = build_launch(cfg, WorkerSession.start(cfg, worker, "coder"), "p", tmp_path)["env"]
