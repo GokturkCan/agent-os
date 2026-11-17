@@ -20,7 +20,7 @@ echo "== Continuity (real repo; no vault writes) =="
 "$AGENTOS_BIN" knowledge status --project prj-9c588b6b1fd1ce3f1b1d --repo "${AGENTOS_REPO:-$HOME/agent-stack}" | head -40
 
 echo "== Hermes bridge =="
-python3 -c "
+PYTHONPATH="$ROOT" "${PYTHON:-python3}" -c "
 from agentos import hermes_bridge as hb
 print('skills_dir', hb.SKILLS_DIR)
 print('canonical_external', hb.canonical_external_skills_dir())

@@ -17,7 +17,7 @@ prerequisites:
 
 Hermes decides the objective and scope. Agent OS owns execution, leases, durable operational state and policy. SecondBrain remains canonical knowledge. Load only the commands needed for the user's request.
 
-All backing commands: `~/agent-stack/bin/agentos knowledge ...`.
+All backing commands: use the active Agent OS checkout (integration: `~/agent-stack-integration/bin/agentos knowledge ...`).
 
 ## When to Use
 

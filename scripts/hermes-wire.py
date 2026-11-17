@@ -4,6 +4,8 @@
   hermes-wire.py plan                         show the exact diff (no writes)
   hermes-wire.py apply --i-approve [--no-disable]
                                               back up, insert keys, verify, auto-restore on failure
+  hermes-wire.py status                       show live vs this-repo skills path (read-only)
+  hermes-wire.py retarget --i-approve         swap external_dirs to this repo when already wired
   hermes-wire.py rollback                     restore the most recent backup made by `apply`
 
 Change (under the existing top-level `skills:` block of ~/.hermes/config.yaml):
@@ -83,13 +85,66 @@ def diff(a: str, b: str) -> str:
                                         str(CONFIG), str(CONFIG) + " (proposed)"))
 
 
+def _skills_block(cfg: dict) -> dict:
+    skills = cfg.get("skills")
+    if not isinstance(skills, dict):
+        raise SystemExit("expected an existing top-level `skills:` mapping; edit manually")
+    return skills
+
+
+def _retarget_text(original: str) -> str:
+    want = EXTERNAL
+    skills = _skills_block(yaml.safe_load(original) or {})
+    dirs = list(skills.get("external_dirs") or [])
+    if want in dirs:
+        raise SystemExit(f"external_dirs already includes {want}")
+    if not dirs:
+        raise SystemExit("external_dirs empty; use apply instead of retarget")
+    replaced = [want if str(d).rstrip("/").endswith("/agent-stack/skills") else d for d in dirs]
+    if replaced == dirs:
+        raise SystemExit("no ~/agent-stack/skills entry to retarget; edit external_dirs manually")
+    return original.replace(f"- {dirs[0]}", f"- {want}", 1)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("action", choices=["plan", "apply", "rollback"])
+    ap.add_argument("action", choices=["plan", "apply", "rollback", "status", "retarget"])
     ap.add_argument("--i-approve", action="store_true")
     ap.add_argument("--no-disable", action="store_true", help="only add external_dirs")
     a = ap.parse_args()
     disable = not a.no_disable
+    original = CONFIG.read_text() if CONFIG.is_file() else ""
+
+    if a.action == "status":
+        if not original:
+            print(f"no config at {CONFIG}", file=sys.stderr)
+            return 1
+        live = yaml.safe_load(original)
+        skills = (live or {}).get("skills") or {}
+        print(f"config: {CONFIG}")
+        print(f"live external_dirs: {skills.get('external_dirs')}")
+        print(f"this repo expects:  [{EXTERNAL}]")
+        print(f"disabled: {skills.get('disabled')}")
+        return 0
+
+    if a.action == "retarget":
+        if not original:
+            print(f"no config at {CONFIG}", file=sys.stderr)
+            return 1
+        try:
+            new = _retarget_text(original)
+        except SystemExit as exc:
+            print(exc, file=sys.stderr)
+            return 1
+        if not a.i_approve:
+            print(diff(original, new) or "no change")
+            print("retarget requires --i-approve to write", file=sys.stderr)
+            return 2
+        backup = CONFIG.with_name(f"config.yaml.backup-before-agentos-retarget-{time.strftime('%Y%m%d-%H%M%S')}")
+        shutil.copy2(CONFIG, backup)
+        CONFIG.write_text(new)
+        print(f"retargeted external_dirs -> {EXTERNAL}; backup {backup}")
+        return 0
 
     if a.action == "rollback":
         backups = sorted(CONFIG.parent.glob(BACKUP_GLOB))
@@ -100,7 +155,9 @@ def main() -> int:
         print(f"restored {backups[-1]} -> {CONFIG}")
         return 0
 
-    original = CONFIG.read_text()
+    if not original:
+        print(f"no config at {CONFIG}", file=sys.stderr)
+        return 1
     new = render(original, disable)
     verify(original, new, disable)
     if a.action == "plan":

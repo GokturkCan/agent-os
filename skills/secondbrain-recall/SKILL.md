@@ -22,7 +22,7 @@ about ...", or any saved information. Do not rely on chat memory or guess.
 ## Procedure
 
 1. Run (any cwd; no vault path needed):
-   `~/agent-stack/bin/agentos recall "<the user's question, natural language>" --top 5`
+   `~/agent-stack-integration/bin/agentos recall "<the user's question, natural language>" --top 5` (or the equivalent `bin/agentos` on your active checkout)
 2. Read the JSON. `status` is `ok`, `no_results`, or `unavailable`.
 3. For each relevant hit, read the page itself with your file tool at `absolute_path`
    before relying on it; a snippet is only a pointer.
