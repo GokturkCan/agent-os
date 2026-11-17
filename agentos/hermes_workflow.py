@@ -29,6 +29,13 @@ def _slug_id(text: str, project_id: str) -> str:
 
 def _dual_research(text: str) -> bool:
     t = text.casefold()
+    if re.search(
+        r"\btwo\s+(independent\s+)?(approaches?|methods?|options?|strategies?|paths?|ways?|analyses?|tasks?|research)",
+        t,
+    ):
+        return True
+    if re.search(r"\bresearch\s+two\b", t):
+        return True
     return any(
         p in t
         for p in (
@@ -39,24 +46,69 @@ def _dual_research(text: str) -> bool:
             "run two",
             "compare two",
             "two analysis",
+            "compare them",
+            "compare both",
         )
     )
 
 
-def _default_findings(text: str, dual: bool) -> dict[str, str]:
-    findings = {
-        "research-a": "Upstream analysis A (scoped from user objective).",
-    }
+def _research_task_descriptions(body: str, dual: bool) -> dict[str, str]:
+    """Planning-time branch objectives — not verified findings (produced by research nodes)."""
+    scope = body.strip()[:480]
     if dual:
-        findings["research-b"] = "Upstream analysis B (complementary scope from user objective)."
-    else:
-        findings["research-b"] = findings["research-a"]
-    m = re.search(r"(?:finding|focus|compare|explore)\s*[:\-]\s*(.{12,240})", text, re.I)
-    if m:
-        findings["research-a"] = m.group(1).strip()
-        if dual:
-            findings["research-b"] = f"Complementary view: {findings['research-a']}"
-    return findings
+        return {
+            "research-a": f"[task] Research branch A — first approach for: {scope}",
+            "research-b": f"[task] Research branch B — second approach for: {scope}",
+        }
+    return {"research-a": f"[task] Research branch — objective: {scope}"}
+
+
+_BROAD_IMPL = re.compile(r"(?i)\b(implement|prototype|prototype\.|build|refactor)\b")
+_SCOPED_TARGET = re.compile(
+    r"(?i)(fixture[s]?/|/[\w./-]+\.(py|rs|go|ts|tsx|js)|\bmodule\s+[\w.]+\b|"
+    r"\bfile\s+[\w./-]+|\bin\s+[\w./-]+\.(py|md)\b|worktree-only|isolated\s+repo)"
+)
+
+
+def _is_control_plane_repo(cfg: Config, repo: Path) -> bool:
+    try:
+        return repo.resolve() == cfg.root.resolve()
+    except OSError:
+        return False
+
+
+def _resolve_implementation_repo(cfg: Config, project: dict, repo: Path, body: str) -> Path:
+    registered = []
+    for r in project.get("repositories") or []:
+        try:
+            p = Path(r).resolve()
+            if p.is_dir():
+                registered.append(p)
+        except OSError:
+            continue
+    broad = _BROAD_IMPL.search(body) and not _SCOPED_TARGET.search(body)
+    if _is_control_plane_repo(cfg, repo) and broad:
+        for candidate in registered:
+            if not _is_control_plane_repo(cfg, candidate):
+                return candidate
+        raise ValueError(
+            "broad implementation against the Agent OS control-plane repository is refused; "
+            "use a project-registered implementation repository or name a concrete scoped target "
+            "(fixture path, module, or file) in the request"
+        )
+    if registered and repo not in registered and _is_control_plane_repo(cfg, repo):
+        return registered[0]
+    return repo
+
+
+def _coding_prompt(body: str, repo: Path) -> str:
+    return (
+        "Scope: change only files inside the assigned git worktree for this task. "
+        "Do not modify Agent OS policy, skills, or other repositories. "
+        "Use verified upstream join artifacts as evidence; treat the user objective below as "
+        "planning context, not as pre-verified fact.\n\n"
+        f"User objective:\n{body[:3600]}"
+    )
 
 
 def plan_workflow_request(
@@ -87,7 +139,8 @@ def plan_workflow_request(
     if not body:
         raise ValueError("workflow request text required")
     dual = _dual_research(body)
-    findings = _default_findings(body, dual)
+    findings = _research_task_descriptions(body, dual)
+    impl_repo = _resolve_implementation_repo(cfg, project, repo, body)
     wf_id = workflow_id or _slug_id(body, project["id"])
     tid = task_id or f"wf-{wf_id[-8:]}"
     verify = f"{sys.executable} -m pytest -q -p no:cacheprovider"
@@ -107,9 +160,9 @@ def plan_workflow_request(
             "depends_on": ["join"],
             "dispatch": {
                 "task_id": tid,
-                "repo": str(repo),
+                "repo": str(impl_repo),
                 "verify": verify,
-                "prompt": body[:4000],
+                "prompt": _coding_prompt(body, impl_repo),
             },
         },
         {
@@ -126,7 +179,8 @@ def plan_workflow_request(
         "workflow_id": wf_id,
         "project_id": project["id"],
         "project_name": project["name"],
-        "repository": str(repo),
+        "repository": str(impl_repo),
+        "requested_repository": str(repo),
         "spec": spec,
         "planned_nodes": [n["id"] for n in nodes],
         "dual_research": dual,

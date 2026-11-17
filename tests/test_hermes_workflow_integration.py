@@ -37,6 +37,35 @@ def pipeline_world(knowledge_world):
     return load(), life, repo
 
 
+SMOKE_TWO_APPROACHES = (
+    "Research two approaches, compare them, implement a prototype, "
+    "verify results and preserve lessons."
+)
+
+
+def test_smoke_two_approaches_plan_regression(pipeline_world):
+    """CLI smoke input: dual research, distinct branch tasks, join both, scoped impl repo."""
+    cfg, life, fixture_repo = pipeline_world
+    plan = plan_workflow_request(
+        cfg,
+        text=SMOKE_TWO_APPROACHES,
+        project_query="Orbit",
+        repo=cfg.root,
+        lifecycle=life,
+    )
+    assert plan["status"] == "planned" and plan["dual_research"] is True
+    assert plan["planned_nodes"].count("research-a") == plan["planned_nodes"].count("research-b") == 1
+    join = next(n for n in plan["spec"]["nodes"] if n["id"] == "join")
+    assert join["depends_on"] == ["research-a", "research-b"]
+    fa, fb = plan["spec"]["findings"]["research-a"], plan["spec"]["findings"]["research-b"]
+    assert fa != fb and "[task]" in fa and "branch B" in fb
+    assert "research-b" not in plan["spec"]["findings"] or fb != fa
+    impl = next(n for n in plan["spec"]["nodes"] if n["id"] == "implement")
+    assert Path(impl["dispatch"]["repo"]).resolve() == fixture_repo.resolve()
+    assert "Scope:" in impl["dispatch"]["prompt"]
+    assert Path(impl["dispatch"]["repo"]).resolve() != cfg.root.resolve()
+
+
 def test_nl_plan_dual_research_nodes(pipeline_world):
     cfg, life, repo = pipeline_world
     text = "Run two independent research tasks, join, implement, and remember."
