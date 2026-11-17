@@ -17,7 +17,7 @@ Valid success JSON includes `"schema": "agentos.hermes-knowledge-capture.v1"`, `
 ```bash
 ~/agent-stack-integration/bin/agentos knowledge where-stopped \
   --project "Agent OS" \
-  --repo /Users/gokturkcan/agent-stack
+  --repo ~/agent-stack
 ```
 
 Valid success JSON includes `"schema": "agentos.where-stopped.v1"`, `"status": "ok"`, nested `project_status` and `continuation`.

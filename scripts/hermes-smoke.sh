@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Read-only + dry-run Hermes/Agent OS smoke checks after hermes-wire apply.
-# Usage: AGENTOS_REPO=/Users/gokturkcan/agent-stack-integration ./scripts/hermes-smoke.sh
+# Usage: ./scripts/hermes-smoke.sh
+# Optional: AGENTOS_REPO="$HOME/agent-stack" ./scripts/hermes-smoke.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export AGENTOS_BIN="${AGENTOS_BIN:-$ROOT/bin/agentos}"
