@@ -6,6 +6,7 @@ stand-in worker; they never read secrets or write ~/.hermes. Tests marked
 """
 import os
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -110,7 +111,7 @@ def test_wiring_and_bypass_detection_logic(tmp_path, monkeypatch):
         d.mkdir(parents=True)
         (d / "SKILL.md").write_text("---\nname: x\n---\n")
     assert not hb.is_wired({"skills": {"creation_nudge_interval": 15}})
-    assert hb.is_wired({"skills": {"external_dirs": ["~/agent-stack/skills"]}})
+    assert hb.is_wired({"skills": {"external_dirs": [hb.canonical_external_skills_dir()]}})
     assert hb.direct_worker_skills_enabled({}) == ["claude-code", "codex"]
     assert hb.direct_worker_skills_enabled({"skills": {"disabled": ["claude-code", "codex"]}}) == []
 
@@ -150,9 +151,12 @@ def _noop_runner(launch, **kw):
     return {"returncode": 0, "latency_ms": 1.0}
 
 
+_PYTEST_VERIFY = f"{sys.executable} -m pytest -q -p no:cacheprovider"
+
+
 def _dispatch(cfg, repo, tmp_path, runner, task_id="fix-add", **kw):
     return dispatch(cfg, task_id=task_id, task_type="coding", repo=repo, prompt="fix add()",
-                    verify="python -m pytest -q -p no:cacheprovider", runner=runner,
+                    verify=_PYTEST_VERIFY, runner=runner,
                     worktree_root=tmp_path / "wts", **kw)
 
 
@@ -244,7 +248,7 @@ def test_live_dispatch_cli_with_claude(fixture_repo, tmp_path):
     r = subprocess.run([str(REPO_ROOT / "bin" / "agentos"), "dispatch", "--task-id", "live-fix",
                         "--type", "coding", "--repo", str(fixture_repo), "--max-turns", "8",
                         "--prompt", "calc.add has a bug; fix calc.py only. Do not run git.",
-                        "--verify", "python -m pytest -q -p no:cacheprovider"],
+                        "--verify", _PYTEST_VERIFY],
                        cwd=tmp_path, capture_output=True, text=True, env=env, timeout=600)
     assert r.returncode == 0, r.stdout + r.stderr
     assert '"status": "done"' in r.stdout
@@ -293,7 +297,7 @@ def _pre_wiring_text(text: str) -> str:
 @pytest.mark.parametrize("indent", ["    ", "  "])
 def test_pre_wiring_fixture_handles_both_yaml_list_indent_styles(indent):
     import yaml
-    text = (f"memory:\n  memory_enabled: false\nskills:\n  external_dirs:\n{indent}- ~/agent-stack/skills\n"
+    text = (f"memory:\n  memory_enabled: false\nskills:\n  external_dirs:\n{indent}- {hb.canonical_external_skills_dir()}\n"
             f"  disabled:\n{indent}- codex\n{indent}- opencode\n  creation_nudge_interval: 15\napprovals:\n  mode: smart\n")
     assert yaml.safe_load(_pre_wiring_text(text)) == {"memory": {"memory_enabled": False},
                                                       "skills": {"creation_nudge_interval": 15},

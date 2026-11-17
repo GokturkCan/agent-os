@@ -178,6 +178,38 @@ def utc_today() -> str:
     return datetime.now(timezone.utc).date().isoformat()
 
 
+INDEX_PLACEHOLDERS = {
+    "Sources": "- No sources indexed yet.",
+    "Concepts": "- No concepts indexed yet.",
+    "Entities": "- No entities indexed yet.",
+    "Questions": "- No questions indexed yet.",
+}
+
+
+def append_wiki_index_entry(index_md: str, title: str, descriptor: str, section: str) -> str:
+    """Insert a catalog line under an existing wiki index section."""
+    section = section.strip()
+    if section not in INDEX_PLACEHOLDERS:
+        raise ValueError(f"unsupported index section {section!r}")
+    entry = f"- [[{title}]] — {descriptor}."
+    placeholder = INDEX_PLACEHOLDERS[section]
+    pattern = re.compile(
+        rf"(^## {re.escape(section)}\s*\n)(.*?)(?=^## |\Z)",
+        re.MULTILINE | re.DOTALL,
+    )
+    match = pattern.search(index_md)
+    if not match:
+        return index_md.rstrip() + f"\n\n## {section}\n\n{entry}\n"
+    head, body = match.group(1), match.group(2)
+    if entry in body:
+        return index_md
+    if placeholder in body:
+        new_body = body.replace(placeholder, entry + "\n", 1)
+    else:
+        new_body = body.rstrip() + f"\n{entry}\n"
+    return index_md[: match.start()] + head + new_body + index_md[match.end() :]
+
+
 def stable_source_id(origin_kind: str, locator: str, content_sha256: str | None) -> str:
     """Mirror of claude_obsidian.ledgers.stable_source_id for file/manual origins
     (the engine re-validates it on inspect, so a mismatch can never land)."""
@@ -188,7 +220,7 @@ def stable_source_id(origin_kind: str, locator: str, content_sha256: str | None)
 
 def ingest_source_writes(vault: Vault, raw_sha: str, raw_rel: str, title: str, body_md: str,
                          claims: dict[str, str], authority: str, today: str | None = None,
-                         content_kind: str = "document") -> dict:
+                         content_kind: str = "document", *, index_section: str = "Sources") -> dict:
     """Build writes for a new source page + ledger entries (provenance kept:
     page -> source_id -> raw sha256 -> .raw path)."""
     today = today or utc_today()
@@ -216,7 +248,8 @@ def ingest_source_writes(vault: Vault, raw_sha: str, raw_rel: str, title: str, b
             "notes": "Single source; pending independent corroboration.", "supersedes": None,
             "evidence": [{"source_id": source_id, "relation": "supports", "locator": None}]}
     log = vault.read("wiki/log.md").rstrip() + f"\n\n## {today} — ingest {title}\n\n- Created [[{title}]] ({source_id}) from `{raw_rel}`.\n"
-    index = vault.read("wiki/index.md").rstrip() + f"\n- [[{title}]] — {authority} source.\n"
+    descriptor = f"{authority} project" if index_section == "Entities" else f"{authority} source"
+    index = append_wiki_index_entry(vault.read("wiki/index.md"), title, descriptor, index_section)
     writes = [
         {"path": page, "mode": "create", "content": content},
         {"path": "wiki/meta/ledgers/source-ledger.json", "mode": "replace",
